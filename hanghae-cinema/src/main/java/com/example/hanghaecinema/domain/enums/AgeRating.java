@@ -1,4 +1,4 @@
-package com.example.hanghaecinema.domain;
+package com.example.hanghaecinema.domain.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

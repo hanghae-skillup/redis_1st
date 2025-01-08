@@ -1,5 +1,7 @@
 package com.example.hanghaecinema.domain;
 
+import com.example.hanghaecinema.domain.enums.AgeRating;
+import com.example.hanghaecinema.domain.enums.Genre;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -26,7 +28,7 @@ public class Movie extends BaseEntity{
     private LocalDate releaseDate;
 
     @Column(nullable = false)
-    private Integer durationMinutes;
+    private Integer runtimeMinutes;
 
     @Enumerated(value = EnumType.STRING)
     private AgeRating ageRating;
