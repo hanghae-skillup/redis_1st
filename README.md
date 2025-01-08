@@ -1,3 +1,19 @@
 ## [본 과정] 이커머스 핵심 프로세스 구현
-[단기 스킬업 Redis 교육 과정](https://hh-skillup.oopy.io/) 을 통해 상품 조회 및 주문 과정을 구현하며 현업에서 발생하는 문제를 Redis의 핵심 기술을 통해 해결합니다.
-> Indexing, Caching을 통한 성능 개선 / 단계별 락 구현을 통한 동시성 이슈 해결 (낙관적/비관적 락, 분산락 등)
+
+## Multi Module
+총 3개 모듈로 구성되있습니다.
+
+### 1. movie-api
+> 영화 도메인을 담당하고 Presentation Layer를 담당하는 모듈입니다.
+### 2. core
+> 공통으로 사용하는 Entity, DTO를 담당하는 모듈입니다.
+### 3. infrastructure
+> DB 인터페이스를 담당하는 모듈입니다. MySQL, Redis 연결을 담당하고 데이터 입출력 로직을 포함합니다. DB가 변경되어도 api, core 모듈의 코드는 변경하지 않습니다.
+
+## Architecture
+> 다른 도메인 확장성을 고려한 설계입니다.
+
+![arc](./database/arc.png)
+
+## Table Design
+![erd_db](./database/erd.png)
