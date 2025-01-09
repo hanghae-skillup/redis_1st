@@ -1,0 +1,5 @@
+rootProject.name = 'multi'
+include 'presentation'
+include 'application'
+include 'domain'
+include 'infrastructure'
