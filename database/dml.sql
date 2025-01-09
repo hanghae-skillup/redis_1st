@@ -13,6 +13,7 @@ INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated
 INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (7,3,'11:30','14:15','2025-01-09 00:00:00','2025-01-09 00:00:00');
 INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (8,3,'15:40','17:25','2025-01-09 00:00:00','2025-01-09 00:00:00');
 INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (9,3,'18:50','20:45','2025-01-09 00:00:00','2025-01-09 00:00:00');
+INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (10,3,'07:30','09:50','2025-01-09 00:00:00','2025-01-09 00:00:00');
 
 INSERT INTO `tb_theater` (`theater_id`,`name`,`updated_at`,`created_at`) VALUES (1,'강남점','2025-01-09 00:00:00','2025-01-09 00:00:00');
 INSERT INTO `tb_theater` (`theater_id`,`name`,`updated_at`,`created_at`) VALUES (2,'강북점','2025-01-09 00:00:00','2025-01-09 00:00:00');

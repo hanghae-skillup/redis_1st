@@ -1,12 +1,14 @@
 package com.example.app.movie.dto;
 
 import com.example.app.movie.entity.Movie;
+import com.example.app.movie.entity.Showtime;
 import com.example.app.movie.entity.Theater;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 
 @Builder
@@ -28,6 +30,7 @@ public class MovieDto {
     public static MovieDto toDto(Movie movie) {
         var showtimes = movie.getShowtimes()
                 .stream()
+                .sorted(Comparator.comparing(Showtime::getStart))
                 .map(showtime -> String.format("%s ~ %s", showtime.getStart(), showtime.getEnd()))
                 .toList();
 

@@ -4,6 +4,7 @@ import com.example.app.movie.entity.Movie;
 import com.example.app.movie.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,6 @@ public class MovieRepoService {
     private final MovieRepository movieRepository;
 
     public List<Movie> getMovies() {
-        return movieRepository.findAll();
+        return movieRepository.findAll(Sort.by(Sort.Direction.DESC, "releaseDate"));
     }
 }
