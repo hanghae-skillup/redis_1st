@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="common" target="21" />
+      <module name="common.main" target="21" />
+      <module name="common.test" target="21" />
+      <module name="images" target="21" />
+      <module name="images.main" target="21" />
+      <module name="images.test" target="21" />
+      <module name="movie" target="21" />
+      <module name="movie.main" target="21" />
+      <module name="movie.test" target="21" />
+      <module name="movies" target="21" />
+      <module name="movies.main" target="21" />
+      <module name="movies.test" target="21" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
