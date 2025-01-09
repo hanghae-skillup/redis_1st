@@ -1,7 +1,6 @@
 package com.example.app.movie.entity;
 
 import com.example.app.common.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
