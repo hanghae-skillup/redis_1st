@@ -1,7 +1,9 @@
 package com.example.app.movie.controller;
 
 import com.example.app.movie.dto.MovieDto;
+import com.example.app.movie.dto.SearchMovies;
 import com.example.app.movie.service.MovieService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +18,7 @@ public class MovieController {
     private final MovieService movieService;
 
     @GetMapping("/movies")
-    public ResponseEntity<List<MovieDto>> getMovies() {
-        return ResponseEntity.ok(movieService.getMovies());
+    public ResponseEntity<List<MovieDto>> getMovies(@Valid SearchMovies searchMovies) {
+        return ResponseEntity.ok(movieService.getMovies(searchMovies));
     }
 }

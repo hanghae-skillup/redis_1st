@@ -6,7 +6,7 @@
 docker compose up -d
 ```
 ```bash
-curl -X GET http://localhost:8080/api/movies
+curl -X GET http://localhost:8080/api/movies?showDate=2025-01-01
 ```
 
 ## Multi Module
@@ -14,7 +14,7 @@ curl -X GET http://localhost:8080/api/movies
 
 ### 1. movie-api
 > 영화 도메인을 담당하고 Presentation Layer를 담당하는 모듈입니다.
-- GET /api/movies
+- GET /api/movies?showDate=2025-01-01
 
 ```json
 // 응답 예시
