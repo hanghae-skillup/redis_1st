@@ -1,0 +1,3 @@
+rootProject.name = 'muti-modules'
+include 'common', 'images', 'movies'
+
