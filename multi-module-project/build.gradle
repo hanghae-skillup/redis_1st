@@ -1,0 +1,46 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.4.1'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+repositories {
+	mavenCentral()
+}
+
+subprojects {
+	group = 'com.dpflsy'
+	version = '1.0.0'
+	sourceCompatibility = '17'
+
+	apply plugin: 'java'
+	apply plugin: 'java-library'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
+
+	configurations {
+		compileOnly {
+			extendsFrom annotationProcessor
+		}
+	}
+
+	dependencies {
+		// spring boot starter
+		implementation 'org.springframework.boot:spring-boot-starter-web'
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+		// JUnit 5 (테스트)
+		testImplementation 'org.junit.jupiter:junit-jupiter-api'
+
+		// DevTools
+		developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+		// Lombok
+		compileOnly 'org.projectlombok:lombok:1.18.22'
+		annotationProcessor 'org.projectlombok:lombok:1.18.22'
+	}
+	test {
+		useJUnitPlatform()
+	}
+
+}
