@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c76631b0-fbdf-4d05-a207-2db6a5461ac6" name="Changes" comment="[add] common, movie-api 모듈 추가&#10;- common : DTO 추가&#10;- movie-api : REST API 추가">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/redis_1st.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2rOUEhPa2a3a6fp2o7F0py9da3l" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c76631b0-fbdf-4d05-a207-2db6a5461ac6" name="Changes" comment="" />
+      <created>1736429507738</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1736429507738</updated>
+      <workItem from="1736429509853" duration="102000" />
+      <workItem from="1736438927405" duration="659000" />
+    </task>
+    <task id="LOCAL-00001" summary="[add] 멀티 모듈 프로젝트 초기 설정&#10;- Gradle 및 settings.gradle 설정 완료&#10;- movie-api의 application.yml 기본 설정 추가">
+      <option name="closed" value="true" />
+      <created>1736439442328</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1736439442328</updated>
+    </task>
+    <task id="LOCAL-00002" summary="[add] common, movie-api 모듈 추가&#10;- common : DTO 추가&#10;- movie-api : REST API 추가">
+      <option name="closed" value="true" />
+      <created>1736439533576</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1736439533576</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="[add] 멀티 모듈 프로젝트 초기 설정&#10;- Gradle 및 settings.gradle 설정 완료&#10;- movie-api의 application.yml 기본 설정 추가" />
+    <MESSAGE value="[add] common, movie-api 모듈 추가&#10;- common : DTO 추가&#10;- movie-api : REST API 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="[add] common, movie-api 모듈 추가&#10;- common : DTO 추가&#10;- movie-api : REST API 추가" />
+  </component>
+</project>
