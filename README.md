@@ -16,7 +16,7 @@
 > 다른 도메인 확장성을 고려한 설계입니다.
 > 모든 api 모듈에서는 Entity -> DTO로 변환하여 리턴합니다.
 
-![arc](./database/arc.png)
+![arc](static/arc.png)
 
 ## Table Design
-![erd_db](./database/erd.png)
+![erd_db](static/erd.png)
