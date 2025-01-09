@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
@@ -16,7 +17,9 @@ public class MovieRepoService {
 
     private final MovieRepository movieRepository;
 
-    public List<Movie> getMovies() {
-        return movieRepository.findAll(Sort.by(Sort.Direction.DESC, "releaseDate"));
+    public List<Movie> getMovies(final LocalDate showDate) {
+        return movieRepository.findAllByReleaseDateLessThanEqual(
+                showDate,
+                Sort.by(Sort.Direction.DESC, "releaseDate"));
     }
 }
