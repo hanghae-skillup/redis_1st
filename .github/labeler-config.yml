@@ -3,37 +3,37 @@ filters:
     regexs:
       - /\bfeat\b/
       - /feature/i
-    events: [issues, pull_request]
-    targets: [title]
+    events: [ issues, pull_request ]
+    targets: [ title ]
   - label: bug
     regexs:
       - /fix|bug/
-    targets: [title]
+    targets: [ title ]
   - label: documentation
     regexs:
       - /docs/
-    events: [pull_request]
+    events: [ pull_request ]
   - label: chore
     regexs:
       - /\bchore(\(.*\))?:/i
   - label: 1주차
     regexs:
-      - /1주차/ 
-    events: [issues, pull_request]
-    targets: [title]
+      - /1주차/
+    events: [ issues, pull_request ]
+    targets: [ title ]
   - label: 2주차
     regexs:
-      - /2주차/  
-    events: [issues, pull_request]
-    targets: [title]
+      - /2주차/
+    events: [ issues, pull_request ]
+    targets: [ title ]
   - label: 3주차
     regexs:
-      - /3주차/  
-    events: [issues, pull_request]
-    targets: [title]
+      - /3주차/
+    events: [ issues, pull_request ]
+    targets: [ title ]
   - label: 4주차
     regexs:
-      - /4주차/ 
-    events: [issues, pull_request]
-    targets: [title]
+      - /4주차/
+    events: [ issues, pull_request ]
+    targets: [ title ]
       
