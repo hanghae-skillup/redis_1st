@@ -6,7 +6,8 @@
 docker compose up -d
 ```
 ```bash
-curl -X GET http://localhost:8080/api/movies?showDate=2025-01-01
+curl -X GET http://localhost:8080/api/movies?showDate=2022-05-18
+curl -X GET http://localhost:8080/api/movies?showDate=2022-05-17
 ```
 
 ## Multi Module
