@@ -42,5 +42,7 @@ public class Movie extends BaseEntity{
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "rating_id", nullable = false)
 	private Rating rating;
+
+	@Column(columnDefinition = "TEXT")
 	private String plot;
 }
