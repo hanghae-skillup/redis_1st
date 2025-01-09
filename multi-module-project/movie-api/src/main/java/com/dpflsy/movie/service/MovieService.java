@@ -4,12 +4,14 @@ import com.dpflsy.common.dto.MovieResponse;
 import com.dpflsy.movie.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MovieService {
     private final MovieRepository movieRepository;
 
@@ -25,6 +27,16 @@ public class MovieService {
                     response.setReleaseDate(movie.getReleaseDate().toString());
                     response.setRuntime(movie.getRuntime());
                     response.setRating(movie.getRating().getName());
+                    response.setSchedules(
+                        movie.getSchedules().stream()
+                            .map(schedule -> {
+                                MovieResponse.ScheduleResponse scheduleResponse = new MovieResponse.ScheduleResponse();
+                                scheduleResponse.setId(schedule.getId());
+                                scheduleResponse.setStartTime(schedule.getStartTime());
+                                return scheduleResponse;
+                            })
+                            .collect(Collectors.toList())
+                    );
                     return response;
                 })
                 .collect(Collectors.toList());

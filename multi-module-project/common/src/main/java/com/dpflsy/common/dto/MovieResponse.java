@@ -3,6 +3,7 @@ package com.dpflsy.common.dto;
 import lombok.Data;
 
 import java.util.List;
+import java.time.LocalDateTime;
 
 @Data
 public class MovieResponse {
@@ -17,7 +18,7 @@ public class MovieResponse {
 
     @Data
     public static class ScheduleResponse {
-        private String screenName;
-        private String startTime;
+        private Long id;
+        private LocalDateTime startTime;
     }
 }
