@@ -33,6 +33,6 @@ public class Showing extends BaseEntity{
 	@JoinColumn(name = "screen_id", nullable = false)
 	private Screen screen;
 
-	private LocalDateTime st_time;
-	private LocalDateTime ed_time;
+	private LocalDateTime stTime;
+	private LocalDateTime edTime;
 }

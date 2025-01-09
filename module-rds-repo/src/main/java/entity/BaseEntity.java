@@ -25,5 +25,5 @@ public abstract class BaseEntity {
 	private String modifyBy;
 
 	@UpdateTimestamp
-	private LocalDateTime modify_at;
+	private LocalDateTime modifyAt;
 }
