@@ -4,6 +4,6 @@ import com.example.hanghaecinema.controller.dto.MovieResponseDto;
 
 import java.util.List;
 
-public interface MovieService {
+public interface ScreeningService {
     List<MovieResponseDto> getNowShowingMovies();
 }

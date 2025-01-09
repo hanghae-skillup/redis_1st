@@ -6,19 +6,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
 @Table(name = "screenings")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Screening extends BaseEntity{
+public class Screening extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_id", nullable = false)
     private Movie movie;
 
@@ -28,9 +29,7 @@ public class Screening extends BaseEntity{
     @Column(nullable = false)
     private LocalDate showDate;
 
-    @Column(nullable = false)
-    private LocalDateTime startTime;
+    @OneToMany(mappedBy = "screening", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ScreeningSchedule> schedules = new ArrayList<>();
 
-    @Column(nullable = false)
-    private LocalDateTime endTime;
 }

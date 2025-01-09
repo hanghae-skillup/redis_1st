@@ -1,7 +1,7 @@
 package com.example.hanghaecinema.controller;
 
 import com.example.hanghaecinema.controller.dto.MovieResponseDto;
-import com.example.hanghaecinema.service.MovieService;
+import com.example.hanghaecinema.service.ScreeningService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,10 +14,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MovieController {
 
-    private final MovieService movieService;
+    private final ScreeningService screeningService;
 
     @GetMapping("/now-showing")
     public List<MovieResponseDto> getAllNowShowingMovies() {
-        return movieService.getNowShowingMovies();
+        return screeningService.getNowShowingMovies();
     }
 }
