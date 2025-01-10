@@ -30,7 +30,7 @@ data class MovieResponse(
                     thumbnailUrl = movieDetail.movie.thumbnailUrl,
                     runtimeMinutes = movieDetail.movie.runtimeMinutes,
                     screens = movieDetail.screens.map { screen ->
-                        ScreenResponse.fromDomain(screen, movieDetail.showTime)
+                        ScreenResponse.fromDomain(screen, movieDetail.showTimes)
                     }
                 )
             }
