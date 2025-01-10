@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영화관 메인 페이지</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .movie-card {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .movie-card:hover {
+            transform: scale(1.05);
+        }
+        .movie-card:hover .movie-plot-overlay {
+            opacity: 1;
+        }
+        .movie-plot-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            padding: 1rem;
+            text-align: center;
+        }
+        .movie-image-container {
+            position: relative;
+        }
+        .movie-image-container img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+<!-- 상단 메뉴 -->
+<nav class="bg-gray-800 py-4">
+    <div class="container mx-auto flex justify-between items-center">
+        <div class="text-xl font-bold">MEGABOX</div>
+        <div class="flex space-x-6 items-center">
+            <ul class="flex space-x-6">
+                <li><a href="#" class="hover:text-gray-400">액션</a></li>
+                <li><a href="#" class="hover:text-gray-400">드라마</a></li>
+                <li><a href="#" class="hover:text-gray-400">코미디</a></li>
+                <li><a href="#" class="hover:text-gray-400">스릴러</a></li>
+            </ul>
+            <input type="text" placeholder="영화명을 입력해주세요" class="bg-gray-700 px-4 py-2 rounded text-white focus:outline-none">
+        </div>
+        <div class="space-x-4">
+            <a href="#" class="hover:text-gray-400">로그인</a>
+            <a href="#" class="hover:text-gray-400">회원가입</a>
+        </div>
+    </div>
+</nav>
+
+<!-- 메인 컨텐츠 -->
+<section class="container mx-auto py-10">
+    <h2 class="text-2xl font-bold mb-6">박스오피스</h2>
+    <div id="movie-grid" class="grid grid-cols-4 gap-6">
+        <!-- 영화 카드 템플릿 -->
+    </div>
+</section>
+
+<!-- 하단 검색 및 빠른 메뉴 -->
+<footer class="bg-gray-800 py-6">
+    <div class="container mx-auto flex justify-between items-center">
+        <input type="text" placeholder="영화명을 입력해주세요" class="bg-gray-700 px-4 py-2 rounded text-white focus:outline-none">
+        <div class="flex space-x-6">
+            <a href="#" class="hover:text-gray-400">상영시간표</a>
+            <a href="#" class="hover:text-gray-400">박스오피스</a>
+            <a href="#" class="hover:text-gray-400">빠른예매</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    async function fetchMovies() {
+        const response = await fetch('http://localhost:8080/showing/today-info');
+        const data = await response.json();
+
+        const movieGrid = document.getElementById('movie-grid');
+        movieGrid.innerHTML = '';
+
+        data.data.forEach(movieData => {
+            const { movie, timeTable } = movieData;
+
+            const card = document.createElement('div');
+            card.className = 'bg-gray-800 rounded-lg shadow-lg movie-card';
+
+            card.innerHTML = `
+                    <div class="movie-image-container">
+                        <img src="${movie.thumbnail}" alt="영화 포스터" class="w-full h-64 object-cover">
+                        <div class="movie-plot-overlay">
+                            <p>${movie.plot}</p>
+                        </div>
+                    </div>
+                    <div class="p-4 relative">
+                        <div class="flex items-center mb-2">
+                            <img src="${movie.rating.img}" alt="등급 이미지" class="w-8 h-8 mr-2">
+                            <h3 class="text-lg font-bold">${movie.title}</h3>
+                        </div>
+                        <p class="text-gray-400">${movie.rating.name}</p>
+                        <p class="text-gray-400">개봉일: ${movie.openDay}</p>
+                        <p class="text-gray-400">런닝타임: ${movie.runningTime}분</p>
+                        <p class="text-gray-400">장르: ${movie.genre.name}</p>
+                        <div class="mt-4 space-y-2">
+                            ${timeTable.map(time => `
+                                <div class="bg-gray-700 rounded px-3 py-2 text-white flex justify-between items-center">
+                                    <span>${time.stTime.substring(11, 16)} ~ ${time.edTime.substring(11, 16)}</span>
+                                    <span class="text-sm text-gray-300">${time.screen.name}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <button class="bg-blue-600 px-4 py-2 rounded text-white">예매</button>
+                        </div>
+                    </div>
+                `;
+
+            movieGrid.appendChild(card);
+        });
+    }
+
+    fetchMovies();
+</script>
+</body>
+</html>
