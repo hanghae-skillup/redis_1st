@@ -15,6 +15,7 @@ data class MovieGenre(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "movie_genre_id")
     val id: Long? = null
 ) {
 }

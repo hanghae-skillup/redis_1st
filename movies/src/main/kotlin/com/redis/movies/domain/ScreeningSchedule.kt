@@ -19,6 +19,7 @@ data class ScreeningSchedule(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "screening_schedule_id")
     val id: Long? = null
 ) {
 }

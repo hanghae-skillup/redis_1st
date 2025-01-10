@@ -25,13 +25,14 @@ class Movie(
     @OneToOne(mappedBy = "movie", cascade = [CascadeType.ALL], orphanRemoval = true)
     val genre: MovieGenre,
 
-    @Column(name = "theater_name")
-    val theaterName: String,
+    @Column(name = "cinemaId")
+    val cinemaId: Long,
 
     val screeningSchedules: ScreeningSchedules = ScreeningSchedules(),
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "movie_id")
     val id: Long? = null
 ) {
 
