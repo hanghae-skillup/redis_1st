@@ -1,0 +1,60 @@
+buildscript {
+    ext {
+        springBootVersion = '3.4.1'
+        boot = "org.springframework.boot"
+        lombok = "org.projectlombok:lombok"
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("$boot:spring-boot-gradle-plugin:$springBootVersion")
+    }
+}
+
+allprojects {
+    group = 'com.movie'
+    version = '0.0.1-SNAPSHOT'
+}
+
+subprojects {
+    apply plugin: "java"
+    apply plugin: boot
+    apply plugin: "io.spring.dependency-management"
+    apply plugin: "idea"
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    dependencies {
+        developmentOnly("$boot:spring-boot-devtools")
+
+        compileOnly lombok
+        testCompileOnly lombok
+        annotationProcessor lombok
+        testAnnotationProcessor lombok
+
+        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+        testImplementation "$boot:spring-boot-starter-test"
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+}
+
+

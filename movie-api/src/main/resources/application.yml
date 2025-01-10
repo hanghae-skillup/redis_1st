@@ -1,0 +1,20 @@
+spring.application.name: movie-api
+spring.profiles.active: local
+
+spring:
+  config:
+    import:
+      - movie-storage.yml
+  web.resources.add-mappings: false
+
+server:
+  tomcat:
+    max-connections: 20000
+    threads:
+      max: 600
+      min-spare: 100
+
+---
+
+spring.config.activate.on-profile: local
+

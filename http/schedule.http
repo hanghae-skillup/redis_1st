@@ -1,0 +1,7 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+### 영화관 id 별 스케쥴 목록조회
+GET http://localhost:8080/api/schedule?theaterId=1
+
