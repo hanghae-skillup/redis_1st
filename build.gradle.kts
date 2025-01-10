@@ -35,9 +35,11 @@ subprojects {
 	apply(plugin = "io.spring.dependency-management")
 
 	dependencies {
+		implementation("jakarta.transaction:jakarta.transaction-api")
 		implementation("org.springframework.boot:spring-boot-starter")
 		testImplementation("org.springframework.boot:spring-boot-starter-test")
 		annotationProcessor("org.projectlombok:lombok")
+		compileOnly("org.projectlombok:lombok")
 	}
 }
 

@@ -1,0 +1,15 @@
+package com.hanghae.application.dto;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+public record MovieScheduleDto(
+        String title, //영화 제목
+        String ratingId, //영상물 등급
+        LocalDate releaseDate, //개봉일
+        String thumbnailPath, // 썸네일 경로
+        Long runningTime, // 러닝타임(분)
+        String genreId, // 영화 장르
+        String screenName, // 상영관 이름
+        LocalDateTime showStartDatetime // 상영시작시간
+) {}

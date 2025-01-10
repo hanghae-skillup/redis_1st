@@ -12,6 +12,7 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":cinema-domain")) //도메인 계층 의존성
     implementation(project(":cinema-application")) // 애플리케이션 계층 의존성
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
