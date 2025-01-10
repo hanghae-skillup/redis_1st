@@ -12,24 +12,6 @@ import java.time.LocalDateTime
 @Repository
 interface ScreeningJpaRepository : JpaRepository<ScreeningEntity, Long> {
     @Query("""
-        SELECT DISTINCT m 
-        FROM MovieEntity m
-        JOIN FETCH m.genre g
-        WHERE EXISTS (
-            SELECT 1 
-            FROM ScreeningEntity s 
-            WHERE s.movie = m 
-            AND s.screeningTime > :currentTime 
-            AND s.status = :status
-        )
-        ORDER BY m.releaseDate DESC
-    """)
-    fun findMoviesNowPlaying(
-        @Param("currentTime") currentTime: LocalDateTime,
-        @Param("status") status: ScreeningStatus
-    ): List<MovieEntity>
-
-    @Query("""
         SELECT s 
         FROM ScreeningEntity s
         JOIN FETCH s.theater t

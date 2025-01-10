@@ -5,6 +5,8 @@ import com.example.movie.domain.screening.model.ScreeningStatus
 import com.example.movie.persistence.common.BaseEntity
 import com.example.movie.persistence.genre.model.GenreEntity
 import com.example.movie.persistence.movie.model.MovieEntity
+import com.example.movie.persistence.movie.repository.MovieJpaRepository
+import com.example.movie.persistence.movie.repository.MovieRepositoryImpl
 import com.example.movie.persistence.screening.model.ScreeningEntity
 import com.example.movie.persistence.theater.entity.TheaterEntity
 import org.assertj.core.api.Assertions.assertThat
@@ -18,13 +20,15 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 @ExtendWith(MockitoExtension::class)
-class ScreeningRepositoryImplTest {
+class MovieRepositoryImplTest {
 
     @Mock
     private lateinit var screeningJpaRepository: ScreeningJpaRepository
+    @Mock
+    private lateinit var movieJpaRepository: MovieJpaRepository
 
     @InjectMocks
-    private lateinit var screeningRepository: ScreeningRepositoryImpl
+    private lateinit var movieRepository: MovieRepositoryImpl
 
     @Test
     fun `findAllNowPlayingWithMovieAndTheater 테스트`() {
@@ -35,7 +39,7 @@ class ScreeningRepositoryImplTest {
         val movie = createMovie(genre)
         val theater = createTheater()
 
-        whenever(screeningJpaRepository.findMoviesNowPlaying(currentTime, ScreeningStatus.SCHEDULED))
+        whenever(movieJpaRepository.findMoviesNowPlaying(currentTime, ScreeningStatus.SCHEDULED))
             .thenReturn(listOf(movie))
 
         whenever(screeningJpaRepository.findScreeningsByMovieId(movie.id, currentTime, ScreeningStatus.SCHEDULED))
@@ -47,7 +51,7 @@ class ScreeningRepositoryImplTest {
             )
 
         // when
-        val result = screeningRepository.findAllNowPlayingWithMovieAndTheater(currentTime)
+        val result = movieRepository.findAllNowPlayingWithMovieAndTheater(currentTime)
 
         // then
         assertThat(result).hasSize(1)

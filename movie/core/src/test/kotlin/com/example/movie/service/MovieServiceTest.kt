@@ -4,6 +4,7 @@ import com.example.movie.domain.common.TimeHandler
 import com.example.movie.domain.movie.model.Genre
 import com.example.movie.domain.movie.model.Movie
 import com.example.movie.domain.movie.model.Rating
+import com.example.movie.domain.movie.repository.MovieRepository
 import com.example.movie.domain.screening.model.Screening
 import com.example.movie.domain.screening.model.ScreeningStatus
 import com.example.movie.domain.screening.repository.ScreeningRepository
@@ -22,7 +23,7 @@ import java.time.LocalDateTime
 @ExtendWith(MockitoExtension::class)
 class MovieServiceTest {
     @Mock
-    private lateinit var screeningRepository: ScreeningRepository
+    private lateinit var movieRepository: MovieRepository
 
     @Mock
     private lateinit var timeHandler: TimeHandler
@@ -44,7 +45,7 @@ class MovieServiceTest {
             )
         val movieScreenings = mapOf(movie to screenings)
 
-        whenever(screeningRepository.findAllNowPlayingWithMovieAndTheater(eq(currentTime)))
+        whenever(movieRepository.findAllNowPlayingWithMovieAndTheater(eq(currentTime)))
             .thenReturn(movieScreenings)
 
         // when

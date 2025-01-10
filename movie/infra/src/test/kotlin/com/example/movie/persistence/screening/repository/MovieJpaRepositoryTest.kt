@@ -1,6 +1,8 @@
 package com.example.movie.persistence.screening.repository
 
+import com.example.movie.domain.movie.repository.MovieRepository
 import com.example.movie.domain.screening.model.ScreeningStatus
+import com.example.movie.persistence.movie.repository.MovieJpaRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -9,32 +11,32 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.test.context.ActiveProfiles
 import java.time.LocalDateTime
 
+
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
-class ScreeningJpaRepositoryTest {
+class MovieJpaRepositoryTest {
     @Autowired
-    private lateinit var screeningJpaRepository: ScreeningJpaRepository
-
-
+    private lateinit var movieJpaRepository: MovieJpaRepository
 
     @Test
-    fun `특정 영화의 상영 정보를 조회한다`() {
+    fun `현재 상영 중인 영화 목록을 조회한다`() {
         // given
-        val movieId = 1L
         val currentTime = LocalDateTime.now()
 
         // when
-        val screenings = screeningJpaRepository.findScreeningsByMovieId(movieId, currentTime, ScreeningStatus.SCHEDULED)
+        val movies = movieJpaRepository.findMoviesNowPlaying(currentTime, ScreeningStatus.SCHEDULED)
 
         // then
-        assertThat(screenings)
+        assertThat(movies).isNotEmpty()
+        assertThat(movies).isSortedAccordingTo { a, b ->
+            b.releaseDate.compareTo(a.releaseDate)
+        }
+
+        // then
+        assertThat(movies)
             .isNotEmpty()
-            .hasSize(2)
-            .allMatch { it.movie.id == movieId }
-            .allMatch { screening -> screening.screeningTime.isAfter(currentTime) }
-            .isSortedAccordingTo { a, b ->
-                a.screeningTime.compareTo(b.screeningTime)
-            }
+            .hasSize(4)
+            .isSortedAccordingTo { a, b -> b.releaseDate.compareTo(a.releaseDate) }
     }
 }
