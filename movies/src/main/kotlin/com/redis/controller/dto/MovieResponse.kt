@@ -4,10 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.redis.cinema.domain.Cinema
 import com.redis.movies.domain.Movie
-import com.redis.movies.domain.MovieGenre
-import com.redis.movies.domain.ScreeningSchedules
-import jakarta.persistence.*
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class MovieResponse(
@@ -49,7 +45,7 @@ data class MovieResponse(
             return MovieResponse(
                 id = movie.id,
                 title = movie.title,
-                filmRatings = movie.filmRatings,
+                filmRatings = movie.filmRatings.description,
                 releaseDate = movie.releaseDate,
                 thumbnailImagePath = movie.thumbnailImagePath,
                 runningTime = movie.runningTime,

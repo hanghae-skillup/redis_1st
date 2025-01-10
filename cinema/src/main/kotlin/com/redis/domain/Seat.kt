@@ -1,4 +1,4 @@
-package cinema.domain
+package com.redis.cinema.domain
 
 import com.redis.cinema.domain.Cinema
 import com.redis.utils.BaseEntity
