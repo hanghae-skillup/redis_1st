@@ -1,8 +1,8 @@
-package com.redis.cinema.service
+package com.redis.service
 
-import com.redis.cinema.domain.Cinema
-import com.redis.cinema.domain.CinemaRepository
-import com.redis.cinema.port.CinemaPort
+import com.redis.domain.Cinema
+import com.redis.domain.CinemaRepository
+import com.redis.port.CinemaPort
 import org.springframework.stereotype.Service
 
 @Service

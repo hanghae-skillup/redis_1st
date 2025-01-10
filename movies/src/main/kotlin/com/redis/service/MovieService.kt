@@ -1,8 +1,8 @@
-package com.redis.movies.service
+package com.redis.service
 
-import com.redis.cinema.port.CinemaPort
-import com.redis.movies.controller.dto.MovieResponse
-import com.redis.movies.domain.MovieRepository
+import com.redis.port.CinemaPort
+import com.redis.controller.dto.MovieResponse
+import com.redis.domain.MovieRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -14,7 +14,7 @@ class MovieService(
 
     @Transactional(readOnly = true)
     fun gets(): MutableList<MovieResponse> {
-        val movies = moviesRepository.findByReleaseDateOrderByDesc()
+        val movies = moviesRepository.findByOrderByReleaseDateDesc()
         val cinemas = cinemaPort.getCinemas(movies.stream().map { it -> it.cinemaId }.toList())
 
         return movies.stream().map {

@@ -1,4 +1,4 @@
-package com.redis.movies.domain
+package com.redis.domain
 
 import com.redis.utils.BaseEntity
 import jakarta.persistence.*

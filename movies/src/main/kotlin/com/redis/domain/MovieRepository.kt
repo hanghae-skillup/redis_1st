@@ -1,4 +1,4 @@
-package com.redis.movies.domain
+package com.redis.domain
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface MovieRepository: JpaRepository<Movie, Long> {
 
-    fun findByReleaseDateOrderByDesc(): List<Movie>
+    fun findByOrderByReleaseDateDesc(): List<Movie>
 }

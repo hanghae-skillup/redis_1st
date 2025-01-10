@@ -1,6 +1,6 @@
-package com.redis.cinema.port
+package com.redis.port
 
-import com.redis.cinema.domain.Cinema
+import com.redis.domain.Cinema
 
 interface CinemaPort {
     fun getCinema(cinemaId: Long): Cinema

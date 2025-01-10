@@ -1,9 +1,9 @@
-package com.redis.movies.controller.dto
+package com.redis.controller.dto
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.redis.cinema.domain.Cinema
-import com.redis.movies.domain.Movie
+import com.redis.domain.Cinema
+import com.redis.domain.Movie
 import java.time.LocalDateTime
 
 data class MovieResponse(

@@ -1,4 +1,4 @@
-package com.redis.movies
+package com.redis
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="29fbcec6-4dc7-4e5e-a8ea-0de0cbed814a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/cinema/src/main/resources/application.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/controller/MovieController.http" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/movies/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cinema/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/cinema/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cinema/src/main/kotlin/cinema/domain/Cinema.kt" beforeDir="false" afterPath="$PROJECT_DIR$/cinema/src/main/kotlin/com/redis/domain/Cinema.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cinema/src/main/kotlin/cinema/domain/CinemaRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/cinema/src/main/kotlin/com/redis/domain/CinemaRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cinema/src/main/kotlin/cinema/domain/Seat.kt" beforeDir="false" afterPath="$PROJECT_DIR$/cinema/src/main/kotlin/com/redis/domain/Seat.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cinema/src/main/kotlin/cinema/port/CinemaPort.kt" beforeDir="false" afterPath="$PROJECT_DIR$/cinema/src/main/kotlin/com/redis/port/CinemaPort.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cinema/src/main/kotlin/cinema/service/CinemaService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/cinema/src/main/kotlin/com/redis/service/CinemaService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/ddl.sql" beforeDir="false" afterPath="$PROJECT_DIR$/docker/ddl.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker/docker-compose.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movies/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/movies/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/movies/MovieApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/MovieApplication.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/movies/controller/MovieController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/controller/MovieController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/movies/controller/dto/MovieResponse.kt" beforeDir="false" afterPath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/controller/dto/MovieResponse.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/movies/controller/dto/ScreeningScheduleResponse.kt" beforeDir="false" afterPath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/controller/dto/ScreeningScheduleResponse.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/movies/domain/FilmRatings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/domain/FilmRatings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/movies/domain/Movie.kt" beforeDir="false" afterPath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/domain/Movie.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/movies/domain/MovieGenre.kt" beforeDir="false" afterPath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/domain/MovieGenre.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/movies/domain/MovieRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/domain/MovieRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/movies/domain/ScreeningSchedule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/domain/ScreeningSchedule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/movies/domain/ScreeningSchedules.kt" beforeDir="false" afterPath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/domain/ScreeningSchedules.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/movies/service/MovieService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/movies/src/main/kotlin/com/redis/service/MovieService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/cinema">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/common">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/images">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/movie">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/movies">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="common" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin File" />
+        <option value="Kotlin Enum" />
+        <option value="Kotlin Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2rHyzbwODG5bkHXRJSJ4IfN5kyi" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.MovieApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build redis_1st.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit./.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.All in redis_1st.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.MovieApplicationKt.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;week1&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;corretto-21&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/이정환/redis-study/redis_1st/cinema/src/main/resources&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Problems&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;TEXT&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\이정환\redis-study\redis_1st\cinema\src\main\resources" />
+      <recent name="C:\Users\이정환\redis-study\redis_1st\cinema\src\main\kotlin" />
+      <recent name="C:\Users\이정환\redis-study\redis_1st" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\이정환\redis-study\redis_1st\movies\src\main\kotlin\com\redis\movies" />
+      <recent name="C:\Users\이정환\redis-study\redis_1st\common\src\main\kotlin\com\redis\utils" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="MovieApplicationKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="corretto-21" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.redis.MovieApplicationKt" />
+      <module name="redis_1st.movies.main" />
+      <shortenClasspath name="NONE" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Kotlin.MovieApplicationKt" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="29fbcec6-4dc7-4e5e-a8ea-0de0cbed814a" name="Changes" comment="" />
+      <created>1736230559016</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1736230559016</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/redis_1st$MovieApplicationKt.ic" NAME="MovieApplicationKt Coverage Results" MODIFIED="1736505021195" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+</project>

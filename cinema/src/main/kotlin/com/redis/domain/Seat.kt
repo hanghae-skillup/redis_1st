@@ -1,6 +1,6 @@
-package com.redis.cinema.domain
+package com.redis.domain
 
-import com.redis.cinema.domain.Cinema
+import com.redis.domain.Cinema
 import com.redis.utils.BaseEntity
 import jakarta.persistence.*
 
@@ -8,10 +8,10 @@ import jakarta.persistence.*
 @Entity
 data class Seat(
 
-    @Column(name = "row")
+    @Column(name = "seat_row")
     val row: String,
 
-    @Column(name = "col")
+    @Column(name = "seat_col")
     val col: String,
 
     @ManyToOne
