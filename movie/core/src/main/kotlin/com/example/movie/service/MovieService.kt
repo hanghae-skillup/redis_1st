@@ -7,7 +7,7 @@ import com.example.movie.domain.screening.repository.ScreeningRepository
 import org.springframework.stereotype.Service
 
 @Service
-class MoviesService(
+class MovieService(
     private val screeningRepository: ScreeningRepository,
     private val timeHandler: TimeHandler
 ) : NowPlayingMoviesUseCase {
