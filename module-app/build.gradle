@@ -26,13 +26,15 @@ repositories {
 dependencies {
     implementation project(':module-core')  // core 모듈 의존
     implementation project(':module-service')  // service 모듈 의존
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    compileOnly 'org.projectlombok:lombok'
+
     annotationProcessor 'org.projectlombok:lombok'
+
+    compileOnly 'org.projectlombok:lombok'
+    compileOnly 'org.modelmapper:modelmapper:3.1.0'
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 test {
