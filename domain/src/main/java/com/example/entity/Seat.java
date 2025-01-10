@@ -16,7 +16,7 @@ public class Seat {
 
     private boolean reserved;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "screening_id")
     private Screening screening;
 

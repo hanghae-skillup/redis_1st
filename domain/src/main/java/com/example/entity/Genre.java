@@ -1,5 +1,8 @@
 package com.example.entity;
 
+import lombok.Getter;
+
+@Getter
 public enum Genre {
     ACTION("액션"),
     SF("SF"),

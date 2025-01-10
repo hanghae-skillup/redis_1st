@@ -1,5 +1,8 @@
 package com.example.entity;
 
+import lombok.Getter;
+
+@Getter
 public enum Rating {
     ALL("전체 관람가"),
     TWELVE("12세 관람가"),
