@@ -1,60 +1,50 @@
-package com.example.movie.service
+package com.example.movie.controller
 
-import com.example.movie.domain.common.TimeHandler
 import com.example.movie.domain.movie.model.Genre
 import com.example.movie.domain.movie.model.Movie
 import com.example.movie.domain.movie.model.Rating
 import com.example.movie.domain.screening.model.Screening
 import com.example.movie.domain.screening.model.ScreeningStatus
-import com.example.movie.domain.screening.repository.ScreeningRepository
 import com.example.movie.domain.theater.model.Theater
-import org.assertj.core.api.Assertions
+import com.example.movie.service.NowPlayingMoviesUseCase
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.InjectMocks
-import org.mockito.Mock
-import org.mockito.junit.jupiter.MockitoExtension
-import org.mockito.kotlin.eq
 import org.mockito.kotlin.whenever
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.test.context.bean.override.mockito.MockitoBean
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-@ExtendWith(MockitoExtension::class)
-class MovieServiceTest {
-    @Mock
-    private lateinit var screeningRepository: ScreeningRepository
+@WebMvcTest(MovieController::class)
+class MovieControllerTest {
+    @Autowired
+    private lateinit var mockMvc: MockMvc
 
-    @Mock
-    private lateinit var timeHandler: TimeHandler
-
-    @InjectMocks
-    private lateinit var movieService: MovieService
+    @MockitoBean
+    private lateinit var nowPlayingMoviesUseCase: NowPlayingMoviesUseCase
 
     @Test
-    fun `현재 상영중인 영화와 상영 정보를 조회한다`() {
-        // given
+    fun `현재 상영중인 영화 목록을 응답한다`() {
         val currentTime = LocalDateTime.of(2024, 1, 2, 0, 0, 0)
-        whenever(timeHandler.getCurrentTime()).thenReturn(currentTime)
-
         val movie = createMovie(currentTime)
         val theater = createTheater(currentTime)
         val screenings = listOf(
             createScreening(currentTime, currentTime.plusHours(12), movie, theater),
             createScreening(currentTime, currentTime.plusHours(14), movie, theater),
-            )
+        )
         val movieScreenings = mapOf(movie to screenings)
 
-        whenever(screeningRepository.findAllNowPlayingWithMovieAndTheater(eq(currentTime)))
+        whenever(nowPlayingMoviesUseCase.getNowPlayingMovies())
             .thenReturn(movieScreenings)
 
-        // when
-        val result = movieService.getNowPlayingMovies()
-
-        // then
-        Assertions.assertThat(result).hasSize(1)
-        Assertions.assertThat(result.keys.first()).usingRecursiveComparison().isEqualTo(movie)
-        Assertions.assertThat(result[movie]).hasSize(2)
-        Assertions.assertThat(result[movie]).usingRecursiveComparison().isEqualTo(screenings)
+        mockMvc.perform(get("/api/v1/movies/now-playing"))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$[0].id").value(movie.id))
+            .andExpect(jsonPath("$[0].screenings.length()").value(2))
     }
 
     private fun createMovie(currentTime: LocalDateTime): Movie {
