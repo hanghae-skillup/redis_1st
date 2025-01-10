@@ -28,66 +28,53 @@ INSERT INTO movie (title, rating, genre_id, release_date, thumbnail_url, running
    ('메이즈 러너', 'TWELVE', 5, '2024-02-10', 'http://example.com/maze.jpg', 140, 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP),
    ('콘크리트 유토피아', 'FIFTEEN', 6, '2024-02-15', 'http://example.com/concrete.jpg', 130, 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
 
--- 과거 완료된 상영 (COMPLETED)
+-- 각 영화당 2개의 상영 정보만 생성 (총 20개)
+-- 영화 1: SCHEDULED
 INSERT INTO screening (movie_id, theater_id, screening_time, screening_end_time, status, created_by, created_at, updated_by, updated_at)
-SELECT
-    MOD(x.n, 10) + 1,
-    MOD(x.n, 5) + 1,
-    DATEADD('HOUR', -x.n, CURRENT_TIMESTAMP),
-    DATEADD('HOUR', -x.n + 2, CURRENT_TIMESTAMP),
-    'COMPLETED',
-    'system',
-    CURRENT_TIMESTAMP,
-    'system',
-    CURRENT_TIMESTAMP
-FROM (
-         SELECT x AS n FROM SYSTEM_RANGE(1, 100)
-     ) x;
+VALUES (1, 1, DATEADD('HOUR', 1, CURRENT_TIMESTAMP), DATEADD('HOUR', 3, CURRENT_TIMESTAMP), 'SCHEDULED', 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
+VALUES (1, 2, DATEADD('HOUR', 3, CURRENT_TIMESTAMP), DATEADD('HOUR', 5, CURRENT_TIMESTAMP), 'SCHEDULED', 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
 
--- 취소된 상영 (CANCELLED)
+-- 영화 2: SCHEDULED
 INSERT INTO screening (movie_id, theater_id, screening_time, screening_end_time, status, created_by, created_at, updated_by, updated_at)
-SELECT
-    MOD(x.n, 10) + 1,
-    MOD(x.n, 5) + 1,
-    DATEADD('HOUR', x.n * 2, CURRENT_TIMESTAMP),
-    DATEADD('HOUR', x.n * 2 + 2, CURRENT_TIMESTAMP),
-    'CANCELLED',
-    'system',
-    CURRENT_TIMESTAMP,
-    'system',
-    CURRENT_TIMESTAMP
-FROM (
-         SELECT x AS n FROM SYSTEM_RANGE(1, 50)
-     ) x;
+VALUES (2, 3, DATEADD('HOUR', 2, CURRENT_TIMESTAMP), DATEADD('HOUR', 4, CURRENT_TIMESTAMP), 'SCHEDULED', 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
+VALUES (2, 4, DATEADD('HOUR', 4, CURRENT_TIMESTAMP), DATEADD('HOUR', 6, CURRENT_TIMESTAMP), 'SCHEDULED', 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
 
--- 진행중인 상영 (IN_PROGRESS)
+-- 영화 3: IN_PROGRESS
 INSERT INTO screening (movie_id, theater_id, screening_time, screening_end_time, status, created_by, created_at, updated_by, updated_at)
-SELECT
-    MOD(x.n, 10) + 1,
-    MOD(x.n, 5) + 1,
-    DATEADD('MINUTE', -30, CURRENT_TIMESTAMP),
-    DATEADD('MINUTE', 90, CURRENT_TIMESTAMP),
-    'IN_PROGRESS',
-    'system',
-    CURRENT_TIMESTAMP,
-    'system',
-    CURRENT_TIMESTAMP
-FROM (
-         SELECT x AS n FROM SYSTEM_RANGE(1, 10)
-     ) x;
+VALUES (3, 1, DATEADD('MINUTE', -30, CURRENT_TIMESTAMP), DATEADD('MINUTE', 90, CURRENT_TIMESTAMP), 'IN_PROGRESS', 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
+VALUES (3, 2, DATEADD('MINUTE', -20, CURRENT_TIMESTAMP), DATEADD('MINUTE', 100, CURRENT_TIMESTAMP), 'IN_PROGRESS', 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
 
--- 예정된 상영 (SCHEDULED)
+-- 영화 4: IN_PROGRESS
 INSERT INTO screening (movie_id, theater_id, screening_time, screening_end_time, status, created_by, created_at, updated_by, updated_at)
-SELECT
-    MOD(x.n, 10) + 1,
-    MOD(x.n, 5) + 1,
-    DATEADD('HOUR', x.n, CURRENT_TIMESTAMP),
-    DATEADD('HOUR', x.n + 2, CURRENT_TIMESTAMP),
-    'SCHEDULED',
-    'system',
-    CURRENT_TIMESTAMP,
-    'system',
-    CURRENT_TIMESTAMP
-FROM (
-         SELECT x AS n FROM SYSTEM_RANGE(1, 500)
-     ) x;
+VALUES (4, 3, DATEADD('MINUTE', -25, CURRENT_TIMESTAMP), DATEADD('MINUTE', 95, CURRENT_TIMESTAMP), 'IN_PROGRESS', 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
+VALUES (4, 4, DATEADD('MINUTE', -15, CURRENT_TIMESTAMP), DATEADD('MINUTE', 105, CURRENT_TIMESTAMP), 'IN_PROGRESS', 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
+
+-- 영화 5: COMPLETED
+INSERT INTO screening (movie_id, theater_id, screening_time, screening_end_time, status, created_by, created_at, updated_by, updated_at)
+VALUES (5, 1, DATEADD('HOUR', -3, CURRENT_TIMESTAMP), DATEADD('HOUR', -1, CURRENT_TIMESTAMP), 'COMPLETED', 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
+VALUES (5, 2, DATEADD('HOUR', -2, CURRENT_TIMESTAMP), DATEADD('HOUR', 0, CURRENT_TIMESTAMP), 'COMPLETED', 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
+
+-- 영화 6: COMPLETED
+INSERT INTO screening (movie_id, theater_id, screening_time, screening_end_time, status, created_by, created_at, updated_by, updated_at)
+VALUES (6, 3, DATEADD('HOUR', -4, CURRENT_TIMESTAMP), DATEADD('HOUR', -2, CURRENT_TIMESTAMP), 'COMPLETED', 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
+VALUES (6, 4, DATEADD('HOUR', -3, CURRENT_TIMESTAMP), DATEADD('HOUR', -1, CURRENT_TIMESTAMP), 'COMPLETED', 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
+
+-- 영화 7: CANCELLED
+INSERT INTO screening (movie_id, theater_id, screening_time, screening_end_time, status, created_by, created_at, updated_by, updated_at)
+VALUES (7, 1, DATEADD('HOUR', 5, CURRENT_TIMESTAMP), DATEADD('HOUR', 7, CURRENT_TIMESTAMP), 'CANCELLED', 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
+VALUES (7, 2, DATEADD('HOUR', 6, CURRENT_TIMESTAMP), DATEADD('HOUR', 8, CURRENT_TIMESTAMP), 'CANCELLED', 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
+
+-- 영화 8: CANCELLED
+INSERT INTO screening (movie_id, theater_id, screening_time, screening_end_time, status, created_by, created_at, updated_by, updated_at)
+VALUES (8, 3, DATEADD('HOUR', 7, CURRENT_TIMESTAMP), DATEADD('HOUR', 9, CURRENT_TIMESTAMP), 'CANCELLED', 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
+VALUES (8, 4, DATEADD('HOUR', 8, CURRENT_TIMESTAMP), DATEADD('HOUR', 10, CURRENT_TIMESTAMP), 'CANCELLED', 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
+
+-- 영화 9: SCHEDULED
+INSERT INTO screening (movie_id, theater_id, screening_time, screening_end_time, status, created_by, created_at, updated_by, updated_at)
+VALUES (9, 1, DATEADD('DAY', 1, CURRENT_TIMESTAMP), DATEADD('DAY', 1, DATEADD('HOUR', 2, CURRENT_TIMESTAMP)), 'SCHEDULED', 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
+VALUES (9, 2, DATEADD('DAY', 1, DATEADD('HOUR', 3, CURRENT_TIMESTAMP)), DATEADD('DAY', 1, DATEADD('HOUR', 5, CURRENT_TIMESTAMP)), 'SCHEDULED', 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
+
+-- 영화 10: SCHEDULED
+INSERT INTO screening (movie_id, theater_id, screening_time, screening_end_time, status, created_by, created_at, updated_by, updated_at)
+VALUES (10, 3, DATEADD('DAY', 2, CURRENT_TIMESTAMP), DATEADD('DAY', 2, DATEADD('HOUR', 2, CURRENT_TIMESTAMP)), 'SCHEDULED', 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
+VALUES (10, 4, DATEADD('DAY', 2, DATEADD('HOUR', 3, CURRENT_TIMESTAMP)), DATEADD('DAY', 2, DATEADD('HOUR', 5, CURRENT_TIMESTAMP)), 'SCHEDULED', 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
