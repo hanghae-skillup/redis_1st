@@ -1,4 +1,4 @@
-package com.redis.cinema.domain
+package com.redis.domain
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository

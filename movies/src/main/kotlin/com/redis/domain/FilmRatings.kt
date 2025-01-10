@@ -1,4 +1,4 @@
-package com.redis.movies.domain
+package com.redis.domain
 
 enum class FilmRatings(val description: String) {
     MPAA_GPG("ALL"),

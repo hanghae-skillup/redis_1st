@@ -1,16 +1,16 @@
-package com.redis.cinema.domain
+package com.redis.domain
 
 import com.redis.utils.BaseEntity
 import jakarta.persistence.*
 
-@Table(name = "com/redis/cinema")
+@Table(name = "cinema")
 @Entity
 class Cinema(
 
-    @Column(name = "cinema_name")
+    @Column(name = "name")
     val name: String,
 
-    @OneToMany(mappedBy = "com/redis/cinema", cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(mappedBy = "cinema", cascade = [CascadeType.ALL], orphanRemoval = true)
     val seats: MutableList<Seat> = mutableListOf(),
 
     @Id

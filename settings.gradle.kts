@@ -1,5 +1,3 @@
 rootProject.name = "redis_1st"
-include("common")
-include("cinema")
-include("movies")
+include(":common", ":cinema", ":movies")
 

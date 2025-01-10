@@ -1,4 +1,4 @@
-package com.redis.movies.domain
+package com.redis.domain
 
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Embeddable

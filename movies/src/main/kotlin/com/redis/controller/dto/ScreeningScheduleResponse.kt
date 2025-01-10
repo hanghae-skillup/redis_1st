@@ -1,8 +1,8 @@
-package com.redis.movies.controller.dto
+package com.redis.controller.dto
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.redis.movies.domain.ScreeningSchedule
+import com.redis.domain.ScreeningSchedule
 import java.time.LocalDateTime
 
 data class ScreeningScheduleResponse(
