@@ -32,18 +32,8 @@ erDiagram
         date release_date "개봉일"
         string thumbnail_url "썸네일 URL"
         int runtime_minutes "러닝 타임 (분)"
-        UUID genre_id FK "장르 ID"
-        UUID rating_id FK "영상물 등급 ID"
-    }
-
-    GENRE {
-        UUID id PK "고유 식별자"
-        string name "장르 이름"
-    }
-
-    RATING {
-        UUID id PK "고유 식별자"
-        string name "등급 이름"
+        string genre "장르"
+        string rating "영상물 등급"
     }
 
     SCREEN {
@@ -61,9 +51,7 @@ erDiagram
     }
 
     MOVIE ||--o{ SHOWTIME: "has"
-    GENRE ||--o{ MOVIE: "includes"
     SCREEN ||--o{ SHOWTIME: "hosts"
-    RATING ||--o{ MOVIE: "assigns"
 ```
 
 ## API 디자인
