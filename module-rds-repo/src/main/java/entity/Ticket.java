@@ -25,15 +25,19 @@ public class Ticket extends BaseEntity{
 	@Column(name = "ticket_id")
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "showing_id",nullable = false)
 	private Showing showing;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "seat_id", nullable = false)
 	private Seats seats;
 
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private TicketStatus ticketStatus;
+
+	public void setTicketStatus(TicketStatus ticketStatus) {
+		this.ticketStatus = ticketStatus;
+	}
 }

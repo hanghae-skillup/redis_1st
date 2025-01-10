@@ -35,11 +35,11 @@ public class Movie extends BaseEntity{
 	private Integer runningTime;
 	private String thumbnail;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "genre_id", nullable = false)
 	private Genre genre;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "rating_id", nullable = false)
 	private Rating rating;
 

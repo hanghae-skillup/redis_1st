@@ -25,11 +25,11 @@ public class Showing extends BaseEntity{
 	@Column(name = "showing_id")
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "movie_id", nullable = false)
 	private Movie movie;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "screen_id", nullable = false)
 	private Screen screen;
 
