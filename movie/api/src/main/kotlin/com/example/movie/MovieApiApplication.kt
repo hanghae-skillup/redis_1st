@@ -1,9 +1,11 @@
-package com.example.movieapi
+package com.example.movie
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
-@SpringBootApplication
+@SpringBootApplication(
+    scanBasePackages = ["com.example.movie"]
+)
 class MovieApiApplication
 
 fun main(args: Array<String>) {
