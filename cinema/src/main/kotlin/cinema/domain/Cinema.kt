@@ -11,7 +11,6 @@ class Cinema(
     @Column(name = "cinema_name")
     val name: String,
 
-    @Column(name = "seats")
     @OneToMany(mappedBy = "cinema", cascade = [CascadeType.ALL], orphanRemoval = true)
     val seats: MutableList<Seat> = mutableListOf(),
 
