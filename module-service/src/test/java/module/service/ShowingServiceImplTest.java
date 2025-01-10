@@ -12,8 +12,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import dto.MovieDTO;
-import dto.ShowingDTO;
+import dto.internal.MovieDTO;
+import dto.internal.ShowingDTO;
 
 @SpringBootTest
 class ShowingServiceImplTest {
@@ -37,17 +37,15 @@ class ShowingServiceImplTest {
 	@DisplayName("2. 영화 정보 요구사항 테스트 ")
 	public void getTodayShowingTest() {
 		//given
-		List<Map<MovieDTO, List<ShowingDTO>>> todayShowing = showingService.getTodayShowing();
+		List<Map.Entry<MovieDTO, List<ShowingDTO>>> todayShowing = showingService.getTodayShowing();
 
 		//when
-		Map<MovieDTO, List<ShowingDTO>> movieDTOListMap = todayShowing.get(0);
+		Map.Entry<MovieDTO, List<ShowingDTO>> movieDTOListMap = todayShowing.get(0);
 
 		//then
-		List<ShowingDTO> showingDTOS = movieDTOListMap.values().stream().findFirst().get();
-
-		assertEquals(movieDTOListMap.values().size(),1);
-		assertEquals(showingDTOS.getFirst().getStTime().getDayOfMonth(), LocalDateTime.now().getDayOfMonth());
-		assertEquals(showingDTOS.getLast().getStTime().getDayOfMonth(), LocalDateTime.now().getDayOfMonth());
+		assertEquals(movieDTOListMap.getValue().size(),1);
+		assertEquals(movieDTOListMap.getValue().getFirst().getStTime().getDayOfMonth(), LocalDateTime.now().getDayOfMonth());
+		assertEquals(movieDTOListMap.getValue().getLast().getStTime().getDayOfMonth(), LocalDateTime.now().getDayOfMonth());
 	}
 
 }
