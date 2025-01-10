@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 
 @Table(name = "movie")
 @Entity
-class Movie(
+data class Movie(
     @Column(name = "title")
     val title: String,
 
