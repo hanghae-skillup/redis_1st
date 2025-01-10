@@ -39,8 +39,8 @@ class MovieServiceTest {
         val movie = createMovie(currentTime)
         val theater = createTheater(currentTime)
         val screenings = listOf(
-            createScreening(currentTime, currentTime.plusHours(12), movie, theater),
-            createScreening(currentTime, currentTime.plusHours(14), movie, theater),
+            createScreening(1L, currentTime, currentTime.plusHours(12), movie, theater),
+            createScreening(2L, currentTime, currentTime.plusHours(14), movie, theater),
             )
         val movieScreenings = mapOf(movie to screenings)
 
@@ -85,9 +85,9 @@ class MovieServiceTest {
         )
     }
 
-    private fun createScreening(currentTime: LocalDateTime, screeningTime: LocalDateTime, movie: Movie, theater: Theater): Screening {
+    private fun createScreening(id: Long, currentTime: LocalDateTime, screeningTime: LocalDateTime, movie: Movie, theater: Theater): Screening {
         return Screening(
-            id = 1,
+            id = id,
             movie = movie,
             theater = theater,
             screeningTime = screeningTime,
