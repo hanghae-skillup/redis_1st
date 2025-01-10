@@ -1,3 +1,5 @@
+/hanghaeho-postgresql
+
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
