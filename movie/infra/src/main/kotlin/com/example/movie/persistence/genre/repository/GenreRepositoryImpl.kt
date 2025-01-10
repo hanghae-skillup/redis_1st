@@ -13,10 +13,6 @@ class GenreRepositoryImpl(
         return genreJpaRepository.findByIdOrNull(id)?.toDomain()
     }
 
-    override fun findByName(name: String): Genre? {
-        return genreJpaRepository.findByName(name)?.toDomain()
-    }
-
     override fun findAll(): List<Genre> {
         return genreJpaRepository.findAll().map { it.toDomain() }
     }

@@ -4,5 +4,4 @@ import com.example.movie.domain.theater.model.Theater
 
 interface TheaterRepository {
     fun findById(id: Long): Theater?
-    fun findAll(): List<Theater>
 }

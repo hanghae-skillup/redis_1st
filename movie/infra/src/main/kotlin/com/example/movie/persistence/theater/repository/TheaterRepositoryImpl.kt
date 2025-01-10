@@ -11,8 +11,4 @@ class TheaterRepositoryImpl(
     override fun findById(id: Long): Theater? {
         return theaterJpaRepository.findById(id).orElse(null)?.toDomain()
     }
-
-    override fun findAll(): List<Theater> {
-        return theaterJpaRepository.findAll().map { it.toDomain() }
-    }
 }
