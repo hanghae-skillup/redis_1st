@@ -1,6 +1,15 @@
 ## [본 과정] 이커머스 핵심 프로세스 구현
 [단기 스킬업 Redis 교육 과정](https://hh-skillup.oopy.io/) 을 통해 상품 조회 및 주문 과정을 구현하며 현업에서 발생하는 문제를 Redis의 핵심 기술을 통해 해결합니다.
 
+## 프로젝트 실행방법
+
+프로젝트를 받은 뒤
+> $ docker compose up -d 
+
+위 명령어를 실행하면 schema와 data가 자동으로 생성됩니다.
+
+그 후 api 모듈에 ApiApplication을 실행하면 프로젝트가 정상적을 작동합니다.
+
 ## 멀티모듈 구성
 이 프로젝트는 **레이어드 아키텍처**를 기반으로 설계되었으며, 다음과 같이 3개의 모듈로 구성되어 있습니다.
 
@@ -41,3 +50,11 @@
 ---
 
 ## 테이블 설계
+- **도메인**
+  ![](https://velog.velcdn.com/images/kimbro97/post/060397e0-2ff7-4997-93d7-5e7c9c5da022/image.png)
+- **테이블**
+  ![](https://velog.velcdn.com/images/kimbro97/post/f3028e77-5355-476c-86e6-98c9c01b1aca/image.png)
+
+Movie(영화)와 Theater(극장)은 M:N 관계이므로 MovieTheater로 일대다 다대일 관계로 설계하였습니다.
+Movie(영화)와 Screening(상영)은 1:N 관계이므로 일대다 관계로 설계하였습니다.
+Screening(상영)과 Seat(좌석)은 1:N 관계이므로 일대다 관계로 설계하였습니다.
