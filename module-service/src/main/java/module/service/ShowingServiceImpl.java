@@ -14,19 +14,15 @@ import org.springframework.stereotype.Service;
 
 import dto.MovieDTO;
 import dto.ShowingDTO;
+import lombok.RequiredArgsConstructor;
 import module.repository.ShowingRepository;
 
 @Service
+@RequiredArgsConstructor
 public class ShowingServiceImpl implements ShowingService {
 
-	private ShowingRepository showingRepository;
-	private ModelMapper modelMapper;
-
-	@Autowired
-	public ShowingServiceImpl(ShowingRepository showingRepository, ModelMapper modelMapper) {
-		this.showingRepository = showingRepository;
-		this.modelMapper = modelMapper;
-	}
+	private final ShowingRepository showingRepository;
+	private final ModelMapper modelMapper;
 
 	@Override
 	public List<Map<MovieDTO, List<ShowingDTO>>> getTodayShowing() {
