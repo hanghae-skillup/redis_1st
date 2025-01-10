@@ -32,14 +32,14 @@ class ShowingRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("상영중인 영화 조회")
+	@DisplayName("1. 상영중인 영화 조회")
 	public void selectShowing() {
 		//given
 		LocalDateTime today = LocalDateTime.of(LocalDate.now(), LocalTime.MIN).plusHours(6);
 		LocalDateTime edDay = LocalDateTime.of(LocalDate.now().plusDays(2), LocalTime.MAX);
 
 		//when
-		List<Showing> showings = showingRepository.findShowingByStTimeAfterAndEdTimeBeforeOrderByOpenDay(today, edDay);
+		List<Showing> showings = showingRepository.findShowingByStTimeAfterAndEdTimeBefore(today, edDay);
 
 		// //then
 		showings.forEach(showing -> {
@@ -56,7 +56,7 @@ class ShowingRepositoryTest {
 		//given
 		LocalDateTime today = LocalDateTime.of(LocalDate.now(), LocalTime.MIN).plusHours(6);
 		LocalDateTime edDay = LocalDateTime.of(LocalDate.now().plusDays(2), LocalTime.MAX);
-		List<Showing> showings = showingRepository.findShowingByStTimeAfterAndEdTimeBeforeOrderByOpenDay(today, edDay);
+		List<Showing> showings = showingRepository.findShowingByStTimeAfterAndEdTimeBefore(today, edDay);
 
 		//when
 		List<Movie> movieList = showings.stream()
@@ -73,8 +73,8 @@ class ShowingRepositoryTest {
 			assertNotNull(genreName);
 			assertNotNull(rating);
 			assertNotNull(ratingName);
-			assertTrue(genreName.length() > 0);
-			assertTrue(ratingName.length() > 0);
+			assertFalse(genreName.isEmpty());
+			assertFalse(ratingName.isEmpty());
 		});
 	}
 }

@@ -15,7 +15,6 @@ public interface ShowingRepository extends JpaRepository<Showing, Long> {
 		+ "JOIN FETCH s.screen "
 		+ "JOIN FETCH m.genre "
 		+ "JOIN FETCH m.rating "
-		+ "WHERE s.stTime >= :today AND s.stTime <= :edday "
-		+ "ORDER BY m.openDay ASC ")
-	List<Showing> findShowingByStTimeAfterAndEdTimeBeforeOrderByOpenDay(LocalDateTime today, LocalDateTime edday);
+		+ "WHERE s.stTime >= :today AND s.stTime <= :edday")
+	List<Showing> findShowingByStTimeAfterAndEdTimeBefore(LocalDateTime today, LocalDateTime edday);
 }
