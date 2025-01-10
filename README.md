@@ -60,7 +60,7 @@
 - movie-infrastructure
   - redis, kafka 등 인프라를 구성하기 위한 모듈
 
-### 상영중인 응답 api 구성
+## 응답 api 구성
 
 - url : /api/schedules?theaterId=1
 - response
