@@ -65,3 +65,28 @@ erDiagram
     SCREEN ||--o{ SHOWTIME: "hosts"
     RATING ||--o{ MOVIE: "assigns"
 ```
+
+## API 디자인
+
+GET /movies
+
+- Description: 상영 중인 영화를 조회하는 API
+- Response
+    - 200
+        - Array
+            - movie_id: 영화 고유 식별자
+            - title: 타이틀
+            - rating: 영상물 등급
+            - genre: 장르
+            - release_date: 개봉일
+            - thumbnail_url: 썸네일 URL
+            - runtime_minutes: 러닝 타임(분)
+            - screens: Array
+                - screen_id: 상영관 고유 식별자
+                - screen_name: 상영관 이름
+                - row: 좌석 행 수
+                - column: 좌석 열 수
+                - show_times: Array
+                    - show_time_id: 상영 시간 고유 식별자
+                    - start_time: 상영 시간 ID
+        - 개봉일 순으로 정렬
