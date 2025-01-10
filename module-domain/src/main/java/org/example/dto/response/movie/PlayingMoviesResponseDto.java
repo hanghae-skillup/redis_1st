@@ -14,6 +14,6 @@ public class PlayingMoviesResponseDto {
     private Genre genre;
     private AgeRating ageRating;
     private LocalDate releaseDate;
-    private String runningTime;
+    private int runningTime;
     private List<ScreenScheduleDto> screenSchedules;
 }

@@ -35,5 +35,5 @@ public class Movie extends BaseEntity {
     private LocalDate releaseDate;
 
     @Column(nullable = false)
-    private String runningTime;
+    private int runningTime;
 }
