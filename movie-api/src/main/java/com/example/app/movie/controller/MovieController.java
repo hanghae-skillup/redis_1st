@@ -1,7 +1,7 @@
 package com.example.app.movie.controller;
 
 import com.example.app.movie.dto.MovieDto;
-import com.example.app.movie.dto.SearchMovies;
+import com.example.app.movie.dto.MovieSearchRequest;
 import com.example.app.movie.service.MovieService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class MovieController {
     private final MovieService movieService;
 
     @GetMapping("/movies")
-    public ResponseEntity<List<MovieDto>> getMovies(@Valid SearchMovies searchMovies) {
-        return ResponseEntity.ok(movieService.getMovies(searchMovies));
+    public ResponseEntity<List<MovieDto>> getMovies(@Valid MovieSearchRequest movieSearchRequest) {
+        return ResponseEntity.ok(movieService.getMovies(movieSearchRequest));
     }
 }
