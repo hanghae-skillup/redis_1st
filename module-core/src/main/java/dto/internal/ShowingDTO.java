@@ -1,10 +1,12 @@
-package dto;
+package dto.internal;
 
 import java.time.LocalDateTime;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
+@Getter
+@NoArgsConstructor
 public class ShowingDTO {
 	private Long id;
 	private MovieDTO movie;
