@@ -1,7 +1,7 @@
 package com.example.movie.persistence.screening.repository
 
 import com.example.movie.domain.screening.model.ScreeningStatus
-import com.example.movie.persistence.movie.entity.MovieEntity
+import com.example.movie.entity.MovieEntity
 import com.example.movie.persistence.screening.model.ScreeningEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query

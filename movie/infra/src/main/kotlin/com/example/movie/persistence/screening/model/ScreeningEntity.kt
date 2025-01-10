@@ -3,7 +3,7 @@ package com.example.movie.persistence.screening.model
 import com.example.movie.domain.screening.model.Screening
 import com.example.movie.domain.screening.model.ScreeningStatus
 import com.example.movie.persistence.common.BaseEntity
-import com.example.movie.persistence.movie.entity.MovieEntity
+import com.example.movie.entity.MovieEntity
 import com.example.movie.persistence.theater.entity.TheaterEntity
 import jakarta.persistence.*
 import java.time.LocalDateTime

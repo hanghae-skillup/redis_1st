@@ -1,4 +1,4 @@
-package com.example.movie.persistence.movie.entity
+package com.example.movie.entity
 
 import com.example.movie.domain.movie.model.Genre
 import com.example.movie.persistence.common.BaseEntity
