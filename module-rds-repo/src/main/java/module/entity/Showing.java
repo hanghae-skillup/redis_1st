@@ -1,6 +1,6 @@
-package entity;
+package module.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,37 +12,28 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-
+@ToString
 @Entity
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Movie extends BaseEntity{
+public class Showing extends BaseEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "movie_id")
+	@Column(name = "showing_id")
 	private Long id;
 
-	@Column(nullable = false)
-	private String title;
-
-	@Column(nullable = false)
-	private LocalDate openDay;
-
-	@Column(nullable = false)
-	private Integer runningTime;
-	private String thumbnail;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "movie_id", nullable = false)
+	private Movie movie;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "genre_id", nullable = false)
-	private Genre genre;
+	@JoinColumn(name = "screen_id", nullable = false)
+	private Screen screen;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "rating_id", nullable = false)
-	private Rating rating;
-
-	@Column(columnDefinition = "TEXT")
-	private String plot;
+	private LocalDateTime stTime;
+	private LocalDateTime edTime;
 }

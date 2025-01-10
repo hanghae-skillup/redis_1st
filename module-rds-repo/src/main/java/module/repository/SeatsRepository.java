@@ -1,8 +1,8 @@
-package repository;
+package module.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import entity.Seats;
+import module.entity.Seats;
 
 public interface SeatsRepository extends JpaRepository<Seats, Long> {
 }

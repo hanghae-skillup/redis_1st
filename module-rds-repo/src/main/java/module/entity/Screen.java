@@ -1,4 +1,4 @@
-package entity;
+package module.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,16 +13,12 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Rating extends BaseEntity{
+public class Screen extends BaseEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "rating_id", nullable = false)
-	private Long id;
+	@Column(name = "screen_id")
+	private Long screen_id;
 
-	@Column(nullable = false)
 	private String name;
-
-	@Column(nullable = false)
-	private String img;
 }

@@ -1,4 +1,4 @@
-package entity;
+package module.entity;
 
 public enum TicketStatus {
 	ON_SALE, RESERVED, COMPLETED;

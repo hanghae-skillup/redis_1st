@@ -1,10 +1,13 @@
-package entity;
+package module.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -13,14 +16,20 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Genre extends BaseEntity {
+public class Seats extends BaseEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "genre_id")
+	@Column(name = "seat_id")
 	private Long id;
 
-	@Column(nullable = false)
-	private String name;
-}
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "screen_id", nullable = false)
+	private Screen screen;
 
+	@Column(nullable = false)
+	private String row;
+
+	@Column(nullable = false)
+	private Integer number;
+}

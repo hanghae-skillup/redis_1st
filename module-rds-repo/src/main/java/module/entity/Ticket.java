@@ -1,9 +1,9 @@
-package entity;
-
-import java.time.LocalDateTime;
+package module.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,21 +18,26 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Showing extends BaseEntity{
+public class Ticket extends BaseEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "showing_id")
+	@Column(name = "ticket_id")
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "movie_id", nullable = false)
-	private Movie movie;
+	@JoinColumn(name = "showing_id",nullable = false)
+	private Showing showing;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "screen_id", nullable = false)
-	private Screen screen;
+	@JoinColumn(name = "seat_id", nullable = false)
+	private Seats seats;
 
-	private LocalDateTime stTime;
-	private LocalDateTime edTime;
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private TicketStatus ticketStatus;
+
+	public void setTicketStatus(TicketStatus ticketStatus) {
+		this.ticketStatus = ticketStatus;
+	}
 }

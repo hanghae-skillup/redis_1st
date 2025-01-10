@@ -1,7 +1,6 @@
-package repository;
+package module.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static util.PrivateGetSet.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,10 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import entity.Genre;
-import entity.Movie;
-import entity.Rating;
-import entity.Showing;
+import module.entity.Genre;
+import module.entity.Movie;
+import module.entity.Rating;
+import module.entity.Showing;
+import module.util.PrivateGetSet;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -39,11 +39,11 @@ class ShowingRepositoryTest {
 		LocalDateTime edDay = LocalDateTime.of(LocalDate.now().plusDays(2), LocalTime.MAX);
 
 		//when
-		List<Showing> showings = showingRepository.findShowingByStTimeAfterAndEdTimeBefore(today, edDay);
+		List<Showing> showings = showingRepository.findShowingsByStTimeBetween(today, edDay);
 
 		// //then
 		showings.forEach(showing -> {
-			Assertions.assertTrue(getValue(showing, "stTime", LocalDateTime.class).getDayOfMonth() <= LocalDate.now()
+			Assertions.assertTrue(PrivateGetSet.getValue(showing, "stTime", LocalDateTime.class).getDayOfMonth() <= LocalDate.now()
 				.plusDays(2L)
 				.getDayOfMonth());
 		});
@@ -55,20 +55,20 @@ class ShowingRepositoryTest {
 		// 영화별 장르 하나씩
 		//given
 		LocalDateTime today = LocalDateTime.of(LocalDate.now(), LocalTime.MIN).plusHours(6);
-		LocalDateTime edDay = LocalDateTime.of(LocalDate.now().plusDays(2), LocalTime.MAX);
-		List<Showing> showings = showingRepository.findShowingByStTimeAfterAndEdTimeBefore(today, edDay);
+		LocalDateTime edDay = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
+		List<Showing> showings = showingRepository.findShowingsByStTimeBetween(today, edDay);
 
 		//when
 		List<Movie> movieList = showings.stream()
-			.map(showing -> getValue(showing,"movie", Movie.class))
+			.map(showing -> PrivateGetSet.getValue(showing,"movie", Movie.class))
 			.toList();
 
 		//then
 		movieList.forEach(movie -> {
-			Genre genre = getValue(movie, "genre", Genre.class);
-			String genreName = getValue(genre, "name", String.class);
-			Rating rating = getValue(movie, "rating", Rating.class);
-			String ratingName = getValue(rating, "name", String.class);
+			Genre genre = PrivateGetSet.getValue(movie, "genre", Genre.class);
+			String genreName = PrivateGetSet.getValue(genre, "name", String.class);
+			Rating rating = PrivateGetSet.getValue(movie, "rating", Rating.class);
+			String ratingName = PrivateGetSet.getValue(rating, "name", String.class);
 			assertNotNull(genre);
 			assertNotNull(genreName);
 			assertNotNull(rating);

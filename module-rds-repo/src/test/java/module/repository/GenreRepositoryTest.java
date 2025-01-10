@@ -1,12 +1,8 @@
-package repository;
+package module.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static util.PrivateGetSet.*;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import entity.Genre;
+import module.entity.Genre;
+import module.util.PrivateGetSet;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -41,7 +38,7 @@ class GenreRepositoryTest {
 		List<Genre> genreList = genreRepository.findAll();
 
 		//when
-		List<String> nameList = genreList.stream().map(genre -> getValue(genre, "name", String.class))
+		List<String> nameList = genreList.stream().map(genre -> PrivateGetSet.getValue(genre, "name", String.class))
 			.toList();
 
 		//then

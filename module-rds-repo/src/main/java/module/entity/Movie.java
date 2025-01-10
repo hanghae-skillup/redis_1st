@@ -1,9 +1,9 @@
-package entity;
+package module.entity;
+
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,26 +18,31 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Ticket extends BaseEntity{
+public class Movie extends BaseEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ticket_id")
+	@Column(name = "movie_id")
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "showing_id",nullable = false)
-	private Showing showing;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "seat_id", nullable = false)
-	private Seats seats;
+	@Column(nullable = false)
+	private String title;
 
 	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	private TicketStatus ticketStatus;
+	private LocalDate openDay;
 
-	public void setTicketStatus(TicketStatus ticketStatus) {
-		this.ticketStatus = ticketStatus;
-	}
+	@Column(nullable = false)
+	private Integer runningTime;
+	private String thumbnail;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "genre_id", nullable = false)
+	private Genre genre;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "rating_id", nullable = false)
+	private Rating rating;
+
+	@Column(columnDefinition = "TEXT")
+	private String plot;
 }

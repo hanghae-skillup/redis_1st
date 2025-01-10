@@ -1,4 +1,4 @@
-package entity;
+package module.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,12 +13,14 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Screen extends BaseEntity{
+public class Genre extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "screen_id")
-	private Long screen_id;
+	@Column(name = "genre_id")
+	private Long id;
 
+	@Column(nullable = false)
 	private String name;
 }
+

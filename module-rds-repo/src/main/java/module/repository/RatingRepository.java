@@ -1,8 +1,8 @@
-package repository;
+package module.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import entity.Rating;
+import module.entity.Rating;
 
 public interface RatingRepository extends JpaRepository<Rating, Long> {
 }

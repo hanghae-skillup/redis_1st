@@ -1,4 +1,4 @@
-package repository;
+package module.repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import entity.Showing;
+import module.entity.Showing;
 
 public interface ShowingRepository extends JpaRepository<Showing, Long> {
 
@@ -15,6 +15,7 @@ public interface ShowingRepository extends JpaRepository<Showing, Long> {
 		+ "JOIN FETCH s.screen "
 		+ "JOIN FETCH m.genre "
 		+ "JOIN FETCH m.rating "
-		+ "WHERE s.stTime >= :today AND s.stTime <= :edday")
-	List<Showing> findShowingByStTimeAfterAndEdTimeBefore(LocalDateTime today, LocalDateTime edday);
+		+ "WHERE s.stTime BETWEEN :from AND :to")
+	List<Showing> findShowingsByStTimeBetween(LocalDateTime from, LocalDateTime to);
+
 }
