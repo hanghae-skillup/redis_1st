@@ -29,17 +29,7 @@ class ScreeningEntity(
 
     @Enumerated(EnumType.STRING)
     val status: ScreeningStatus,
-
-    createdBy: String,
-    createdAt: LocalDateTime,
-    updatedBy: String,
-    updatedAt: LocalDateTime
-) : BaseEntity(
-    createdBy = createdBy,
-    createdAt = createdAt,
-    updatedBy = updatedBy,
-    updatedAt = updatedAt
-) {
+) : BaseEntity() {
     fun toDomain(): Screening {
         return Screening(
             id = id,
@@ -64,10 +54,6 @@ class ScreeningEntity(
                 screeningTime = screening.screeningTime,
                 screeningEndTime = screening.screeningEndTime,
                 status = screening.status,
-                createdBy = screening.createdBy,
-                createdAt = screening.createdAt,
-                updatedBy = screening.updatedBy,
-                updatedAt = screening.updatedAt
             )
         }
     }

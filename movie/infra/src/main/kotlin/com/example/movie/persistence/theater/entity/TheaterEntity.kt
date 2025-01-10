@@ -13,17 +13,7 @@ class TheaterEntity(
     val id: Long = 0,
 
     val name: String,
-
-    createdBy: String,
-    createdAt: LocalDateTime,
-    updatedBy: String,
-    updatedAt: LocalDateTime
-) : BaseEntity(
-    createdBy = createdBy,
-    createdAt = createdAt,
-    updatedBy = updatedBy,
-    updatedAt = updatedAt
-) {
+) : BaseEntity() {
     fun toDomain(): Theater {
         return Theater(
             id = id,
@@ -40,10 +30,6 @@ class TheaterEntity(
             return TheaterEntity(
                 id = theater.id,
                 name = theater.name,
-                createdBy = theater.createdBy,
-                createdAt = theater.createdAt,
-                updatedBy = theater.updatedBy,
-                updatedAt = theater.updatedAt
             )
         }
     }

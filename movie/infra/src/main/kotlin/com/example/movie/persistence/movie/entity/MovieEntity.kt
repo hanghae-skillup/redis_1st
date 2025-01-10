@@ -6,7 +6,6 @@ import com.example.movie.persistence.common.BaseEntity
 import com.example.movie.persistence.screening.model.ScreeningEntity
 import jakarta.persistence.*
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 @Entity
 @Table(name = "movie")
@@ -31,17 +30,7 @@ class MovieEntity(
     @OneToMany
     @JoinColumn(name = "screening_id", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     val screenings: MutableList<ScreeningEntity> = mutableListOf(),
-
-    createdBy: String,
-    createdAt: LocalDateTime,
-    updatedBy: String,
-    updatedAt: LocalDateTime
-) : BaseEntity(
-    createdBy = createdBy,
-    createdAt = createdAt,
-    updatedBy = updatedBy,
-    updatedAt = updatedAt
-) {
+) : BaseEntity() {
     fun toDomain(): Movie {
         return Movie(
             id = id,
@@ -68,10 +57,6 @@ class MovieEntity(
                 releaseDate = movie.releaseDate,
                 thumbnailUrl = movie.thumbnailUrl,
                 runningTime = movie.runningTime,
-                createdBy = movie.createdBy,
-                createdAt = movie.createdAt,
-                updatedBy = movie.updatedBy,
-                updatedAt = movie.updatedAt
             )
         }
     }
