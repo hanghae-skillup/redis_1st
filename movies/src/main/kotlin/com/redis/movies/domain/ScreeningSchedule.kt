@@ -1,5 +1,6 @@
 package com.redis.movies.domain
 
+import com.redis.utils.BaseEntity
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -13,7 +14,7 @@ data class ScreeningSchedule(
     @Column(name = "end_time")
     val endTime: LocalDateTime,
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "movie_id")
     val movie: Movie? = null,
 
@@ -21,5 +22,5 @@ data class ScreeningSchedule(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "screening_schedule_id")
     val id: Long? = null
-) {
+): BaseEntity() {
 }

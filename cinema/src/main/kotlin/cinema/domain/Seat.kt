@@ -1,6 +1,7 @@
 package cinema.domain
 
 import com.redis.cinema.domain.Cinema
+import com.redis.utils.BaseEntity
 import jakarta.persistence.*
 
 @Table(name = "seat")
@@ -21,6 +22,6 @@ data class Seat(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "seat_id")
     val id: Long? = null
-) {
+): BaseEntity() {
 
 }

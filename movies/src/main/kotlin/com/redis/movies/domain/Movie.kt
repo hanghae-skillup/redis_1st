@@ -1,5 +1,6 @@
 package com.redis.movies.domain
 
+import com.redis.utils.BaseEntity
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -25,7 +26,7 @@ class Movie(
     @OneToOne(mappedBy = "movie", cascade = [CascadeType.ALL], orphanRemoval = true)
     val genre: MovieGenre,
 
-    @Column(name = "cinemaId")
+    @Column(name = "cinema_id")
     val cinemaId: Long,
 
     val screeningSchedules: ScreeningSchedules = ScreeningSchedules(),
@@ -34,6 +35,6 @@ class Movie(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "movie_id")
     val id: Long? = null
-) {
+): BaseEntity() {
 
 }

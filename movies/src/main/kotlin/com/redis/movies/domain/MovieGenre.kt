@@ -1,5 +1,6 @@
 package com.redis.movies.domain
 
+import com.redis.utils.BaseEntity
 import jakarta.persistence.*
 
 @Table(name = "movie_genre")
@@ -17,5 +18,5 @@ data class MovieGenre(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "movie_genre_id")
     val id: Long? = null
-) {
+): BaseEntity() {
 }
