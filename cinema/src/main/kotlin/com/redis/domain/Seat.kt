@@ -6,7 +6,7 @@ import jakarta.persistence.*
 
 @Table(name = "seat")
 @Entity
-data class Seat(
+class Seat(
 
     @Column(name = "seat_row")
     val row: String,

@@ -2,11 +2,12 @@ package com.redis.domain
 
 import com.redis.utils.BaseEntity
 import jakarta.persistence.*
+import org.hibernate.annotations.BatchSize
 import java.time.LocalDateTime
 
 @Table(name = "movie")
 @Entity
-data class Movie(
+class Movie(
     @Column(name = "title")
     val title: String,
 
@@ -23,7 +24,8 @@ data class Movie(
     @Column(name = "running_time")
     val runningTime: Long,
 
-    @OneToOne(mappedBy = "movie", cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "movie_id")
     val genre: MovieGenre,
 
     @Column(name = "cinema_id")

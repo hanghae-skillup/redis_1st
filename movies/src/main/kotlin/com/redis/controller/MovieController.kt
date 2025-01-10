@@ -14,6 +14,6 @@ class MovieController(
 ) {
     @GetMapping
     fun gets(): ResponseEntity<MutableList<MovieResponse>> {
-        return ResponseEntity.ok(movieService.gets());
+        return ResponseEntity.ok(movieService.gets())
     }
 }

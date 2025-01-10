@@ -9,11 +9,11 @@ data class ScreeningScheduleResponse(
 
     @JsonProperty(value = "start_time")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private val startTime: LocalDateTime,
+    val startTime: LocalDateTime,
 
     @JsonProperty(value = "end_time")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private val endTime: LocalDateTime,
+    val endTime: LocalDateTime,
 ) {
     companion object {
         fun fromEntity(screeningSchedule: ScreeningSchedule): ScreeningScheduleResponse {
