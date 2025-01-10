@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 
 @Table(name = "screening_schedule")
 @Entity
-data class ScreeningSchedule(
+class ScreeningSchedule(
 
     @Column(name = "start_time")
     val startTime: LocalDateTime,

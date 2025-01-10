@@ -9,35 +9,35 @@ import java.time.LocalDateTime
 data class MovieResponse(
 
     @JsonProperty(value = "id")
-    private val id: Long,
+    val id: Long,
 
     @JsonProperty(value = "title")
-    private val title: String,
+    val title: String,
 
     @JsonProperty(value = "film_ratings")
-    private val filmRatings: String,
+    val filmRatings: String,
 
     @JsonProperty(value = "release_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private val releaseDate: LocalDateTime,
+    val releaseDate: LocalDateTime,
 
     @JsonProperty(value = "thumbnail_image_path")
-    private val thumbnailImagePath: String,
+    val thumbnailImagePath: String,
 
     @JsonProperty(value = "running_time")
-    private val runningTime: Long,
+    val runningTime: Long,
 
     @JsonProperty(value = "genre")
-    private val genre: String,
+    val genre: String,
 
     @JsonProperty(value = "cinema_id")
-    private val cinemaId: Long?,
+    val cinemaId: Long?,
 
     @JsonProperty(value = "cinema_name")
-    private val cinemaName: String,
+    val cinemaName: String,
 
     @JsonProperty(value = "screening_schedules")
-    private val screeningSchedules: MutableList<ScreeningScheduleResponse>
+    val screeningSchedules: MutableList<ScreeningScheduleResponse>
 ) {
     companion object {
         fun fromEntity(movie: Movie, cinema: Cinema): MovieResponse {
