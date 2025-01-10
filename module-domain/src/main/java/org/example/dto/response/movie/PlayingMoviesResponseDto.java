@@ -1,6 +1,7 @@
 package org.example.dto.response.movie;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.example.domain.movie.AgeRating;
 import org.example.domain.movie.Genre;
 
@@ -8,6 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
+@Getter
 public class PlayingMoviesResponseDto {
     private String title;
     private String thumbnail;
