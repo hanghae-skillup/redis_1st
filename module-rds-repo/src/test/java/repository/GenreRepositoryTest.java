@@ -33,4 +33,21 @@ class GenreRepositoryTest {
 		assertNotNull(genreRepository);
 	}
 
+	@Test
+	@DisplayName("2. 장르 조회 확인")
+	public void findAllGenre() {
+		//given
+		List<String> dbList = List.of("로맨스", "드라마", "스릴러", "사극", "다큐멘터리", "SF", "가족", "뮤지컬", "액션");
+		List<Genre> genreList = genreRepository.findAll();
+
+		//when
+		List<String> nameList = genreList.stream().map(genre -> getValue(genre, "name", String.class))
+			.toList();
+
+		//then
+		assertEquals(nameList.size(), 9);
+		nameList.forEach(name -> {
+			assertTrue(dbList.contains(name));
+		});
+	}
 }
