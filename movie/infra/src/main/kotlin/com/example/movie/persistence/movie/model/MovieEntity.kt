@@ -1,7 +1,8 @@
-package com.example.movie.entity
+package com.example.movie.persistence.movie.model
 
 import com.example.movie.domain.movie.model.Movie
 import com.example.movie.domain.movie.model.Rating
+import com.example.movie.persistence.genre.model.GenreEntity
 import com.example.movie.persistence.common.BaseEntity
 import com.example.movie.persistence.screening.model.ScreeningEntity
 import jakarta.persistence.*

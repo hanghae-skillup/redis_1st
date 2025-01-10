@@ -1,4 +1,4 @@
-package com.example.movie.repository
+package com.example.movie.persistence.movie.repository
 
 import com.example.movie.domain.movie.model.Movie
 import com.example.movie.domain.movie.repository.MovieRepository
