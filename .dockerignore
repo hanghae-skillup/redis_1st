@@ -1,0 +1,19 @@
+# Gradle 관련 캐시 및 빌드 아티팩트
+**/.gradle/
+**/build/
+
+# IntelliJ IDEA 관련 파일
+.idea/
+*.iml
+
+# Git 관련 파일
+.git/
+.gitignore
+
+# 로그 파일
+*.log
+
+# 운영에 필요 없는 파일
+*.md
+*.bat
+.DS_Store
