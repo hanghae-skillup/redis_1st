@@ -1,0 +1,12 @@
+services:
+  my-db:
+    container_name: theater_mysql
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: theater
+    ports:
+      - 3306:3306
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d/
+    restart: always
