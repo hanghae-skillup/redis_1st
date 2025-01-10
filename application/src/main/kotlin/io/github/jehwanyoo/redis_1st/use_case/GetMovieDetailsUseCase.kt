@@ -12,7 +12,7 @@ import java.util.*
 @Service
 class GetMovieDetailsUseCase {
 
-    fun execute(): MovieDetail {
+    fun execute(): List<MovieDetail> {
         val movie = Movie(
             id = UUID.randomUUID(),
             title = "범죄도시",
@@ -37,10 +37,12 @@ class GetMovieDetailsUseCase {
             startTime = LocalDateTime.of(2025, 1, 10, 10, 0)
         )
 
-        return MovieDetail(
-            movie = movie,
-            screens = listOf(screen),
-            showTime = listOf(showTime),
+        return listOf(
+            MovieDetail(
+                movie = movie,
+                screens = listOf(screen),
+                showTime = listOf(showTime),
+            )
         )
     }
 }
