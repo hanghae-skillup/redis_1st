@@ -1,4 +1,4 @@
-package com.example.movie.movie.dto
+package com.example.movie.dto
 
 import com.example.movie.domain.movie.model.Genre
 import com.example.movie.domain.movie.model.Movie

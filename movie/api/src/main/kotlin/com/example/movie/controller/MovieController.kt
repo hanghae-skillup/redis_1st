@@ -1,6 +1,6 @@
-package com.example.movie.movie.controller
+package com.example.movie.controller
 
-import com.example.movie.movie.dto.MovieResponse
+import com.example.movie.dto.MovieResponse
 import com.example.movie.service.NowPlayingMoviesUseCase
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
