@@ -1,10 +1,12 @@
 package com.redis.movies.domain
 
 import jakarta.persistence.CascadeType
+import jakarta.persistence.Embeddable
 import jakarta.persistence.OneToMany
 import org.hibernate.annotations.BatchSize
 import java.util.Comparator
 
+@Embeddable
 open class ScreeningSchedules(
 
     @BatchSize(size = 1000)

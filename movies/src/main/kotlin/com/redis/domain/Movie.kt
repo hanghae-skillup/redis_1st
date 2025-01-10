@@ -12,7 +12,7 @@ class Movie(
 
     @Column(name = "film_ratings")
     @Enumerated(EnumType.STRING)
-    val filmRatings: String,
+    val filmRatings: FilmRatings,
 
     @Column(name = "release_date")
     val releaseDate: LocalDateTime,
@@ -29,6 +29,7 @@ class Movie(
     @Column(name = "cinema_id")
     val cinemaId: Long,
 
+    @Embedded
     val screeningSchedules: ScreeningSchedules = ScreeningSchedules(),
 
     @Id
