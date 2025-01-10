@@ -21,3 +21,47 @@ Clean Architecture 구조를 참조하여 4개의 멀티 모듈을 구성했습�
 
 - infrastructure
     - 외부 의존성을 가지는 인터페이스 구현체가 존재합니다.
+
+## 테이블 디자인
+
+```mermaid
+erDiagram
+    MOVIE {
+        UUID id PK "고유 식별자"
+        string title "타이틀"
+        date release_date "개봉일"
+        string thumbnail_url "썸네일 URL"
+        int runtime_minutes "러닝 타임 (분)"
+        UUID genre_id FK "장르 ID"
+        UUID rating_id FK "영상물 등급 ID"
+    }
+
+    GENRE {
+        UUID id PK "고유 식별자"
+        string name "장르 이름"
+    }
+
+    RATING {
+        UUID id PK "고유 식별자"
+        string name "등급 이름"
+    }
+
+    SCREEN {
+        UUID id PK "고유 식별자"
+        string name "상영관 이름"
+        int row "좌석 행 수"
+        int column "좌석 열 수"
+    }
+
+    SHOWTIME {
+        UUID id PK "고유 식별자"
+        UUID movie_id FK "영화 ID"
+        UUID screen_id FK "상영관 ID"
+        datetime start_time "시작 시간"
+    }
+
+    MOVIE ||--o{ SHOWTIME: "has"
+    GENRE ||--o{ MOVIE: "includes"
+    SCREEN ||--o{ SHOWTIME: "hosts"
+    RATING ||--o{ MOVIE: "assigns"
+```
