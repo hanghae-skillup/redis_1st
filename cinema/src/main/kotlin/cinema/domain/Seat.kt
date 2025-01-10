@@ -11,8 +11,8 @@ data class Seat(
     @Column(name = "row")
     val row: String,
 
-    @Column(name = "column")
-    val column: String,
+    @Column(name = "col")
+    val col: String,
 
     @ManyToOne
     @JoinColumn(name = "cinema_id")
