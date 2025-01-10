@@ -1,4 +1,4 @@
-package entity
+package io.github.jehwanyoo.redis_1st.entity
 
 import java.time.LocalDateTime
 import java.util.*

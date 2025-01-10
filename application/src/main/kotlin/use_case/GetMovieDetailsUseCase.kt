@@ -1,9 +1,9 @@
 package use_case
 
 import aggregate.MovieDetail
-import entity.Movie
-import entity.Screen
-import entity.ShowTime
+import io.github.jehwanyoo.redis_1st.entity.Movie
+import io.github.jehwanyoo.redis_1st.entity.Screen
+import io.github.jehwanyoo.redis_1st.entity.ShowTime
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.LocalDateTime
