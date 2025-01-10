@@ -9,12 +9,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dto.MovieDTO;
 import dto.ShowingDTO;
 import lombok.RequiredArgsConstructor;
+import module.entity.Showing;
 import module.repository.ShowingRepository;
 
 @Service
@@ -25,17 +25,17 @@ public class ShowingServiceImpl implements ShowingService {
 	private final ModelMapper modelMapper;
 
 	@Override
-	public List<Map<MovieDTO, List<ShowingDTO>>> getTodayShowing() {
+	public List<Map.Entry<MovieDTO, List<ShowingDTO>>> getTodayShowing() {
 		LocalDateTime from = LocalDateTime.now().plusMinutes(30);
 		LocalDateTime to = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
 
 		return showingRepository.findShowingsByStTimeBetween(from, to).stream()
 			.map(showingEntity -> modelMapper.map(showingEntity, ShowingDTO.class))
 			.collect(Collectors.groupingBy(ShowingDTO::getMovie))
-			.entrySet().stream()
+			.entrySet()
+			.stream()
 			.peek(entry -> entry.getValue().sort(Comparator.comparing(ShowingDTO::getStTime)))
 			.sorted(Map.Entry.comparingByKey(Comparator.comparing(MovieDTO::getOpenDay, Comparator.reverseOrder())))
-			.map(entry -> Map.of(entry.getKey(), entry.getValue()))
 			.toList();
 	}
 }
