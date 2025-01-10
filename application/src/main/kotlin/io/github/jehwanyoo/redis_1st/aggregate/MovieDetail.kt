@@ -1,4 +1,4 @@
-package aggregate
+package io.github.jehwanyoo.redis_1st.aggregate
 
 import io.github.jehwanyoo.redis_1st.entity.Movie
 import io.github.jehwanyoo.redis_1st.entity.Screen

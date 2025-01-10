@@ -1,6 +1,6 @@
-package use_case
+package io.github.jehwanyoo.redis_1st.use_case
 
-import aggregate.MovieDetail
+import io.github.jehwanyoo.redis_1st.aggregate.MovieDetail
 import io.github.jehwanyoo.redis_1st.entity.Movie
 import io.github.jehwanyoo.redis_1st.entity.Screen
 import io.github.jehwanyoo.redis_1st.entity.ShowTime
