@@ -54,11 +54,11 @@
     </facet>
   </component>
   <component name="NewModuleRootManager">
-    <output url="file://$MODULE_DIR$/../../images/build/classes/kotlin/main" />
+    <output url="file://$MODULE_DIR$/../../cinema2/build/classes/kotlin/main" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../images/src/main">
-      <sourceFolder url="file://$MODULE_DIR$/../../images/src/main/kotlin" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../images/src/main/resources" type="java-resource" />
+    <content url="file://$MODULE_DIR$/../../cinema2/src/main">
+      <sourceFolder url="file://$MODULE_DIR$/../../cinema2/src/main/kotlin" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../cinema2/src/main/resources" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

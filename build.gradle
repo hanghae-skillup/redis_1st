@@ -34,7 +34,7 @@ subprojects {
 }
 
 
-project(':images') {
+project(':cinema') {
     dependencies {
         implementation project(':common')
     }
@@ -43,5 +43,6 @@ project(':images') {
 project(':movies') {
     dependencies {
         implementation project(':common')
+        implementation project(':cinema')
     }
 }

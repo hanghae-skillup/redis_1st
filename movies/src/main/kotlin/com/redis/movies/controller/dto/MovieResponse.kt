@@ -2,6 +2,7 @@ package com.redis.movies.controller.dto
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.redis.cinema.domain.Cinema
 import com.redis.movies.domain.Movie
 import com.redis.movies.domain.MovieGenre
 import com.redis.movies.domain.ScreeningSchedules
@@ -33,14 +34,17 @@ data class MovieResponse(
     @JsonProperty(value = "genre")
     private val genre: String,
 
-    @JsonProperty(value = "theater_name")
-    private val theaterName: String,
+    @JsonProperty(value = "cinema_id")
+    private val cinemaId: Long?,
+
+    @JsonProperty(value = "cinema_name")
+    private val cinemaName: String,
 
     @JsonProperty(value = "screening_schedules")
     private val screeningSchedules: MutableList<ScreeningScheduleResponse>
 ) {
     companion object {
-        fun fromEntity(movie: Movie): MovieResponse {
+        fun fromEntity(movie: Movie, cinema: Cinema): MovieResponse {
             requireNotNull(movie.id) {}
             return MovieResponse(
                 id = movie.id,
@@ -50,7 +54,8 @@ data class MovieResponse(
                 thumbnailImagePath = movie.thumbnailImagePath,
                 runningTime = movie.runningTime,
                 genre= movie.genre.name,
-                theaterName = movie.theaterName,
+                cinemaId = cinema.id,
+                cinemaName = cinema.name,
                 screeningSchedules = movie.screeningSchedules.getsStartTimeOrderByDesc().map { ScreeningScheduleResponse.fromEntity(it) }.toMutableList()
             )
         }

@@ -2,10 +2,13 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="cinema" target="21" />
+      <module name="cinema.main" target="21" />
+      <module name="cinema.test" target="21" />
+      <module name="cinema2" target="21" />
       <module name="common" target="21" />
       <module name="common.main" target="21" />
       <module name="common.test" target="21" />
-      <module name="images" target="21" />
       <module name="images.main" target="21" />
       <module name="images.test" target="21" />
       <module name="movie" target="21" />
