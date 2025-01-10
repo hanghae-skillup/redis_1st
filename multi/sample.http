@@ -1,0 +1,20 @@
+###
+POST http://localhost:8080/user/save
+Content-Type: application/json
+
+{
+  "name": "hi",
+  "age": 11
+}
+
+###
+POST http://localhost:8080/screening
+Content-Type: application/json
+
+{
+  "movieId": 2,
+  "theaterId": 2,
+  "startTime": "2025-12-31T12:00:00",
+  "endTime": "2025-12-31T15:00:00",
+  "screeningDate": "2025-12-31T00:00:00"
+}
