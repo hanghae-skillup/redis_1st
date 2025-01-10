@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import entity.Genre;
 import entity.Movie;
+import entity.Rating;
 import entity.Showing;
 
 @DataJpaTest
@@ -49,7 +50,7 @@ class ShowingRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("2. 장르 조회 점검")
+	@DisplayName("2. 장르 및 영화등급 조회 테스트")
 	public void showingConditionCheck() {
 		// 영화별 장르 하나씩
 		//given
@@ -66,9 +67,14 @@ class ShowingRepositoryTest {
 		movieList.forEach(movie -> {
 			Genre genre = getValue(movie, "genre", Genre.class);
 			String genreName = getValue(genre, "name", String.class);
+			Rating rating = getValue(movie, "rating", Rating.class);
+			String ratingName = getValue(rating, "name", String.class);
 			assertNotNull(genre);
 			assertNotNull(genreName);
+			assertNotNull(rating);
+			assertNotNull(ratingName);
 			assertTrue(genreName.length() > 0);
+			assertTrue(ratingName.length() > 0);
 		});
 	}
 }
