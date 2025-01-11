@@ -1,5 +1,7 @@
 package com.hanghae.infrastructure.repository;
 
+import com.hanghae.domain.model.enums.MovieGenre;
+import com.hanghae.domain.model.enums.MovieRating;
 import com.hanghae.infrastructure.entity.MovieEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,10 +29,10 @@ public class MovieJpaRepositoryTest {
         // given
         MovieEntity movie = MovieEntity.builder()
                 .title("테스트제목")
-                .ratingId("111")
+                .rating(MovieRating.ALL)
                 .releaseDate(LocalDate.of(2025, 01, 10))
                 .runningTime(11L)
-                .genreId("333")
+                .genre(MovieGenre.ACTION)
                 .build();
 
         // when

@@ -8,10 +8,10 @@ public class MovieMapper {
         return new Movie(
                 movieEntity.getId(),
                 movieEntity.getTitle(),
-                movieEntity.getRatingId(),
+                movieEntity.getRating(),
                 movieEntity.getReleaseDate(),
                 movieEntity.getRunningTime(),
-                movieEntity.getGenreId(),
+                movieEntity.getGenre(),
                 UploadFileMapper.toDomain(movieEntity.getUploadFileEntity()),
                 movieEntity.getCreatedBy(),
                 movieEntity.getCreatedAt(),
@@ -24,10 +24,10 @@ public class MovieMapper {
         MovieEntity movieEntity = MovieEntity.builder()
                 .id(movie.getMovieId())
                 .title(movie.getTitle())
-                .ratingId(movie.getRatingId())
+                .rating(movie.getRating())
                 .releaseDate(movie.getReleaseDate())
                 .runningTime(movie.getRunningTime())
-                .genreId(movie.getGenreId())
+                .genre(movie.getGenre())
                 .uploadFileEntity(UploadFileMapper.toEntity(movie.getUploadFile()))
                 .createdBy(movie.getCreatedBy())
                 .createdAt(movie.getCreatedAt())

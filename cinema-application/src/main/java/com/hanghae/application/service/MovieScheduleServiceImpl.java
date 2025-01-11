@@ -38,11 +38,11 @@ public class MovieScheduleServiceImpl implements MovieScheduleService {
 
             return new MovieScheduleDto(
                     movie.getTitle(),
-                    movie.getRatingId(),
+                    movie.getRating().getCodeName(),
                     movie.getReleaseDate(),
                     thumbnailPath,
                     movie.getRunningTime(),
-                    movie.getGenreId(),
+                    movie.getGenre().getCodeName(),
                     schedule.getScreen().getScreenName(),
                     schedule.getShowStartDatetime()
             );

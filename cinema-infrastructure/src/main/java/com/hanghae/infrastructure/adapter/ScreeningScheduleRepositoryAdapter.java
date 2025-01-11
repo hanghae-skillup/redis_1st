@@ -24,17 +24,15 @@ public class ScreeningScheduleRepositoryAdapter implements ScreeningScheduleRepo
     @Override
     public List<ScreeningSchedule> findAll() {
         // jpa 엔티티 > 도메인 모델로 변환하여 리턴
-        List<ScreeningScheduleEntity> aaaa = repository.findAll();
-
         return repository.findAll().stream().map(entity -> new ScreeningSchedule(
                 entity.getId(),
                 new Movie(
                         entity.getMovieEntity().getId(),
                         entity.getMovieEntity().getTitle(),
-                        entity.getMovieEntity().getRatingId(),
+                        entity.getMovieEntity().getRating(),
                         entity.getMovieEntity().getReleaseDate(),
                         entity.getMovieEntity().getRunningTime(),
-                        entity.getMovieEntity().getGenreId(),
+                        entity.getMovieEntity().getGenre(),
                         UploadFileMapper.toDomain(entity.getMovieEntity().getUploadFileEntity()),
                         entity.getMovieEntity().getCreatedBy(),
                         entity.getMovieEntity().getCreatedAt(),
