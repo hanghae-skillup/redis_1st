@@ -1,12 +1,13 @@
-package com.project.domain.common;
+package com.bmsnc.adapter.out;
 
-import lombok.Getter;
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
-@Getter
 @MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
 
     @CreatedDate
@@ -20,5 +21,3 @@ public class BaseEntity {
     private Long createdAuthor;
     private Long updatedAuthor;
 }
-
-
