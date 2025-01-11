@@ -35,3 +35,18 @@ out/
 
 ### VS Code ###
 .vscode/
+
+.gitattributes
+
+application/.gitattributes
+
+*/.gitignore
+build.gradle
+
+gradlew
+gradlew.bat
+
+**/gradle/**/
+domain/.gitattributes
+domain/.gitignore
+*/gradlew*
