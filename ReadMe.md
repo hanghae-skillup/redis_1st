@@ -25,9 +25,13 @@ services:
 ```
 ### Docker-compose 실행
 ```shell
+mkdir test-dbdb-hanghaeho
+cd test-dbdb-hanghaeho
+git init 
+git pull https://github.com/dbdb1114/HangHaeHo
 docker-compose -p dbdb1114_hanghaeho up
 ```
-### 접속 확인 
+**접속 확인** <br> 
 http://localhost:8999
 
 
