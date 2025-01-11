@@ -5,7 +5,11 @@
 > java 21  
 > Mysql  
 
-**스프링부트 실행시 `AdapterApplication.java` 파일로 실행**
+**스프링부트 실행시 `AdapterApplication.java` 파일로 실행**  
+  
+`application.properties`파일은 `adapter`모듈에서 설정(DB포함 전부)
+    * 스프링부트를 실행시키는 `SpringApplication`가 위치한곳  
+   
   
 ### 적용 아키텍처
 > 헥사고날 아키텍처

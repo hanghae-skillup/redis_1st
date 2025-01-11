@@ -4,6 +4,7 @@ import com.hanghae.application.port.out.ScreeningScheduleRepositoryPort;
 import com.hanghae.domain.model.Movie;
 import com.hanghae.domain.model.Screen;
 import com.hanghae.domain.model.ScreeningSchedule;
+import com.hanghae.infrastructure.entity.ScreeningScheduleEntity;
 import com.hanghae.infrastructure.mapper.UploadFileMapper;
 import com.hanghae.infrastructure.repository.ScreeningScheduleRepositoryJpa;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,8 @@ public class ScreeningScheduleRepositoryAdapter implements ScreeningScheduleRepo
     @Override
     public List<ScreeningSchedule> findAll() {
         // jpa 엔티티 > 도메인 모델로 변환하여 리턴
+        List<ScreeningScheduleEntity> aaaa = repository.findAll();
+
         return repository.findAll().stream().map(entity -> new ScreeningSchedule(
                 entity.getId(),
                 new Movie(
