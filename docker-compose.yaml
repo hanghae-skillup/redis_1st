@@ -1,0 +1,13 @@
+services:
+  mysql:
+    image: 'mysql:5.7'
+    container_name: "mysql-container"
+    environment:
+      - 'MYSQL_DATABASE=hhcinema'
+      - 'MYSQL_PASSWORD=hh99pw'
+      - 'MYSQL_ROOT_PASSWORD=root01'
+      - 'MYSQL_USER=hhuser'
+    ports:
+      - "33306:3306"
+    volumes:
+      - ./init-scripts:/docker-entrypoint-initdb.d
