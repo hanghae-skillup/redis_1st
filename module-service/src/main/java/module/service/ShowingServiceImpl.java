@@ -32,10 +32,10 @@ public class ShowingServiceImpl implements ShowingService {
 		List<Showing> showingsByStTimeBetween = showingRepository.findShowingsByStTimeBetween(from, to);
 
 		// 금일 상영 정보가 아예 없을 경우 다음날 조회
-		if(showingsByStTimeBetween.isEmpty()){
+		if(showingsByStTimeBetween.isEmpty() || showingsByStTimeBetween.size() < 10){
 			LocalDateTime tomorrowFrom = LocalDateTime.of(LocalDate.now().plusDays(1L), LocalTime.MIN);
 			LocalDateTime tomorrowTo = to.plusDays(1L);
-			showingsByStTimeBetween = showingRepository.findShowingsByStTimeBetween(tomorrowFrom, tomorrowTo);
+			showingsByStTimeBetween.addAll(showingRepository.findShowingsByStTimeBetween(tomorrowFrom, tomorrowTo));
 		}
 
 		return showingsByStTimeBetween.stream()
