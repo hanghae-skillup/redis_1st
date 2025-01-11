@@ -23,6 +23,14 @@ repositories {
     mavenCentral()
 }
 
+bootJar {
+    enabled = true // module-app에서 실행 가능한 JAR 생성
+}
+
+jar {
+    enabled = false // module-app에서 기본 JAR 비활성화
+}
+
 dependencies {
     implementation project(':module-core')  // core 모듈 의존
     implementation project(':module-service')  // service 모듈 의존
