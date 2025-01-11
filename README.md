@@ -4,7 +4,7 @@
 
 ## PRE RUN
 ```shell
-docker compose -f ./docker/docker-compose.yml up
+  docker compose -f ./docker/docker-compose.yml up
 ```
 
 ## RUN API
@@ -12,6 +12,5 @@ docker compose -f ./docker/docker-compose.yml up
   ./gradlew api:bootrun
 ```
 
-# Guava
-- checkArgument → 생성자에서
-- checkStatus → 각 메서드에서
+## 의존성 흐름
+:domain -> :application -> :api
