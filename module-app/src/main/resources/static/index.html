@@ -88,7 +88,7 @@
 
 <script>
     async function fetchMovies() {
-        const response = await fetch('http://localhost:8080/showing/today-info');
+        const response = await fetch(`${window.location.origin}/showing/today-info`);
         const data = await response.json();
 
         const movieGrid = document.getElementById('movie-grid');
