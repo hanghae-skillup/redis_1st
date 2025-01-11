@@ -5,6 +5,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 1234
       MYSQL_DATABASE: theater
+      TZ: Asia/Seoul
+      CHARACTER_SET_SERVER: utf8mb4
     ports:
       - 3306:3306
     volumes:
