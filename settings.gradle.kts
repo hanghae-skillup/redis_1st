@@ -1,4 +1,4 @@
-rootProject.name = "skillup"
+rootProject.name = "cinema"
 
 include("core")
 include("data")

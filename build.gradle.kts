@@ -65,3 +65,7 @@ tasks.bootJar {
 tasks.jar {
     enabled = false
 }
+
+buildscript {
+    extra["mapstructVersion"] = "1.5.5.Final"
+}

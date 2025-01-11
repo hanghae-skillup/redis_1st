@@ -1,11 +1,11 @@
-package kr.spartacodingclub.skillup
+package kr.spartacodingclub.cinema
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
-@SpringBootApplication()
-class Redis1stApplication
+@SpringBootApplication
+class CinemaApplication
 
 fun main(args: Array<String>) {
-    runApplication<Redis1stApplication>(*args)
+    runApplication<CinemaApplication>(*args)
 }

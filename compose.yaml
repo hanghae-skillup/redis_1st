@@ -9,9 +9,11 @@ services:
       MYSQL_ROOT_PASSWORD: hanghae
     volumes:
       - mysql-data:/var/lib/mysql
+      - ./data/src/main/resources/db/migration:/docker-entrypoint-initdb.d
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
+      - --default-time-zone=+09:00
 
 volumes:
   mysql-data:
