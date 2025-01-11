@@ -5,17 +5,17 @@ INSERT INTO `tb_movie` (`movie_id`,`title`,`description`,`status`,`rating`,`genr
 INSERT INTO `tb_movie` (`movie_id`,`title`,`description`,`status`,`rating`,`genre`,`thumbnail`,`running_time`,`release_date`,`updated_at`,`created_at`) VALUES (3,'탑건:메버릭','해군 최고의 비행사 피트 미첼은 비행 훈련소에서 갓 졸업을 한 신입 비행사들 팀의 훈련을 맡게 된다. 자신을 좇는 과거의 기억과 위험천만한 임무 속에서 고군분투하는 그의 비상이 펼쳐진다.','SHOWING','TWELVE_ABOVE','ACTION','https://m.media-amazon.com/images/M/MV5BMDBkZDNjMWEtOTdmMi00NmExLTg5MmMtNTFlYTJlNWY5YTdmXkEyXkFqcGc@._V1_QL75_UX190_CR0,0,190,281_.jpg',130,'2022-05-18','2025-01-09 00:00:00','2025-01-09 00:00:00');
 INSERT INTO `tb_movie` (`movie_id`,`title`,`description`,`status`,`rating`,`genre`,`thumbnail`,`running_time`,`release_date`,`updated_at`,`created_at`) VALUES (4,'하얼빈','1908년 함경북도 신아산에서 안중근이 이끄는 독립군들은 일본군과의 전투에서 큰 승리를 거둔다. 대한의군 참모중장 안중근은 만국공법에 따라 전쟁포로인 일본인들을 풀어주게 되고, 이 사건으로 인해 독립군 사이에서는 안중근에 대한 의심과 함께 균열이 일기 시작한다.','SCHEDULED','FIFTEEN_ABOVE','ACTION','https://m.media-amazon.com/images/M/MV5BNmY4YzM5NzUtMTg4Yy00Yzc3LThlZDktODk4YjljZmNlODA0XkEyXkFqcGc@._V1_QL75_UY281_CR4,0,190,281_.jpg',113,'2024-12-24','2025-01-09 00:00:00','2025-01-09 00:00:00');
 
-INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (1,1,'08:00','09:45','2025-01-09 00:00:00','2025-01-09 00:00:00');
-INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (2,1,'10:00','11:45','2025-01-09 00:00:00','2025-01-09 00:00:00');
-INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (3,1,'13:00','14:45','2025-01-09 00:00:00','2025-01-09 00:00:00');
-INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (4,1,'15:30','17:15','2025-01-09 00:00:00','2025-01-09 00:00:00');
-INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (5,2,'10:30','12:15','2025-01-09 00:00:00','2025-01-09 00:00:00');
-INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (6,2,'14:30','16:15','2025-01-09 00:00:00','2025-01-09 00:00:00');
-INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (7,3,'11:30','14:15','2025-01-09 00:00:00','2025-01-09 00:00:00');
-INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (8,3,'15:40','17:25','2025-01-09 00:00:00','2025-01-09 00:00:00');
-INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (9,3,'18:50','20:45','2025-01-09 00:00:00','2025-01-09 00:00:00');
-INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (10,3,'07:30','09:50','2025-01-09 00:00:00','2025-01-09 00:00:00');
-INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (11,4,'11:10','13:05','2025-01-09 00:00:00','2025-01-09 00:00:00');
+INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (1,1,'08:00:00','09:45:00','2025-01-09 00:00:00','2025-01-09 00:00:00');
+INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (2,1,'10:00:00','11:45:00','2025-01-09 00:00:00','2025-01-09 00:00:00');
+INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (3,1,'13:00:00','14:45:00','2025-01-09 00:00:00','2025-01-09 00:00:00');
+INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (4,1,'15:30:00','17:15:00','2025-01-09 00:00:00','2025-01-09 00:00:00');
+INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (5,2,'10:30:00','12:15:00','2025-01-09 00:00:00','2025-01-09 00:00:00');
+INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (6,2,'14:30:00','16:15:00','2025-01-09 00:00:00','2025-01-09 00:00:00');
+INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (7,3,'11:30:00','14:15:00','2025-01-09 00:00:00','2025-01-09 00:00:00');
+INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (8,3,'15:40:00','17:25:00','2025-01-09 00:00:00','2025-01-09 00:00:00');
+INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (9,3,'18:50:00','20:45:00','2025-01-09 00:00:00','2025-01-09 00:00:00');
+INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (10,3,'07:30:00','09:50:00','2025-01-09 00:00:00','2025-01-09 00:00:00');
+INSERT INTO `tb_movie_showtime` (`showtime_id`,`movie_id`,`start`,`end`,`updated_at`,`created_at`) VALUES (11,4,'11:10:00','13:05:00','2025-01-09 00:00:00','2025-01-09 00:00:00');
 
 INSERT INTO `tb_theater` (`theater_id`,`name`,`updated_at`,`created_at`) VALUES (1,'강남점','2025-01-09 00:00:00','2025-01-09 00:00:00');
 INSERT INTO `tb_theater` (`theater_id`,`name`,`updated_at`,`created_at`) VALUES (2,'강북점','2025-01-09 00:00:00','2025-01-09 00:00:00');

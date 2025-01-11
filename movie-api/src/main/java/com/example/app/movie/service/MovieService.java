@@ -16,7 +16,7 @@ public class MovieService {
 
     private final MovieRepoService movieRepoService;
 
-    public List<MovieDto> getMovies(final MovieSearchRequest movieSearchRequest) {
+    public List<MovieDto> getMovies(MovieSearchRequest movieSearchRequest) {
         return movieRepoService.getMovies(movieSearchRequest.showDate(), MovieStatus.SHOWING)
                 .stream()
                 .map(MovieDto::toDto)
