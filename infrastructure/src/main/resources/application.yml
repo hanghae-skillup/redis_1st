@@ -5,6 +5,14 @@ spring:
     password: app_password
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
+    hibernate:
+      ddl-auto: create
+    defer-datasource-initialization: true
     properties:
       hibernate:
-        ddl-auto: none
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        show_sql: true
+        format_sql: true
+  sql:
+    init:
+      mode: always
