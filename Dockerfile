@@ -25,6 +25,6 @@ WORKDIR /app
 COPY --from=build /app/module-app/build/libs/*.jar app.jar
 
 # Spring Profile 설정 (prod로 고정)
-ENV SPRING_PROFILES_ACTIVE=prod
+ENV SPRING_PROFILES_ACTIVE=dev
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
