@@ -1,19 +1,35 @@
 plugins {
     id 'java'
+    id 'org.springframework.boot' version '3.4.1' apply false // 서브모듈에서 적용
+    id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'com.hanghaeho'
 version = '1.0-SNAPSHOT'
 
-repositories {
-    mavenCentral()
+allprojects {
+    repositories {
+        mavenCentral()
+    }
 }
 
-dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-}
+subprojects {
+    apply plugin: 'java'
 
-test {
-    useJUnitPlatform()
+    group = 'com.hanghaeho'
+    version = '1.0-SNAPSHOT'
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21) // 공통 Java 버전
+        }
+    }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8' // 공통 UTF-8 인코딩 설정
+    }
+
+    test {
+        useJUnitPlatform()
+    }
 }
