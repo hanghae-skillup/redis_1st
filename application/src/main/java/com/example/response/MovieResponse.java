@@ -1,12 +1,13 @@
 package com.example.response;
 
 import com.example.entity.Movie;
+import com.example.entity.MovieTheater;
 import com.example.entity.Screening;
+import com.example.entity.Theater;
 import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,7 +34,8 @@ public class MovieResponse {
 
     private static List<String> createTheaters(Movie movie) {
         return movie.getMovieTheaters().stream()
-                .map(movieTheater -> movieTheater.getTheater().getName())
+                .map(MovieTheater::getTheater)
+                .map(Theater::getName)
                 .collect(Collectors.toList());
     }
 
