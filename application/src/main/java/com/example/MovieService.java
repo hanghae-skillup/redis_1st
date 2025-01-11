@@ -14,7 +14,7 @@ public class MovieService {
 
     private final MovieRepository movieRepository;
 
-    public List<MovieResponse> getMovieList() {
+    public List<MovieResponse> getMovies() {
         return MoviesServiceResponse.of(movieRepository.findMovieWithScreeningAndTheater());
     }
 }
