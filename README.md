@@ -7,7 +7,7 @@
 - movie-api : 영화관리 및 상영 시간표와 관련된 API를 제공
 
 ### 프로젝트 설계
-![erd.png](erd.png)
+![erd2.png](erd2.png)
 - 데이터베이스 관계
-  - Movie ↔ Schedule: M:N
+  - Movie ↔ Schedule: 1:N
   - Movie ↔ Rating: N:1
