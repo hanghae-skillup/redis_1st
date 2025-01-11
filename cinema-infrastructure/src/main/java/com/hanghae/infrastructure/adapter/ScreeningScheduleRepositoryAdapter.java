@@ -4,9 +4,8 @@ import com.hanghae.application.port.out.ScreeningScheduleRepositoryPort;
 import com.hanghae.domain.model.Movie;
 import com.hanghae.domain.model.Screen;
 import com.hanghae.domain.model.ScreeningSchedule;
-import com.hanghae.infrastructure.mapper.ScreeningScheduleMapper;
 import com.hanghae.infrastructure.mapper.UploadFileMapper;
-import com.hanghae.infrastructure.repository.ScreeningScheduleJapRepository;
+import com.hanghae.infrastructure.repository.ScreeningScheduleRepositoryJpa;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,9 +14,9 @@ import java.util.stream.Collectors;
 @Component
 public class ScreeningScheduleRepositoryAdapter implements ScreeningScheduleRepositoryPort {
 
-    private final ScreeningScheduleJapRepository repository;
+    private final ScreeningScheduleRepositoryJpa repository;
 
-    public ScreeningScheduleRepositoryAdapter(ScreeningScheduleJapRepository repository) {
+    public ScreeningScheduleRepositoryAdapter(ScreeningScheduleRepositoryJpa repository) {
         this.repository = repository;
     }
 

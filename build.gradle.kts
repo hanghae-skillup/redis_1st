@@ -40,6 +40,8 @@ subprojects {
 		testImplementation("org.springframework.boot:spring-boot-starter-test")
 		annotationProcessor("org.projectlombok:lombok")
 		compileOnly("org.projectlombok:lombok")
+		testImplementation(platform("org.junit:junit-bom:5.10.0"))
+		testImplementation("org.junit.jupiter:junit-jupiter")
 	}
 }
 

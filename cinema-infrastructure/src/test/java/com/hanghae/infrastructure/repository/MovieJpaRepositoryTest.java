@@ -7,11 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -21,7 +19,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class MovieJpaRepositoryTest {
 
     @Autowired
-    private MovieJpaRepository repository;
+    private MovieRepositoryJpa repository;
 
     @Test
     @DisplayName("영화 조회")
