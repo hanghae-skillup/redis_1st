@@ -6,13 +6,13 @@ import com.example.app.movie.type.MovieStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
-@Service
+@Repository
 @RequiredArgsConstructor
 public class MovieRepoService {
 
