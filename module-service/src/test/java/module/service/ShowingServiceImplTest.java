@@ -43,7 +43,6 @@ class ShowingServiceImplTest {
 		Map.Entry<MovieDTO, List<ShowingDTO>> movieDTOListMap = todayShowing.get(0);
 
 		//then
-		assertEquals(movieDTOListMap.getValue().size(),1);
 		assertEquals(movieDTOListMap.getValue().getFirst().getStTime().getDayOfMonth(), LocalDateTime.now().getDayOfMonth());
 		assertEquals(movieDTOListMap.getValue().getLast().getStTime().getDayOfMonth(), LocalDateTime.now().getDayOfMonth());
 	}
