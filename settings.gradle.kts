@@ -1,5 +1,5 @@
 rootProject.name = "movie-booking-system"
 
-include("app-module")
-include("common-module")
-include("external-module")
+include("module-app")
+include("module-external")
+include("module-common")
