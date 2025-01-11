@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - "5499:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  app:
+    build:
+      context: .  # Dockerfile이 있는 디렉토리
+      dockerfile: Dockerfile  # 사용할 Dockerfile 지정 (옵션)
+    ports:
+      - "8999:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
