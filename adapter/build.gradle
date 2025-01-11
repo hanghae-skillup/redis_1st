@@ -1,0 +1,35 @@
+plugins {
+    id 'org.springframework.boot'  // Spring Boot 플러그인
+}
+
+group = 'com.hanghae'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':common')
+    implementation project(':domain')
+    implementation project(':application')
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'com.mysql:mysql-connector-j' // 데이터베이스 커넥터
+
+    // Spring Boot 기본 스타터 JSON 의존성
+    implementation 'org.springframework.boot:spring-boot-starter-json'
+
+    // Spring Boot Starter Test 의존성 (테스트 관련)
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.mockito:mockito-core:4.8.0'  // 최신 버전으로 설정
+    testImplementation 'net.bytebuddy:byte-buddy-agent:1.11.22'  // 최신 버전으로 설정
+}
+
+test {
+    useJUnitPlatform()
+}

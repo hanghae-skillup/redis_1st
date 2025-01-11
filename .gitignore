@@ -1,0 +1,26 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Visual Studio Code
+.vscode/
+# Gradle 캐시와 빌드 산출물
+.gradle/
+build/
+*/build/  # 모듈별 빌드 폴더
+
+# 환경 변수 파일
+.env
+
+# SSH 키 파일 (운영 환경에서 배포용)
+*.pem
+*.key
+
+# 로그 파일
+*.log
+*.out
