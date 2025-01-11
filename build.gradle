@@ -37,7 +37,6 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
         implementation 'org.springframework.boot:spring-boot-starter-validation'
         implementation 'org.springframework.boot:spring-boot-starter-web'
-        implementation 'org.springframework.boot:spring-boot-starter-security'
 
         // QueryDSL
         implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
@@ -54,7 +53,6 @@ subprojects {
         implementation 'commons-validator:commons-validator:1.9.0'
 
         runtimeOnly 'com.mysql:mysql-connector-j'
-        annotationProcessor 'org.projectlombok:lombok'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testImplementation 'org.springframework.boot:spring-boot-testcontainers'
         testImplementation 'org.springframework.batch:spring-batch-test'
@@ -70,23 +68,17 @@ subprojects {
 }
 
 tasks.named('test') {
-    dependsOn ':api:test', ':admin:test'
+    dependsOn ':domain:test', ':application:test', ':api:test'
 }
 
 tasks.named('wrapper') {
     gradleVersion = '8.11.1'
 }
 
-project(":domain") {
-    tasks.jar { enabled = true }
-}
-
 project(":application") {
     dependencies {
         implementation project(":domain")
     }
-
-    tasks.jar { enabled = true }
 }
 
 project(":api") {
@@ -94,6 +86,4 @@ project(":api") {
         implementation project(":domain")
         implementation project(":application")
     }
-
-    tasks.jar { enabled = true }
 }

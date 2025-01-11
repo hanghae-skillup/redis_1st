@@ -4,10 +4,10 @@
 
 ## PRE RUN
 ```shell
-  docker compose -f ./docker/docker-compose.yml up
+docker compose -f ./docker/docker-compose.yml up
 ```
 
-## RUN ADMIN
+## RUN API
 ```shell
   ./gradlew api:bootrun
 ```
