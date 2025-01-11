@@ -16,7 +16,9 @@ subprojects {
         testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
     }
 
-    tasks.withType(Test) {
-        useJUnitPlatform()
+    tasks.withType(Test).tap {
+        configureEach {
+            useJUnitPlatform()
+        }
     }
 }
