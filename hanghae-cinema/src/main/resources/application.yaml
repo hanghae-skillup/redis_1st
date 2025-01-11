@@ -1,8 +1,11 @@
 spring:
+  docker:
+    componse:
+      lifecycle-management: start_only
   datasource:
-    url: jdbc:mysql://localhost:3306/your_database_name?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8
-    username: username
-    password: password
+    url: jdbc:mysql://localhost:3306/mydatabase?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8
+    username: myuser
+    password: mypassword
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -12,6 +15,7 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
     format-sql: true
+
   application:
     name: hanghae-cinema
 
