@@ -2,15 +2,12 @@ package com.dpflsy.movie.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import java.time.LocalTime;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Setter
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +15,7 @@ public class Schedule {
 
     private String screenName;
     private LocalDateTime startTime;
+    private LocalDateTime endTime;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,6 +28,10 @@ public class Schedule {
 
     public LocalDateTime getStartTime() {
         return startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
     }
 
     public void setStartTime(LocalDateTime startTime) {

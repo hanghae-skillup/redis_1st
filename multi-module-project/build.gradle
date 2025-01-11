@@ -11,7 +11,7 @@ repositories {
 subprojects {
 	group = 'com.dpflsy'
 	version = '1.0.0'
-	sourceCompatibility = '17'
+	sourceCompatibility = '21'
 
 	apply plugin: 'java'
 	apply plugin: 'java-library'
@@ -36,8 +36,8 @@ subprojects {
 		developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 		// Lombok
-		compileOnly 'org.projectlombok:lombok:1.18.22'
-		annotationProcessor 'org.projectlombok:lombok:1.18.22'
+		compileOnly 'org.projectlombok:lombok'
+		annotationProcessor 'org.projectlombok:lombok'
 	}
 	test {
 		useJUnitPlatform()

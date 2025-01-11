@@ -13,7 +13,7 @@ import java.util.List;
 public class MovieController {
     private final MovieService movieService;
 
-    @GetMapping("/movies/now-playing")
+    @GetMapping("/api/movies/now-playing")
     public List<MovieResponse> getNowPlayingMovies() {
         return movieService.getNowPlayingMovies();
     }

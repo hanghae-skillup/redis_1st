@@ -17,7 +17,7 @@ jar {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
@@ -28,8 +28,6 @@ repositories {
 dependencies {
     implementation project(':common')
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
     runtimeOnly 'com.mysql:mysql-connector-j'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }

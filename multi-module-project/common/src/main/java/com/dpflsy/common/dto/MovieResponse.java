@@ -20,5 +20,6 @@ public class MovieResponse {
     public static class ScheduleResponse {
         private Long id;
         private LocalDateTime startTime;
+        private LocalDateTime endTime;
     }
 }

@@ -1,3 +1,3 @@
 ### 현재 상영 중인 영화 목록 조회
-GET http://localhost:8080/movies/now-playing
+GET http://localhost:8080/api/movies/now-playing
 Accept: application/json

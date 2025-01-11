@@ -33,6 +33,7 @@ public class MovieService {
                                 MovieResponse.ScheduleResponse scheduleResponse = new MovieResponse.ScheduleResponse();
                                 scheduleResponse.setId(schedule.getId());
                                 scheduleResponse.setStartTime(schedule.getStartTime());
+                                scheduleResponse.setEndTime(schedule.getEndTime());
                                 return scheduleResponse;
                             })
                             .collect(Collectors.toList())
