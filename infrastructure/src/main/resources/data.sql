@@ -1,5 +1,3 @@
-USE app_db;
-
 -- MOVIE 초기 데이터 삽입
 INSERT INTO MOVIE (id, title, release_date, thumbnail_url, runtime_minutes, genre, rating)
 VALUES
