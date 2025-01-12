@@ -6,12 +6,12 @@ spring:
     password: Tlmm3PjdJ*
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: update # 데이터 손실을 방지
+      dialect: org.hibernate.dialect.MySQLDialect # MySQL 8.x 버전 호환
     properties:
       hibernate:
-        format_sql: true # SQL을 보기 좋게 출력
-        default_schema: hanghaeho
+        format_sql: true
+        show_sql: true
 
 logging:
   level:
