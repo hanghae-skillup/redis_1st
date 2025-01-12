@@ -1,1 +1,5 @@
 rootProject.name = 'hanghae-cinema'
+include 'domain'
+include 'application'
+include 'adapter'
+
