@@ -1,16 +1,16 @@
 package com.hh.presentation.response;
 
-import com.hh.domain.dto.MovieDto;
-import com.hh.domain.dto.ScreenDto;
-import com.hh.domain.dto.TheaterDto;
+import com.hh.domain.movie.dto.MovieDto;
+import com.hh.domain.movie.dto.ScreenDto;
+import com.hh.domain.movie.dto.TheaterDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.Set;
 
+@ToString
 @Getter
 @AllArgsConstructor
 public class ScreenResponse {

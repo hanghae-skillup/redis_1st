@@ -46,7 +46,3 @@ build.gradle
 gradlew
 gradlew.bat
 
-**/gradle/**/
-domain/.gitattributes
-domain/.gitignore
-*/gradlew*
