@@ -1,6 +1,9 @@
 package com.bmsnc.adapter.out.persistence;
 
 import com.bmsnc.adapter.out.BaseEntity;
+import com.bmsnc.applicaion.domain.model.MovieModel;
+import com.bmsnc.common.dto.MovieGenre;
+import com.bmsnc.common.dto.MovieGrade;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,5 +29,18 @@ public class Movie extends BaseEntity {
     private String movieImageUrl;
     private Long runningTime;
     private MovieGenre movieGenre;
+
+    public MovieModel toModel() {
+        return MovieModel.builder()
+                .movieId(movieId)
+                .movieName(movieName)
+                .movieGrade(movieGrade)
+                .movieReleaseAt(movieReleaseAt)
+                .movieImageUrl(movieImageUrl)
+                .runningTime(runningTime)
+                .movieGenre(movieGenre)
+                .build();
+
+    }
 
 }

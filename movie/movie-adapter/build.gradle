@@ -4,6 +4,7 @@ version = '0.0.1-SNAPSHOT'
 
 dependencies {
     implementation project(':movie-application')
+    implementation project(':movie-common')
     runtimeOnly 'com.mysql:mysql-connector-j'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
