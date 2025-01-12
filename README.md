@@ -9,8 +9,29 @@
   
 `application.properties`파일은 `adapter`모듈에서 설정(DB포함 전부)
     * 스프링부트를 실행시키는 `SpringApplication`가 위치한곳  
-   
   
+  
+### 도커컴포즈  
+* 도커컴포즈 설정파일
+    * `docker-compose.yml`  
+      * 탭: ❌, 스페이스바 2번: ⭕ 
+    
+* 도커컴포즈 변수 파일
+    * `.env`
+      * 보안을 위해 `.gitignore`에 추가해야 하지만 교육과제므로 github에 올림 
+      * `.env.dev`, `.env.prod` 나누어 환경별로 다르게 적용도 가능
+
+* 도커컴포즈 명령어
+    * 실행 : $docker-compose up -d
+    * 종료 : $docker-compose down
+    * 실행 상태 확인 : $docker-compose ps
+    * 볼륨 재거 : $docker-compose down --volumes
+    * 로그 확인 : $docker-compose logs -f // `-f`옵션을 주면 실시간
+    * 특정 서비스 시작 : $docker-compose start <서비스 이름>
+    * 특정 서비스 종료 : $docker-compose stop <서비스 이름>
+  
+    
+--------------------------------------------------------------
 ### 적용 아키텍처
 > 헥사고날 아키텍처
 
