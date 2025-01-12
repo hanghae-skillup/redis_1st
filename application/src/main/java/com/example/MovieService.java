@@ -4,6 +4,7 @@ import com.example.repository.MovieRepository;
 import com.example.response.MovieResponse;
 import com.example.response.MoviesServiceResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,6 @@ public class MovieService {
     private final MovieRepository movieRepository;
 
     public List<MovieResponse> getMovies() {
-        return MoviesServiceResponse.of(movieRepository.findMovieWithScreeningAndTheater());
+        return MoviesServiceResponse.of(movieRepository.findMovieWithScreeningAndTheater(Sort.by(Sort.Order.desc("releaseDate"))));
     }
 }
