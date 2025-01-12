@@ -28,8 +28,8 @@ public class Seats extends BaseEntity{
 	private Screen screen;
 
 	@Column(nullable = false)
-	private String row;
+	private String seatRow;
 
 	@Column(nullable = false)
-	private Integer number;
+	private Integer seatNumber;
 }
