@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -19,8 +20,10 @@ public class RunningMoviesAdapter implements RunningMoviesPort {
     @Override
     public List<MovieModel> getRunningMovies(RunningMovieCommand command) {
         return movieRepository.getRunningMovies(command.getTheaterId(), command.getNow())
-                        .stream().map(movieTheaterInfo -> movieTheaterInfo.getMovie().toModel())
+                        .stream()
+                .map(MovieTheaterInfo::getMovie)
+                .filter(Objects::nonNull)
+                .map(Movie::toModel)
                 .collect(Collectors.toList());
-
     }
 }
