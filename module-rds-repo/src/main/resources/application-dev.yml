@@ -1,9 +1,9 @@
 spring:
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://host.docker.internal:5499/postgres
-    username: postgres
-    password: postgres
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://host.docker.internal:3300/hanghaeho
+    username: root
+    password: Tlmm3PjdJ*
   jpa:
     hibernate:
       ddl-auto: update
