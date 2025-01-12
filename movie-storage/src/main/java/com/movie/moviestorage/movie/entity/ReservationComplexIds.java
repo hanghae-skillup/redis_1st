@@ -16,9 +16,9 @@ import java.util.Objects;
 @AllArgsConstructor
 public class ReservationComplexIds {
 
-    @Column(name = "schedule_id")
+    @Column(columnDefinition = "BIGINT UNSIGNED")
     private Long scheduleId;
-    @Column(name = "seat_id")
+    @Column(columnDefinition = "BIGINT UNSIGNED")
     private Long seatId;
 
     @Override

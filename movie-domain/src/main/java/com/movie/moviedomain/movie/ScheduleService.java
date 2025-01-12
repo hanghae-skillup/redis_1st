@@ -28,7 +28,8 @@ public class ScheduleService {
                     .toList();
             Schedule schedule = entry.getValue().get(0);
 
-            return ScheduleInfo.Get.of(schedule.getId(), TheaterInfo.Get.from(schedule.getTheater()),
+            return ScheduleInfo.Get.of(
+                    schedule.getId(), TheaterInfo.Get.from(schedule.getTheater()),
                     ScreenInfo.Get.from(schedule.getScreen()), MovieInfo.Get.from(schedule.getMovie()),
                     timeTables
             );

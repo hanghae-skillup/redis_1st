@@ -15,6 +15,7 @@ import java.util.Objects;
 public class TheaterEntity extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "BIGINT UNSIGNED")
     private Long id;
 
     @Column(columnDefinition = "VARCHAR(100) NOT NULL COMMENT '극장명'")

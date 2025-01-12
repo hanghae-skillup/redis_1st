@@ -15,6 +15,7 @@ import java.util.Objects;
 public class SeatEntity extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "BIGINT UNSIGNED")
     private Long id;
 
     private Long screenId;

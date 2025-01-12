@@ -19,15 +19,15 @@ public class ScheduleEntity extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "theater_id")
+    @JoinColumn(name = "theater_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private TheaterEntity theater;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "screen_id")
+    @JoinColumn(name = "screen_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private ScreenEntity screen;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_id")
+    @JoinColumn(name = "movie_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private MovieEntity movie;
 
     private LocalDateTime startTime;
