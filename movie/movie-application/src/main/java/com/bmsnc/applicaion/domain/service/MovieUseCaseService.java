@@ -6,6 +6,7 @@ import com.bmsnc.applicaion.port.in.RunningMovieCommand;
 import com.bmsnc.applicaion.port.out.RunningMoviesPort;
 import com.bmsnc.common.Result;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 
@@ -18,7 +19,9 @@ public class MovieUseCaseService implements MovieUseCase {
     @Override
     public Result getRunningMovies(RunningMovieCommand command) {
 
-
-        return new Result();
+        return Result.builder()
+                .status(HttpStatus.OK.value())
+                .data(runningMoviesPort.getRunningMovies(command))
+                .build();
     }
 }
