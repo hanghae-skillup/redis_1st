@@ -1,3 +1,40 @@
-## [본 과정] 이커머스 핵심 프로세스 구현
-[단기 스킬업 Redis 교육 과정](https://hh-skillup.oopy.io/) 을 통해 상품 조회 및 주문 과정을 구현하며 현업에서 발생하는 문제를 Redis의 핵심 기술을 통해 해결합니다.
-> Indexing, Caching을 통한 성능 개선 / 단계별 락 구현을 통한 동시성 이슈 해결 (낙관적/비관적 락, 분산락 등)
+## 프로젝트 설명
+상영중인 영화 조회 및 예약 시스템 입니다. 
+
+### 1. 기본 구성
+- SpringBoot 3.3
+- Java 21
+- Gradle
+- JPA
+- MYSQL 5.7
+- Docker Compose
+  <br><br>
+### 2. 아키텍처 설계
+- 멀티 모듈 및 레이어드 아키텍처 구성
+  <br>
+
+### 3. 디렉토리 구조
+hhCinema/
+
+├── application/          
+├── domain/          
+├── infrastructure/       
+├── presentation/               
+├── init-scripts/                
+├── docker-compose.yml    
+├── build.gradle          
+└── settings.gradle     
+
+  <br>
+  
+### 4. ER 다이어그림
+
+![hhCinema_ERD](https://github.com/user-attachments/assets/d8a3fa87-bb47-4fcf-9dc8-ad0bad6f3f96)
+
+
+
+
+
+
+
+ 
