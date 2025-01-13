@@ -1,4 +1,4 @@
-package com.example.movie.api.common;
+package com.example.movie.common.api;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,5 +27,9 @@ public class ApiResponse<D>{
 
     public static <D> ApiResponse<D> success(D data) {
         return new ApiResponse<>(HttpStatus.OK, data);
+    }
+
+    public static ApiResponse<?> exception(HttpStatus responseType) {
+        return new ApiResponse<>(responseType, null);
     }
 }

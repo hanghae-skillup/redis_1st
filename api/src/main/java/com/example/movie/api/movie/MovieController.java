@@ -2,7 +2,7 @@ package com.example.movie.api.movie;
 
 import com.example.movie.application.service.movie.MovieService;
 import com.example.movie.application.service.movie.dto.MovieResult;
-import com.example.movie.api.common.ApiResponse;
+import com.example.movie.common.api.ApiResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;

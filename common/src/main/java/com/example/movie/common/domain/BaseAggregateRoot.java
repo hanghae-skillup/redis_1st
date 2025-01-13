@@ -1,4 +1,4 @@
-package com.example.movie.domain.common;
+package com.example.movie.common.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

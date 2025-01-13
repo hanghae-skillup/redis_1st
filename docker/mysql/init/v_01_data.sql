@@ -138,3 +138,59 @@ VALUES
     (NOW(), NOW(), '02:00:00', '00:00:00', 10),
     (NOW(), NOW(), '04:00:00', '02:00:00', 10),
     (NOW(), NOW(), '06:00:00', '04:00:00', 10);
+
+
+-- 각 스케줄별 좌석별 티켓 삽입
+INSERT INTO movie.ticket (created_at, updated_at, seats_col, seats_row, schedule_id)
+SELECT NOW(), NOW(), seats_col, seats_row, schedule_id
+FROM (
+         SELECT 'A' AS seats_col, 'R_1' AS seats_row, schedule.id AS schedule_id FROM movie.schedule
+         UNION ALL
+         SELECT 'A', 'R_2', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'A', 'R_3', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'A', 'R_4', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'A', 'R_5', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'B', 'R_1', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'B', 'R_2', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'B', 'R_3', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'B', 'R_4', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'B', 'R_5', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'C', 'R_1', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'C', 'R_2', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'C', 'R_3', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'C', 'R_4', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'C', 'R_5', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'D', 'R_1', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'D', 'R_2', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'D', 'R_3', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'D', 'R_4', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'D', 'R_5', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'E', 'R_1', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'E', 'R_2', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'E', 'R_3', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'E', 'R_4', schedule.id FROM movie.schedule
+         UNION ALL
+         SELECT 'E', 'R_5', schedule.id FROM movie.schedule
+     ) AS seats;
