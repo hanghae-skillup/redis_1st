@@ -6,10 +6,9 @@ import io.github.jehwanyoo.redis_1st.model.Screen
 import io.github.jehwanyoo.redis_1st.model.ShowTime
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.util.*
 
 data class MovieResponse(
-    @JsonProperty("movie_id") val movieId: UUID,               // 영화 고유 식별자
+    @JsonProperty("movie_id") val movieId: Long,               // 영화 고유 식별자
     @JsonProperty("title") val title: String,                  // 타이틀
     @JsonProperty("rating") val rating: String,                // 영상물 등급
     @JsonProperty("genre") val genre: String,                  // 장르
@@ -39,7 +38,7 @@ data class MovieResponse(
 }
 
 data class ScreenResponse(
-    @JsonProperty("screen_id") val screenId: UUID,                      // 상영관 고유 식별자
+    @JsonProperty("screen_id") val screenId: Long,                      // 상영관 고유 식별자
     @JsonProperty("screen_name") val screenName: String,                // 상영관 이름
     @JsonProperty("show_times") val showTimes: List<ShowTimeResponse>,  // 상영 시간 정보 리스트
     @JsonProperty("row") val row: Int,                                  // 좌석 행 수
@@ -61,7 +60,7 @@ data class ScreenResponse(
 }
 
 data class ShowTimeResponse(
-    @JsonProperty("show_time_id") val showTimeId: UUID,        // 상영 시간 고유 식별자
+    @JsonProperty("show_time_id") val showTimeId: Long,        // 상영 시간 고유 식별자
     @JsonProperty("start_time") val startTime: LocalDateTime   // 상영 시작 시간
 ) {
     companion object {
