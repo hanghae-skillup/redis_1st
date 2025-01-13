@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         scanBasePackages = {"com.hh.presentation","com.hh.application","com.hh.domain","com.hh.infrastructure"}
 )
 @EntityScan("com.hh.domain")
-@EnableJpaRepositories("com.hh.infrastructure")
 public class PresentationApplication {
 
   public static void main(String[] args) {

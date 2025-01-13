@@ -13,13 +13,8 @@ public class Theater extends AuditingFields {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private int id;
 
-  @Column(nullable = false)
   private String name;
-
-  @OneToMany
-  private final List<Screen> theaterScreens = new ArrayList<>();
-
 
 }

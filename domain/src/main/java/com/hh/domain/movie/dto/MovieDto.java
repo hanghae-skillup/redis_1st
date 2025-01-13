@@ -11,7 +11,7 @@ import java.util.Date;
 @Getter
 @AllArgsConstructor
 public class MovieDto {
-  private Long id;
+  private int id;
 
   private String title;
 

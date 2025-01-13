@@ -25,7 +25,8 @@ public class ScreenResponse {
     private String startTime;
     private String endTime;
 
-    public static ScreenResponse from(ScreenDto dto) {
+    // TODO QueryDsl 적용후 개선 예정
+    /*public static ScreenResponse from(ScreenDto dto) {
         MovieDto movieDto = dto.getMovie();
         TheaterDto theaterDto = dto.getTheater();
 
@@ -44,5 +45,5 @@ public class ScreenResponse {
                 dto.getEndTime().format(timeFormatter)
 
         );
-    }
+    }*/
 }

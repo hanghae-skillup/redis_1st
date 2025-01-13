@@ -10,12 +10,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ScreenDto {
 
-  private Long id;
+  private int id;
 
-  private MovieDto movie;
+  private int movieId;
 
-  private TheaterDto theater;
-
+  private int theaterId;
 
   protected LocalDateTime startTime;
 
@@ -24,8 +23,8 @@ public class ScreenDto {
   public static ScreenDto from(Screen entity) {
     return new ScreenDto(
             entity.getId(),
-            MovieDto.from(entity.getMovie()),
-            TheaterDto.from(entity.getTheater()),
+            entity.getMovieId(),
+            entity.getTheaterId(),
             entity.getStartTime(),
             entity.getEndTime()
     );

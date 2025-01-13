@@ -21,6 +21,8 @@ public class MovieController {
 
   @GetMapping
   public Response<List<ScreenResponse>> screenList(){
-    return Response.success(movieService.getMovieScreen().stream().map(ScreenResponse::from).toList());
+    // TODO QueryDsl 적용후 개선 예정
+    return null;
+    //return Response.success(movieService.getMovieScreen().stream().map(ScreenResponse::from).toList());
   }
 }

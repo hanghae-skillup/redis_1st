@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class TheaterDto {
-  private Long id;
+  private int id;
 
   private String name;
 
