@@ -4,6 +4,6 @@ spring:
       ddl-auto: none
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:33060/movie?serverTimezone=Asia/Seoul&profileSQL=true
+    url: jdbc:mysql://localhost:33060/movie?serverTimezone=Asia/Seoul&profileSQL=true&characterEncoding=UTF-8&useUnicode=true
     username: root
     password: root
