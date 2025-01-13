@@ -1,6 +1,3 @@
-
-use movie;
-
 CREATE TABLE `member` (
                           `member_id`	BIGINT	NOT NULL,
                           `member_name`	VARCHAR(255)	NULL,
@@ -73,30 +70,16 @@ CREATE TABLE `movie_theater_info` (
                                       `updated_author`	BIGINT	NULL
 );
 
-ALTER TABLE `member` ADD CONSTRAINT `PK_MEMBER` PRIMARY KEY (
-                                                             `member_id`
-    );
+ALTER TABLE `member` ADD CONSTRAINT `PK_MEMBER` PRIMARY KEY (`member_id`);
 
-ALTER TABLE `movie` ADD CONSTRAINT `PK_MOVIE` PRIMARY KEY (
-                                                           `movie_id`
-    );
+ALTER TABLE `movie` ADD CONSTRAINT `PK_MOVIE` PRIMARY KEY (`movie_id`);
 
-ALTER TABLE `theater` ADD CONSTRAINT `PK_THEATER` PRIMARY KEY (
-                                                               `theater_id`
-    );
+ALTER TABLE `theater` ADD CONSTRAINT `PK_THEATER` PRIMARY KEY (`theater_id`);
 
-ALTER TABLE `schedule` ADD CONSTRAINT `PK_SCHEDULE` PRIMARY KEY (
-                                                                 `schedule_id`
-    );
+ALTER TABLE `schedule` ADD CONSTRAINT `PK_SCHEDULE` PRIMARY KEY (`schedule_id`);
 
-ALTER TABLE `seatInfo` ADD CONSTRAINT `PK_SEATINFO` PRIMARY KEY (
-                                                                 `seatInfo_id`
-    );
+ALTER TABLE `seatInfo` ADD CONSTRAINT `PK_SEATINFO` PRIMARY KEY (`seatInfo_id`);
 
-ALTER TABLE `reservation` ADD CONSTRAINT `PK_RESERVATION` PRIMARY KEY (
-                                                                       `reservation_id`
-    );
+ALTER TABLE `reservation` ADD CONSTRAINT `PK_RESERVATION` PRIMARY KEY (`reservation_id`);
 
-ALTER TABLE `movie_theater_info` ADD CONSTRAINT `PK_MOVIE_THEATER_INFO` PRIMARY KEY (
-                                                                                     `movie_theater_info_id`
-    );
+ALTER TABLE `movie_theater_info` ADD CONSTRAINT `PK_MOVIE_THEATER_INFO` PRIMARY KEY (`movie_theater_info_id`);

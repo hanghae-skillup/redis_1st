@@ -12,5 +12,7 @@ dependencies {
     implementation project(':movie-common')
 
     runtimeOnly 'com.mysql:mysql-connector-j'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
 }
