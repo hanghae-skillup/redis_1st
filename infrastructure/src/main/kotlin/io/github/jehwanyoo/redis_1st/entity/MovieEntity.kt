@@ -1,15 +1,15 @@
-package io.github.jehwanyoo.redis_1st.model
+package io.github.jehwanyoo.redis_1st.entity
 
+import io.github.jehwanyoo.redis_1st.model.Movie
 import jakarta.persistence.*
 import java.time.LocalDate
-import java.util.*
 
 @Entity
-@Table(name = "MOVIE")
-class DbMovie(
+@Table(name = "movie")
+class MovieEntity(
     @Id
-    @GeneratedValue
-    val id: UUID,                       // UUID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long,                       // UUID
 
     @Column(nullable = false)
     val title: String,                  // 영화 제목
@@ -38,16 +38,4 @@ class DbMovie(
         genre = genre,
         rating = rating
     )
-
-    companion object {
-        fun fromDomain(movie: Movie): DbMovie = DbMovie(
-            id = movie.id,
-            title = movie.title,
-            releaseDate = movie.releaseDate,
-            thumbnailUrl = movie.thumbnailUrl,
-            runtimeMinutes = movie.runtimeMinutes,
-            genre = movie.genre,
-            rating = movie.rating
-        )
-    }
 }
