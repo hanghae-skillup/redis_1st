@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dto.internal.MovieDTO;
-import dto.internal.ShowingDTO;
+import dto.external.MovieShowingResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import dto.external.ShowingResponse;
 import module.service.ShowingService;
 
 @Slf4j
@@ -25,20 +23,14 @@ public class ShowingController {
 	private final ShowingService showingService;
 	private final ModelMapper modelMapper;
 
-	@GetMapping("/today-info")
+	@GetMapping("/all")
 	public ResponseEntity<Map> getTodayShowing() {
-		List<Map.Entry<MovieDTO, List<ShowingDTO>>> todayShowing = showingService.getTodayShowing();
+		List<MovieShowingResponse> allShowingList = showingService.getTodayShowing();
 
-		List<Map<String, Object>> responseData = todayShowing.stream()
-			.map(entry -> Map.entry(entry.getKey(), entry.getValue().stream()
-				.map(val -> modelMapper.map(val, ShowingResponse.class)).toList()))
-			.map(entry -> Map.of("movie", entry.getKey(), "timeTable", entry.getValue()))
-			.toList();
-
-		if (responseData.isEmpty()) {
+		if (allShowingList.isEmpty()) {
 			return ResponseEntity.noContent().build();
 		} else {
-			return ResponseEntity.ok(Map.of("data", responseData));
+			return ResponseEntity.ok(Map.of("data", allShowingList));
 		}
 	}
 }

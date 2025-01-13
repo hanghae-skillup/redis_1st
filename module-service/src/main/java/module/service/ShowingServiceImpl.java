@@ -3,7 +3,6 @@ package module.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -11,7 +10,7 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import dto.internal.MovieDTO;
+import dto.external.MovieShowingResponse;
 import dto.internal.ShowingDTO;
 import lombok.RequiredArgsConstructor;
 import module.entity.Showing;
@@ -25,25 +24,28 @@ public class ShowingServiceImpl implements ShowingService {
 	private final ModelMapper modelMapper;
 
 	@Override
-	public List<Map.Entry<MovieDTO, List<ShowingDTO>>> getTodayShowing() {
-		LocalDateTime from = LocalDateTime.now().plusMinutes(30);
-		LocalDateTime to = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
+	public List<MovieShowingResponse> getTodayShowing() {
+		LocalDateTime today = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
+		List<Showing> showings = showingRepository.findShowingsByStTime(today); // 금일 이후로 상영하는 모든 상영정보
 
-		List<Showing> showingsByStTimeBetween = showingRepository.findShowingsByStTimeBetween(from, to);
+		Map<Long, List<ShowingDTO>> groupedShowings = groupShowingsByMovie(showings);
 
-		// 금일 상영 정보가 아예 없을 경우 다음날 조회
-		if(showingsByStTimeBetween.isEmpty() || showingsByStTimeBetween.size() < 10){
-			LocalDateTime tomorrowFrom = LocalDateTime.of(LocalDate.now().plusDays(1L), LocalTime.MIN);
-			LocalDateTime tomorrowTo = to.plusDays(1L);
-			showingsByStTimeBetween.addAll(showingRepository.findShowingsByStTimeBetween(tomorrowFrom, tomorrowTo));
-		}
-
-		return showingsByStTimeBetween.stream()
-			.map(showingEntity -> modelMapper.map(showingEntity, ShowingDTO.class))
-			.collect(Collectors.groupingBy(ShowingDTO::getMovie))
-			.entrySet().stream()
-			.peek(entry -> entry.getValue().sort(Comparator.comparing(ShowingDTO::getStTime)))
-			.sorted(Map.Entry.comparingByKey(Comparator.comparing(MovieDTO::getOpenDay, Comparator.reverseOrder())))
-			.toList();
+		return groupedShowings.entrySet().stream()
+			.map(entry -> createMovieShowingResponse(entry.getValue()))
+			.collect(Collectors.toList());
 	}
+
+	private Map<Long, List<ShowingDTO>> groupShowingsByMovie(List<Showing> showings) {
+		return showings.stream()
+			.map(showing -> modelMapper.map(showing, ShowingDTO.class))
+			.collect(Collectors.groupingBy(showingDTO -> showingDTO.getMovie().getId()));
+	}
+
+	private MovieShowingResponse createMovieShowingResponse(List<ShowingDTO> showingDTOs) {
+		MovieShowingResponse response = new MovieShowingResponse();
+		response.setMovie(showingDTOs.get(0).getMovie()); // 모든 DTO가 같은 영화 정보를 가짐
+		showingDTOs.forEach(response::addShowing);
+		return response;
+	}
+
 }
