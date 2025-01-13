@@ -1,10 +1,9 @@
 package io.github.jehwanyoo.redis_1st.entity
 
 import java.time.LocalDate
-import java.util.*
 
 data class Movie(
-    val id: UUID,                   // 고유 ID
+    val id: Long,                   // 고유 ID
     val title: String,              // 영화 제목
     val releaseDate: LocalDate,     // 개봉일
     val thumbnailUrl: String,       // 썸네일 URL
