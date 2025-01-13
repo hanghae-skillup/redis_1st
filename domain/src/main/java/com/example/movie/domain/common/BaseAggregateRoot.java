@@ -25,6 +25,7 @@ public abstract class BaseAggregateRoot<A extends BaseAggregateRoot<A>> extends 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Comment("아이디")
+    @Column(columnDefinition = "INTEGER UNSIGNED")
     protected Long id;
 
     @CreatedDate
