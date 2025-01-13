@@ -2,8 +2,8 @@ package io.github.jehwanyoo.redis_1st.v1.movies
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import io.github.jehwanyoo.redis_1st.aggregate.MovieDetail
-import io.github.jehwanyoo.redis_1st.entity.Screen
-import io.github.jehwanyoo.redis_1st.entity.ShowTime
+import io.github.jehwanyoo.redis_1st.model.Screen
+import io.github.jehwanyoo.redis_1st.model.ShowTime
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*

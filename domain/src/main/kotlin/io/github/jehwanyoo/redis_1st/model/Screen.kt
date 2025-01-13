@@ -1,4 +1,4 @@
-package io.github.jehwanyoo.redis_1st.entity
+package io.github.jehwanyoo.redis_1st.model
 
 data class Screen(
     val id: Long,       // 고유 ID
