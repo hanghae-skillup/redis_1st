@@ -19,7 +19,10 @@ public class DefaultMovieService implements MovieService {
 
     @Override
     public List<MovieResult> searchMovies() {
-        return movieRepository.findAll(Sort.by(Order.desc("releaseDate"))).stream()
-            .map(MovieResult::of).collect(Collectors.toList());
+        return movieRepository
+            .findAll(Sort.by(Order.desc("releaseDate")))
+            .stream()
+            .map(MovieResult::of)
+            .collect(Collectors.toList());
     }
 }
