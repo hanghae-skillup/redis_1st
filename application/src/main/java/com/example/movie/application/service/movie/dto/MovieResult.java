@@ -2,27 +2,29 @@ package com.example.movie.application.service.movie.dto;
 
 import com.example.movie.domain.movie.Movie;
 import com.example.movie.domain.schedule.Schedule;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Schema(title = "영화 객체")
 public record MovieResult(
-    //영화 제목,
+    @Schema(title = "영화 제목")
     String title,
-    //영상물 등급,
+    @Schema(title = "영상물 등급")
     String ageRating,
-    //개봉일,
+    @Schema(title = "개봉일")
     LocalDate releaseDate,
-    //썸네일 이미지,
+    @Schema(title = "썸네일 이미지")
     String thumbnailUrl,
-    //러닝 타임(분),
+    @Schema(title = "러닝 타임(분)")
     Integer duration,
-    //영화 장르,
+    @Schema(title = "영화 장르")
     String category,
-    //상영관 이름,
+    @Schema(title = "상영관 이름")
     String theaterName,
-    //상영 시간표
+    @Schema(title = "상영 시간표")
     List<MovieScheduleResult> schedules
 ) {
 
@@ -42,9 +44,9 @@ public record MovieResult(
     }
 
     public record MovieScheduleResult(
-        //상영 시간,
+        @Schema(title = "상영 시간")
         LocalTime startTime,
-        //종료 시간,
+        @Schema(title = "종료 시간")
         LocalTime endTime
     ) {
 

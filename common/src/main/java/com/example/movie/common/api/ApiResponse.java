@@ -1,5 +1,6 @@
 package com.example.movie.common.api;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,10 +13,15 @@ import org.springframework.http.HttpStatus;
  */
 @Getter
 @NoArgsConstructor
+@Schema(description = "API 응답 객체")
 public class ApiResponse<D>{
+    @Schema(description = "응답 코드")
     private String code;
+    @Schema(description = "응답 상태")
     private HttpStatus status;
+    @Schema(description = "응답 메시지")
     private String message;
+    @Schema(description = "응답 데이터")
     private D data;
 
     public ApiResponse(HttpStatus status, D data) {
