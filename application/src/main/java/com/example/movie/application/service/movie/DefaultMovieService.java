@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@Transactional
 @Service
 public class DefaultMovieService implements MovieService {
 
     private final MovieRepository movieRepository;
 
+    @Transactional(readOnly = true)
     @Override
     public List<MovieResult> searchMovies() {
         return movieRepository
