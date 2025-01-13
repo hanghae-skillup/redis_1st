@@ -11,3 +11,9 @@
 
 ### 2. ERD
 <img width="951" alt="ERD" src="https://github.com/user-attachments/assets/612637dc-ab63-42b4-85e2-971d2f3b1641" />
+
+### 3. 실행
+* 도커 실행 명령어
+> docker compose -f ./docker/docker-compose.yml up -d
+* 도커 중지 명령어
+> docker compose -f ./docker/docker-compose.yml down
