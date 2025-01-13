@@ -18,7 +18,7 @@ public class MovieController {
 
     private final MovieService movieService;
 
-    @GetMapping(value = "")
+    @GetMapping
     public ApiResponse<List<MovieResult>> searchMovies() {
         return ApiResponse.success(movieService.searchMovies());
     }
