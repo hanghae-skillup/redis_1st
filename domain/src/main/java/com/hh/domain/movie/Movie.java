@@ -13,30 +13,20 @@ public class Movie extends AuditingFields {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private int id;
 
-  @ToString.Exclude
-  @OneToMany()
-  private final List<Screen> movieScreen = new ArrayList<>();
-
-  @Column(nullable = false)
   private String title;
 
   @Enumerated(EnumType.STRING)
-  @Column(nullable = false)
   private FirmRating firmRating;
 
   @Enumerated(EnumType.STRING)
-  @Column(nullable = false)
   private Genre genre;
 
-  @Column(nullable = false)
   private Date releasedDate;
 
-  @Column(nullable = false)
   private String thumbnail;
 
-  @Column(nullable = false)
   private int runningTime;
 
 
