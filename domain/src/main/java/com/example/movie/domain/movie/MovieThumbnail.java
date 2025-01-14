@@ -2,10 +2,12 @@ package com.example.movie.domain.movie;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static jakarta.persistence.ConstraintMode.NO_CONSTRAINT;
+import static jakarta.persistence.FetchType.LAZY;
 
 import com.example.movie.common.domain.BaseAggregateRoot;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -28,7 +30,7 @@ import org.hibernate.annotations.Comment;
 @Comment("영화 썸네일")
 public class MovieThumbnail extends BaseAggregateRoot<MovieThumbnail> {
 
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, fetch = LAZY)
     @JoinColumn(name = "movie_id", foreignKey = @ForeignKey(NO_CONSTRAINT))
     private Movie movie;
 
