@@ -2,6 +2,8 @@ package module.entity;
 
 import java.time.LocalDate;
 
+import org.hibernate.annotations.Comment;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -32,7 +34,7 @@ public class Movie extends BaseEntity{
 	private LocalDate openDay;
 
 	@Column(nullable = false)
-	private Integer runningTime;
+	private Integer runningTimeAsMinute;
 	private String thumbnail;
 
 	@ManyToOne(fetch = FetchType.LAZY)

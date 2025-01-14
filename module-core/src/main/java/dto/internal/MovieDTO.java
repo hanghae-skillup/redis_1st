@@ -10,7 +10,7 @@ public class MovieDTO {
 	private Long id;
 	private String title;
 	private LocalDate openDay;
-	private Integer runningTime;
+	private Integer runningTimeAsMinute;
 	private String thumbnail;
 	private GenreDTO genre;
 	private RatingDTO rating;
