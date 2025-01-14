@@ -88,17 +88,25 @@
 
 <script>
     async function fetchMovies() {
-        const response = await fetch(`${window.location.origin}/showing/today-info`);
+        const response = await fetch(`${window.location.origin}/api/v1/showings/all`);
         const data = await response.json();
 
         const movieGrid = document.getElementById('movie-grid');
         movieGrid.innerHTML = '';
 
-        data.data.forEach(movieData => {
-            const { movie, timeTable } = movieData;
+        data.data.forEach(item => {
+            const { movie, showings } = item;
 
             const card = document.createElement('div');
             card.className = 'bg-gray-800 rounded-lg shadow-lg movie-card';
+
+            const showingsHTML = showings.map(showing => `
+                    <tr>
+                        <td class="px-4 py-2 text-gray-400">${new Date(showing.stTime).toLocaleDateString()}</td>
+                        <td class="px-4 py-2 text-gray-400">${new Date(showing.stTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                        <td class="px-4 py-2 text-gray-400">${showing.screenDTO.name}</td>
+                    </tr>
+                `).join('');
 
             card.innerHTML = `
                     <div class="movie-image-container">
@@ -114,16 +122,20 @@
                         </div>
                         <p class="text-gray-400">${movie.rating.name}</p>
                         <p class="text-gray-400">개봉일: ${movie.openDay}</p>
-                        <p class="text-gray-400">런닝타임: ${movie.runningTime}분</p>
+                        <p class="text-gray-400">런닝타임: ${movie.runningTimeAsMinute}분</p>
                         <p class="text-gray-400">장르: ${movie.genre.name}</p>
-                        <div class="mt-4 space-y-2">
-                            ${timeTable.map(time => `
-                                <div class="bg-gray-700 rounded px-3 py-2 text-white flex justify-between items-center">
-                                    <span>${time.stTime.substring(11, 16)} ~ ${time.edTime.substring(11, 16)}</span>
-                                    <span class="text-sm text-gray-300">${time.screen.name}</span>
-                                </div>
-                            `).join('')}
-                        </div>
+                        <table class="mt-4 w-full">
+                            <thead>
+                                <tr>
+                                    <th class="px-4 py-2 text-gray-500">날짜</th>
+                                    <th class="px-4 py-2 text-gray-500">시간</th>
+                                    <th class="px-4 py-2 text-gray-500">상영관</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${showingsHTML}
+                            </tbody>
+                        </table>
                         <div class="flex justify-between items-center mt-4">
                             <button class="bg-blue-600 px-4 py-2 rounded text-white">예매</button>
                         </div>
