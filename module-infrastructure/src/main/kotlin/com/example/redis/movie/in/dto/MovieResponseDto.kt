@@ -27,10 +27,10 @@ data class MovieResponseDto(
     val releaseDate: LocalDateTime,
 
     @JsonProperty(value = "movie_genre")
-    val movieGenre: String,
+    val movieGenre: MutableList<String> = mutableListOf(),
 
-    @JsonProperty(value = "theater")
-    val theater: MutableList<MovieTheaterResponseDto> = mutableListOf(),
+    @JsonProperty(value = "theaters")
+    val theaters: MutableList<MovieTheaterResponseDto> = mutableListOf(),
 
     ) {
     companion object {
@@ -43,7 +43,7 @@ data class MovieResponseDto(
                 thumbnailImagePath = movie.thumbnailImagePath,
                 releaseDate = movie.releaseDate,
                 movieGenre = movie.movieGenre,
-                theater = movie.theaters.stream().map { MovieTheaterResponseDto.toDto(it) }.toList()
+                theaters = movie.theaters.stream().map { MovieTheaterResponseDto.toDto(it) }.toList()
             )
         }
 

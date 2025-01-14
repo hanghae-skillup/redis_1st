@@ -1,7 +1,7 @@
-package com.example.redis.theater.out.persistence
+package com.example.redis.theater.out.persistence.jpa
 
 import com.example.redis.cmmn.BaseEntity
-import com.example.redis.movie.out.persistence.MovieTheaterEntity
+import com.example.redis.movie.out.persistence.jpa.MovieTheaterEntity
 import jakarta.persistence.*
 import org.hibernate.annotations.BatchSize
 
