@@ -15,7 +15,7 @@ public record MovieSearchRequest(
 ){
     public Predicate toPredicate() {
         return ExpressionUtils.allOf(
-                nonNull(title) ? movieJpaEntity.title.contains(title) : null,
+                nonNull(title) ? movieJpaEntity.title.containsIgnoreCase(title) : null,
                 nonNull(genre) ? movieJpaEntity.genre.eq(genre) : null
         );
     }

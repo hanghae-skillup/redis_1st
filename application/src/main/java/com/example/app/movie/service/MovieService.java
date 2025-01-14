@@ -2,6 +2,7 @@ package com.example.app.movie.service;
 
 import com.example.app.movie.Movie;
 import com.example.app.movie.out.persistence.adapter.MoviePersistenceAdapter;
+import com.example.app.movie.out.persistence.adapter.MoviePort;
 import com.example.app.movie.port.in.MovieUseCase;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +16,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MovieService implements MovieUseCase {
 
-    private final MoviePersistenceAdapter moviePersistenceAdapter;
+    private final MoviePort moviePort;
 
     @Override
     public List<Movie> searchMovies(Predicate predicate) {
-        return moviePersistenceAdapter.findAllBy(predicate);
+        return moviePort.findAllBy(predicate);
     }
 }
