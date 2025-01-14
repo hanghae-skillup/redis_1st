@@ -5,13 +5,16 @@ import static com.example.movie.domain.movie.MovieCategory.ACTION;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.time.LocalDate;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EmptySource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullSource;
 
 public class MovieTest {
@@ -61,24 +64,19 @@ public class MovieTest {
                     new MovieThumbnail("http://thumbnail.com", "thumbnail")));
         }
 
-        @EmptySource
-        @ParameterizedTest
-        @DisplayName("실패 - 제목이 empty")
-        void fail_1(String wrongTitle) {
-            // given when then
-            assertThrows(IllegalArgumentException.class,
-                () -> new Movie(wrongTitle, ACTION, FIFTEEN, 120,
-                    LocalDate.of(2023, 1, 1), TheaterType.ROOM_1,
-                    new MovieThumbnail("http://thumbnail.com", "thumbnail")));
+        static Stream<Arguments> provideInvalidTitles() {
+            return Stream.of(
+                arguments(""),
+                arguments(" "),
+                arguments("a".repeat(256))
+            );
         }
 
-        @Test
-        @DisplayName("실패 - 제목이 최대 길이 초과")
-        void fail_2() {
-            // given
-            String wrongTitle = "a".repeat(256);
-
-            // when then
+        @MethodSource("provideInvalidTitles")
+        @ParameterizedTest
+        @DisplayName("실패 - 제목이 empty / 최대 길이 초과")
+        void fail_1(String wrongTitle) {
+            // given when then
             assertThrows(IllegalArgumentException.class,
                 () -> new Movie(wrongTitle, ACTION, FIFTEEN, 120,
                     LocalDate.of(2023, 1, 1), TheaterType.ROOM_1,
@@ -88,7 +86,7 @@ public class MovieTest {
         @NullSource
         @ParameterizedTest
         @DisplayName("실패 - 카테고리가 null")
-        void fail_3(MovieCategory wrongCategory) {
+        void fail_2(MovieCategory wrongCategory) {
             // given when then
             assertThrows(NullPointerException.class,
                 () -> new Movie("Action Movie 1", wrongCategory, FIFTEEN, 120,
@@ -99,7 +97,7 @@ public class MovieTest {
         @NullSource
         @ParameterizedTest
         @DisplayName("실패 - 연령등급이 null")
-        void fail_4(AgeRatingType wrongAgeRating) {
+        void fail_3(AgeRatingType wrongAgeRating) {
             // given when then
             assertThrows(NullPointerException.class,
                 () -> new Movie("Action Movie 1", ACTION, wrongAgeRating, 120,
@@ -110,7 +108,7 @@ public class MovieTest {
         @NullSource
         @ParameterizedTest
         @DisplayName("실패 - 상영 시간이 null")
-        void fail_5(Integer wrongDurationMin) {
+        void fail_4(Integer wrongDurationMin) {
             // given when then
             assertThrows(NullPointerException.class,
                 () -> new Movie("Action Movie 1", ACTION, FIFTEEN, wrongDurationMin,
@@ -120,7 +118,7 @@ public class MovieTest {
 
         @Test
         @DisplayName("실패 - 상영 시간이 0 미만")
-        void fail_6() {
+        void fail_5() {
             // given
             Integer wrongDurationMin = -1;
 
@@ -134,7 +132,7 @@ public class MovieTest {
         @NullSource
         @ParameterizedTest
         @DisplayName("실패 - 개봉일이 null")
-        void fail_7(LocalDate wrongReleaseDate) {
+        void fail_6(LocalDate wrongReleaseDate) {
             // given when then
             assertThrows(NullPointerException.class,
                 () -> new Movie("Action Movie 1", ACTION, FIFTEEN, 120,
@@ -145,7 +143,7 @@ public class MovieTest {
         @NullSource
         @ParameterizedTest
         @DisplayName("실패 - 상영관이 null")
-        void fail_8(TheaterType wrongTheater) {
+        void fail_7(TheaterType wrongTheater) {
             // given when then
             assertThrows(NullPointerException.class,
                 () -> new Movie("Action Movie 1", ACTION, FIFTEEN, 120,
@@ -156,7 +154,7 @@ public class MovieTest {
         @NullSource
         @ParameterizedTest
         @DisplayName("실패 - 썸네일이 null")
-        void fail_9(MovieThumbnail wrongThumbnail) {
+        void fail_8(MovieThumbnail wrongThumbnail) {
             // given when then
             assertThrows(NullPointerException.class,
                 () -> new Movie("Action Movie 1", ACTION, FIFTEEN, 120,
