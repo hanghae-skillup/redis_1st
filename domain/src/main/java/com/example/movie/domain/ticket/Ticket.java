@@ -1,6 +1,6 @@
 package com.example.movie.domain.ticket;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static jakarta.persistence.ConstraintMode.NO_CONSTRAINT;
 
 import com.example.movie.common.domain.BaseAggregateRoot;
@@ -45,9 +45,9 @@ public class Ticket extends BaseAggregateRoot<Ticket> {
     private SeatsRowType seatsRow;
 
     public Ticket(Schedule schedule, SeatsColType seatsCol, SeatsRowType seatsRow) {
-        checkArgument(schedule != null, "schedule must be provided.");
-        checkArgument(seatsCol != null, "seatsCol must be provided.");
-        checkArgument(seatsRow != null, "seatsRow must be provided.");
+        checkNotNull(schedule, "schedule must be provided.");
+        checkNotNull(seatsCol, "seatsCol must be provided.");
+        checkNotNull(seatsRow, "seatsRow must be provided.");
 
         this.schedule = schedule;
         this.seatsCol = seatsCol;

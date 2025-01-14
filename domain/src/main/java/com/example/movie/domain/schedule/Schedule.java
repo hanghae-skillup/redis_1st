@@ -1,6 +1,7 @@
 package com.example.movie.domain.schedule;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static jakarta.persistence.ConstraintMode.NO_CONSTRAINT;
 
 import com.example.movie.common.domain.BaseAggregateRoot;
@@ -50,9 +51,9 @@ public class Schedule extends BaseAggregateRoot<Schedule> {
     private List<Ticket> tickets = new ArrayList<>();
 
     public Schedule(Movie movie, LocalTime startAt, LocalTime endAt) {
-        checkArgument(movie != null, "movie must be provided.");
-        checkArgument(startAt != null, "startAt must be provided.");
-        checkArgument(endAt != null, "endAt must be provided.");
+        checkNotNull(movie, "movie must be provided.");
+        checkNotNull(startAt, "startAt must be provided.");
+        checkNotNull(endAt, "endAt must be provided.");
         checkArgument(startAt.isAfter(endAt), "startAt must be before endAt.");
 
         this.movie = movie;

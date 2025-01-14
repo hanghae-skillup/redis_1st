@@ -1,6 +1,7 @@
 package com.example.movie.domain.movie;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static jakarta.persistence.CascadeType.DETACH;
 import static jakarta.persistence.ConstraintMode.NO_CONSTRAINT;
 
@@ -75,15 +76,15 @@ public class Movie extends BaseAggregateRoot<Movie> {
     public static final int MAX_TITLE_LENGTH = 50;
 
     public Movie(String title, MovieCategory category, AgeRatingType ageRating, Integer duration, LocalDate releaseDate, MovieThumbnail thumbnail) {
-        checkArgument(title != null, "title must be provided.");
+        checkNotNull(title, "title must be provided.");
         checkArgument(!title.isBlank(), "title must be provided.");
         checkArgument(title.length() <= MAX_TITLE_LENGTH, "title length must be less or equals than %s.", MAX_TITLE_LENGTH);
 
-        checkArgument(category != null, "category must be provided.");
-        checkArgument(ageRating != null, "ageRating must be provided.");
-        checkArgument(duration != null, "duration must be provided.");
-        checkArgument(releaseDate != null, "releaseDate must be provided.");
-        checkArgument(thumbnail != null, "thumbnail must be provided.");
+        checkNotNull(category, "category must be provided.");
+        checkNotNull(ageRating, "ageRating must be provided.");
+        checkNotNull(duration, "duration must be provided.");
+        checkNotNull(releaseDate, "releaseDate must be provided.");
+        checkNotNull(thumbnail, "thumbnail must be provided.");
 
         this.title = title;
         this.category = category;
