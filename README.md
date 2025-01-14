@@ -6,16 +6,15 @@
 docker compose up -d
 ```
 ```bash
-curl -X GET http://localhost:8080/api/movies?showDate=2022-05-18
-curl -X GET http://localhost:8080/api/movies?showDate=2022-05-17
+curl -X GET http://localhost:8080/api/v1/movies
 ```
 
 ## Multi Module
-총 3개 모듈로 구성되있습니다.
 
 ### 1. movie-api
-> 영화 도메인을 담당하고 Presentation Layer를 담당하는 모듈입니다.
-- GET /api/movies?showDate=2025-01-01
+> 영화 도메인 presentation 담당합니다.
+
+- GET /api/v1/movies?title=집에&genre=COMEDY
 
 ```json
 // 응답 예시
@@ -34,18 +33,19 @@ curl -X GET http://localhost:8080/api/movies?showDate=2022-05-17
   }
 ]
 ```
-### 2. core
-> 공통으로 사용하는 Entity, DTO를 담당하는 모듈입니다.
+### 2. application
+> Use Case 생성을 담당합니다.
+
 ### 3. infrastructure
-> DB 인터페이스를 담당하는 모듈입니다. 
-> MySQL, Redis 연결을 담당하고 데이터 입출력 로직을 포함합니다. 
-> DB가 변경되어도 api, core 모듈의 코드는 최소로 변경합니다.
+> DB 연결과 Entity 관리를 담당합니다.
+
+### 4. domain
+> 도메인 로직을 포함합니다.
 
 ## Architecture
-> 다른 도메인 확장성을 고려한 설계입니다.
-> 모든 api 모듈에서는 Entity -> DTO로 변환하여 리턴합니다.
+> 클린 아키텍처를 최대한 따라했습니다.
 
-![arc](readme/arc.png)
+![arc](readme/arc2.png)
 
 ## Table Design
 ![erd_db](readme/erd.png)
