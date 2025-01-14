@@ -16,8 +16,7 @@ public interface ShowingRepository extends JpaRepository<Showing, Long> {
 		+ "JOIN FETCH s.screen "
 		+ "JOIN FETCH m.genre "
 		+ "JOIN FETCH m.rating "
-		+ "WHERE s.stTime >= :today "
-		+ "ORDER BY m.openDay DESC, s.stTime asc")
+		+ "WHERE s.stTime >= :today ")
 	List<Showing> findShowingsByStTime(LocalDateTime today);
 
 	@Query("SELECT s FROM Showing s " +
