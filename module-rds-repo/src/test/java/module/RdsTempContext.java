@@ -3,6 +3,4 @@ package module;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RdsTempContext {
-	private void contextLoad(){}
-}
+public class RdsTempContext {}
