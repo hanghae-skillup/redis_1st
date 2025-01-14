@@ -1,6 +1,7 @@
 package com.example.movie.domain.movie;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static jakarta.persistence.ConstraintMode.NO_CONSTRAINT;
 import static jakarta.persistence.FetchType.LAZY;
 
@@ -39,18 +40,21 @@ public class MovieThumbnail extends BaseAggregateRoot<MovieThumbnail> {
     String url;
 
     @Comment("경로")
-    @Column(nullable = false)
+    @Column(nullable = false, length = MAX_PATH_LENGTH)
     String path;
 
     public static final int MAX_URL_LENGTH = 255;
+    public static final int MAX_PATH_LENGTH = 255;
 
-    public MovieThumbnail(Movie movie, String url, String path) {
-        checkArgument(movie != null, "movie must be provided.");
-        checkArgument(url != null, "url must be provided.");
+    public MovieThumbnail(String url, String path) {
+        checkNotNull(url, "url must be provided.");
+        checkArgument(!url.isBlank(), "url must be not blank.");
         checkArgument(url.length() <= MAX_URL_LENGTH, "url length must be less or equals than %s.", MAX_URL_LENGTH);
         checkArgument(UrlValidator.getInstance().isValid(url), "url must be valid.");
+        checkNotNull(path, "path must be provided.");
+        checkArgument(!path.isBlank(), "path must be not blank.");
+        checkArgument(path.length() <= MAX_PATH_LENGTH, "path length must be less or equals than %s.", MAX_PATH_LENGTH);
 
-        this.movie = movie;
         this.url = url;
         this.path = path;
     }

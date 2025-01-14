@@ -14,7 +14,7 @@ VALUES
 
 
 -- movie 테이블에 10개의 영화 삽입
-INSERT INTO movie.movie (created_at, updated_at, age_rating, category, duration, release_date, theater, title, thumbnail_id)
+INSERT INTO movie.movie (created_at, updated_at, age_rating, category, durationMin, release_date, theater, title, thumbnail_id)
 VALUES
     (NOW(), NOW(), 'FIFTEEN', 'ACTION', 120, '2023-01-01', 'ROOM_1', 'Action Movie 1', 1),
     (NOW(), NOW(), 'NINETEEN', 'COMEDY', 90, '2023-02-01', 'ROOM_2', 'Comedy Movie 1', 2),

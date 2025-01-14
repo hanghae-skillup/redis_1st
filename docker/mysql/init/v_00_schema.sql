@@ -5,7 +5,7 @@ create table movie
     updated_at   datetime(6)                                                                               null comment '수정 일시',
     age_rating   enum ('ALL', 'FIFTEEN', 'NINETEEN', 'TWELVE')                                             not null comment '등급',
     category     enum ('ACTION', 'COMEDY', 'DRAMA', 'FANTASY', 'HORROR', 'MYSTERY', 'ROMANCE', 'THRILLER') not null comment '장르',
-    duration     int                                                                                       not null comment '상영 시간(min)',
+    durationMin     int                                                                                       not null comment '상영 시간(min)',
     release_date date                                                                                      not null comment '개봉일',
     theater      enum ('ROOM_1', 'ROOM_2', 'ROOM_3', 'ROOM_4', 'ROOM_5', 'ROOM_6')                         not null comment '상영관',
     title        varchar(50)                                                                               not null comment '제목',

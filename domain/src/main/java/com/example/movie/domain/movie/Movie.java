@@ -54,7 +54,7 @@ public class Movie extends BaseAggregateRoot<Movie> {
 
     @Comment("상영 시간(min)")
     @Column(nullable = false)
-    private Integer duration;
+    private Integer durationMin;
 
     @Comment("개봉일")
     @Column(nullable = false)
@@ -75,21 +75,21 @@ public class Movie extends BaseAggregateRoot<Movie> {
 
     public static final int MAX_TITLE_LENGTH = 50;
 
-    public Movie(String title, MovieCategory category, AgeRatingType ageRating, Integer duration, LocalDate releaseDate, MovieThumbnail thumbnail) {
+    public Movie(String title, MovieCategory category, AgeRatingType ageRating, Integer durationMin, LocalDate releaseDate, MovieThumbnail thumbnail) {
         checkNotNull(title, "title must be provided.");
         checkArgument(!title.isBlank(), "title must be provided.");
         checkArgument(title.length() <= MAX_TITLE_LENGTH, "title length must be less or equals than %s.", MAX_TITLE_LENGTH);
-
         checkNotNull(category, "category must be provided.");
         checkNotNull(ageRating, "ageRating must be provided.");
-        checkNotNull(duration, "duration must be provided.");
+        checkNotNull(durationMin, "duration must be provided.");
+        checkArgument(durationMin > 0, "duration must be greater than 0.");
         checkNotNull(releaseDate, "releaseDate must be provided.");
         checkNotNull(thumbnail, "thumbnail must be provided.");
 
         this.title = title;
         this.category = category;
         this.ageRating = ageRating;
-        this.duration = duration;
+        this.durationMin = durationMin;
         this.releaseDate = releaseDate;
         this.thumbnail = thumbnail;
     }

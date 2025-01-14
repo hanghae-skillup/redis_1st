@@ -36,7 +36,7 @@ public record MovieResult(
             movie.ageRating().name(),
             movie.releaseDate(),
             movie.getThumbnailUrl(),
-            movie.duration(),
+            movie.durationMin(),
             movie.category().name(),
             movie.theater().name(),
             MovieScheduleResult.of(movie.schedules())
