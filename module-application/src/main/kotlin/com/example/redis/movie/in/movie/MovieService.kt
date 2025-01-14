@@ -1,6 +1,5 @@
-package com.example.redis.movie
+package com.example.redis.movie.`in`.movie
 
-import com.example.redis.adapters.movie.persistence.MovieAdapter
 import com.example.redis.movie.Movie
 import com.example.redis.movie.`in`.movie.MovieUseCase
 import com.example.redis.movie.out.movie.MoviePort

@@ -1,7 +1,7 @@
-package com.example.redis.movie.out.persistence
+package com.example.redis.movie.out.persistence.jpa
 
 import com.example.redis.cmmn.BaseEntity
-import com.example.redis.theater.out.persistence.TheaterEntity
+import com.example.redis.theater.out.persistence.jpa.TheaterEntity
 import jakarta.persistence.*
 import org.hibernate.annotations.BatchSize
 
@@ -23,6 +23,7 @@ class MovieTheaterEntity(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "movie_theater_id")
     val id: Long? = null,
 
     ): BaseEntity() {

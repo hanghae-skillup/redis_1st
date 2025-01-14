@@ -1,7 +1,8 @@
-package com.example.redis.theater
+package com.example.redis.movie
 
-data class Theater(
+data class MovieTheater(
     val theaterId: Long,
     val name: String,
+    val screeningSchedules: MutableList<ScreeningSchedule> = mutableListOf()
 ) {
 }

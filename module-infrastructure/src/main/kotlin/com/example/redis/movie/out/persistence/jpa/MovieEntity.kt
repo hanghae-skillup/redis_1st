@@ -1,6 +1,7 @@
-package com.example.redis.movie.out.persistence
+package com.example.redis.movie.out.persistence.jpa
 
 import com.example.redis.cmmn.BaseEntity
+import com.example.redis.movie.out.persistence.FilmRatings
 import jakarta.persistence.*
 import org.hibernate.annotations.BatchSize
 import java.time.LocalDateTime
@@ -27,7 +28,7 @@ class MovieEntity(
 
     @BatchSize(size = 1_000)
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
-    val movieGenre: MovieGenreEntity,
+    val movieGenre: MutableList<MovieGenreEntity> = mutableListOf(),
 
     @BatchSize(size = 1_000)
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)

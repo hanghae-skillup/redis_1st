@@ -1,4 +1,4 @@
-package com.example.redis
+package com.example.redis.cmmn
 
 import jakarta.persistence.Column
 import jakarta.persistence.EntityListeners
@@ -24,7 +24,7 @@ open class BaseEntity(
     @Column(name = "update_at")
     val updateAt: LocalDateTime? = null,
 
-    @Column(name = "update_ty")
+    @Column(name = "update_by")
     val updateBy: String? = null
 ) {
 }

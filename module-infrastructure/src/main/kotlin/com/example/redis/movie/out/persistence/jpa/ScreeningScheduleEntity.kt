@@ -1,4 +1,4 @@
-package com.example.redis.movie.out.persistence
+package com.example.redis.movie.out.persistence.jpa
 
 import com.example.redis.cmmn.BaseEntity
 import jakarta.persistence.*
