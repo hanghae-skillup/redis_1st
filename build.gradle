@@ -8,7 +8,7 @@ repositories {
     mavenCentral()
 }
 
-allprojects {
+subprojects {
     // 모든 하위 모듈들에 이 설정을 적용
     group 'com.example'
     version '0.0.1-SNAPSHOT'
