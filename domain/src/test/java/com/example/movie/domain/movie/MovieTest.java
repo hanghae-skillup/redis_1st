@@ -14,7 +14,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EmptySource;
 import org.junit.jupiter.params.provider.NullSource;
 
-class MovieTest {
+public class MovieTest {
 
     @Nested
     @DisplayName("영화 생성")
@@ -163,5 +163,11 @@ class MovieTest {
                     LocalDate.of(2023, 1, 1), TheaterType.ROOM_1,
                     null));
         }
+    }
+
+    public static Movie makeMovie(){
+        return new Movie("Action Movie 1", ACTION, FIFTEEN, 120,
+            LocalDate.of(2023, 1, 1), TheaterType.ROOM_1,
+            new MovieThumbnail("http://thumbnail.com", "thumbnail"));
     }
 }

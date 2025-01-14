@@ -52,12 +52,14 @@ public class Schedule extends BaseAggregateRoot<Schedule> {
 
     public Schedule(Movie movie, LocalTime startAt, LocalTime endAt) {
         checkNotNull(movie, "movie must be provided.");
-        checkNotNull(startAt, "startAt must be provided.");
-        checkNotNull(endAt, "endAt must be provided.");
-        checkArgument(startAt.isAfter(endAt), "startAt must be before endAt.");
-
         this.movie = movie;
+
+        checkNotNull(startAt, "startAt must be provided.");
         this.startAt = startAt;
+
+        checkNotNull(endAt, "endAt must be provided.");
         this.endAt = endAt;
+
+        checkArgument(endAt.isAfter(startAt), "endAt must be after startAt.");
     }
 }
