@@ -2,6 +2,7 @@ package com.example.movie.domain.movie;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.CascadeType.DETACH;
 import static jakarta.persistence.ConstraintMode.NO_CONSTRAINT;
 
@@ -65,7 +66,7 @@ public class Movie extends BaseAggregateRoot<Movie> {
     @Column(nullable = false)
     private TheaterType theater;
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @OneToOne(optional = false, cascade = ALL)
     @JoinColumn(name = "thumbnail_id", foreignKey = @ForeignKey(NO_CONSTRAINT))
     private MovieThumbnail thumbnail;
 
@@ -79,20 +80,26 @@ public class Movie extends BaseAggregateRoot<Movie> {
         checkNotNull(title, "title must be provided.");
         checkArgument(!title.isBlank(), "title must be provided.");
         checkArgument(title.length() <= MAX_TITLE_LENGTH, "title length must be less or equals than %s.", MAX_TITLE_LENGTH);
-        checkNotNull(category, "category must be provided.");
-        checkNotNull(ageRating, "ageRating must be provided.");
-        checkNotNull(durationMin, "duration must be provided.");
-        checkArgument(durationMin > 0, "duration must be greater than 0.");
-        checkNotNull(releaseDate, "releaseDate must be provided.");
-        checkNotNull(theater, "theater must be provided.");
-        checkNotNull(thumbnail, "thumbnail must be provided.");
-
         this.title = title;
+
+        checkNotNull(category, "category must be provided.");
         this.category = category;
+
+        checkNotNull(ageRating, "ageRating must be provided.");
         this.ageRating = ageRating;
+
+        checkNotNull(durationMin, "duration must be provided.");
         this.durationMin = durationMin;
+        checkArgument(durationMin > 0, "duration must be greater than 0.");
+
+        checkNotNull(releaseDate, "releaseDate must be provided.");
         this.releaseDate = releaseDate;
+
+        checkNotNull(theater, "theater must be provided.");
         this.theater = theater;
+
+        checkNotNull(thumbnail, "thumbnail must be provided.");
+        thumbnail.connectParent(this);
         this.thumbnail = thumbnail;
     }
 

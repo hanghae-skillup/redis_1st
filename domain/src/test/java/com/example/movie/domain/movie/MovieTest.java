@@ -1,5 +1,7 @@
 package com.example.movie.domain.movie;
 
+import static com.example.movie.domain.movie.AgeRatingType.FIFTEEN;
+import static com.example.movie.domain.movie.MovieCategory.ACTION;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -23,8 +25,8 @@ class MovieTest {
         void success_0() {
             // given
             String title = "Action Movie 1";
-            MovieCategory category = MovieCategory.ACTION;
-            AgeRatingType ageRating = AgeRatingType.FIFTEEN;
+            MovieCategory category = ACTION;
+            AgeRatingType ageRating = FIFTEEN;
             Integer durationMin = 120;
             LocalDate releaseDate = LocalDate.of(2023, 1, 1);
             MovieThumbnail thumbnail = new MovieThumbnail("http://thumbnail.com", "thumbnail");
@@ -40,41 +42,34 @@ class MovieTest {
             assertEquals(ageRating, movie.ageRating());
             assertEquals(durationMin, movie.durationMin());
             assertEquals(releaseDate, movie.releaseDate());
+            assertEquals(theater, movie.theater());
             assertEquals(thumbnail, movie.thumbnail());
+            assertEquals(thumbnail.url(), "http://thumbnail.com");
+            assertEquals(thumbnail.path(), "thumbnail");
+            assertEquals(movie.thumbnail().movie(), movie);
+            assertEquals(0, movie.schedules().size());
         }
 
         @NullSource
         @ParameterizedTest
         @DisplayName("실패 - 제목이 null")
         void fail_0(String wrongTitle) {
-            // given
-            MovieCategory category = MovieCategory.ACTION;
-            AgeRatingType ageRating = AgeRatingType.FIFTEEN;
-            Integer durationMin = 120;
-            LocalDate releaseDate = LocalDate.of(2023, 1, 1);
-            MovieThumbnail thumbnail = new MovieThumbnail("http://thumbnail.com", "thumbnail");
-            TheaterType theater = TheaterType.ROOM_1;
-
-            // when
-            // then
-            assertThrows(NullPointerException.class, () -> new Movie(wrongTitle, category, ageRating, durationMin, releaseDate, theater, thumbnail));
+            // given when then
+            assertThrows(NullPointerException.class,
+                () -> new Movie(wrongTitle, ACTION, FIFTEEN, 120,
+                    LocalDate.of(2023, 1, 1), TheaterType.ROOM_1,
+                    new MovieThumbnail("http://thumbnail.com", "thumbnail")));
         }
 
         @EmptySource
         @ParameterizedTest
         @DisplayName("실패 - 제목이 empty")
         void fail_1(String wrongTitle) {
-            // given
-            MovieCategory category = MovieCategory.ACTION;
-            AgeRatingType ageRating = AgeRatingType.FIFTEEN;
-            Integer durationMin = 120;
-            LocalDate releaseDate = LocalDate.of(2023, 1, 1);
-            MovieThumbnail thumbnail = new MovieThumbnail("http://thumbnail.com", "thumbnail");
-            TheaterType theater = TheaterType.ROOM_1;
-
-            // when
-            // then
-            assertThrows(IllegalArgumentException.class, () -> new Movie(wrongTitle, category, ageRating, durationMin, releaseDate, theater, thumbnail));
+            // given when then
+            assertThrows(IllegalArgumentException.class,
+                () -> new Movie(wrongTitle, ACTION, FIFTEEN, 120,
+                    LocalDate.of(2023, 1, 1), TheaterType.ROOM_1,
+                    new MovieThumbnail("http://thumbnail.com", "thumbnail")));
         }
 
         @Test
@@ -82,135 +77,91 @@ class MovieTest {
         void fail_2() {
             // given
             String wrongTitle = "a".repeat(256);
-            MovieCategory category = MovieCategory.ACTION;
-            AgeRatingType ageRating = AgeRatingType.FIFTEEN;
-            Integer durationMin = 120;
-            LocalDate releaseDate = LocalDate.of(2023, 1, 1);
-            MovieThumbnail thumbnail = new MovieThumbnail("http://thumbnail.com", "thumbnail");
-            TheaterType theater = TheaterType.ROOM_1;
 
-            // when
-            // then
-            assertThrows(IllegalArgumentException.class, () -> new Movie(wrongTitle, category, ageRating, durationMin, releaseDate, theater, thumbnail));
+            // when then
+            assertThrows(IllegalArgumentException.class,
+                () -> new Movie(wrongTitle, ACTION, FIFTEEN, 120,
+                    LocalDate.of(2023, 1, 1), TheaterType.ROOM_1,
+                    new MovieThumbnail("http://thumbnail.com", "thumbnail")));
         }
 
         @NullSource
         @ParameterizedTest
         @DisplayName("실패 - 카테고리가 null")
         void fail_3(MovieCategory wrongCategory) {
-            // given
-            String title = "Action Movie 1";
-            AgeRatingType ageRating = AgeRatingType.FIFTEEN;
-            Integer durationMin = 120;
-            LocalDate releaseDate = LocalDate.of(2023, 1, 1);
-            TheaterType theater = TheaterType.ROOM_1;
-            MovieThumbnail thumbnail = new MovieThumbnail("http://thumbnail.com", "thumbnail");
-
-            // when
-            // then
-            assertThrows(NullPointerException.class, () -> new Movie(title, wrongCategory, ageRating, durationMin, releaseDate, theater, thumbnail));
+            // given when then
+            assertThrows(NullPointerException.class,
+                () -> new Movie("Action Movie 1", wrongCategory, FIFTEEN, 120,
+                    LocalDate.of(2023, 1, 1), TheaterType.ROOM_1,
+                    new MovieThumbnail("http://thumbnail.com", "thumbnail")));
         }
 
         @NullSource
         @ParameterizedTest
         @DisplayName("실패 - 연령등급이 null")
         void fail_4(AgeRatingType wrongAgeRating) {
-            // given
-            String title = "Action Movie 1";
-            MovieCategory category = MovieCategory.ACTION;
-            Integer durationMin = 120;
-            LocalDate releaseDate = LocalDate.of(2023, 1, 1);
-            TheaterType theater = TheaterType.ROOM_1;
-            MovieThumbnail thumbnail = new MovieThumbnail("http://thumbnail.com", "thumbnail");
-
-            // when
-            // then
-            assertThrows(NullPointerException.class, () -> new Movie(title, category, wrongAgeRating, durationMin, releaseDate, theater, thumbnail));
+            // given when then
+            assertThrows(NullPointerException.class,
+                () -> new Movie("Action Movie 1", ACTION, wrongAgeRating, 120,
+                    LocalDate.of(2023, 1, 1), TheaterType.ROOM_1,
+                    new MovieThumbnail("http://thumbnail.com", "thumbnail")));
         }
 
         @NullSource
         @ParameterizedTest
         @DisplayName("실패 - 상영 시간이 null")
         void fail_5(Integer wrongDurationMin) {
-            // given
-            String title = "Action Movie 1";
-            MovieCategory category = MovieCategory.ACTION;
-            AgeRatingType ageRating = AgeRatingType.FIFTEEN;
-            LocalDate releaseDate = LocalDate.of(2023, 1, 1);
-            TheaterType theater = TheaterType.ROOM_1;
-            MovieThumbnail thumbnail = new MovieThumbnail("http://thumbnail.com", "thumbnail");
-
-            // when
-            // then
-            assertThrows(NullPointerException.class, () -> new Movie(title, category, ageRating, wrongDurationMin, releaseDate, theater, thumbnail));
+            // given when then
+            assertThrows(NullPointerException.class,
+                () -> new Movie("Action Movie 1", ACTION, FIFTEEN, wrongDurationMin,
+                    LocalDate.of(2023, 1, 1), TheaterType.ROOM_1,
+                    new MovieThumbnail("http://thumbnail.com", "thumbnail")));
         }
 
         @Test
         @DisplayName("실패 - 상영 시간이 0 미만")
         void fail_6() {
             // given
-            String title = "Action Movie 1";
-            MovieCategory category = MovieCategory.ACTION;
-            AgeRatingType ageRating = AgeRatingType.FIFTEEN;
             Integer wrongDurationMin = -1;
-            LocalDate releaseDate = LocalDate.of(2023, 1, 1);
-            TheaterType theater = TheaterType.ROOM_1;
-            MovieThumbnail thumbnail = new MovieThumbnail("http://thumbnail.com", "thumbnail");
 
-            // when
-            // then
-            assertThrows(IllegalArgumentException.class, () -> new Movie(title, category, ageRating, wrongDurationMin, releaseDate, theater, thumbnail));
+            // when then
+            assertThrows(IllegalArgumentException.class,
+                () -> new Movie("Action Movie 1", ACTION, FIFTEEN, wrongDurationMin,
+                    LocalDate.of(2023, 1, 1), TheaterType.ROOM_1,
+                    new MovieThumbnail("http://thumbnail.com", "thumbnail")));
         }
 
         @NullSource
         @ParameterizedTest
         @DisplayName("실패 - 개봉일이 null")
         void fail_7(LocalDate wrongReleaseDate) {
-            // given
-            String title = "Action Movie 1";
-            MovieCategory category = MovieCategory.ACTION;
-            AgeRatingType ageRating = AgeRatingType.FIFTEEN;
-            Integer durationMin = 120;
-            TheaterType theater = TheaterType.ROOM_1;
-            MovieThumbnail thumbnail = new MovieThumbnail("http://thumbnail.com", "thumbnail");
-
-            // when
-            // then
-            assertThrows(NullPointerException.class, () -> new Movie(title, category, ageRating, durationMin, wrongReleaseDate, theater, thumbnail));
+            // given when then
+            assertThrows(NullPointerException.class,
+                () -> new Movie("Action Movie 1", ACTION, FIFTEEN, 120,
+                    wrongReleaseDate, TheaterType.ROOM_1,
+                    new MovieThumbnail("http://thumbnail.com", "thumbnail")));
         }
 
         @NullSource
         @ParameterizedTest
         @DisplayName("실패 - 상영관이 null")
         void fail_8(TheaterType wrongTheater) {
-            // given
-            String title = "Action Movie 1";
-            MovieCategory category = MovieCategory.ACTION;
-            AgeRatingType ageRating = AgeRatingType.FIFTEEN;
-            Integer durationMin = 120;
-            LocalDate releaseDate = LocalDate.of(2023, 1, 1);
-            MovieThumbnail thumbnail = new MovieThumbnail("http://thumbnail.com", "thumbnail");
-
-            // when
-            // then
-            assertThrows(NullPointerException.class, () -> new Movie(title, category, ageRating, durationMin, releaseDate, wrongTheater, thumbnail));
+            // given when then
+            assertThrows(NullPointerException.class,
+                () -> new Movie("Action Movie 1", ACTION, FIFTEEN, 120,
+                    LocalDate.of(2023, 1, 1), wrongTheater,
+                    new MovieThumbnail("http://thumbnail.com", "thumbnail")));
         }
 
         @NullSource
         @ParameterizedTest
         @DisplayName("실패 - 썸네일이 null")
         void fail_9(MovieThumbnail wrongThumbnail) {
-            // given
-            String title = "Action Movie 1";
-            MovieCategory category = MovieCategory.ACTION;
-            AgeRatingType ageRating = AgeRatingType.FIFTEEN;
-            Integer durationMin = 120;
-            LocalDate releaseDate = LocalDate.of(2023, 1, 1);
-            TheaterType theater = TheaterType.ROOM_1;
-
-            // when
-            // then
-            assertThrows(NullPointerException.class, () -> new Movie(title, category, ageRating, durationMin, releaseDate, theater, wrongThumbnail));
+            // given when then
+            assertThrows(NullPointerException.class,
+                () -> new Movie("Action Movie 1", ACTION, FIFTEEN, 120,
+                    LocalDate.of(2023, 1, 1), TheaterType.ROOM_1,
+                    null));
         }
     }
 }
