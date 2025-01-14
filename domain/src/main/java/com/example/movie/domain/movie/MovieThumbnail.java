@@ -10,6 +10,7 @@ import jakarta.persistence.ForeignKey;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,9 +21,11 @@ import org.hibernate.annotations.Comment;
 @Getter
 @Accessors(fluent = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table
+@Table(uniqueConstraints = {
+    @UniqueConstraint(name = "uk_movie_movie_thumbnail_id", columnNames = "movie_id")
+})
 @Entity
-@Comment("영화 이미지")
+@Comment("영화 썸네일")
 public class MovieThumbnail extends BaseAggregateRoot<MovieThumbnail> {
 
     @OneToOne(optional = false)
@@ -48,5 +51,9 @@ public class MovieThumbnail extends BaseAggregateRoot<MovieThumbnail> {
         this.movie = movie;
         this.url = url;
         this.path = path;
+    }
+
+    public void connectParent(Movie movie) {
+        this.movie = movie;
     }
 }

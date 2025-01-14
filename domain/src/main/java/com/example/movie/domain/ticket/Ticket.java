@@ -30,7 +30,7 @@ import org.hibernate.annotations.Comment;
 @Comment("티켓")
 public class Ticket extends BaseAggregateRoot<Ticket> {
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "schedule_id", foreignKey = @ForeignKey(NO_CONSTRAINT))
     private Schedule schedule;
 

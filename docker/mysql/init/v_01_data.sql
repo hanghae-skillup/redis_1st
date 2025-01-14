@@ -1,17 +1,3 @@
--- movie 테이블에 10개의 영화 삽입
-INSERT INTO movie.movie (created_at, updated_at, age_rating, category, duration, release_date, theater, title)
-VALUES
-    (NOW(), NOW(), 'FIFTEEN', 'ACTION', 120, '2023-01-01', 'ROOM_1', 'Action Movie 1'),
-    (NOW(), NOW(), 'NINETEEN', 'COMEDY', 90, '2023-02-01', 'ROOM_2', 'Comedy Movie 1'),
-    (NOW(), NOW(), 'TWELVE', 'DRAMA', 110, '2023-03-01', 'ROOM_3', 'Drama Movie 1'),
-    (NOW(), NOW(), 'FIFTEEN', 'FANTASY', 130, '2023-04-01', 'ROOM_4', 'Fantasy Movie 1'),
-    (NOW(), NOW(), 'NINETEEN', 'HORROR', 100, '2023-05-01', 'ROOM_5', 'Horror Movie 1'),
-    (NOW(), NOW(), 'TWELVE', 'MYSTERY', 115, '2023-06-01', 'ROOM_6', 'Mystery Movie 1'),
-    (NOW(), NOW(), 'FIFTEEN', 'ROMANCE', 105, '2023-07-01', 'ROOM_1', 'Romance Movie 1'),
-    (NOW(), NOW(), 'NINETEEN', 'THRILLER', 95, '2023-08-01', 'ROOM_2', 'Thriller Movie 1'),
-    (NOW(), NOW(), 'TWELVE', 'ACTION', 125, '2023-09-01', 'ROOM_3', 'Action Movie 2'),
-    (NOW(), NOW(), 'FIFTEEN', 'COMEDY', 85, '2023-10-01', 'ROOM_4', 'Comedy Movie 2');
-
 -- movie_thumbnail 테이블에 10개의 썸네일 삽입
 INSERT INTO movie.movie_thumbnail (created_at, updated_at, path, url, movie_id)
 VALUES
@@ -25,6 +11,22 @@ VALUES
     (NOW(), NOW(), '/path/to/thumbnail8.jpg', 'http://example.com/thumbnail8.jpg', 8),
     (NOW(), NOW(), '/path/to/thumbnail9.jpg', 'http://example.com/thumbnail9.jpg', 9),
     (NOW(), NOW(), '/path/to/thumbnail10.jpg', 'http://example.com/thumbnail10.jpg', 10);
+
+
+-- movie 테이블에 10개의 영화 삽입
+INSERT INTO movie.movie (created_at, updated_at, age_rating, category, duration, release_date, theater, title, thumbnail_id)
+VALUES
+    (NOW(), NOW(), 'FIFTEEN', 'ACTION', 120, '2023-01-01', 'ROOM_1', 'Action Movie 1', 1),
+    (NOW(), NOW(), 'NINETEEN', 'COMEDY', 90, '2023-02-01', 'ROOM_2', 'Comedy Movie 1', 2),
+    (NOW(), NOW(), 'TWELVE', 'DRAMA', 110, '2023-03-01', 'ROOM_3', 'Drama Movie 1', 3),
+    (NOW(), NOW(), 'FIFTEEN', 'FANTASY', 130, '2023-04-01', 'ROOM_4', 'Fantasy Movie 1', 4),
+    (NOW(), NOW(), 'NINETEEN', 'HORROR', 100, '2023-05-01', 'ROOM_5', 'Horror Movie 1', 5),
+    (NOW(), NOW(), 'TWELVE', 'MYSTERY', 115, '2023-06-01', 'ROOM_6', 'Mystery Movie 1', 6),
+    (NOW(), NOW(), 'FIFTEEN', 'ROMANCE', 105, '2023-07-01', 'ROOM_1', 'Romance Movie 1', 7),
+    (NOW(), NOW(), 'NINETEEN', 'THRILLER', 95, '2023-08-01', 'ROOM_2', 'Thriller Movie 1', 8),
+    (NOW(), NOW(), 'TWELVE', 'ACTION', 125, '2023-09-01', 'ROOM_3', 'Action Movie 2', 9),
+    (NOW(), NOW(), 'FIFTEEN', 'COMEDY', 85, '2023-10-01', 'ROOM_4', 'Comedy Movie 2', 10);
+
 
 -- 각 영화에 대해 10개의 스케줄 삽입
 INSERT INTO movie.schedule (created_at, updated_at, end_at, start_at, movie_id)

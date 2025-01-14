@@ -34,7 +34,7 @@ import org.hibernate.annotations.Comment;
 @Comment("상영 시간표")
 public class Schedule extends BaseAggregateRoot<Schedule> {
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "movie_id", foreignKey = @ForeignKey(NO_CONSTRAINT))
     private Movie movie;
 

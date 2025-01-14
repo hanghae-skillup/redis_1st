@@ -2,6 +2,7 @@ package com.example.movie.domain.movie;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static jakarta.persistence.CascadeType.DETACH;
+import static jakarta.persistence.ConstraintMode.NO_CONSTRAINT;
 
 import com.example.movie.common.domain.BaseAggregateRoot;
 import com.example.movie.domain.schedule.Schedule;
@@ -10,10 +11,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +30,9 @@ import org.hibernate.annotations.Comment;
 @Getter
 @Accessors(fluent = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table
+@Table(uniqueConstraints = {
+    @UniqueConstraint(name = "uk_movie_movie_thumbnail_id", columnNames = "thumbnail_id")
+})
 @Entity
 @Comment("영화")
 public class Movie extends BaseAggregateRoot<Movie> {
@@ -53,8 +59,8 @@ public class Movie extends BaseAggregateRoot<Movie> {
     @Column(nullable = false)
     private LocalDate releaseDate;
 
-    @OneToOne(optional = false, mappedBy = "movie")
-    @Comment("썸네일")
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "thumbnail_id", foreignKey = @ForeignKey(NO_CONSTRAINT))
     private MovieThumbnail thumbnail;
 
     @Enumerated(EnumType.STRING)
