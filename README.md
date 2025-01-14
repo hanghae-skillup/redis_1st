@@ -1,20 +1,14 @@
 ## [본 과정] 이커머스 핵심 프로세스 구현
-
----
 [단기 스킬업 Redis 교육 과정](https://hh-skillup.oopy.io/) 을 통해 상품 조회 및 주문 과정을 구현하며 현업에서 발생하는 문제를 Redis의 핵심 기술을 통해 해결합니다.
 > Indexing, Caching을 통한 성능 개선 / 단계별 락 구현을 통한 동시성 이슈 해결 (낙관적/비관적 락, 분산락 등)
 
 ## 개발 환경 및 라이브러리
-
----
 - Java 17
 - Spring Boot 3.4.1
 - Spring Data JPA / Hibernate
 - Mysql
 
 ## 폴더별 설명
-
----
 - **domain** : 도메인 로직 구현
 - **application** : 도메인 로직을 이용한 비즈니스 로직 구현
 - **api** : 비즈니스 로직을 이용한 API 구현
@@ -22,37 +16,25 @@
 - **http-request** : API 호출을 위한 http request 파일
 
 ## 의존성 흐름
-
----
 :domain -> :application -> :api
 
 ## 구현 기능
-
----
 - 상영 영화 목록 조회
 
 ## ERD
-
----
 ![erd.png](erd.png)
 
 ## PRE RUN
-
----
 ```shell
   docker compose -f ./docker/docker-compose.yml up
 ```
 
 ## RUN API
-
----
 ```shell
   ./gradlew api:bootrun
 ```
 
 ## 성능 최적화
-
----
 - `default_batch_fetch_size` 설정을 통한 N+1 문제 해결 및 성능 최적화, 코드 간략화
     - [김영한님의 default_batch_fetch_size Q&A](https://www.inflearn.com/community/questions/34469/default-batch-fetch-size-%EA%B4%80%EB%A0%A8%EC%A7%88%EB%AC%B8)
     - [[번역] Batch Fetching - 객체 그래프 로딩을 최적화 하기 (JPA/ECLIPSELINK)](https://narusas.github.io/2017/11/21/Eclipselink_Batch_Fetch.html)
