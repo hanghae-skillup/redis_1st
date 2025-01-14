@@ -1,6 +1,6 @@
 package com.example.app.movie.presentation.controller;
 
-import com.example.app.movie.port.in.MovieUseCase;
+import com.example.app.movie.port.SearchMovieUseCase;
 import com.example.app.movie.presentation.dto.request.MovieSearchRequest;
 import com.example.app.movie.presentation.dto.response.MovieResponse;
 import jakarta.validation.Valid;
@@ -17,11 +17,11 @@ import java.util.List;
 @RequestMapping("/v1")
 public class MovieController {
 
-    private final MovieUseCase movieUseCase;
+    private final SearchMovieUseCase searchMovieUseCase;
 
     @GetMapping("/movies")
     public ResponseEntity<List<MovieResponse>> getMovies(@Valid MovieSearchRequest movieSearchRequest) {
-        var data = movieUseCase.searchMovies(movieSearchRequest.toPredicate())
+        var data = searchMovieUseCase.searchMovies(movieSearchRequest.toPredicate())
                 .stream()
                 .map(MovieResponse::toResponse)
                 .toList();
