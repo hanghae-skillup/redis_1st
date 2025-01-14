@@ -25,7 +25,7 @@ public class Movie extends BaseEntity {
     private MovieGrade movieGrade;
     private LocalDateTime movieReleaseAt;
     private String movieImageUrl;
-    private Long runningTime;
+    private Long runningTimeMinutes;
     private MovieGenre movieGenre;
 
     public MovieModel toModel() {
@@ -35,7 +35,7 @@ public class Movie extends BaseEntity {
                 .movieGrade(movieGrade)
                 .movieReleaseAt(movieReleaseAt)
                 .movieImageUrl(movieImageUrl)
-                .runningTime(runningTime)
+                .runningTimeMinutes(runningTimeMinutes)
                 .movieGenre(movieGenre)
                 .build();
 

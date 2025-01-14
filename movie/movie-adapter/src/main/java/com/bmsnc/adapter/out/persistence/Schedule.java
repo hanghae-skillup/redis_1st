@@ -19,8 +19,8 @@ public class Schedule extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long scheduleId;
     @ManyToOne
-    @JoinColumn(name = "theater_id")
-    private Theater theater;
+    @JoinColumn(name = "movie_theater_info_id")
+    private MovieTheaterInfo movieTheaterInfo;
     private LocalDateTime startAt;
 
 }

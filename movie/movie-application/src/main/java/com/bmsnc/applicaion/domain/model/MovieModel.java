@@ -16,7 +16,7 @@ public class MovieModel {
     private MovieGrade movieGrade;
     private LocalDateTime movieReleaseAt;
     private String movieImageUrl;
-    private Long runningTime;
+    private Long runningTimeMinutes;
     private MovieGenre movieGenre;
 
 }

@@ -19,6 +19,6 @@ public class Reservation {
     @JoinColumn(name = "memberId")
     private Member member;
     @ManyToOne
-    @JoinColumn(name = "theater_id")
-    private Theater theater;
+    @JoinColumn(name = "movie_theater_info_id")
+    private MovieTheaterInfo movieTheaterInfo;
 }

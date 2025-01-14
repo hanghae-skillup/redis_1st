@@ -13,7 +13,7 @@ CREATE TABLE `movie` (
                          `movie_grade`	VARCHAR(255)	NULL	COMMENT 'ENUM',
                          `movie_release_at`	TIMESTAMP	NULL,
                          `movie_image_url`	VARCHAR(255)	NULL,
-                         `running_time`	BIGINT	NULL,
+                         `running_time_minutes`	BIGINT	NULL,
                          `movie_genre`	VARCHAR(255)	NULL	COMMENT 'ENUM',
                          `created_at`	TIMESTAMP	NOT NULL	DEFAULT NOW(),
                          `updated_at`	TIMESTAMP	NOT NULL	DEFAULT NOW(),
@@ -32,7 +32,7 @@ CREATE TABLE `theater` (
 
 CREATE TABLE `schedule` (
                             `schedule_id`	BIGINT	NOT NULL,
-                            `theater_Id`	BIGINT	NOT NULL,
+                            `movie_theater_info_id`	BIGINT	NOT NULL,
                             `start_at`	TIMESTAMP	NULL,
                             `created_at`	TIMESTAMP	NOT NULL	DEFAULT NOW(),
                             `updated_at`	TIMESTAMP	NOT NULL	DEFAULT NOW(),
@@ -53,7 +53,7 @@ CREATE TABLE `seatInfo` (
 CREATE TABLE `reservation` (
                                `reservation_id`	BIGINT	NOT NULL,
                                `member_id`	BIGINT	NOT NULL,
-                               `theater_id`	BIGINT	NOT NULL,
+                               `movie_theater_info_id`	BIGINT	NOT NULL,
                                `created_at`	TIMESTAMP	NOT NULL	DEFAULT NOW(),
                                `updated_at`	TIMESTAMP	NOT NULL	DEFAULT NOW(),
                                `created_author`	BIGINT	NULL,
@@ -83,3 +83,4 @@ ALTER TABLE `seatInfo` ADD CONSTRAINT `PK_SEATINFO` PRIMARY KEY (`seatInfo_id`);
 ALTER TABLE `reservation` ADD CONSTRAINT `PK_RESERVATION` PRIMARY KEY (`reservation_id`);
 
 ALTER TABLE `movie_theater_info` ADD CONSTRAINT `PK_MOVIE_THEATER_INFO` PRIMARY KEY (`movie_theater_info_id`);
+
