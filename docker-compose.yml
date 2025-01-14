@@ -9,7 +9,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: Tlmm3PjdJ*
     volumes:
-      - ./init_my.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
   app:
     build:
       context: .  # Dockerfile이 있는 디렉토리
