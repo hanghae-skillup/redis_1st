@@ -60,14 +60,14 @@ public class Movie extends BaseAggregateRoot<Movie> {
     @Column(nullable = false)
     private LocalDate releaseDate;
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "thumbnail_id", foreignKey = @ForeignKey(NO_CONSTRAINT))
-    private MovieThumbnail thumbnail;
-
     @Enumerated(EnumType.STRING)
     @Comment("상영관")
     @Column(nullable = false)
     private TheaterType theater;
+
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @JoinColumn(name = "thumbnail_id", foreignKey = @ForeignKey(NO_CONSTRAINT))
+    private MovieThumbnail thumbnail;
 
     @OrderBy("startAt ASC")
     @OneToMany(mappedBy = "movie", cascade = DETACH)
@@ -75,7 +75,7 @@ public class Movie extends BaseAggregateRoot<Movie> {
 
     public static final int MAX_TITLE_LENGTH = 50;
 
-    public Movie(String title, MovieCategory category, AgeRatingType ageRating, Integer durationMin, LocalDate releaseDate, MovieThumbnail thumbnail) {
+    public Movie(String title, MovieCategory category, AgeRatingType ageRating, Integer durationMin, LocalDate releaseDate, TheaterType theater, MovieThumbnail thumbnail) {
         checkNotNull(title, "title must be provided.");
         checkArgument(!title.isBlank(), "title must be provided.");
         checkArgument(title.length() <= MAX_TITLE_LENGTH, "title length must be less or equals than %s.", MAX_TITLE_LENGTH);
@@ -84,6 +84,7 @@ public class Movie extends BaseAggregateRoot<Movie> {
         checkNotNull(durationMin, "duration must be provided.");
         checkArgument(durationMin > 0, "duration must be greater than 0.");
         checkNotNull(releaseDate, "releaseDate must be provided.");
+        checkNotNull(theater, "theater must be provided.");
         checkNotNull(thumbnail, "thumbnail must be provided.");
 
         this.title = title;
@@ -91,6 +92,7 @@ public class Movie extends BaseAggregateRoot<Movie> {
         this.ageRating = ageRating;
         this.durationMin = durationMin;
         this.releaseDate = releaseDate;
+        this.theater = theater;
         this.thumbnail = thumbnail;
     }
 

@@ -28,9 +28,10 @@ class MovieTest {
             Integer durationMin = 120;
             LocalDate releaseDate = LocalDate.of(2023, 1, 1);
             MovieThumbnail thumbnail = new MovieThumbnail("http://thumbnail.com", "thumbnail");
+            TheaterType theater = TheaterType.ROOM_1;
 
             // when
-            Movie movie = new Movie(title, category, ageRating, durationMin, releaseDate, thumbnail);
+            Movie movie = new Movie(title, category, ageRating, durationMin, releaseDate, theater, thumbnail);
 
             // then
             assertNotNull(movie);
@@ -52,10 +53,11 @@ class MovieTest {
             Integer durationMin = 120;
             LocalDate releaseDate = LocalDate.of(2023, 1, 1);
             MovieThumbnail thumbnail = new MovieThumbnail("http://thumbnail.com", "thumbnail");
+            TheaterType theater = TheaterType.ROOM_1;
 
             // when
             // then
-            assertThrows(NullPointerException.class, () -> new Movie(wrongTitle, category, ageRating, durationMin, releaseDate, thumbnail));
+            assertThrows(NullPointerException.class, () -> new Movie(wrongTitle, category, ageRating, durationMin, releaseDate, theater, thumbnail));
         }
 
         @EmptySource
@@ -68,10 +70,11 @@ class MovieTest {
             Integer durationMin = 120;
             LocalDate releaseDate = LocalDate.of(2023, 1, 1);
             MovieThumbnail thumbnail = new MovieThumbnail("http://thumbnail.com", "thumbnail");
+            TheaterType theater = TheaterType.ROOM_1;
 
             // when
             // then
-            assertThrows(IllegalArgumentException.class, () -> new Movie(wrongTitle, category, ageRating, durationMin, releaseDate, thumbnail));
+            assertThrows(IllegalArgumentException.class, () -> new Movie(wrongTitle, category, ageRating, durationMin, releaseDate, theater, thumbnail));
         }
 
         @Test
@@ -84,10 +87,11 @@ class MovieTest {
             Integer durationMin = 120;
             LocalDate releaseDate = LocalDate.of(2023, 1, 1);
             MovieThumbnail thumbnail = new MovieThumbnail("http://thumbnail.com", "thumbnail");
+            TheaterType theater = TheaterType.ROOM_1;
 
             // when
             // then
-            assertThrows(IllegalArgumentException.class, () -> new Movie(wrongTitle, category, ageRating, durationMin, releaseDate, thumbnail));
+            assertThrows(IllegalArgumentException.class, () -> new Movie(wrongTitle, category, ageRating, durationMin, releaseDate, theater, thumbnail));
         }
 
         @NullSource
@@ -99,11 +103,12 @@ class MovieTest {
             AgeRatingType ageRating = AgeRatingType.FIFTEEN;
             Integer durationMin = 120;
             LocalDate releaseDate = LocalDate.of(2023, 1, 1);
+            TheaterType theater = TheaterType.ROOM_1;
             MovieThumbnail thumbnail = new MovieThumbnail("http://thumbnail.com", "thumbnail");
 
             // when
             // then
-            assertThrows(NullPointerException.class, () -> new Movie(title, wrongCategory, ageRating, durationMin, releaseDate, thumbnail));
+            assertThrows(NullPointerException.class, () -> new Movie(title, wrongCategory, ageRating, durationMin, releaseDate, theater, thumbnail));
         }
 
         @NullSource
@@ -115,11 +120,12 @@ class MovieTest {
             MovieCategory category = MovieCategory.ACTION;
             Integer durationMin = 120;
             LocalDate releaseDate = LocalDate.of(2023, 1, 1);
+            TheaterType theater = TheaterType.ROOM_1;
             MovieThumbnail thumbnail = new MovieThumbnail("http://thumbnail.com", "thumbnail");
 
             // when
             // then
-            assertThrows(NullPointerException.class, () -> new Movie(title, category, wrongAgeRating, durationMin, releaseDate, thumbnail));
+            assertThrows(NullPointerException.class, () -> new Movie(title, category, wrongAgeRating, durationMin, releaseDate, theater, thumbnail));
         }
 
         @NullSource
@@ -131,11 +137,12 @@ class MovieTest {
             MovieCategory category = MovieCategory.ACTION;
             AgeRatingType ageRating = AgeRatingType.FIFTEEN;
             LocalDate releaseDate = LocalDate.of(2023, 1, 1);
+            TheaterType theater = TheaterType.ROOM_1;
             MovieThumbnail thumbnail = new MovieThumbnail("http://thumbnail.com", "thumbnail");
 
             // when
             // then
-            assertThrows(NullPointerException.class, () -> new Movie(title, category, ageRating, wrongDurationMin, releaseDate, thumbnail));
+            assertThrows(NullPointerException.class, () -> new Movie(title, category, ageRating, wrongDurationMin, releaseDate, theater, thumbnail));
         }
 
         @Test
@@ -147,11 +154,12 @@ class MovieTest {
             AgeRatingType ageRating = AgeRatingType.FIFTEEN;
             Integer wrongDurationMin = -1;
             LocalDate releaseDate = LocalDate.of(2023, 1, 1);
+            TheaterType theater = TheaterType.ROOM_1;
             MovieThumbnail thumbnail = new MovieThumbnail("http://thumbnail.com", "thumbnail");
 
             // when
             // then
-            assertThrows(IllegalArgumentException.class, () -> new Movie(title, category, ageRating, wrongDurationMin, releaseDate, thumbnail));
+            assertThrows(IllegalArgumentException.class, () -> new Movie(title, category, ageRating, wrongDurationMin, releaseDate, theater, thumbnail));
         }
 
         @NullSource
@@ -163,27 +171,46 @@ class MovieTest {
             MovieCategory category = MovieCategory.ACTION;
             AgeRatingType ageRating = AgeRatingType.FIFTEEN;
             Integer durationMin = 120;
+            TheaterType theater = TheaterType.ROOM_1;
             MovieThumbnail thumbnail = new MovieThumbnail("http://thumbnail.com", "thumbnail");
 
             // when
             // then
-            assertThrows(NullPointerException.class, () -> new Movie(title, category, ageRating, durationMin, wrongReleaseDate, thumbnail));
+            assertThrows(NullPointerException.class, () -> new Movie(title, category, ageRating, durationMin, wrongReleaseDate, theater, thumbnail));
         }
 
         @NullSource
         @ParameterizedTest
-        @DisplayName("실패 - 썸네일이 null")
-        void fail_8(MovieThumbnail wrongThumbnail) {
+        @DisplayName("실패 - 상영관이 null")
+        void fail_8(TheaterType wrongTheater) {
             // given
             String title = "Action Movie 1";
             MovieCategory category = MovieCategory.ACTION;
             AgeRatingType ageRating = AgeRatingType.FIFTEEN;
             Integer durationMin = 120;
             LocalDate releaseDate = LocalDate.of(2023, 1, 1);
+            MovieThumbnail thumbnail = new MovieThumbnail("http://thumbnail.com", "thumbnail");
 
             // when
             // then
-            assertThrows(NullPointerException.class, () -> new Movie(title, category, ageRating, durationMin, releaseDate, wrongThumbnail));
+            assertThrows(NullPointerException.class, () -> new Movie(title, category, ageRating, durationMin, releaseDate, wrongTheater, thumbnail));
+        }
+
+        @NullSource
+        @ParameterizedTest
+        @DisplayName("실패 - 썸네일이 null")
+        void fail_9(MovieThumbnail wrongThumbnail) {
+            // given
+            String title = "Action Movie 1";
+            MovieCategory category = MovieCategory.ACTION;
+            AgeRatingType ageRating = AgeRatingType.FIFTEEN;
+            Integer durationMin = 120;
+            LocalDate releaseDate = LocalDate.of(2023, 1, 1);
+            TheaterType theater = TheaterType.ROOM_1;
+
+            // when
+            // then
+            assertThrows(NullPointerException.class, () -> new Movie(title, category, ageRating, durationMin, releaseDate, theater, wrongThumbnail));
         }
     }
 }
