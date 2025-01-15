@@ -1,5 +1,6 @@
 package com.example.app.movie.presentation.dto.request;
 
+import com.example.app.common.annotation.ValidEnum;
 import com.example.app.movie.type.MovieGenre;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
@@ -11,12 +12,13 @@ import static java.util.Objects.nonNull;
 public record MovieSearchRequest(
         @Length(max = 255, message = "제목은 255자 이하로 검색해주세요")
         String title,
-        MovieGenre genre
+        @ValidEnum(enumClass = MovieGenre.class)
+        String genre
 ){
     public Predicate toPredicate() {
         return ExpressionUtils.allOf(
                 nonNull(title) ? movieJpaEntity.title.containsIgnoreCase(title) : null,
-                nonNull(genre) ? movieJpaEntity.genre.eq(genre) : null
+                nonNull(genre) ? movieJpaEntity.genre.eq(MovieGenre.valueOf(genre)) : null
         );
     }
 }
