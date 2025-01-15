@@ -29,7 +29,7 @@ hhCinema/
   
 ### 4. ER 다이어그림
 
-![hhCinema_ERD](https://github.com/user-attachments/assets/d8a3fa87-bb47-4fcf-9dc8-ad0bad6f3f96)
+![hhCinema_ERD](https://github.com/user-attachments/assets/375b0b02-ac10-4907-bb6e-f5cf5250ad3f)
 
 
 
