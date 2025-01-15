@@ -1,7 +1,7 @@
 package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.dto.response.movie.PlayingMoviesResponseDto;
+import org.example.dto.response.PlayingMoviesResponseDto;
 import org.example.service.MovieService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

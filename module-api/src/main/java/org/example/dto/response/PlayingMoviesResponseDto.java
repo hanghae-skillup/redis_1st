@@ -1,4 +1,4 @@
-package org.example.dto.response.movie;
+package org.example.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,5 +17,5 @@ public class PlayingMoviesResponseDto {
     private AgeRating ageRating;
     private LocalDate releaseDate;
     private int runningTime;
-    private List<ScreenScheduleDto> screenSchedules;
+    private List<ScreenInfo> screenInfos;
 }
