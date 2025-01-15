@@ -24,9 +24,7 @@ public class UploadFileMapper {
                 .fileName(uploadFile.getFileName())
                 .originFileName(uploadFile.getOriginFileName())
                 .createdBy(uploadFile.getCreatedBy())
-                .createdAt(uploadFile.getCreatedAt())
                 .updatedBy(uploadFile.getUpdatedBy())
-                .updatedAt(uploadFile.getUpdatedAt())
                 .build();
         return uploadFileEntity;
     }

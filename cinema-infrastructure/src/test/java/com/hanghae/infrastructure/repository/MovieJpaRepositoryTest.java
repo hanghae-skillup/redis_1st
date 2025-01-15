@@ -31,7 +31,7 @@ public class MovieJpaRepositoryTest {
                 .title("테스트제목")
                 .rating(MovieRating.ALL)
                 .releaseDate(LocalDate.of(2025, 01, 10))
-                .runningTime(11L)
+                .runningTimeMinutes(11L)
                 .genre(MovieGenre.ACTION)
                 .build();
 

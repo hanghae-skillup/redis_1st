@@ -9,12 +9,18 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE} # 초기 생성할 데이터베이스 이름
       MYSQL_USER: ${MYSQL_USER} # 초기 생성할 사용자 이름
       MYSQL_PASSWORD: ${MYSQL_PASSWORD} # 초기 생성할 비밀번호
+      TZ: Asia/Seoul  # Timezone 설정
     ports: # 호스트와 컨테이너 간의 포트를 매핑
       - "3307:3306" # [호스트 포트]:[컨테이너 포트]
       # 예) "8880:3306" < 이렇게 설정되었을때 localhost:8880 호출시 컨테이너 내부 3306포트 연결
     volumes: #volumes를 설정하지 않으면 MySQL 컨테이너가 종료되거나 삭제될 때 컨테이너 내부의 모든 데이터가 삭제
       - ./cinema_mysql_data:/var/lib/mysql # 데이터 영구 저장 (호스트 디렉터리 마운트, 개발에 적합)
       #- cinema_mysql_data:/var/lib/mysql # 데이터 영구 저장 (명명된 볼륨, 운영에 적합), 이 설정을 쓰면 루트 volumes를 설정해 줘야댐
+    command: [
+      "--character-set-server=utf8mb4",           # MySQL 서버 기본 문자 집합을 utf8mb4로 설정
+      "--collation-server=utf8mb4_general_ci",    # MySQL 서버 기본 정렬 규칙을 utf8mb4_general_ci로 설정
+      "--default-time-zone=Asia/Seoul"              # MySQL 서버 기본 타임존을 KST(+09:00)로 설정
+    ]
 
 #volumes : #루트 레벨에 volumes는 Docker가 관리하는 명명된 볼륨을 정의
   #cinema_mysql_data: #섹션에 정의된 볼륨은 여러 서비스간에 공유 가능, services 내부의 volumes가 루트 레벨 volumes를 참조

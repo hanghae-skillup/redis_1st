@@ -10,7 +10,7 @@ public class MovieMapper {
                 movieEntity.getTitle(),
                 movieEntity.getRating(),
                 movieEntity.getReleaseDate(),
-                movieEntity.getRunningTime(),
+                movieEntity.getRunningTimeMinutes(),
                 movieEntity.getGenre(),
                 UploadFileMapper.toDomain(movieEntity.getUploadFileEntity()),
                 movieEntity.getCreatedBy(),
@@ -26,13 +26,11 @@ public class MovieMapper {
                 .title(movie.getTitle())
                 .rating(movie.getRating())
                 .releaseDate(movie.getReleaseDate())
-                .runningTime(movie.getRunningTime())
+                .runningTimeMinutes(movie.getRunningTimeMinutes())
                 .genre(movie.getGenre())
                 .uploadFileEntity(UploadFileMapper.toEntity(movie.getUploadFile()))
                 .createdBy(movie.getCreatedBy())
-                .createdAt(movie.getCreatedAt())
                 .updatedBy(movie.getUpdatedBy())
-                .updatedAt(movie.getUpdatedAt())
                 .build();
         return movieEntity;
     }

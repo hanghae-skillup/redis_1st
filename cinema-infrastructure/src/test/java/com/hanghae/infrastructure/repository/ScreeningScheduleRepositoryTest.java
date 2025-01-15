@@ -44,7 +44,7 @@ public class ScreeningScheduleRepositoryTest {
         ScreeningScheduleEntity screeningScheduleEntity = ScreeningScheduleEntity.builder()
                 .screenEntity(screen)
                 .movieEntity(movie)
-                .showStartDatetime(LocalDateTime.of(2024, 10, 15, 11, 11, 11))
+                .showStartAt(LocalDateTime.of(2024, 10, 15, 11, 11, 11))
                 .build();
 
         // when

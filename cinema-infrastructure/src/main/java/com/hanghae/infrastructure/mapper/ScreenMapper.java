@@ -20,9 +20,7 @@ public class ScreenMapper {
                 .id(domain.getScreenId())
                 .screenName(domain.getScreenName())
                 .createdBy(domain.getCreatedBy())
-                .createdAt(domain.getCreatedAt())
                 .updatedBy(domain.getUpdatedBy())
-                .updatedAt(domain.getUpdatedAt())
                 .build();
         return entity;
     }

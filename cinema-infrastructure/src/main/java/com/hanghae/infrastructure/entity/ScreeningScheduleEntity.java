@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name= "screening_schedule")
-public class ScreeningScheduleEntity {
+public class ScreeningScheduleEntity extends BaseEntity {
     @Id
     @Column(name = "schedule_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,31 +34,15 @@ public class ScreeningScheduleEntity {
     private ScreenEntity screenEntity;
 
     @Column
-    private LocalDateTime showStartDatetime; // 상영 시작 시간
-
-    @Column
-    private Long createdBy; // 작성자 ID
-
-    @CreationTimestamp
-    @Column(updatable = false)
-    private LocalDateTime createdAt; // 작성일
-
-    @Column
-    private Long updatedBy; // 수정자 ID
-
-    @UpdateTimestamp
-    @Column(insertable = false)
-    private LocalDateTime updatedAt; //수정일
+    private LocalDateTime showStartAt; // 상영 시작 시간
 
     @Builder
-    public ScreeningScheduleEntity(Long id, MovieEntity movieEntity, ScreenEntity screenEntity, LocalDateTime showStartDatetime, Long createdBy, LocalDateTime createdAt, Long updatedBy, LocalDateTime updatedAt) {
+    public ScreeningScheduleEntity(Long id, MovieEntity movieEntity, ScreenEntity screenEntity, LocalDateTime showStartAt, Long createdBy, Long updatedBy) {
         this.id = id;
         this.movieEntity = movieEntity;
         this.screenEntity = screenEntity;
-        this.showStartDatetime = showStartDatetime;
-        this.createdBy = createdBy;
-        this.createdAt = createdAt;
-        this.updatedBy = updatedBy;
-        this.updatedAt = updatedAt;
+        this.showStartAt = showStartAt;
+        this.setCreatedBy(createdBy);
+        this.setUpdatedBy(updatedBy);
     }
 }
