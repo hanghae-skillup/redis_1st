@@ -5,7 +5,7 @@ plugins {
 bootJar.enabled = true
 
 dependencies {
-    implementation project(':module-core')
+    implementation project(':module-common')
     implementation project(':module-domain')
 
     testImplementation platform('org.junit:junit-bom:5.9.1')

@@ -5,7 +5,7 @@ plugins {
 jar.enabled = true
 
 dependencies {
-    implementation project(':module-core')
+    implementation project(':module-common')
 
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
