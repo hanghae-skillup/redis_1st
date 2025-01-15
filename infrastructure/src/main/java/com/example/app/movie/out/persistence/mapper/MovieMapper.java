@@ -1,8 +1,8 @@
 package com.example.app.movie.out.persistence.mapper;
 
-import com.example.app.movie.Movie;
-import com.example.app.movie.Showtime;
-import com.example.app.movie.Theater;
+import com.example.app.movie.domain.Movie;
+import com.example.app.movie.domain.Showtime;
+import com.example.app.movie.domain.Theater;
 import com.example.app.movie.out.persistence.entity.MovieJpaEntity;
 import com.example.app.movie.out.persistence.entity.MovieTheaterJpaEntity;
 import com.example.app.movie.out.persistence.entity.ShowtimeJpaEntity;

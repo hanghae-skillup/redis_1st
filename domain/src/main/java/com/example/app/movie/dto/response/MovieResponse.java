@@ -1,8 +1,8 @@
-package com.example.app.movie.presentation.dto.response;
+package com.example.app.movie.dto.response;
 
-import com.example.app.movie.Movie;
-import com.example.app.movie.Showtime;
-import com.example.app.movie.Theater;
+import com.example.app.movie.domain.Movie;
+import com.example.app.movie.domain.Showtime;
+import com.example.app.movie.domain.Theater;
 import lombok.Builder;
 
 import java.time.LocalDate;
