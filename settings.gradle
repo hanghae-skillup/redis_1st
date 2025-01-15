@@ -1,0 +1,3 @@
+rootProject.name = 'redis_1st'
+include 'api', 'application', 'domain'
+
