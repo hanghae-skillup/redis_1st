@@ -7,13 +7,13 @@ import org.example.domain.ScreeningSchedule;
 import org.example.outbound.persistence.entity.ScreeningJpaEntity;
 import org.example.outbound.persistence.repository.ScreeningRepository;
 import org.example.port.inbound.ScreeningPort;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Component
+@Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ScreeningPersistenceAdapter implements ScreeningPort {
@@ -26,17 +26,17 @@ public class ScreeningPersistenceAdapter implements ScreeningPort {
         return entityList.stream()
                 .map(entity -> {
                     Movie movie = Movie.builder()
-                            .id(entity.getMovieJpaEntity().getId())
-                            .title(entity.getMovieJpaEntity().getTitle())
-                            .genre(entity.getMovieJpaEntity().getGenre())
-                            .releaseDate(entity.getMovieJpaEntity().getReleaseDate())
-                            .runtimeMinutes(entity.getMovieJpaEntity().getRuntimeMinutes())
-                            .ageRating(entity.getMovieJpaEntity().getAgeRating())
-                            .thumbnailUrl(entity.getMovieJpaEntity().getThumbnailUrl())
-                            .createdAt(entity.getMovieJpaEntity().getCreatedAt())
-                            .createdBy(entity.getMovieJpaEntity().getCreatedBy())
-                            .updatedAt(entity.getMovieJpaEntity().getUpdatedAt())
-                            .updatedBy(entity.getMovieJpaEntity().getUpdatedBy())
+                            .id(entity.getMovie().getId())
+                            .title(entity.getMovie().getTitle())
+                            .genre(entity.getMovie().getGenre())
+                            .releaseDate(entity.getMovie().getReleaseDate())
+                            .runtimeMinutes(entity.getMovie().getRuntimeMinutes())
+                            .ageRating(entity.getMovie().getAgeRating())
+                            .thumbnailUrl(entity.getMovie().getThumbnailUrl())
+                            .createdAt(entity.getMovie().getCreatedAt())
+                            .createdBy(entity.getMovie().getCreatedBy())
+                            .updatedAt(entity.getMovie().getUpdatedAt())
+                            .updatedBy(entity.getMovie().getUpdatedBy())
                             .build();
                     List<ScreeningSchedule> screeningSchedules = entity.getSchedules()
                             .stream()

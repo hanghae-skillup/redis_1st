@@ -1,6 +1,5 @@
 package org.example.outbound.persistence.repository;
 
-import com.example.hanghaecinema.domain.Screening;
 import org.example.outbound.persistence.entity.ScreeningJpaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,7 +13,7 @@ import java.util.List;
 public interface ScreeningRepository extends JpaRepository<ScreeningJpaEntity, Long> {
 
     @Query("""
-            SELECT s FROM Screening s
+            SELECT s FROM ScreeningJpaEntity s
             JOIN FETCH s.movie m
             WHERE s.showDate >= :date
             ORDER BY m.releaseDate DESC

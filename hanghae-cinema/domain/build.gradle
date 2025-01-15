@@ -1,19 +1,11 @@
-plugins {
-    id 'java-library'
-}
-
-bootJar { enabled = false }
-jar { enabled = true }
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation 'jakarta.persistence:jakarta.persistence-api'
 }
 
-test {
-    useJUnitPlatform()
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
 }

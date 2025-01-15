@@ -1,7 +1,8 @@
 spring:
   docker:
-    componse:
+    compose:
       lifecycle-management: start_only
+      file: compose.yaml
   datasource:
     url: jdbc:mysql://localhost:3306/mydatabase?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8
     username: myuser

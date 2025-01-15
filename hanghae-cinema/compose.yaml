@@ -11,4 +11,7 @@ services:
       - '3306:3306'
     volumes:
       - ./db/mysql/data:/var/lib/mysql
-      - ./src/main/resources/mysql/init:/docker-entrypoint-initdb.d
+      - ./adapter/src/main/resources/mysql/init/ddl.sql:/docker-entrypoint-initdb.d/ddl.sql
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci

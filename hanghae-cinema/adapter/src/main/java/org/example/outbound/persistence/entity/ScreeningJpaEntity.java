@@ -21,7 +21,7 @@ public class ScreeningJpaEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_id", nullable = false)
-    private MovieJpaEntity movieJpaEntity;
+    private MovieJpaEntity movie;
 
     @Column(nullable = false, length = 255)
     private String theater;
