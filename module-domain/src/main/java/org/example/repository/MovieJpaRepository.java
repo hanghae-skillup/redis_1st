@@ -13,6 +13,9 @@ public interface MovieJpaRepository extends JpaRepository<Movie, Long> {
     List<Movie> findAllPlayingMovies();
 
     @Query("select new org.example.dto.ScreenInfoProjection(sr.name, ss.startTime, ss.endTime) " +
-            "from ScreenSchedule ss join ss.movie m join ss.screenRoom sr where m.id = :movieId")
+            "from ScreenSchedule ss " +
+            "join Movie m on m.id = ss.movieId " +
+            "join ScreenRoom sr on sr.id = ss.screenRoomId " +
+            "where m.id = :movieId")
     List<ScreenInfoProjection> findScreenInfos(@Param("movieId") Long movieId);
 }
