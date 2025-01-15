@@ -3,7 +3,6 @@ package org.example.domain;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.example.domain.movie.Movie;
 import org.example.entity.BaseEntity;
 
 import java.time.LocalDateTime;
@@ -22,11 +21,9 @@ public class ScreenSchedule extends BaseEntity {
     @Column(nullable = false)
     private LocalDateTime endTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_id")
-    private Movie movie;
+    @Column(nullable = false)
+    private Long movieId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "screen_room_id")
-    private ScreenRoom screenRoom;
+    @Column(nullable = false)
+    private Long screenRoomId;
 }
