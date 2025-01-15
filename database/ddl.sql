@@ -20,8 +20,8 @@ CREATE TABLE `tb_movie` (
 CREATE TABLE `tb_movie_showtime` (
     `showtime_id` int unsigned NOT NULL AUTO_INCREMENT,
     `movie_id` int unsigned NOT NULL,
-    `start` varchar(5) NOT NULL COMMENT '상영시작시간',
-    `end` varchar(5) NOT NULL COMMENT '상영종료시간',
+    `start` time NOT NULL COMMENT '상영시작시간',
+    `end` time NOT NULL COMMENT '상영종료시간',
     `updated_at` datetime NOT NULL,
     `created_at` datetime NOT NULL,
     PRIMARY KEY (`showtime_id`)
