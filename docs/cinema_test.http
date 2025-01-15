@@ -1,0 +1,7 @@
+@local = 127.0.0.1:8080
+
+### 영화 상영 시간표 조회
+GET http://{{local}}/api/v1/movie-schedules HTTP/1.1
+
+### 영화별 상영 시간표 조회
+GET http://{{local}}/api/v2/movie-schedules HTTP/1.1

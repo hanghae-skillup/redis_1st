@@ -12,6 +12,16 @@
     * 스프링부트를 실행시키는 `SpringApplication`가 위치한곳  
   
 > `domain model`에 `setter`사용할 예정으로 빌더패턴 사용 안함.
+  
+> QueryDSL 사용시 Q클래스를 사용하기 위해선 `build.gradle.kts`에 `dependencies` 추가 후 `해당 모듈` build 폴더 안에 Q클래스가 생성되어 있어야 사용 가능하다.   
+>> 예) `cinema-infrastructure/build/generated/sources/annotationProcessor/java/main/com/hanghae/infrastructure/entity/QBaseEntity.java`  
+>   
+> 클린 후 빌드를 다시 진행시 build에 Q클래스 생성을 확인 필요  
+  
+> `QueryDSL`을 사용할 때 `infrastructure` 계층에서 도메인모델로 반환하게 되면 데이터 매핑 작업이 발생해 복잡해 진다.
+> 그렇다고 `infrastructure` 계층에 dto를 반환하기엔 일관성이 깨진다. (dto변환은 `application` 계층에서 진행)
+> 그래서 `infrastructure` 계층에서 `projection` 반환 후 `application` 계층에서 dto로 변환하려고함 (근데 의존성 떄문에 `projection`를 application에 위치시킴)
+  
     
 ### 도커컴포즈  
 * 도커컴포즈 설정파일
@@ -84,5 +94,7 @@
     * `docs/cineam_create.sql`
 * 초기 데이터
     * `docs/init_insert.sql`
+* HTTP 테스트
+    * `docs/cinema_test.http` 
 
 `영화`테이블의 `영상물등급`, `영화장르` 컬럼에 적재되는 하는 코드값은 `java`에 `enum`을 사용해 처리  
