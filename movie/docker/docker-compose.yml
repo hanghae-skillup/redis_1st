@@ -12,7 +12,7 @@ services:
     command: redis-server /usr/local/conf/redis.conf
 
   db:
-    image: mysql
+    image: mysql:8.0.37
     container_name: mysql-container
     environment:
       MYSQL_ROOT_PASSWORD : 1234
@@ -20,6 +20,10 @@ services:
     ports:
       - "3306:3306"
     restart: always
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
     volumes:
       - ./database/mysql/init:/docker-entrypoint-initdb.d
 

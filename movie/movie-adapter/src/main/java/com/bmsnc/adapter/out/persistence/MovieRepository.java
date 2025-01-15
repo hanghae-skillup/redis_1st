@@ -14,7 +14,7 @@ public interface MovieRepository extends JpaRepository<MovieTheaterInfo, Long> {
             "left join fetch i.theater t " +
             "where 1=1 " +
             "and t.theaterId = :theaterId " +
-            "and m.movieReleaseAt >= :now")
+            "and m.movieReleaseAt <= :now")
     List<MovieTheaterInfo> getRunningMovies(@Param("theaterId") Long theaterId, @Param("now") LocalDateTime now);
 
 }

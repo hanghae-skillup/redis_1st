@@ -5,6 +5,7 @@ import com.bmsnc.applicaion.port.in.RunningMovieCommand;
 import com.bmsnc.common.Result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,8 +19,7 @@ public class MovieController {
     private final MovieUseCaseService movieUseCaseService;
 
     @GetMapping("/running/{theaterId}")
-    public Result getRunningMovies(Long theaterId) {
-
+    public Result getRunningMovies(@PathVariable("theaterId") Long theaterId) {
         RunningMovieCommand command = RunningMovieCommand.builder()
                 .theaterId(theaterId)
                 .now(LocalDateTime.now())

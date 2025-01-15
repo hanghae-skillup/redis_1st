@@ -19,8 +19,9 @@ public class RunningMoviesAdapter implements RunningMoviesPort {
 
     @Override
     public List<MovieModel> getRunningMovies(RunningMovieCommand command) {
+
         return movieRepository.getRunningMovies(command.getTheaterId(), command.getNow())
-                        .stream()
+                .stream()
                 .map(MovieTheaterInfo::getMovie)
                 .filter(Objects::nonNull)
                 .map(Movie::toModel)

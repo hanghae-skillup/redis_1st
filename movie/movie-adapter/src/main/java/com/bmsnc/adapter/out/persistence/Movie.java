@@ -26,6 +26,7 @@ public class Movie extends BaseEntity {
     private LocalDateTime movieReleaseAt;
     private String movieImageUrl;
     private Long runningTimeMinutes;
+    @Enumerated(EnumType.STRING)
     private MovieGenre movieGenre;
 
     public MovieModel toModel() {
