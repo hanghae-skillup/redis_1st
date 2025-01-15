@@ -41,7 +41,7 @@ out/
 application/.gitattributes
 
 */.gitignore
-build.gradle
+
 
 gradlew
 gradlew.bat
