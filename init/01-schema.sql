@@ -25,7 +25,7 @@ CREATE TABLE movie_theater (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     movie_id INT UNSIGNED NOT NULL,
-    theater_id INT UNSIGNED NOT NULL,
+    theater_id INT UNSIGNED NOT NULL
 );
 
 -- Screening 테이블 생성
@@ -36,7 +36,7 @@ CREATE TABLE screening (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     started_at TIMESTAMP NOT NULL,
     ended_at TIMESTAMP NOT NULL,
-    movie_id INT UNSIGNED NOT NULL,
+    movie_id INT UNSIGNED NOT NULL
 );
 
 -- Seat 테이블 생성
@@ -44,5 +44,5 @@ CREATE TABLE seat (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     reserved BIT NOT NULL DEFAULT 0,
     screening_id INT UNSIGNED NOT NULL,
-    seat_number VARCHAR(10) NOT NULL,
+    seat_number VARCHAR(10) NOT NULL
 );
