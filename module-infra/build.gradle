@@ -2,6 +2,8 @@ plugins {
     id 'java'
 }
 
+jar.enabled = true
+
 dependencies {
     implementation project(':module-core')
 
