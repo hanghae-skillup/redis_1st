@@ -69,7 +69,7 @@ class MovieServiceTest {
                 )
         );
 
-        when(movieRepository.findNowShowing(now)).thenReturn(mockDbResults);
+        when(movieRepository.findNowShowing(now,null,null)).thenReturn(mockDbResults);
         when(dtoConvertor.moviesNowScreening(mockDbResults)).thenReturn(mockConvertedResults);
 
         //when

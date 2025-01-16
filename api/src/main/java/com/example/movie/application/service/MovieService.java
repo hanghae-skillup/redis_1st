@@ -20,7 +20,7 @@ public class MovieService {
     private final DtoConvertor dtoConvertor;
 
     public List<MoviesNowShowingDetail> getMoviesNowShowing(LocalDateTime now, Genre genre, String search) {
-        List<MoviesNowShowingDetailDto> dbResults = movieRepository.findNowShowing(now);
+        List<MoviesNowShowingDetailDto> dbResults = movieRepository.findNowShowing(now,genre,search);
         List<MoviesNowShowingDetail> detailsList = dtoConvertor.moviesNowScreening(dbResults);
 
         return detailsList.stream()
