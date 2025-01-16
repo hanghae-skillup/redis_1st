@@ -2,6 +2,7 @@ package com.hh.presentation.movie;
 
 
 import com.hh.application.movie.MovieService;
+import com.hh.presentation.response.MovieScreeningResponse;
 import com.hh.presentation.response.Response;
 import com.hh.presentation.response.ScreenResponse;
 import lombok.Getter;
@@ -20,9 +21,8 @@ public class MovieController {
   private final MovieService movieService;
 
   @GetMapping
-  public Response<List<ScreenResponse>> screenList(){
-    // TODO QueryDsl 적용후 개선 예정
-    return null;
-    //return Response.success(movieService.getMovieScreen().stream().map(ScreenResponse::from).toList());
+  public Response<List<MovieScreeningResponse>> screenList(){
+
+    return Response.success(movieService.findMoviesWithGroupConcat().stream().map(MovieScreeningResponse::from).toList());
   }
 }
