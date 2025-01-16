@@ -1,8 +1,6 @@
 package com.movie.storage.movie.repository;
 
-import com.movie.moviedomain.movie.domain.Schedule;
-import com.movie.storage.movie.dto.*;
-import com.movie.storage.movie.dto.payload.SchedulePayload;
+import com.movie.storage.movie.dto.payload.*;
 import com.movie.storage.movie.dto.statement.ScheduleStatement;
 import com.movie.storage.movie.entity.ScheduleEntity;
 import com.querydsl.core.BooleanBuilder;
@@ -28,7 +26,7 @@ public class ScheduleJpaQuerySupport extends QuerydslRepositorySupport {
     private final JPAQueryFactory queryFactory;
 
     public ScheduleJpaQuerySupport(JPAQueryFactory queryFactory) {
-        super(Schedule.class);
+        super(ScheduleEntity.class);
         this.queryFactory = queryFactory;
     }
 

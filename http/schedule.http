@@ -5,3 +5,6 @@ GET https://examples.http-client.intellij.net/get
 ### 영화관 id 별 스케쥴 목록조회
 GET http://localhost:8080/api/schedule?theaterId=1
 
+### 영화관
+POST http://localhost:8080/api/schedule
+

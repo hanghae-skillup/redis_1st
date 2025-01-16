@@ -1,8 +1,9 @@
-package com.movie.moviedomain.movie;
+package com.movie.domain.movie;
 
-import com.movie.moviedomain.movie.domain.Schedule;
-import com.movie.moviedomain.movie.domain.Screen;
-import com.movie.moviedomain.movie.dto.*;
+import com.movie.domain.movie.domain.Schedule;
+import com.movie.domain.movie.domain.Screen;
+import com.movie.domain.movie.dto.command.ScheduleCommand;
+import com.movie.domain.movie.dto.info.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,10 @@ public class ScheduleService {
                     timeTables
             );
         }).toList();
+    }
+
+    public List<ScheduleInfo.Get> getSchedules(ScheduleCommand.Search search) {
+        return scheduleRepository.getSchedules(search);
     }
 
 }
