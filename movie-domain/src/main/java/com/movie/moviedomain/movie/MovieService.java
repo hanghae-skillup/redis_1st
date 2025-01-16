@@ -1,6 +1,6 @@
 package com.movie.moviedomain.movie;
 
-import com.movie.moviedomain.movie.dto.MovieInfo;
+import com.movie.moviedomain.movie.dto.info.MovieInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

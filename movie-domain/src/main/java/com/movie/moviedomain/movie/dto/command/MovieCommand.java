@@ -1,4 +1,4 @@
-package com.movie.moviedomain.movie.dto;
+package com.movie.moviedomain.movie.dto.command;
 
 import com.movie.moviedomain.enums.FilmRating;
 import com.movie.moviedomain.enums.Genre;

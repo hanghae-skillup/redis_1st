@@ -1,6 +1,6 @@
 package com.movie.movieapi.interfaces.movie.dto;
 
-import com.movie.moviedomain.movie.dto.ScreenInfo;
+import com.movie.moviedomain.movie.dto.info.ScreenInfo;
 
 public class ScreenDto {
 

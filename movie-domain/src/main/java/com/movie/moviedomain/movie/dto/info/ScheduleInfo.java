@@ -1,8 +1,5 @@
-package com.movie.moviedomain.movie.dto;
+package com.movie.moviedomain.movie.dto.info;
 
-import com.movie.moviedomain.movie.domain.Schedule;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class ScheduleInfo {
@@ -23,7 +20,6 @@ public class ScheduleInfo {
                              List<TimeTableInfo.Get> timeTables) {
             return new Get(id, theater, null, movie, timeTables);
         }
-
     }
 
 }

@@ -2,7 +2,7 @@ package com.movie.movieapi.interfaces.movie.dto;
 
 import com.movie.moviedomain.enums.FilmRating;
 import com.movie.moviedomain.enums.Genre;
-import com.movie.moviedomain.movie.dto.MovieInfo;
+import com.movie.moviedomain.movie.dto.info.MovieInfo;
 
 import java.time.LocalDateTime;
 

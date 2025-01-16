@@ -1,4 +1,4 @@
-package com.movie.moviedomain.movie.dto;
+package com.movie.moviedomain.movie.dto.info;
 
 import com.movie.moviedomain.movie.domain.Theater;
 
