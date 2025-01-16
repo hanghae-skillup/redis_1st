@@ -24,7 +24,7 @@ public class MovieService {
         List<MoviesNowShowingDetail> detailsList = dtoConvertor.moviesNowScreening(dbResults);
 
         return detailsList.stream()
-                .sorted(Comparator.comparing(MoviesNowShowingDetail::releaseDate))
+                .sorted(Comparator.comparing(MoviesNowShowingDetail::releaseDate).reversed())
                 .toList();
     }
 
