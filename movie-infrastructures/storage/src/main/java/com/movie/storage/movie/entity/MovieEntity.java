@@ -1,7 +1,7 @@
 package com.movie.storage.movie.entity;
 
-import com.movie.moviedomain.enums.FilmRating;
-import com.movie.moviedomain.enums.Genre;
+import com.movie.common.enums.FilmRating;
+import com.movie.common.enums.Genre;
 import com.movie.storage.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

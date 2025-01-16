@@ -1,8 +1,7 @@
 package com.movie.storage.movie.bulkInsert;
 
-import com.movie.moviedomain.enums.FilmRating;
-import com.movie.moviedomain.enums.Genre;
-import com.movie.moviedomain.movie.domain.Movie;
+import com.movie.common.enums.FilmRating;
+import com.movie.common.enums.Genre;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;

@@ -1,6 +1,6 @@
 package com.movie.storage.movie.repository;
 
-import com.movie.moviedomain.movie.TheaterRepository;
+import com.movie.domain.movie.TheaterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
 package com.movie.storage.movie.repository;
 
-import com.movie.moviedomain.movie.MovieRepository;
-import com.movie.moviedomain.movie.domain.Movie;
+import com.movie.domain.movie.MovieRepository;
+import com.movie.domain.movie.domain.Movie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

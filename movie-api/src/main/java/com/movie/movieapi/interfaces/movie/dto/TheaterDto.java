@@ -1,6 +1,6 @@
 package com.movie.movieapi.interfaces.movie.dto;
 
-import com.movie.moviedomain.movie.dto.info.TheaterInfo;
+import com.movie.domain.movie.dto.info.TheaterInfo;
 
 public class TheaterDto {
 

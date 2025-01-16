@@ -13,7 +13,8 @@ dependencies {
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
-	implementation project(':movie-domain')
+	implementation project(':movie-domain:common')
+	implementation project(':movie-domain:domain')
 }
 
 // Querydsl 설정부

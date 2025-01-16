@@ -1,7 +1,7 @@
 package com.movie.storage.movie.dto.payload;
 
-import com.movie.moviedomain.enums.FilmRating;
-import com.movie.moviedomain.enums.Genre;
+import com.movie.common.enums.FilmRating;
+import com.movie.common.enums.Genre;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

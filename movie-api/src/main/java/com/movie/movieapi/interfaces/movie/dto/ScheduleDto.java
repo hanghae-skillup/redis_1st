@@ -1,8 +1,8 @@
 package com.movie.movieapi.interfaces.movie.dto;
 
-import com.movie.moviedomain.enums.Genre;
-import com.movie.moviedomain.movie.dto.command.ScheduleCommand;
-import com.movie.moviedomain.movie.dto.info.ScheduleInfo;
+import com.movie.common.enums.Genre;
+import com.movie.domain.movie.dto.command.ScheduleCommand;
+import com.movie.domain.movie.dto.info.ScheduleInfo;
 import jakarta.validation.constraints.Size;
 
 import java.util.List;

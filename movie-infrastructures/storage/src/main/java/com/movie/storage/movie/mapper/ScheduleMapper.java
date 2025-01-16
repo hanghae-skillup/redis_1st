@@ -1,6 +1,6 @@
 package com.movie.storage.movie.mapper;
 
-import com.movie.moviedomain.movie.domain.Schedule;
+import com.movie.domain.movie.domain.Schedule;
 import com.movie.storage.movie.entity.ScheduleEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

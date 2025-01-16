@@ -1,6 +1,6 @@
 package com.movie.storage.movie.mapper;
 
-import com.movie.moviedomain.movie.domain.Movie;
+import com.movie.domain.movie.domain.Movie;
 import com.movie.storage.movie.entity.MovieEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
