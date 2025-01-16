@@ -1,4 +1,4 @@
-package com.example.response;
+package com.example.movie.response;
 
 import com.example.entity.Movie;
 import com.example.entity.MovieTheater;

@@ -1,8 +1,7 @@
 package com.example.movie;
 
-import com.example.MovieService;
 import com.example.movie.request.MovieSearchRequest;
-import com.example.response.MovieResponse;
+import com.example.movie.response.MovieResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +19,6 @@ public class MovieController {
 
     @GetMapping("/movies")
     public List<MovieResponse> getMovies(@ModelAttribute MovieSearchRequest request) {
-        request.validate();
-        return movieService.getMovies();
+        return movieService.getMovies(request.toServiceRequest());
     }
 }
