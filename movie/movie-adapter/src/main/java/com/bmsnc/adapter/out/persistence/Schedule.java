@@ -21,6 +21,8 @@ public class Schedule extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "movie_theater_info_id")
     private MovieTheaterInfo movieTheaterInfo;
-    private LocalDateTime startAt;
+    private LocalDateTime movieStartAt;
+    private LocalDateTime screenOpenAt;
+    private LocalDateTime screenCloseAt;
 
 }

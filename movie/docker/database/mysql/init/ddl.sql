@@ -33,7 +33,9 @@ CREATE TABLE `theater` (
 CREATE TABLE `schedule` (
                             `schedule_id`	BIGINT	NOT NULL,
                             `movie_theater_info_id`	BIGINT	NOT NULL,
-                            `start_at`	TIMESTAMP	NULL,
+                            `movie_start_at`	TIMESTAMP	NULL,
+                            `screen_open_at`	TIMESTAMP	NULL,
+                            `screen_close_at`	TIMESTAMP	NULL,
                             `created_at`	TIMESTAMP	NOT NULL	DEFAULT NOW(),
                             `updated_at`	TIMESTAMP	NOT NULL	DEFAULT NOW(),
                             `created_author`	BIGINT	NULL,

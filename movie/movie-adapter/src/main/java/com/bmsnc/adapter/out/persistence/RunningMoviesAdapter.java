@@ -6,6 +6,7 @@ import com.bmsnc.applicaion.port.out.RunningMoviesPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -14,14 +15,17 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RunningMoviesAdapter implements RunningMoviesPort {
 
+    private final ScheduleRepository scheduleRepository;
     private final MovieRepository movieRepository;
     private final MovieTheaterInfoRepository movieTheaterInfoRepository;
 
     @Override
     public List<MovieModel> getRunningMovies(RunningMovieCommand command) {
 
-        return movieRepository.getRunningMovies(command.getTheaterId(), command.getNow())
+        return scheduleRepository.getRunningMovies(command.getTheaterId(), LocalDate.now())
                 .stream()
+                .map(Schedule::getMovieTheaterInfo)
+                .filter(Objects::nonNull)
                 .map(MovieTheaterInfo::getMovie)
                 .filter(Objects::nonNull)
                 .map(Movie::toModel)

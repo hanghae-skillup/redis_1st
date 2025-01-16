@@ -22,7 +22,6 @@ public class MovieController {
     public Result getRunningMovies(@PathVariable("theaterId") Long theaterId) {
         RunningMovieCommand command = RunningMovieCommand.builder()
                 .theaterId(theaterId)
-                .now(LocalDateTime.now())
                 .build();
 
         return movieUseCaseService.getRunningMovies(command);
