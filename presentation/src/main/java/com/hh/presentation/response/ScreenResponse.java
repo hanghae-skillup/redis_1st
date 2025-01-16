@@ -1,5 +1,6 @@
 package com.hh.presentation.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.hh.domain.movie.dto.MovieDto;
 import com.hh.domain.movie.dto.ScreenDto;
 import com.hh.domain.movie.dto.TheaterDto;
@@ -10,40 +11,34 @@ import lombok.ToString;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @ToString
 @Getter
 @AllArgsConstructor
 public class ScreenResponse {
 
-    private String title;
-    private String firmRating;
-    private Date releasedDate;
-    private String theaterName;
-    private String thumbnail;
-    private int runningTime;
-    private String genre;
-    private String startTime;
+    private Integer id;
+
+    private String name;
+
+    private Integer movieId;
+
+    private Integer theaterId;
+
+    protected String startTime;
+
     private String endTime;
 
-    // TODO QueryDsl 적용후 개선 예정
-    /*public static ScreenResponse from(ScreenDto dto) {
-        MovieDto movieDto = dto.getMovie();
-        TheaterDto theaterDto = dto.getTheater();
-
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-
+    public static ScreenResponse from(ScreenDto dto) {
 
         return new ScreenResponse(
-                movieDto.getTitle(),
-                dto.getMovie().getFirmRating(),
-                dto.getMovie().getReleasedDate(),
-                dto.getTheater().getName(),
-                dto.getMovie().getThumbnail(),
-                dto.getMovie().getRunningTime(),
-                dto.getMovie().getGenre(),
-                dto.getStartTime().format(timeFormatter),
-                dto.getEndTime().format(timeFormatter)
-
+                dto.getId(),
+                dto.getName(),
+                dto.getMovieId(),
+                dto.getTheaterId(),
+                dto.getStartTime(),
+                dto.getEndTime()
         );
-    }*/
+    }
 }

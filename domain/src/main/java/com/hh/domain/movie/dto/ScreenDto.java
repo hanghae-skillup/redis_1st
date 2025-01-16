@@ -3,30 +3,42 @@ package com.hh.domain.movie.dto;
 import com.hh.domain.movie.Screen;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
+@ToString
 @Getter
 @AllArgsConstructor
 public class ScreenDto {
 
-  private int id;
+  private Integer id;
 
-  private int movieId;
+  private String name;
 
-  private int theaterId;
+  private Integer movieId;
 
-  protected LocalDateTime startTime;
+  private Integer theaterId;
 
-  private LocalDateTime endTime;
+  protected String startTime;
 
+  private String endTime;
+
+  public ScreenDto(String name,String startTime, String endTime) {
+    this.name = name;
+    this.startTime = startTime;
+    this.endTime = endTime;
+  }
   public static ScreenDto from(Screen entity) {
+    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
     return new ScreenDto(
             entity.getId(),
+            entity.getName(),
             entity.getMovieId(),
             entity.getTheaterId(),
-            entity.getStartTime(),
-            entity.getEndTime()
+            entity.getStartTime().format(timeFormatter),
+            entity.getEndTime().format(timeFormatter)
     );
   }
 }

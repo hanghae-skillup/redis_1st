@@ -1,21 +1,25 @@
 package com.hh.domain.movie.dto;
 
+import com.hh.domain.movie.FirmRating;
+import com.hh.domain.movie.Genre;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
+import java.time.LocalDateTime;
+import java.util.List;
 
-import java.util.Date;
 
+@ToString
 @Getter
 @AllArgsConstructor
 public class MovieScreeningDto {
 
+  private Integer movieId;
   private String title;
-  private String firmRating;
-  private Date releasedDate;
-  private String theaterName;
+  private FirmRating firmRating;
+  private LocalDateTime releasedDate;
   private String thumbnail;
   private int runningTime;
-  private String genre;
-  private String startTime;
-  private String endTime;
+  private Genre genre;
+  private List<ScreenDto> screenDtos;
 }
