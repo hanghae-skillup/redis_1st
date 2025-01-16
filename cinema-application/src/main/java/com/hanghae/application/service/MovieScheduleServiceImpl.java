@@ -1,5 +1,6 @@
 package com.hanghae.application.service;
 
+import com.hanghae.application.dto.MovieScheduleRequestDto;
 import com.hanghae.application.dto.MovieScheduleResponseDto;
 import com.hanghae.application.dto.ShowingMovieScheduleResponseDto;
 import com.hanghae.application.port.in.MovieScheduleService;
@@ -39,8 +40,8 @@ public class MovieScheduleServiceImpl implements MovieScheduleService {
 
     @Override
     @Transactional
-    public List<ShowingMovieScheduleResponseDto> getShowingMovieSchedules() {
-        List<MovieScheduleProjection> projections = movieRepositoryPort.findShowingMovieSchedules();
+    public List<ShowingMovieScheduleResponseDto> getShowingMovieSchedules(MovieScheduleRequestDto requestDto) {
+        List<MovieScheduleProjection> projections = movieRepositoryPort.findShowingMovieSchedules(requestDto);
 
         Map<Long, ShowingMovieScheduleResponseDto> movieMap = new LinkedHashMap<>();
 
