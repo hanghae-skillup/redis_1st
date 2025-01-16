@@ -3,9 +3,8 @@ package com.hh.domain.movie;
 import com.hh.domain.common.AuditingFields;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.ToString;
 
-import java.util.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -23,7 +22,7 @@ public class Movie extends AuditingFields {
   @Enumerated(EnumType.STRING)
   private Genre genre;
 
-  private Date releasedDate;
+  private LocalDateTime releasedDate;
 
   private String thumbnail;
 

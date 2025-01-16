@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @ToString
@@ -19,7 +20,7 @@ public class MovieDto {
 
   private String genre;
 
-  private Date releasedDate;
+  private LocalDateTime releasedDatetime;
 
   private String thumbnail;
 
