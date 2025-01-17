@@ -21,6 +21,12 @@ allprojects {
 subprojects {
 	apply plugin: 'org.jetbrains.kotlin.jvm'
 
+	dependencies {
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+		testImplementation 'org.jetbrains.kotlin:kotlin-test-junit5'
+		testImplementation 'org.mockito.kotlin:mockito-kotlin:5.4.0'
+	}
+
 	tasks.withType(KotlinCompile).configureEach {
 		compilerOptions {
 			freeCompilerArgs = ['-Xjsr305=strict']
