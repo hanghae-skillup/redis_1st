@@ -2,9 +2,23 @@ services:
   mysql:
     image: 'mysql:latest'
     environment:
-      - 'MYSQL_DATABASE=redis1st'
-      - 'MYSQL_PASSWORD=PASSWORD'
-      - 'MYSQL_ROOT_PASSWORD=PASSWORD'
-      - 'MYSQL_USER=ID'
+      MYSQL_DATABASE: redis1st
+      MYSQL_PASSWORD: PASSWORD
+      MYSQL_ROOT_PASSWORD: PASSWORD
+      MYSQL_USER: redis1st
+    volumes:
+      - ./volumes/db/mysql/data:/var/lib/mysql
+      - ./volumes/db/mysql/init:/docker-entrypoint-initdb.d
     ports:
-      - '3306'
+      - '3306:3306'
+  redis:
+    image: redis:latest
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    command: redis-server /usr/local/conf/redis.conf
+    volumes:
+      - ./volumes/db/redis/data:/data
+      - ./volumes/db/redis/conf/redis.conf:/usr/local/conf/redis.conf
+    ports:
+      - '6379:6379'
