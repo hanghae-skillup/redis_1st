@@ -1,0 +1,36 @@
+⚙ parkjaemin@bagjaemin-ui-MacBookAir  ~/workspace/coding/redis_1st/TOOLS/k6   main ±  k6 run script.ts
+
+         /\      Grafana   /‾‾/
+    /\  /  \     |\  __   /  /
+   /  \/    \    | |/ /  /   ‾‾\
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/
+
+     execution: local
+        script: script.ts
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 10 max VUs, 5m30s max duration (incl. graceful stop):
+              * default: 10 looping VUs for 5m0s (gracefulStop: 30s)
+
+
+     data_received..................: 9.4 GB 31 MB/s
+     data_sent......................: 42 MB  140 kB/s
+     http_req_blocked...............: avg=5.42µs  min=0s     med=2µs    max=13.27ms p(90)=4µs    p(95)=4µs
+     http_req_connecting............: avg=2.1µs   min=0s     med=0s     max=2.33ms  p(90)=0s     p(95)=0s
+     http_req_duration..............: avg=6.36ms  min=3.23ms med=6.1ms  max=81.28ms p(90)=7.55ms p(95)=8.35ms
+       { expected_response:true }...: avg=6.36ms  min=3.23ms med=6.1ms  max=81.28ms p(90)=7.55ms p(95)=8.35ms
+     http_req_failed................: 0.00%  0 out of 467204
+     http_req_receiving.............: avg=71.81µs min=16µs   med=60µs   max=13.11ms p(90)=111µs  p(95)=150µs
+     http_req_sending...............: avg=9.63µs  min=2µs    med=9µs    max=10.49ms p(90)=13µs   p(95)=16µs
+     http_req_tls_handshaking.......: avg=0s      min=0s     med=0s     max=0s      p(90)=0s     p(95)=0s
+     http_req_waiting...............: avg=6.28ms  min=2.92ms med=6.02ms max=79.65ms p(90)=7.46ms p(95)=8.25ms
+     http_reqs......................: 467204 1557.328077/s
+     iteration_duration.............: avg=6.41ms  min=3.26ms med=6.15ms max=85.54ms p(90)=7.6ms  p(95)=8.4ms
+     iterations.....................: 467204 1557.328077/s
+     vus............................: 10     min=10          max=10
+     vus_max........................: 10     min=10          max=10
+
+
+running (5m00.0s), 00/10 VUs, 467204 complete and 0 interrupted iterations
+default ✓ [======================================] 10 VUs  5m0s
