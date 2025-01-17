@@ -1,0 +1,10 @@
+rootProject.name = 'cinema'
+include 'domain'
+include 'application'
+include 'adapter'
+include 'adapter:persistence'
+findProject(':adapter:persistence')?.name = 'persistence'
+include 'adapter:web'
+findProject(':adapter:web')?.name = 'web'
+include 'api'
+
