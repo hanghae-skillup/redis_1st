@@ -19,7 +19,7 @@ interface MovieJpaRepository : JpaRepository<MovieEntity, Long> {
         WHERE EXISTS (
             SELECT 1 
             FROM ScreeningEntity s 
-            WHERE s.movie = m 
+            WHERE s.movieId = m.id
             AND s.screeningTime > :currentTime 
             AND s.status = :status
         )

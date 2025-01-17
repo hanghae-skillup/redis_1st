@@ -28,7 +28,8 @@ class MovieEntity(
     val thumbnailUrl: String,
     val runningTime: Int,
 
-    @OneToMany(mappedBy = "movie")
+    @OneToMany
+    @JoinColumn(name = "movie_id")
     val screenings: MutableList<ScreeningEntity> = mutableListOf(),
 ) : BaseEntity() {
     fun toDomain(): Movie {

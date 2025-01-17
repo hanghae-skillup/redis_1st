@@ -15,9 +15,8 @@ class ScreeningEntity(
     @Column(name = "screening_id", columnDefinition = "INT UNSIGNED")
     val id: Long = 0,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_id", columnDefinition = "INT UNSIGNED", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    val movie: MovieEntity,
+    @Column(name = "movie_id", columnDefinition = "INT UNSIGNED")
+    val movieId: Long,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "theater_id", columnDefinition = "INT UNSIGNED", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
@@ -33,7 +32,7 @@ class ScreeningEntity(
     fun toDomain(): Screening {
         return Screening(
             id = id,
-            movie = movie.toDomain(),
+            movieId = movieId,
             theater = theater.toDomain(),
             screeningTime = screeningTime,
             screeningEndTime = screeningEndTime,
@@ -49,7 +48,7 @@ class ScreeningEntity(
         fun from(screening: Screening, movie: MovieEntity, theater: TheaterEntity): ScreeningEntity {
             return ScreeningEntity(
                 id = screening.id,
-                movie = movie,
+                movieId = movie.id,
                 theater = theater,
                 screeningTime = screening.screeningTime,
                 screeningEndTime = screening.screeningEndTime,

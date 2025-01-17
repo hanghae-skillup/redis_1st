@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 
 class Screening(
     val id: Long,
-    val movie: Movie,
+    val movieId: Long,
     val theater: Theater,
     val screeningTime: LocalDateTime,
     val screeningEndTime: LocalDateTime,
