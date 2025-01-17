@@ -8,7 +8,7 @@ import jakarta.persistence.*
 @Table(name = "genre")
 class GenreEntity (
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "genre_id")
+    @Column(name = "genre_id", columnDefinition = "INT UNSIGNED")
     val id: Long,
 
     @Column(unique = true)

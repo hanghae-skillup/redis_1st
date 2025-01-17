@@ -12,7 +12,7 @@ import java.time.LocalDate
 @Table(name = "movie")
 class MovieEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "movie_id")
+    @Column(name = "movie_id", columnDefinition = "INT UNSIGNED")
     val id: Long,
 
     val title: String,
@@ -21,7 +21,7 @@ class MovieEntity(
     val rating: Rating,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "genre_id", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "genre_id", columnDefinition = "INT UNSIGNED", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     val genre: GenreEntity,
 
     val releaseDate: LocalDate,

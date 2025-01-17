@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 @Table(name = "theater")
 class TheaterEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "theater_id")
+    @Column(name = "theater_id", columnDefinition = "INT UNSIGNED")
     val id: Long = 0,
 
     val name: String,

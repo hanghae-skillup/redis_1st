@@ -7,7 +7,6 @@ import com.example.movie.domain.movie.model.Rating
 import com.example.movie.domain.movie.repository.MovieRepository
 import com.example.movie.domain.screening.model.Screening
 import com.example.movie.domain.screening.model.ScreeningStatus
-import com.example.movie.domain.screening.repository.ScreeningRepository
 import com.example.movie.domain.theater.model.Theater
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
