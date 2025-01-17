@@ -18,5 +18,7 @@ public class MovieModel {
     private String movieImageUrl;
     private Long runningTimeMinutes;
     private MovieGenre movieGenre;
+    private String theaterName;
+    private LocalDateTime movieStartAt;
 
 }

@@ -7,5 +7,6 @@ import com.bmsnc.common.Result;
 public interface MovieUseCase {
 
     Result getRunningMovies(RunningMovieCommand command);
+    Result searchRunningMovies(RunningMovieCommand command);
 
 }

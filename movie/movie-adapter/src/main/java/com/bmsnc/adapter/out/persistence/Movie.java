@@ -39,7 +39,6 @@ public class Movie extends BaseEntity {
                 .runningTimeMinutes(runningTimeMinutes)
                 .movieGenre(movieGenre)
                 .build();
-
     }
 
 }

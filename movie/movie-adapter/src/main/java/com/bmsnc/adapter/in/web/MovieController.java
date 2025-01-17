@@ -3,11 +3,9 @@ package com.bmsnc.adapter.in.web;
 import com.bmsnc.applicaion.domain.service.MovieUseCaseService;
 import com.bmsnc.applicaion.port.in.RunningMovieCommand;
 import com.bmsnc.common.Result;
+import com.bmsnc.common.dto.MovieGenre;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
@@ -25,6 +23,23 @@ public class MovieController {
                 .build();
 
         return movieUseCaseService.getRunningMovies(command);
+    }
+
+    // QueryDsl
+    @GetMapping("/searchRunningMovies")
+    public Result searchRunningMovies(@RequestParam("theaterId") Long theaterId,
+                                      @RequestParam("movieName") String movieName,
+                                      @RequestParam("genre") String genre) {
+
+        MovieGenre movieGenre =  MovieGenre.anyMatch(genre) ? MovieGenre.valueOf(genre) : MovieGenre.ETC;
+
+        RunningMovieCommand command = RunningMovieCommand.builder()
+                .theaterId(theaterId)
+                .movieName(movieName)
+                .movieGenre(movieGenre)
+                .build();
+
+        return movieUseCaseService.searchRunningMovies(command);
     }
 
 }

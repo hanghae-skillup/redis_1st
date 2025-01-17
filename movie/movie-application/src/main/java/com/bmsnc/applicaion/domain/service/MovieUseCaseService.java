@@ -24,4 +24,12 @@ public class MovieUseCaseService implements MovieUseCase {
                 .data(runningMoviesPort.getRunningMovies(command))
                 .build();
     }
+    @Override
+    public Result searchRunningMovies(RunningMovieCommand command) {
+        System.out.println("command = " + command);
+        return Result.builder()
+                .status(HttpStatus.OK.value())
+                .data(runningMoviesPort.searchRunningMovies(command))
+                .build();
+    }
 }
