@@ -1,0 +1,6 @@
+rootProject.name = 'redis_1st'
+include 'module-application'
+include 'module-presentation'
+include 'module-infrastructure'
+include 'module-domain'
+
