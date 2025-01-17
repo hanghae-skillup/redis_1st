@@ -1,0 +1,25 @@
+plugins {
+    id 'org.springframework.boot'  // Spring Boot 플러그인
+}
+
+group = 'com.hanghae'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Boot 기본 스타터 JSON 의존성
+    implementation 'org.springframework.boot:spring-boot-starter-json'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // JPA 의존성 추가
+    runtimeOnly 'com.mysql:mysql-connector-j:8.0.31' // MySQL 커넥터 의존성 추가
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:3.4.1' // 테스트 의존성 추가
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
