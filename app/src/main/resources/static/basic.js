@@ -31,9 +31,9 @@ function addMovieItem(movie) {
                 <div>타이틀: ${movie.title}</div>
                 <div>영상물 등급: ${movie.rating}</div>
                 <div>개봉일: ${movie.releaseDate}</div>
-                <div>이밎: ${movie.thumbnailImage}</div>
+                <div>이미지: ${movie.thumbnailImage}</div>
                 <div>러닝 타임(분): ${movie.runningTime}</div>
-                <div>영화 장르: : ${movie.genere}</div>
+                <div>영화 장르: : ${movie.genre}</div>
                 <div>상영관 이름: : ${movie.theater}</div>
             </div>
         </div>`;
