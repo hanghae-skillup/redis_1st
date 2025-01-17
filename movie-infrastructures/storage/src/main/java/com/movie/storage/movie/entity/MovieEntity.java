@@ -25,11 +25,11 @@ public class MovieEntity extends BaseEntity {
     private String title;                       // 영화 제목
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(10) NOT NULL COMMENT '관람가'")
+    @Column(columnDefinition = "VARCHAR(20) NOT NULL COMMENT '관람가'")
     private FilmRating filmRating;              // 영상물 등급
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(10) NOT NULL COMMENT '장르'")
+    @Column(columnDefinition = "VARCHAR(20) NOT NULL COMMENT '장르'")
     private Genre genre;                        // 장르
 
     private LocalDateTime releasedAt;           // 개봉일

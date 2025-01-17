@@ -67,8 +67,8 @@ public class BulkInsertMovie {
                 Date releasedAt = getRandomReleaseDate();
 
                 sqlBuilder.append(String.format(
-                        "('%s', %d, '%s', '%s', %d, '%s', 'admin', '2025-01-01', 'admin', '2025-01-01'),",
-                        title, filmRating.getValue(), genre, thumbnailUrl, runningTime, releasedAt
+                        "('%s', '%s', '%s', '%s', %d, '%s', 'admin', '2025-01-01', 'admin', '2025-01-01'),",
+                        title, filmRating, genre, thumbnailUrl, runningTime, releasedAt
                 ));
                 recordCount++;
 
