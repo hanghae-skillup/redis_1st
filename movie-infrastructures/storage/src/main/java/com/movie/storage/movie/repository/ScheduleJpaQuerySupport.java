@@ -3,6 +3,7 @@ package com.movie.storage.movie.repository;
 import com.movie.storage.movie.dto.payload.*;
 import com.movie.storage.movie.dto.statement.ScheduleStatement;
 import com.movie.storage.movie.entity.ScheduleEntity;
+import com.movie.storage.movie.entity.ScreenEntity;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -31,7 +32,7 @@ public class ScheduleJpaQuerySupport extends QuerydslRepositorySupport {
     }
 
     public List<SchedulePayload.Get> getSchedules(ScheduleStatement.Search search) {
-        Map<ScheduleEntity, SchedulePayload.Get> result = queryFactory.selectFrom(scheduleEntity)
+        Map<ScreenEntity, SchedulePayload.Get> result = queryFactory.selectFrom(scheduleEntity)
                 .leftJoin(theaterEntity).on(theaterEntity.eq(scheduleEntity.theater))
                 .leftJoin(screenEntity).on(screenEntity.eq(scheduleEntity.screen))
                 .leftJoin(movieEntity).on(movieEntity.eq(scheduleEntity.movie))
@@ -39,7 +40,7 @@ public class ScheduleJpaQuerySupport extends QuerydslRepositorySupport {
                         searchConditions(search)
                 )
                 .orderBy(movieEntity.releasedAt.asc())
-                .transform(groupBy(scheduleEntity).as(new QSchedulePayload_Get(
+                .transform(groupBy(scheduleEntity.screen).as(new QSchedulePayload_Get(
                         scheduleEntity.id,
                         new QTheaterPayload_Get(theaterEntity.id, theaterEntity.name),
                         new QScreenPayload_Get(screenEntity.id, screenEntity.name, screenEntity.theaterId),
@@ -62,8 +63,8 @@ public class ScheduleJpaQuerySupport extends QuerydslRepositorySupport {
     }
 
     public BooleanExpression getMovieNameCondition(ScheduleStatement.Search search) {
-        if (!StringUtils.hasText(search.movieName())) return null;
-        return movieEntity.title.contains(search.movieName());
+        if (!StringUtils.hasText(search.title())) return null;
+        return movieEntity.title.contains(search.title());
     }
 
     public BooleanExpression getMovieGenreCondition(ScheduleStatement.Search search) {
