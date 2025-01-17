@@ -30,15 +30,11 @@ public class ScheduleDto {
     }
 
     public record Search(
-            @Size(max = 100, message = "영화제목은 100자를 넘을수 없습니다.") String movieName,
+            @Size(max = 100, message = "영화제목은 100자를 넘을수 없습니다.") String title,
             Genre genre
     ) {
-        public static Search of(String movieName, Genre genre) {
-            return new Search(movieName, genre);
-        }
-
         public ScheduleCommand.Search search() {
-            return ScheduleCommand.Search.of(movieName, genre);
+            return ScheduleCommand.Search.of(title, genre);
         }
     }
 
