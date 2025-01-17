@@ -21,14 +21,14 @@ class MovieRepositoryImpl(
         return movieJpaRepository.findAllByOrderByReleaseDateDesc().map { it.toDomain() }
     }
 
-    override fun findAllNowPlayingWithMovieAndTheater(currentTime: LocalDateTime): Map<Movie, List<Screening>> {
-        val movies = movieJpaRepository.findMoviesNowPlaying(currentTime, ScreeningStatus.SCHEDULED).map { it.toDomain() }
+    override fun findAllByStatusWithMovieAndTheater(currentTime: LocalDateTime, status: ScreeningStatus): Map<Movie, List<Screening>> {
+        val movies = movieJpaRepository.findCurrentMoviesByStatus(currentTime, status).map { it.toDomain() }
 
         return movies.associateWith { movie ->
-            screeningJpaRepository.findScreeningsByMovieId(
+            screeningJpaRepository.findCurrentScreeningsByMovieIdAndStatus(
                 movieId = movie.id,
                 currentTime = currentTime,
-                status = ScreeningStatus.SCHEDULED
+                status = status
             ).map { it.toDomain() }
         }
     }

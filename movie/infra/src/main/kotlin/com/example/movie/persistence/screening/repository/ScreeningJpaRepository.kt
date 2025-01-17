@@ -1,7 +1,6 @@
 package com.example.movie.persistence.screening.repository
 
 import com.example.movie.domain.screening.model.ScreeningStatus
-import com.example.movie.persistence.movie.model.MovieEntity
 import com.example.movie.persistence.screening.model.ScreeningEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
@@ -20,7 +19,7 @@ interface ScreeningJpaRepository : JpaRepository<ScreeningEntity, Long> {
         AND s.status = :status
         ORDER BY s.screeningTime ASC
     """)
-    fun findScreeningsByMovieId(
+    fun findCurrentScreeningsByMovieIdAndStatus(
         @Param("movieId") movieId: Long,
         @Param("currentTime") currentTime: LocalDateTime,
         @Param("status") status: ScreeningStatus

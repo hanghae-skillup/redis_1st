@@ -39,10 +39,10 @@ class MovieRepositoryImplTest {
         val movie = createMovie(genre)
         val theater = createTheater()
 
-        whenever(movieJpaRepository.findMoviesNowPlaying(currentTime, ScreeningStatus.SCHEDULED))
+        whenever(movieJpaRepository.findCurrentMoviesByStatus(currentTime, ScreeningStatus.SCHEDULED))
             .thenReturn(listOf(movie))
 
-        whenever(screeningJpaRepository.findScreeningsByMovieId(movie.id, currentTime, ScreeningStatus.SCHEDULED))
+        whenever(screeningJpaRepository.findCurrentScreeningsByMovieIdAndStatus(movie.id, currentTime, ScreeningStatus.SCHEDULED))
             .thenReturn(
                 listOf(
                     createScreening(1L, currentTime, movie, theater),
@@ -51,7 +51,7 @@ class MovieRepositoryImplTest {
             )
 
         // when
-        val result = movieRepository.findAllNowPlayingWithMovieAndTheater(currentTime)
+        val result = movieRepository.findAllByStatusWithMovieAndTheater(currentTime, status = ScreeningStatus.SCHEDULED)
 
         // then
         assertThat(result).hasSize(1)

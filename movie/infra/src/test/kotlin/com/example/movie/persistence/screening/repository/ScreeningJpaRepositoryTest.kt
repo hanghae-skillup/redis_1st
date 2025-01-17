@@ -25,7 +25,7 @@ class ScreeningJpaRepositoryTest {
         val currentTime = LocalDateTime.now()
 
         // when
-        val screenings = screeningJpaRepository.findScreeningsByMovieId(movieId, currentTime, ScreeningStatus.SCHEDULED)
+        val screenings = screeningJpaRepository.findCurrentScreeningsByMovieIdAndStatus(movieId, currentTime, ScreeningStatus.SCHEDULED)
 
         // then
         assertThat(screenings)

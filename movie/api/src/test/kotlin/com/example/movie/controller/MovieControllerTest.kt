@@ -38,10 +38,10 @@ class MovieControllerTest {
         )
         val movieScreenings = mapOf(movie to screenings)
 
-        whenever(nowPlayingMoviesUseCase.getNowPlayingMovies())
+        whenever(nowPlayingMoviesUseCase.getMoviesByStatus(ScreeningStatus.SCHEDULED))
             .thenReturn(movieScreenings)
 
-        mockMvc.perform(get("/api/v1/movies/now-playing"))
+        mockMvc.perform(get("/api/v1/movies").param("status", "scheduled"))
             .andExpect(status().isOk)
             .andExpect(jsonPath("$[0].id").value(movie.id))
             .andExpect(jsonPath("$[0].screenings.length()").value(2))

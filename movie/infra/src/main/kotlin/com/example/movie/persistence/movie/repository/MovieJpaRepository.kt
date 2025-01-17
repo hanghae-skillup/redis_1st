@@ -25,7 +25,7 @@ interface MovieJpaRepository : JpaRepository<MovieEntity, Long> {
         )
         ORDER BY m.releaseDate DESC
     """)
-    fun findMoviesNowPlaying(
+    fun findCurrentMoviesByStatus(
         @Param("currentTime") currentTime: LocalDateTime,
         @Param("status") status: ScreeningStatus
     ): List<MovieEntity>

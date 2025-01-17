@@ -44,11 +44,11 @@ class MovieServiceTest {
             )
         val movieScreenings = mapOf(movie to screenings)
 
-        whenever(movieRepository.findAllNowPlayingWithMovieAndTheater(eq(currentTime)))
+        whenever(movieRepository.findAllByStatusWithMovieAndTheater(eq(currentTime),eq(ScreeningStatus.SCHEDULED)))
             .thenReturn(movieScreenings)
 
         // when
-        val result = movieService.getNowPlayingMovies()
+        val result = movieService.getMoviesByStatus(ScreeningStatus.SCHEDULED)
 
         // then
         Assertions.assertThat(result).hasSize(1)
