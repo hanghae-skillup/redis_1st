@@ -1,11 +1,10 @@
 package com.example.app.movie.out.persistence.adapter;
 
 import com.example.app.movie.domain.Movie;
-import com.example.app.movie.dto.request.MovieSearchRequest;
+import com.example.app.movie.dto.MovieSearchCommand;
 import com.example.app.movie.out.persistence.mapper.MovieMapper;
-import com.example.app.movie.out.persistence.port.LoadMoviePort;
 import com.example.app.movie.out.persistence.repository.MovieRepository;
-import com.example.app.movie.type.MovieGenre;
+import com.example.app.movie.port.LoadMoviePort;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
@@ -24,19 +23,19 @@ public class MoviePersistenceAdapter implements LoadMoviePort {
     private final MovieMapper movieMapper;
 
     @Override
-    public List<Movie> loadAllMovies(MovieSearchRequest movieSearchRequest) {
-        return movieRepository.findAllBy(toPredicate(movieSearchRequest))
+    public List<Movie> loadAllMovies(MovieSearchCommand movieSearchCommand) {
+        return movieRepository.findAllBy(toPredicate(movieSearchCommand))
                 .stream()
                 .map(movieMapper::MovieJpaEntityToMovie)
                 .toList();
     }
 
-    private Predicate toPredicate(MovieSearchRequest movieSearchRequest) {
+    private Predicate toPredicate(MovieSearchCommand movieSearchCommand) {
         return ExpressionUtils.allOf(
-                nonNull(movieSearchRequest.title()) ?
-                        movieJpaEntity.title.containsIgnoreCase(movieSearchRequest.title()) : null,
-                nonNull(movieSearchRequest.genre()) ?
-                        movieJpaEntity.genre.eq(MovieGenre.valueOf(movieSearchRequest.genre())) : null
+                nonNull(movieSearchCommand.title()) ?
+                        movieJpaEntity.title.containsIgnoreCase(movieSearchCommand.title()) : null,
+                nonNull(movieSearchCommand.genre()) ?
+                        movieJpaEntity.genre.eq(movieSearchCommand.genre()) : null
         );
     }
 }

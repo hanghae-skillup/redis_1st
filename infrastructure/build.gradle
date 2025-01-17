@@ -1,5 +1,6 @@
 dependencies {
     implementation project(':domain')
+    implementation project(':application')
 
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'

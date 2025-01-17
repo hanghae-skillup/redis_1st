@@ -1,9 +1,9 @@
 package com.example.app.movie.service;
 
 import com.example.app.movie.domain.Movie;
-import com.example.app.movie.dto.request.MovieSearchRequest;
-import com.example.app.movie.out.persistence.port.LoadMoviePort;
-import com.example.app.movie.port.in.SearchMovieUseCase;
+import com.example.app.movie.dto.MovieSearchCommand;
+import com.example.app.movie.port.LoadMoviePort;
+import com.example.app.movie.usecase.SearchMovieUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -19,8 +19,8 @@ public class SearchMovieService implements SearchMovieUseCase {
     private final LoadMoviePort loadMoviePort;
 
     @Override
-    @Cacheable(value = "movies", key = "#movieSearchRequest")
-    public List<Movie> searchMovies(MovieSearchRequest movieSearchRequest) {
-        return loadMoviePort.loadAllMovies(movieSearchRequest);
+    @Cacheable(value = "movies", key = "#movieSearchCommand")
+    public List<Movie> searchMovies(MovieSearchCommand movieSearchCommand) {
+        return loadMoviePort.loadAllMovies(movieSearchCommand);
     }
 }

@@ -1,8 +1,8 @@
 package com.example.app.movie.presentation.controller;
 
-import com.example.app.movie.dto.request.MovieSearchRequest;
-import com.example.app.movie.dto.response.MovieResponse;
-import com.example.app.movie.port.in.SearchMovieUseCase;
+import com.example.app.movie.presentation.dto.request.MovieSearchRequest;
+import com.example.app.movie.presentation.dto.response.MovieResponse;
+import com.example.app.movie.usecase.SearchMovieUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class MovieController {
 
     @GetMapping("/movies")
     public ResponseEntity<List<MovieResponse>> getMovies(@Valid MovieSearchRequest movieSearchRequest) {
-        var data = searchMovieUseCase.searchMovies(movieSearchRequest)
+        var data = searchMovieUseCase.searchMovies(MovieSearchRequest.toMovieSearchCommand(movieSearchRequest))
                 .stream()
                 .map(MovieResponse::toResponse)
                 .toList();
