@@ -1,4 +1,4 @@
-package org.example.dto.response;
+package org.example.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,16 +6,19 @@ import org.example.domain.movie.AgeRating;
 import org.example.domain.movie.Genre;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
 
-@AllArgsConstructor
 @Getter
-public class PlayingMoviesResponseDto {
+@AllArgsConstructor
+public class MovieScreeningInfo {
+    private Long movieId;
     private String title;
     private String thumbnail;
     private Genre genre;
     private AgeRating ageRating;
     private LocalDate releaseDate;
     private int runningTime;
-    private List<ScreeningInfo> screeningInfos;
+    private String screenRoomName;
+    private LocalDateTime startTime;
+    private LocalDateTime endTIme;
 }

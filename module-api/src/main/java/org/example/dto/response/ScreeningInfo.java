@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class ScreenInfo {
+public class ScreeningInfo {
     private String screenRoomName;
-    private List<ScreenTimeInfo> screenTimeInfos;
+    private List<ScreeningTimeInfo> screeningTimeInfos;
 }
