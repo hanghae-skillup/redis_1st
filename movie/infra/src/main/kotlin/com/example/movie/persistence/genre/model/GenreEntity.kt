@@ -1,6 +1,6 @@
 package com.example.movie.persistence.genre.model
 
-import com.example.movie.domain.movie.model.Genre
+import com.example.movie.domain.genre.model.Genre
 import com.example.movie.persistence.common.BaseEntity
 import jakarta.persistence.*
 

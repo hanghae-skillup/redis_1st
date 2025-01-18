@@ -1,6 +1,7 @@
 package com.example.movie.domain.movie.model
 
 import com.example.movie.domain.common.model.BaseModel
+import com.example.movie.domain.genre.model.Genre
 import com.example.movie.domain.screening.model.Screening
 import java.time.LocalDate
 import java.time.LocalDateTime

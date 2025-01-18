@@ -1,6 +1,6 @@
 package com.example.movie.persistence.movie.projection
 
-import com.example.movie.domain.movie.model.Genre
+import com.example.movie.domain.genre.model.Genre
 import com.example.movie.domain.movie.model.Movie
 import com.example.movie.domain.screening.model.Screening
 import com.example.movie.domain.theater.model.Theater

@@ -1,4 +1,4 @@
-package com.example.movie.domain.movie.model
+package com.example.movie.domain.genre.model
 
 import com.example.movie.domain.common.model.BaseModel
 import java.time.LocalDateTime
