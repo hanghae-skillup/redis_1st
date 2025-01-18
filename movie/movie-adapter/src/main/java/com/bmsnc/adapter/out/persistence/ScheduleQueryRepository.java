@@ -2,17 +2,17 @@ package com.bmsnc.adapter.out.persistence;
 
 import com.bmsnc.adapter.out.querydsl.model.MovieQueryModel;
 import com.bmsnc.adapter.out.querydsl.model.QMovieQueryModel;
-import com.bmsnc.applicaion.domain.model.MovieModel;
 import com.bmsnc.applicaion.port.in.RunningMovieCommand;
-import com.bmsnc.applicaion.port.out.RunningMoviesPort;
 
 import com.bmsnc.common.dto.MovieGenre;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.bmsnc.adapter.out.persistence.QMovie.*;
@@ -49,6 +49,7 @@ public class ScheduleQueryRepository{
                     .on(movieTheaterInfo.movieTheaterInfoId.eq(schedule.movieTheaterInfo.movieTheaterInfoId))
                 .where(
                         theater.theaterId.eq(command.getTheaterId()),
+                        isScreening(),
                         likeMovieName(command.getMovieName()),
                         eqMovieGenre(command.getMovieGenre())
                 )
@@ -57,7 +58,7 @@ public class ScheduleQueryRepository{
     }
 
     BooleanExpression likeMovieName(String movieName) {
-        return !StringUtils.hasText(movieName) ? movie.movieName.contains(movieName) : null;
+        return StringUtils.hasText(movieName) ? movie.movieName.contains(movieName) : null;
     }
 
     BooleanExpression eqMovieGenre(MovieGenre movieGenre) {
@@ -67,4 +68,12 @@ public class ScheduleQueryRepository{
 
     }
 
+    public BooleanExpression isScreening() {
+        LocalDate today = LocalDate.now();
+        return Expressions.asDate(today)
+                .between(
+                        Expressions.dateTemplate(LocalDate.class, "DATE_FORMAT({0}, {1})", schedule.screenOpenAt, "%Y-%m-%d"),
+                        Expressions.dateTemplate(LocalDate.class, "DATE_FORMAT({0}, {1})", schedule.screenCloseAt, "%Y-%m-%d")
+                );
+    }
 }

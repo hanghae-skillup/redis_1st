@@ -4,6 +4,7 @@ import com.bmsnc.applicaion.domain.service.MovieUseCaseService;
 import com.bmsnc.applicaion.port.in.RunningMovieCommand;
 import com.bmsnc.common.Result;
 import com.bmsnc.common.dto.MovieGenre;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,8 +29,8 @@ public class MovieController {
     // QueryDsl
     @GetMapping("/searchRunningMovies")
     public Result searchRunningMovies(@RequestParam("theaterId") Long theaterId,
-                                      @RequestParam("movieName") String movieName,
-                                      @RequestParam("genre") String genre) {
+                                      @Size(max = 255) @RequestParam(value = "movieName", required = false) String movieName,
+                                      @RequestParam(value = "genre", required = false) String genre) {
 
         MovieGenre movieGenre =  MovieGenre.anyMatch(genre) ? MovieGenre.valueOf(genre) : MovieGenre.ETC;
 
@@ -38,7 +39,6 @@ public class MovieController {
                 .movieName(movieName)
                 .movieGenre(movieGenre)
                 .build();
-
         return movieUseCaseService.searchRunningMovies(command);
     }
 

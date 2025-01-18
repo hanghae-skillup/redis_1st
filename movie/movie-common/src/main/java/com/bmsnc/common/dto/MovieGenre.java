@@ -11,7 +11,7 @@ public enum MovieGenre {
 
     public static boolean anyMatch(String genre) {
         for (MovieGenre movieGenre : MovieGenre.values()) {
-            if (movieGenre.name().equalsIgnoreCase(genre)) {
+            if (movieGenre.toString().equals(genre)) {
                 return true;
             }
         }
