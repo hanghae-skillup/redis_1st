@@ -1,4 +1,4 @@
-package com.example.redis
+package com.example.redis.configs
 
 import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.persistence.EntityManager

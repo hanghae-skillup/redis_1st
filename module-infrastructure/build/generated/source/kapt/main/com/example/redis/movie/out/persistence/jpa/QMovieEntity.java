@@ -28,11 +28,11 @@ public class QMovieEntity extends EntityPathBase<MovieEntity> {
     //inherited
     public final StringPath createBy = _super.createBy;
 
-    public final EnumPath<com.example.redis.movie.out.persistence.FilmRatings> filmRatings = createEnum("filmRatings", com.example.redis.movie.out.persistence.FilmRatings.class);
+    public final EnumPath<com.example.redis.movie.FilmRatings> filmRatings = createEnum("filmRatings", com.example.redis.movie.FilmRatings.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final ListPath<MovieGenreEntity, QMovieGenreEntity> movieGenre = this.<MovieGenreEntity, QMovieGenreEntity>createList("movieGenre", MovieGenreEntity.class, QMovieGenreEntity.class, PathInits.DIRECT2);
+    public final ListPath<String, StringPath> movieGenre = this.<String, StringPath>createList("movieGenre", String.class, StringPath.class, PathInits.DIRECT2);
 
     public final ListPath<MovieTheaterEntity, QMovieTheaterEntity> movieTheaters = this.<MovieTheaterEntity, QMovieTheaterEntity>createList("movieTheaters", MovieTheaterEntity.class, QMovieTheaterEntity.class, PathInits.DIRECT2);
 

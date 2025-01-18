@@ -1,6 +1,6 @@
 package com.example.redis.movie.`in`.dto
 
-import com.example.redis.movie.command.MovieTheater
+import com.example.redis.movie.MovieTheater
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class MovieTheaterResponseDto(

@@ -15,10 +15,12 @@ public class MovieController {
     @org.springframework.web.bind.annotation.GetMapping()
     @org.jetbrains.annotations.NotNull()
     public org.springframework.http.ResponseEntity<java.util.List<com.example.redis.movie.in.dto.MovieResponseDto>> gets(@org.springframework.web.bind.annotation.RequestParam(value = "title", required = false)
+    @jakarta.validation.Valid()
     @jakarta.validation.constraints.Size(message = "The title must be at least 1 character and no more than 197 characters long.", min = 0, max = 197)
     @org.jetbrains.annotations.Nullable()
     java.lang.String title, @org.springframework.web.bind.annotation.RequestParam(value = "genre", required = false)
-    @jakarta.validation.constraints.Size(message = "The title must be at least 1 character and no more than 197 characters long.", min = 0, max = 197)
+    @jakarta.validation.Valid()
+    @jakarta.validation.constraints.Size(message = "The genre must be at least 1 character and no more than 197 characters long.", min = 0, max = 197)
     @org.jetbrains.annotations.Nullable()
     java.lang.String genre) {
         return null;

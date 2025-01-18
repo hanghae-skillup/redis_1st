@@ -1,9 +1,8 @@
 package com.example.redis.movie.`in`.movie
 
-import com.example.redis.movie.command.Movie
-import com.example.redis.movie.query.MovieProjection
+import com.example.redis.movie.Movie
 
 interface MovieUseCase {
 
-    fun gets(title: String?, genre: String?): MutableList<MovieProjection>
+    fun gets(title: String?, genre: String?): MutableList<Movie>
 }
