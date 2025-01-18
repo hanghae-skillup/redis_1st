@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(":movie-application")
+    implementation project(":movie-services")
     implementation project(':movie-domain')
     implementation project(':movie-infra')
     

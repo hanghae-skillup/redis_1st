@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(scanBasePackages = {
     "com.movie.api",
-    "com.movie.application",
+    "com.movie.service",
     "com.movie.infra",
     "com.movie.domain"
 })
