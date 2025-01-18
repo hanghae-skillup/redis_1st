@@ -1,4 +1,4 @@
-package com.example.redis.movie.command
+package com.example.redis.movie
 
 import java.time.LocalDateTime
 

@@ -1,6 +1,7 @@
 package com.example.redis.movie.query
 
-import com.example.redis.movie.command.MovieTheater
+import com.example.redis.movie.FilmRatings
+import com.example.redis.movie.MovieTheater
 import java.time.LocalDateTime
 
 class MovieProjection(
@@ -9,7 +10,7 @@ class MovieProjection(
     val runningTime: Long,
     val releaseDate: LocalDateTime,
     val thumbnailImagePath: String,
-    val filmRatings: String,
+    val filmRatings: FilmRatings,
     val movieGenre: MutableList<String> = mutableListOf(),
     val theaters: MutableList<MovieTheater> = mutableListOf(),
     val createAt: LocalDateTime?,

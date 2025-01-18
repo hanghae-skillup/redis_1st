@@ -1,4 +1,4 @@
-package com.example.redis.movie.out.persistence
+package com.example.redis.movie
 
 enum class FilmRatings(description: String) {
     MPAA_PG("ALL"),
