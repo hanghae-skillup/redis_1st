@@ -1,10 +1,10 @@
 package com.example.redis.movie.out.mapper
 
-import com.example.redis.movie.Movie
+import com.example.redis.movie.command.Movie
 import com.example.redis.movie.out.persistence.jpa.MovieEntity
 import com.example.redis.movie.out.persistence.jpa.MovieTheaterEntity
-import com.example.redis.movie.MovieTheater
-import com.example.redis.movie.ScreeningSchedule
+import com.example.redis.movie.command.MovieTheater
+import com.example.redis.movie.command.ScreeningSchedule
 import com.example.redis.movie.out.persistence.jpa.ScreeningScheduleEntity
 
 class MoviePersistenceMapper {

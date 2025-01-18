@@ -5,3 +5,4 @@ rootProject.name = "redis_1st"
 include("module-application")
 include("module-domain")
 include("module-infrastructure")
+include("module-common")

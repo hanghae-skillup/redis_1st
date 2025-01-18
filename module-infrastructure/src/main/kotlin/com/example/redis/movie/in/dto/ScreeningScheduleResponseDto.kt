@@ -1,6 +1,6 @@
 package com.example.redis.movie.`in`.dto
 
-import com.example.redis.movie.ScreeningSchedule
+import com.example.redis.movie.command.ScreeningSchedule
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDateTime
