@@ -48,3 +48,8 @@ CREATE TABLE IF NOT EXISTS screening (
     updated_by VARCHAR(50) NOT NULL,
     updated_at TIMESTAMP NOT NULL
     );
+
+ALTER TABLE movie
+    ADD INDEX idx_movie_title (title),
+    ADD INDEX idx_movie_genre_id (genre_id),
+    ADD INDEX idx_movie_release_date (release_date DESC);
