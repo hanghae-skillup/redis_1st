@@ -8,5 +8,5 @@ import java.time.LocalDateTime
 interface MovieRepository {
     fun findById(id: Long): Movie?
     fun findAllOrderByReleaseDateDesc(): List<Movie>
-    fun findAllByStatusWithMovieAndTheater(currentTime: LocalDateTime, status: ScreeningStatus): Map<Movie, List<Screening>>
+    fun findAllByStatusWithMovieAndTheater(currentTime: LocalDateTime, status: ScreeningStatus, title: String?, genreId: Long?): List<Movie>
 }

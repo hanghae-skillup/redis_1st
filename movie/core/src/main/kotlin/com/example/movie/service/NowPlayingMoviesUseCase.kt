@@ -5,5 +5,5 @@ import com.example.movie.domain.screening.model.Screening
 import com.example.movie.domain.screening.model.ScreeningStatus
 
 interface NowPlayingMoviesUseCase {
-    fun getMoviesByStatus(status: ScreeningStatus): Map<Movie,List<Screening>>
+    fun getMoviesByStatus(status: ScreeningStatus, title: String?, genreId:Long?): List<Movie>
 }

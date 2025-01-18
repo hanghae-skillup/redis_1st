@@ -13,8 +13,8 @@ class MovieService(
     private val timeHandler: TimeHandler
 ) : NowPlayingMoviesUseCase {
 
-    override fun getMoviesByStatus(status: ScreeningStatus): Map<Movie,List<Screening>> {
+    override fun getMoviesByStatus(status: ScreeningStatus, title: String?, genreId: Long?): List<Movie> {
         val currentTime = timeHandler.getCurrentTime()
-        return movieRepository.findAllByStatusWithMovieAndTheater(currentTime,ScreeningStatus.SCHEDULED)
+        return movieRepository.findAllByStatusWithMovieAndTheater(currentTime,ScreeningStatus.SCHEDULED, title, genreId)
     }
 }

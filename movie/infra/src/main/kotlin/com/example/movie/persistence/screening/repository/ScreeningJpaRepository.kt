@@ -14,7 +14,7 @@ interface ScreeningJpaRepository : JpaRepository<ScreeningEntity, Long> {
         SELECT s 
         FROM ScreeningEntity s
         JOIN FETCH s.theater t
-        WHERE s.movie.id = :movieId
+        WHERE s.movieId = :movieId
         AND s.screeningTime > :currentTime 
         AND s.status = :status
         ORDER BY s.screeningTime ASC

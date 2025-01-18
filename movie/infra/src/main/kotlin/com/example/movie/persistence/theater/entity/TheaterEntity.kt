@@ -24,13 +24,4 @@ class TheaterEntity(
             updatedAt = updatedAt
         )
     }
-
-    companion object {
-        fun from(theater: Theater): TheaterEntity {
-            return TheaterEntity(
-                id = theater.id,
-                name = theater.name,
-            )
-        }
-    }
 }

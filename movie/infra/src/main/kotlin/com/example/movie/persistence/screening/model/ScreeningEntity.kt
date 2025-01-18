@@ -43,17 +43,4 @@ class ScreeningEntity(
             updatedAt = updatedAt
         )
     }
-
-    companion object {
-        fun from(screening: Screening, movie: MovieEntity, theater: TheaterEntity): ScreeningEntity {
-            return ScreeningEntity(
-                id = screening.id,
-                movieId = movie.id,
-                theater = theater,
-                screeningTime = screening.screeningTime,
-                screeningEndTime = screening.screeningEndTime,
-                status = screening.status,
-            )
-        }
-    }
 }

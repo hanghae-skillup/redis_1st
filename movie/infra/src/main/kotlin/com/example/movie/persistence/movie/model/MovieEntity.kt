@@ -30,7 +30,7 @@ class MovieEntity(
 
     @OneToMany
     @JoinColumn(name = "movie_id")
-    val screenings: MutableList<ScreeningEntity> = mutableListOf(),
+    val screenings: List<ScreeningEntity> = listOf(),
 ) : BaseEntity() {
     fun toDomain(): Movie {
         return Movie(
@@ -41,24 +41,11 @@ class MovieEntity(
             releaseDate = releaseDate,
             thumbnailUrl = thumbnailUrl,
             runningTime = runningTime,
+            screenings = screenings.map{it.toDomain()},
             createdBy = createdBy,
             createdAt = createdAt,
             updatedBy = updatedBy,
             updatedAt = updatedAt
         )
-    }
-
-    companion object {
-        fun from(movie: Movie, genreEntity: GenreEntity): MovieEntity {
-            return MovieEntity(
-                id = movie.id,
-                title = movie.title,
-                rating = movie.rating,
-                genre = genreEntity,
-                releaseDate = movie.releaseDate,
-                thumbnailUrl = movie.thumbnailUrl,
-                runningTime = movie.runningTime,
-            )
-        }
     }
 }

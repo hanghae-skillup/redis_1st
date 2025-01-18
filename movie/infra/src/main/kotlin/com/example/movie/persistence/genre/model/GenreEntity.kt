@@ -27,14 +27,4 @@ class GenreEntity (
             updatedAt = updatedAt
         )
     }
-
-    companion object {
-        fun from(genre: Genre): GenreEntity {
-            return GenreEntity(
-                id = genre.id,
-                name = genre.name,
-                description = genre.description,
-            )
-        }
-    }
 }
