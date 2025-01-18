@@ -1,17 +1,27 @@
 package com.example.movie.persistence.movie.projection
 
 import com.example.movie.domain.movie.model.Rating
-import com.example.movie.persistence.genre.projection.GenreProjection
-import com.example.movie.persistence.screening.projection.ScreeningProjection
+import com.example.movie.domain.screening.model.ScreeningStatus
 import java.time.LocalDate
+import java.time.LocalDateTime
 
-interface MovieProjection {
-    val id: Long
-    val title: String
-    val rating: Rating
-    val releaseDate: LocalDate
-    val thumbnailUrl: String
-    val runningTime: Int
-    val genre: GenreProjection
-    val screenings: List<ScreeningProjection>
-}
+data class MovieWithGenreDto(
+    val id: Long,
+    val title: String,
+    val rating: Rating,
+    val releaseDate: LocalDate,
+    val thumbnailUrl: String,
+    val runningTime: Int,
+    val genreId: Long,
+    val genreName: String
+)
+
+data class ScreeningWithTheaterDto(
+    val id: Long,
+    val movieId: Long,
+    val screeningTime: LocalDateTime,
+    val screeningEndTime: LocalDateTime,
+    val status: ScreeningStatus,
+    val theaterId: Long,
+    val theaterName: String
+)
