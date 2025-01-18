@@ -36,28 +36,27 @@ class MovieServiceTest {
         val currentTime = LocalDateTime.of(2024, 1, 2, 0, 0, 0)
         whenever(timeHandler.getCurrentTime()).thenReturn(currentTime)
 
-        val movie = createMovie(currentTime)
         val theater = createTheater(currentTime)
         val screenings = listOf(
-            createScreening(1L, currentTime, currentTime.plusHours(12), movie, theater),
-            createScreening(2L, currentTime, currentTime.plusHours(14), movie, theater),
-            )
-        val movieScreenings = mapOf(movie to screenings)
+            createScreening(1L, currentTime, currentTime.plusHours(12), theater),
+            createScreening(2L, currentTime, currentTime.plusHours(14), theater),
+        )
+        val movie = createMovie(currentTime, screenings)
 
-        whenever(movieRepository.findAllByStatusWithMovieAndTheater(eq(currentTime),eq(ScreeningStatus.SCHEDULED)))
-            .thenReturn(movieScreenings)
+        whenever(movieRepository.findAllByStatusWithMovieAndTheater(eq(currentTime),eq(ScreeningStatus.SCHEDULED), eq(null), eq(null)))
+            .thenReturn(listOf(movie))
 
         // when
-        val result = movieService.getMoviesByStatus(ScreeningStatus.SCHEDULED)
+        val result = movieService.getMoviesByStatusAndTitleAndGenre(ScreeningStatus.SCHEDULED, null, null)
 
         // then
         Assertions.assertThat(result).hasSize(1)
-        Assertions.assertThat(result.keys.first()).usingRecursiveComparison().isEqualTo(movie)
-        Assertions.assertThat(result[movie]).hasSize(2)
-        Assertions.assertThat(result[movie]).usingRecursiveComparison().isEqualTo(screenings)
+        Assertions.assertThat(result.first()).usingRecursiveComparison().isEqualTo(movie)
+        Assertions.assertThat(movie.screenings).hasSize(2)
+        Assertions.assertThat(movie.screenings).usingRecursiveComparison().isEqualTo(screenings)
     }
 
-    private fun createMovie(currentTime: LocalDateTime): Movie {
+    private fun createMovie(currentTime: LocalDateTime, screenings: List<Screening>): Movie {
         return Movie(
             id = 1,
             title = "title1",
@@ -66,6 +65,7 @@ class MovieServiceTest {
             releaseDate = LocalDate.of(2024,1,1),
             thumbnailUrl = "https://image.testdb/image.jpg",
             runningTime = 120,
+            screenings = screenings,
             createdBy = "test",
             createdAt = currentTime,
             updatedBy = "test",
@@ -85,13 +85,13 @@ class MovieServiceTest {
         )
     }
 
-    private fun createScreening(id: Long, currentTime: LocalDateTime, screeningTime: LocalDateTime, movie: Movie, theater: Theater): Screening {
+    private fun createScreening(id: Long, currentTime: LocalDateTime, screeningTime: LocalDateTime, theater: Theater): Screening {
         return Screening(
             id = id,
-            movie = movie,
+            movieId = 1,
             theater = theater,
             screeningTime = screeningTime,
-            screeningEndTime = screeningTime.plusMinutes(movie.runningTime.toLong()),
+            screeningEndTime = screeningTime.plusMinutes(120),
             status = ScreeningStatus.SCHEDULED,
             createdBy = "test",
             createdAt = currentTime,

@@ -24,7 +24,7 @@ interface MovieJpaRepository : JpaRepository<MovieEntity, Long> {
         AND (:genreId IS NULL OR g.id = :genreId)
         ORDER BY m.releaseDate DESC, s.screeningTime ASC
     """)
-    fun findMoviesNowPlaying(
+    fun findMoviesByCurrentTimeAndStatusAndTitleAndGenre(
         @Param("currentTime") currentTime: LocalDateTime,
         @Param("status") status: ScreeningStatus,
         @Param("title") title: String?,

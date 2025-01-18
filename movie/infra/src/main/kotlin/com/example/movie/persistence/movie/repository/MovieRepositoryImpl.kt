@@ -21,7 +21,7 @@ class MovieRepositoryImpl(
 
     override fun findAllByStatusWithMovieAndTheater(currentTime: LocalDateTime, status: ScreeningStatus, title: String?, genreId: Long?): List<Movie> {
         return movieJpaRepository
-            .findMoviesNowPlaying(currentTime, status, title, genreId)
+            .findMoviesByCurrentTimeAndStatusAndTitleAndGenre(currentTime, status, title, genreId)
             .map { it.toDomain() }
     }
 }

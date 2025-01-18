@@ -1,6 +1,5 @@
 package com.example.movie.persistence.screening.projection
 
-import com.example.movie.domain.screening.model.Screening
 import com.example.movie.domain.screening.model.ScreeningStatus
 import com.example.movie.persistence.theater.projection.TheaterProjection
 import java.time.LocalDateTime

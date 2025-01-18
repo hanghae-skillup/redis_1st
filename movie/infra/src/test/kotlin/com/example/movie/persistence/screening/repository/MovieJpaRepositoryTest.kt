@@ -24,7 +24,7 @@ class MovieJpaRepositoryTest {
         val currentTime = LocalDateTime.now()
 
         // when
-        val movies = movieJpaRepository.findCurrentMoviesByStatus(currentTime, ScreeningStatus.SCHEDULED)
+        val movies = movieJpaRepository.findMoviesByCurrentTimeAndStatusAndTitleAndGenre(currentTime, ScreeningStatus.SCHEDULED, null, null)
 
         // then
         assertThat(movies).isNotEmpty()
