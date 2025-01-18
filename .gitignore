@@ -39,3 +39,4 @@ out/
 
 ### docker compose ###
 cinema_mysql_data/
+cinema_redis_data/

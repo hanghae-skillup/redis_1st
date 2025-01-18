@@ -18,6 +18,8 @@ dependencies {
     runtimeOnly("com.h2database:h2") //db
     runtimeOnly("com.mysql:mysql-connector-j") //db
 
+    implementation("org.springframework.boot:spring-boot-starter-data-redis") //redis
+
     implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta") //querydsl
     annotationProcessor("com.querydsl:querydsl-apt:5.0.0:jakarta") //querydsl
     annotationProcessor("jakarta.annotation:jakarta.annotation-api") //querydsl

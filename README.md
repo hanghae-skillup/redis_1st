@@ -22,6 +22,9 @@
 > 그렇다고 `infrastructure` 계층에 dto를 반환하기엔 일관성이 깨진다. (dto변환은 `application` 계층에서 진행)
 > 그래서 `infrastructure` 계층에서 `projection` 반환 후 `application` 계층에서 dto로 변환하려고함 (근데 의존성 떄문에 `projection`를 application에 위치시킴)
   
+> ⚠ Spring Boot 3.2 버전에서는 기존의 `spring.redis.host`가 `Deprecated` 되어서 쓸 수가 없다. `spring.data.redis.host`로 적어줘야 한다.
+
+
     
 ### 도커컴포즈  
 * 도커컴포즈 설정파일

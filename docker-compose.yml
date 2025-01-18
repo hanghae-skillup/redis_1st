@@ -1,7 +1,7 @@
 services:
   db:
     image: mysql:8.0 # 사용할 도커 이미지, 버전을 명시하는 것이 좋다고함
-    # restart: always # 컨테이너가 종료되면 자동 재시작
+    restart: always # 컨테이너가 종료되면 자동 재시작
     container_name: mysql_cinema # 생성될 컨테이너 이름, 작성안하면 임의로 지정됨
     environment: # 컨테이너에 전달할 환경 변수 설정,
       # 아래는 초기 컨테이너에 새로운 데이터베이스와 사용자 계정을 자동으로 생성하기 위한 정보
@@ -22,5 +22,22 @@ services:
       "--default-time-zone=Asia/Seoul"              # MySQL 서버 기본 타임존을 KST(+09:00)로 설정
     ]
 
+  redis:
+    image: redis:latest # Redis 최신 버전의 도커 이미지를 사용
+    container_name: redis_cinema # 컨테이너 이름
+    restart: always # 컨테이너가 종료되면 자동 재시작
+    ports:
+      - "6378:6379" # 호스트포트 6378를 컨테이너 6379 포트와 매핑 (Redis 기본 포트[6379])
+    volumes:
+      - ./cinema_redis_data:/data # 데이터 영구 저장
+      #- redis_data:/data # Redis 데이터를 영구 저장하기 위한 볼륨 설정
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}  # Redis 비밀번호 설정 (보안 강화)
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD} --port 6379
+    # Redis 서버 실행 시 AOF(Append Only File) 모드를 활성화하여 데이터 영구 저장 (영구저장 여부 appendonly = yes)
+    # --requirepass 옵션을 통해 인증이 필요한 Redis 비밀번호 설정
+
 #volumes : #루트 레벨에 volumes는 Docker가 관리하는 명명된 볼륨을 정의
   #cinema_mysql_data: #섹션에 정의된 볼륨은 여러 서비스간에 공유 가능, services 내부의 volumes가 루트 레벨 volumes를 참조
+  #redis_data:
+    #driver: local
