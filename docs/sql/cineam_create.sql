@@ -71,3 +71,9 @@ CREATE TABLE upload_file (
 	updated_by	INT UNSIGNED	NULL COMMENT '수정자',
 	updated_at	datetime	NULL COMMENT '수정일'
 );
+
+-- 인덱스 생성
+CREATE INDEX idx_movie_title_genre ON movie (title, genre);
+CREATE INDEX idx_movie_genre ON movie (genre);
+
+CREATE INDEX idx_screening_schedule_show_start_at ON screening_schedule (show_start_at);

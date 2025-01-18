@@ -27,4 +27,11 @@ public class MovieController {
     public List<ShowingMovieScheduleResponseDto> getShowingMovieSchedules(@ModelAttribute MovieScheduleRequestDto requestDto) {
         return movieScheduleService.getShowingMovieSchedules(requestDto);
     }
+
+    //redis 캐시삭제 (테스트용)
+    @GetMapping("/api/test/evict-cache")
+    public String evictCache() {
+        movieScheduleService.evictShowingMovieCache();
+        return "redis cache 삭제";
+    }
 }

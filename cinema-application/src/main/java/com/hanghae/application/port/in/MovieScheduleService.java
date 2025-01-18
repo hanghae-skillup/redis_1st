@@ -9,4 +9,5 @@ import java.util.List;
 public interface MovieScheduleService {
     List<MovieScheduleResponseDto> getMovieSchedules();
     List<ShowingMovieScheduleResponseDto> getShowingMovieSchedules(MovieScheduleRequestDto requestDto);
+    void evictShowingMovieCache();
 }

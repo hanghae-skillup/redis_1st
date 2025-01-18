@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface MovieRepositoryPort {
     List<MovieScheduleProjection> findShowingMovieSchedules(MovieScheduleRequestDto requestDto);
+    void evictShowingMovieCache();
 }

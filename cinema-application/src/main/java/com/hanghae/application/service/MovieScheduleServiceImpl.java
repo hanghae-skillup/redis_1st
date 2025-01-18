@@ -79,6 +79,11 @@ public class MovieScheduleServiceImpl implements MovieScheduleService {
         return new ArrayList<>(movieMap.values());
     }
 
+    @Override
+    public void evictShowingMovieCache() {
+        movieRepositoryPort.evictShowingMovieCache();
+    }
+
     private MovieScheduleResponseDto convertToDto(ScreeningSchedule schedule) {
         Movie movie = schedule.getMovie();
         String thumbnailPath = getThumbnailPath(movie.getUploadFile());

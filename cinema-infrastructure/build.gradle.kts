@@ -19,6 +19,8 @@ dependencies {
     runtimeOnly("com.mysql:mysql-connector-j") //db
 
     implementation("org.springframework.boot:spring-boot-starter-data-redis") //redis
+    implementation("org.springframework.boot:spring-boot-starter-cache") //스프링 캐싱
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.2") //LocalDate, LocalDateTime 캐시 처리를 위함
 
     implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta") //querydsl
     annotationProcessor("com.querydsl:querydsl-apt:5.0.0:jakarta") //querydsl
