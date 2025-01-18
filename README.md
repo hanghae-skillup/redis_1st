@@ -45,7 +45,7 @@ curl -X GET http://localhost:8080/api/v1/movies
 ## Architecture
 > 클린 아키텍처를 최대한 따라했습니다.
 
-![arc](readme/arc2.png)
+![arc](etc/readme/arc2.png)
 
 ## Table Design
-![erd_db](readme/erd.png)
+![erd_db](etc/readme/erd.png)

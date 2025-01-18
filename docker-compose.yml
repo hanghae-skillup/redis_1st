@@ -12,7 +12,7 @@ services:
       - --collation-server=utf8mb4_unicode_ci
       - --skip-character-set-client-handshake
     volumes:
-      - ./database:/docker-entrypoint-initdb.d
+      - ./etc/database:/docker-entrypoint-initdb.d
   redis:
     image: redis:7.4.2
     container_name: movie-redis
