@@ -11,7 +11,20 @@ dependencies {
 
     //querydsl
     implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
-    annotationProcessor("com.querydsl:querydsl-apt:5.0.0:jakarta")
+    kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
+    implementation(project(":module-common"))
     implementation(project(":module-domain"))
     implementation(project(":module-application"))
+}
+
+//// Kotlin QClass Setting
+//kotlin.sourceSets.main {
+//    println("kotlin sourceSets builDir:: $buildDir")
+//    setBuildDir("$buildDir")
+//}
+
+idea {
+    module { val kaptMain = file("build/generated/source/kapt/main")
+        sourceDirs.add(kaptMain)
+        generatedSourceDirs.add(kaptMain) }
 }

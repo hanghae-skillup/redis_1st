@@ -4,6 +4,8 @@ plugins {
     kotlin("plugin.jpa") version "1.9.10"
     id("org.springframework.boot") version "3.4.1" apply false
     id("io.spring.dependency-management") version "1.1.7" apply false
+    kotlin("kapt") version "1.3.61" apply false // annotation processing을 위한 kapt
+    idea
 }
 
 java {
@@ -27,6 +29,8 @@ subprojects {
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
     apply(plugin = "kotlin-jpa")
+    apply(plugin = "kotlin-kapt")
+    apply(plugin = "idea")
 
     kotlin {
         jvmToolchain(21)

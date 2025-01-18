@@ -1,6 +1,7 @@
 package com.example.redis.movie.`in`.dto
 
-import com.example.redis.movie.Movie
+import com.example.redis.movie.command.Movie
+import com.example.redis.movie.query.MovieProjection
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDateTime
@@ -34,7 +35,7 @@ data class MovieResponseDto(
 
     ) {
     companion object {
-        fun toDto(movie: Movie): MovieResponseDto {
+        fun toDto(movie: MovieProjection): MovieResponseDto {
             return MovieResponseDto(
                 id = movie.movieId,
                 title = movie.title,
