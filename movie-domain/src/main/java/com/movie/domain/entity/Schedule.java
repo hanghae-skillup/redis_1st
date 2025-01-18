@@ -26,11 +26,6 @@ public class Schedule extends BaseEntity {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
-    private String createdBy;
-    private LocalDateTime createdAt;
-    private String updatedBy;
-    private LocalDateTime updatedAt;
-
     protected Schedule() {
     }
 }

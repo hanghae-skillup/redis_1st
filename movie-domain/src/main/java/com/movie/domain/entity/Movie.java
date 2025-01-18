@@ -23,10 +23,5 @@ public class Movie extends BaseEntity {
     private LocalDate releaseDate;
     private String thumbnailUrl;
 
-    private String createdBy;
-    private java.time.LocalDateTime createdAt;
-    private String updatedBy;
-    private java.time.LocalDateTime updatedAt;
-
     protected Movie() {}
 }
