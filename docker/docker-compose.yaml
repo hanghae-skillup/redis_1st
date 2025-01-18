@@ -2,7 +2,7 @@ version: '3.8' #Docker Compose 버전
 
 services:
   mysql:
-    image: mysql:8.0 # 사용할 MySQL 이미지 버전
+    image: mysql:8.1 # 사용할 MySQL 이미지 버전
     container_name: mysql-container # 컨테이너 이름
     restart: always
     environment:
@@ -16,6 +16,6 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./initdb:/docker-entrypoint-initdb.d
 
 
