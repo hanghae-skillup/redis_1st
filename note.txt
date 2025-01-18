@@ -1,0 +1,38 @@
+레이어드 아키텍처(Layered Architecture)는 소프트웨어를 여러 계층으로 나누어 구성하는 아키텍처 패턴
+
+Presentation Layer (프레젠테이션 계층)
+- 사용자와의 인터페이스를 담당
+- Controller들이 위치
+- HTTP 요청을 처리하고 응답을 반환
+-   비즈니스 로직은 포함하지 않고, Application Layer로 위임
+
+Application Layer (애플리케이션 계층)
+- 비즈니스 로직을 구현
+- Service 클래스들이 위치
+- DTO(Data Transfer Object)도 이 계층에 위치
+- Domain Layer의 엔티티들을 조작하여 비즈니스 기능 구현
+
+Domain Layer (도메인 계층)
+- 비즈니스의 핵심 개념을 표현
+- Entity, Repository 인터페이스가 위치
+- 비즈니스의 핵심 규칙과 로직을 포함
+
+Infrastructure Layer (인프라스트럭처 계층)
+- 다른 계층을 지원하는 기술적인 기능 제공
+- 데이터베이스, 외부 API, 캐시 등의 설정과 구현
+- Repository 구현체, 설정 클래스 등이 위치
+
+MVC 패턴과의 차이점:
+- MVC는 주로 사용자 인터페이스를 구성하는 패턴
+- 레이어드 아키텍처는 전체 애플리케이션의 구조를 계층화하는 패턴
+
+장점:
+- 관심사의 분리 (각 계층이 자신의 역할만 수행)
+- 유지보수성 향상
+- 테스트 용이성
+- 재사용성 증가
+
+의존성 규칙:
+- 상위 계층은 하위 계층에 의존할 수 있지만, 그 반대는 불가능
+- Presentation → Application → Domain
+- Infrastructure는 다른 모든 계층을 지원
