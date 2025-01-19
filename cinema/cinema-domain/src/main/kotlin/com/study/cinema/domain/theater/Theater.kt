@@ -15,7 +15,6 @@ import org.hibernate.annotations.Comment
 @Table
 class Theater(
     title: String,
-    seatLayout: String,
     cinema: Cinema,
 ) {
 
@@ -25,10 +24,6 @@ class Theater(
 
     @Comment("상영관 이름")
     var title: String = title
-        protected set
-
-    @Comment("좌석 배치 정보")
-    var seatLayout: String = seatLayout
         protected set
 
     @ManyToOne(fetch = FetchType.LAZY)
