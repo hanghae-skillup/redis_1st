@@ -7,6 +7,7 @@ import com.example.demo.domain.repository.ScreeningRepository
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
 import java.util.concurrent.TimeUnit
+import kotlin.reflect.typeOf
 
 @Service
 class MovieService(
@@ -45,13 +46,17 @@ class MovieService(
         val cacheKey = "movies::${title ?: ""}::${genre ?: ""}"
         val ops = redisTemplate.opsForValue()
 
+        println("cacheKey: $cacheKey")
+
         @Suppress("UNCHECKED_CAST")
         val cachedResult = ops.get(cacheKey) as? List<MovieDto>
         if (cachedResult != null) {
+            println("Type of cachedResult: ${cachedResult::class}")
             return cachedResult
         }
 
         val movies = getNowShowingMovies(title, genre)
+        println("Type of moviesResult: ${movies::class}")
         ops.set(cacheKey, movies, 10, TimeUnit.MINUTES)
         return movies
     }
