@@ -2,10 +2,12 @@ package com.movie.application.service;
 
 import com.movie.application.dto.MovieResponseDto;
 import com.movie.application.dto.MovieResponseDto.ScheduleInfo;
+import com.movie.domain.dto.MovieSearchCondition;
 import com.movie.domain.entity.Movie;
 import com.movie.domain.entity.Schedule;
 import com.movie.domain.repository.MovieRepository;
 import com.movie.domain.repository.ScheduleRepository;
+import com.movie.infra.repository.MovieQueryRepository;
 import java.util.Comparator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +21,15 @@ public class MovieService {
 
     private final MovieRepository movieRepository;
     private final ScheduleRepository scheduleRepository;
+    private final MovieQueryRepository movieQueryRepository;
 
-    public List<MovieResponseDto> getNowShowingMovies() {
-        List<Movie> movieList = movieRepository.findAll().stream()
-            .filter(movie -> movie.getReleaseDate() != null)
-            .sorted(Comparator.comparing(Movie::getReleaseDate).reversed())
-            .toList();
+    public List<MovieResponseDto> getNowShowingMovies(MovieSearchCondition condition) {
+        List<Movie> movieList = condition != null ? 
+            movieQueryRepository.search(condition) :
+            movieRepository.findAll().stream()
+                .filter(movie -> movie.getReleaseDate() != null)
+                .sorted(Comparator.comparing(Movie::getReleaseDate).reversed())
+                .toList();
 
         List<Schedule> scheduleList = scheduleRepository.findAllFetchMovieTheater().stream()
             .filter(schedule -> schedule.getStartAt() != null)
