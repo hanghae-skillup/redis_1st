@@ -25,7 +25,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     @Override
     public List<ScheduleInfo.Get> getSchedules(ScheduleCommand.Search search) {
         ScheduleStatement.Search scheduleSearch =
-                ScheduleStatement.Search.of(search.movieName(), search.genre());
+                ScheduleStatement.Search.of(search.title(), search.genre());
         List<SchedulePayload.Get> schedules = scheduleJpaQuerySupport.getSchedules(scheduleSearch);
         return schedules.stream().map(SchedulePayload.Get::to).toList();
     }
