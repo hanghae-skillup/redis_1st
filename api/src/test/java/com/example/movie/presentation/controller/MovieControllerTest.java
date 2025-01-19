@@ -23,7 +23,7 @@ class MovieControllerTest {
     @Test
     @DisplayName("장르 필터링 시 Enum 값이 아니면 예외가 발생한다.")
     void 장르필터링_예외() throws Exception {
-        mockMvc.perform(get("/v1/movies/now-showing")
+        mockMvc.perform(get("/v1/movies")
                         .param("genre","weirdInput")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
-public class MoviesNowShowingDetailDto {
+public class MoviesDetailDto {
     private Long movieId;
     private String movieName;
     private Grade grade;

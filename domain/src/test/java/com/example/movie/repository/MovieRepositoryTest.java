@@ -2,7 +2,7 @@ package com.example.movie.repository;
 
 import com.example.TestConfiguration;
 import com.example.movie.entity.movie.Genre;
-import com.example.movie.repository.dto.MoviesNowShowingDetailDto;
+import com.example.movie.repository.dto.MoviesDetailDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ class MovieRepositoryTest {
         String search = "파일";
 
         // when
-        List<MoviesNowShowingDetailDto> result = movieRepository.findNowShowing(now, null, search);
+        List<MoviesDetailDto> result = movieRepository.findAll(now, null, search);
 
         // then
         assertThat(result).isNotEmpty();
@@ -44,7 +44,7 @@ class MovieRepositoryTest {
         Genre genre = Genre.SF;
 
         // when
-        List<MoviesNowShowingDetailDto> result = movieRepository.findNowShowing(now, genre, null);
+        List<MoviesDetailDto> result = movieRepository.findAll(now, genre, null);
 
         // then
         assertThat(result).isNotEmpty();
@@ -60,7 +60,7 @@ class MovieRepositoryTest {
         String search = "파일";
 
         // when
-        List<MoviesNowShowingDetailDto> result = movieRepository.findNowShowing(now, genre, search);
+        List<MoviesDetailDto> result = movieRepository.findAll(now, genre, search);
 
         // then
         assertThat(result).isNotEmpty();
@@ -74,7 +74,7 @@ class MovieRepositoryTest {
         LocalDateTime now = LocalDateTime.now();
 
         // when
-        List<MoviesNowShowingDetailDto> result = movieRepository.findNowShowing(now, null, null);
+        List<MoviesDetailDto> result = movieRepository.findAll(now, null, null);
 
         // then
         assertThat(result).isNotEmpty();

@@ -17,3 +17,7 @@ spring:
       data-locations: classpath:data.sql
       platform: mysql
       mode: always
+
+logging:
+  level:
+    org.springframework.cache: trace

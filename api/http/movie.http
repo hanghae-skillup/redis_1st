@@ -1,3 +1,7 @@
 ### 1. 상영중인 영화 조회
-GET localhost:8080/v1/movies/now-showing
+GET localhost:8080/v1/movies?nowShowing=TRUE
+Content-Type: application/json
+
+### 2. 전체 영화 조회
+GET localhost:8080/v1/movies?nowShowing=FALSE&genre=HORROR&search=3
 Content-Type: application/json

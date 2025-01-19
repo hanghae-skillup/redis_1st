@@ -6,7 +6,7 @@ import com.example.movie.entity.movie.Grade;
 import java.time.LocalDate;
 import java.util.List;
 
-public record MoviesNowShowingDetail (
+public record MoviesDetail(
         Long movieId,
         String movieName,
         Grade grade,

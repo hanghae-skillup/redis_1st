@@ -39,6 +39,10 @@ subprojects {
         testImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'
         testImplementation "org.testcontainers:testcontainers:1.19.0"
         testImplementation "org.testcontainers:junit-jupiter:1.19.0"
+
+        implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2'
+
     }
 
     test {
@@ -46,3 +50,4 @@ subprojects {
     }
 
 }
+

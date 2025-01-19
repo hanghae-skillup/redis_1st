@@ -1,11 +1,11 @@
 package com.example.movie.application.service;
 
 import com.example.movie.application.convertor.DtoConvertor;
-import com.example.movie.application.dto.MoviesNowShowingDetail;
+import com.example.movie.application.dto.MoviesDetail;
 import com.example.movie.entity.movie.Genre;
 import com.example.movie.entity.movie.Grade;
 import com.example.movie.repository.MovieRepository;
-import com.example.movie.repository.dto.MoviesNowShowingDetailDto;
+import com.example.movie.repository.dto.MoviesDetailDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,45 +35,45 @@ class MovieServiceTest {
         //given
         LocalDateTime now = LocalDateTime.now();
 
-        List<MoviesNowShowingDetailDto> mockDbResults = List.of(
-                new MoviesNowShowingDetailDto(
+        List<MoviesDetailDto> mockDbResults = List.of(
+                new MoviesDetailDto(
                         1L, "Movie A", Grade.ALL_AGE, LocalDate.of(2023, 12, 15),
                         "thumbnailA.jpg", 120L, Genre.ACTION, 1L, "Theater 1",
                         now.plusHours(1), now.plusHours(3)
                 ),
-                new MoviesNowShowingDetailDto(
+                new MoviesDetailDto(
                         1L, "Movie A", Grade.ALL_AGE, LocalDate.of(2023, 12, 15),
                         "thumbnailA.jpg", 120L, Genre.ACTION, 1L, "Theater 1",
                         now.plusHours(3), now.plusHours(5)
                 ),
-                new MoviesNowShowingDetailDto(
+                new MoviesDetailDto(
                         1L, "Movie A", Grade.ALL_AGE, LocalDate.of(2023, 12, 15),
                         "thumbnailA.jpg", 120L, Genre.ACTION, 2L, "Theater 2",
                         now.plusHours(2), now.plusHours(4)
                 ),
-                new MoviesNowShowingDetailDto(
+                new MoviesDetailDto(
                         2L, "Movie B", Grade.FROM_12_AGE, LocalDate.of(2024, 1, 10),
                         "thumbnailB.jpg", 130L, Genre.ROMANCE, 1L, "Theater 1",
                         now.plusHours(3), now.plusHours(5)
                 )
         );
 
-        List<MoviesNowShowingDetail> mockConvertedResults = List.of(
-                new MoviesNowShowingDetail(
+        List<MoviesDetail> mockConvertedResults = List.of(
+                new MoviesDetail(
                         1L, "Movie A", Grade.ALL_AGE, LocalDate.of(2023, 12, 15),
                         "thumbnailA.jpg", 120L, Genre.ACTION, List.of()
                 ),
-                new MoviesNowShowingDetail(
+                new MoviesDetail(
                         2L, "Movie B", Grade.FROM_12_AGE, LocalDate.of(2024, 1, 10),
                         "thumbnailB.jpg", 130L, Genre.ROMANCE, List.of()
                 )
         );
 
-        when(movieRepository.findNowShowing(now,null,null)).thenReturn(mockDbResults);
+        when(movieRepository.findAll(now,null,null)).thenReturn(mockDbResults);
         when(dtoConvertor.moviesNowScreening(mockDbResults)).thenReturn(mockConvertedResults);
 
         //when
-        List<MoviesNowShowingDetail> result = movieService.getMoviesNowShowing(now, null, null);
+        List<MoviesDetail> result = movieService.getMovies(now, Boolean.TRUE, null, null);
 
         //then
         assertThat(result.get(0).movieId()).isEqualTo(2L);

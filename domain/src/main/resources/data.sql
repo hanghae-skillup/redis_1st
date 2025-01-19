@@ -1,62 +1,70 @@
--- Clear existing data
+SET SESSION cte_max_recursion_depth = 1000000;
+
 DELETE FROM screening;
 DELETE FROM movie;
 DELETE FROM theater;
 
--- Theater Data
+-- 상영관 데이터 삽입
 INSERT INTO theater (id, name, create_at, modify_at)
 VALUES
     (1, '상영관 1관', NOW(), NOW()),
     (2, '상영관 2관', NOW(), NOW()),
-    (3, '상영관 3관', NOW(), NOW()),
-    (4, '상영관 4관', NOW(), NOW()),
-    (5, '상영관 5관', NOW(), NOW()),
-    (6, '상영관 6관', NOW(), NOW()),
-    (7, '상영관 7관', NOW(), NOW()),
-    (8, '상영관 8관', NOW(), NOW()),
-    (9, '상영관 9관', NOW(), NOW()),
-    (10, '상영관 10관', NOW(), NOW());
+    (3, '상영관 3관', NOW(), NOW());
 
--- Movie Data
+-- movies 테이블에 데이터 삽입
 INSERT INTO movie (id, name, thumbnail, genre, grade, release_date, running_time, create_at, modify_at)
-VALUES
-    (1, '범죄도시', NULL, 'ACTION', 'FROM_15_AGE', DATE_ADD(CURRENT_DATE, INTERVAL -30 DAY), 120, NOW(), NOW()), --2달 전 개봉
-    (2, '파일럿', NULL, 'SF', 'FROM_12_AGE', DATE_ADD(CURRENT_DATE, INTERVAL -15 DAY), 135, NOW(), NOW()), --15일 전 개봉
-    (3, '기생충', NULL, 'ROMANCE', 'FROM_15_AGE', DATE_ADD(CURRENT_DATE, INTERVAL -10 DAY), 132, NOW(), NOW()), --10일 전 개봉
-    (4, '인셉션', NULL, 'SF', 'FROM_15_AGE', DATE_ADD(CURRENT_DATE, INTERVAL -100 DAY), 148, NOW(), NOW()), --3달 전 개봉
-    (5, '어벤져스: 엔드게임', NULL, 'ACTION', 'FROM_12_AGE', DATE_ADD(CURRENT_DATE, INTERVAL +100 DAY), 181, NOW(), NOW()); --3달 후 개봉
+WITH RECURSIVE cte (n) AS (
+    SELECT 1
+    UNION ALL
+    SELECT n + 1 FROM cte WHERE n < 500 -- 생성할 영화 개수
+)
+SELECT
+    n AS id,
+    CONCAT('Movie ', LPAD(n, 3, '0')) AS name,
+    NULL AS thumbnail,
+    CASE MOD(n, 4)
+        WHEN 0 THEN 'ACTION'
+        WHEN 1 THEN 'ROMANCE'
+        WHEN 2 THEN 'HORROR'
+        WHEN 3 THEN 'SF'
+        END AS genre,
+    CASE MOD(n, 5)
+        WHEN 0 THEN 'FROM_12_AGE'
+        WHEN 1 THEN 'FROM_15_AGE'
+        WHEN 2 THEN 'FROM_19_AGE'
+        WHEN 3 THEN 'ALL_AGE'
+        WHEN 4 THEN 'RESTRICTED'
+        END AS grade,
+    DATE_SUB(CURRENT_DATE, INTERVAL FLOOR(RAND() * 100 + n) DAY) AS release_date,
+    MOD(n, 120) + 60 AS running_time,
+    NOW() AS create_at,
+    NOW() AS modify_at
+FROM cte;
 
--- Screening Data
--- 범죄도시 상영 스케줄 (종료)
-INSERT INTO screening (id, movie_id, theater_id, start_at, end_at, create_at, modify_at)
-VALUES
-    (1, 1, 1, DATE_ADD(DATE_ADD(CURRENT_DATE, INTERVAL -30 DAY), INTERVAL 12 HOUR), DATE_ADD(DATE_ADD(CURRENT_DATE, INTERVAL -30 DAY), INTERVAL 14 HOUR), NOW(), NOW()),
-    (2, 1, 2, DATE_ADD(DATE_ADD(CURRENT_DATE, INTERVAL -30 DAY), INTERVAL 14 HOUR), DATE_ADD(DATE_ADD(CURRENT_DATE, INTERVAL -30 DAY), INTERVAL 16 HOUR), NOW(), NOW()),
-    (3, 1, 3, DATE_ADD(DATE_ADD(CURRENT_DATE, INTERVAL -30 DAY), INTERVAL 15 HOUR ), DATE_ADD(DATE_ADD(CURRENT_DATE, INTERVAL -30 DAY), INTERVAL 17 HOUR), NOW(), NOW()),
-    (4, 1, 4, DATE_ADD(DATE_ADD(CURRENT_DATE, INTERVAL -30 DAY), INTERVAL 17 HOUR), DATE_ADD(DATE_ADD(CURRENT_DATE, INTERVAL -30 DAY), INTERVAL 19 HOUR), NOW(), NOW()),
-    (5, 1, 5, DATE_ADD(DATE_ADD(CURRENT_DATE, INTERVAL -30 DAY), INTERVAL 36 HOUR), DATE_ADD(DATE_ADD(CURRENT_DATE, INTERVAL -30 DAY), INTERVAL 38 HOUR), NOW(), NOW());
-
--- 파일럿 상영 스케줄 (진행)
-INSERT INTO screening (id, movie_id, theater_id, start_at, end_at, create_at, modify_at)
-VALUES
-    (6, 2, 2, DATE_ADD(CURRENT_DATE, INTERVAL -12 HOUR), DATE_ADD(CURRENT_DATE, INTERVAL -10 HOUR), NOW(), NOW()),
-    (7, 2, 3, DATE_ADD(CURRENT_DATE, INTERVAL 14 HOUR), DATE_ADD(CURRENT_DATE, INTERVAL 16 HOUR), NOW(), NOW()),
-    (8, 2, 4, DATE_ADD(CURRENT_DATE, INTERVAL 15 HOUR), DATE_ADD(CURRENT_DATE, INTERVAL 17 HOUR), NOW(), NOW()),
-    (9, 2, 5, DATE_ADD(CURRENT_DATE, INTERVAL 17 HOUR), DATE_ADD(CURRENT_DATE, INTERVAL 19 HOUR), NOW(), NOW()),
-    (10, 2, 6, DATE_ADD(CURRENT_DATE, INTERVAL 36 HOUR), DATE_ADD(CURRENT_DATE, INTERVAL 38 HOUR), NOW(), NOW());
-
--- 기생충 상영 스케줄 (진행)
-INSERT INTO screening (id, movie_id, theater_id, start_at, end_at, create_at, modify_at)
-VALUES
-    (11, 3, 3, DATE_ADD(CURRENT_DATE, INTERVAL -10 HOUR), DATE_ADD(CURRENT_DATE, INTERVAL -8 HOUR), NOW(), NOW()),
-    (12, 3, 4, DATE_ADD(CURRENT_DATE, INTERVAL 13 HOUR), DATE_ADD(CURRENT_DATE, INTERVAL 15 HOUR), NOW(), NOW()),
-    (13, 3, 5, DATE_ADD(CURRENT_DATE, INTERVAL 14 HOUR), DATE_ADD(CURRENT_DATE, INTERVAL 16 HOUR), NOW(), NOW()),
-    (14, 3, 6, DATE_ADD(CURRENT_DATE, INTERVAL 18 HOUR), DATE_ADD(CURRENT_DATE, INTERVAL 20 HOUR), NOW(), NOW()),
-    (15, 3, 7, DATE_ADD(CURRENT_DATE, INTERVAL 20 HOUR), DATE_ADD(CURRENT_DATE, INTERVAL 22 HOUR), NOW(), NOW());
-
--- 인셉션 상영 스케줄 (종료)
-INSERT INTO screening (id, movie_id, theater_id, start_at, end_at, create_at, modify_at)
-VALUES
-    (16, 4, 4, DATE_ADD(DATE_ADD(CURRENT_DATE, INTERVAL -100 DAY), INTERVAL 10 HOUR), DATE_ADD(DATE_ADD(CURRENT_DATE, INTERVAL -100 DAY), INTERVAL 12 HOUR), NOW(), NOW()),
-    (17, 4, 5, DATE_ADD(DATE_ADD(CURRENT_DATE, INTERVAL -100 DAY), INTERVAL 13 HOUR), DATE_ADD(DATE_ADD(CURRENT_DATE, INTERVAL -100 DAY), INTERVAL 15 HOUR), NOW(), NOW()),
-    (18, 4, 6, DATE_ADD(DATE_ADD(CURRENT_DATE, INTERVAL -100 DAY), INTERVAL 14 HOUR), DATE_ADD(DATE_ADD(CURRENT_DATE, INTERVAL -100 DAY), INTERVAL 16 HOUR), NOW(), NOW());
+-- screenings 테이블에 상영 일정 데이터 삽입
+INSERT INTO screening (movie_id, theater_id, start_at, end_at, create_at, modify_at)
+WITH RECURSIVE cte (movie_id, schedule_number) AS (
+    SELECT 1, 1
+    UNION ALL
+    SELECT
+        CASE WHEN schedule_number = 6 THEN movie_id + 1 ELSE movie_id END,
+        CASE WHEN schedule_number = 6 THEN 1 ELSE schedule_number + 1 END
+    FROM cte
+    WHERE movie_id <= 500 AND (schedule_number < 6 OR movie_id < 500)
+)
+SELECT
+    movie_id,
+    MOD(schedule_number - 1, 3) + 1 AS theater_id, -- 1~3 순환
+    CASE
+        WHEN MOD(schedule_number, 2) = 0 THEN DATE_ADD(CURRENT_DATE, INTERVAL (schedule_number * 3) HOUR)
+        ELSE DATE_SUB(CURRENT_DATE, INTERVAL (schedule_number * 3) HOUR)
+        END AS start_at,
+    CASE
+        WHEN MOD(schedule_number, 2) = 0 THEN DATE_ADD(CURRENT_DATE, INTERVAL (schedule_number * 3 + 2) HOUR)
+        ELSE DATE_SUB(CURRENT_DATE, INTERVAL (schedule_number * 3 - 2) HOUR)
+        END AS end_at,
+    NOW() AS create_at,
+    NOW() AS modify_at
+FROM cte
+WHERE schedule_number < 6
+   OR movie_id < 500;

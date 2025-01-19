@@ -1,6 +1,6 @@
 package com.example.movie.presentation.controller;
 
-import com.example.movie.application.dto.MoviesNowShowingDetail;
+import com.example.movie.application.dto.MoviesDetail;
 import com.example.movie.application.service.MovieService;
 import com.example.movie.entity.movie.Genre;
 import com.example.response.BaseResponse;
@@ -18,12 +18,13 @@ public class MovieController {
 
     private final MovieService movieService;
 
-    @GetMapping("/v1/movies/now-showing")
-    public BaseResponse<List<MoviesNowShowingDetail>> getMoviesNowShowing(
+    @GetMapping("/v1/movies")
+    public BaseResponse<List<MoviesDetail>> getMoviesNowShowing(
+            @RequestParam(value = "nowShowing") Boolean isNowShowing,
             @RequestParam(value = "genre", required = false)Genre genre,
             @RequestParam(value = "search", required = false)String search
             ) {
-        List<MoviesNowShowingDetail> response = movieService.getMoviesNowShowing(LocalDateTime.now(), genre, search);
+        List<MoviesDetail> response = movieService.getMovies(LocalDateTime.now(), isNowShowing, genre, search);
         return new BaseResponse<>(response);
     }
 

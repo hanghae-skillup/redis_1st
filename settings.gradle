@@ -1,4 +1,5 @@
 rootProject.name = 'multi-modules'
 include 'api'
 include 'domain'
+include 'infra'
 

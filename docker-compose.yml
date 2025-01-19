@@ -9,3 +9,8 @@ services:
       MYSQL_PASSWORD: password  # 사용자 비밀번호 (선택)
     ports:
       - "3305:3306"  # 호스트의 3306 포트를 컨테이너의 3306 포트와 연결
+
+  redis:
+    image: redis:latest  # 이미 로컬에 있는 Redis 이미지 사용
+    ports:
+      - "6379:6379"  # 호스트의 6379 포트를 컨테이너의 6379 포트와 연결
