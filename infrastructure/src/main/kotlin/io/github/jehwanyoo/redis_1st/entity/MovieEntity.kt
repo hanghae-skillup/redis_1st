@@ -39,16 +39,4 @@ class MovieEntity(
         genre = genre,
         rating = rating
     )
-
-    companion object {
-        fun fromDomain(movie: Movie): MovieEntity = MovieEntity(
-            id = movie.id,
-            title = movie.title,
-            releaseDate = movie.releaseDate,
-            thumbnailUrl = movie.thumbnailUrl,
-            runtimeMinutes = movie.runtimeMinutes,
-            genre = movie.genre,
-            rating = movie.rating
-        )
-    }
 }
