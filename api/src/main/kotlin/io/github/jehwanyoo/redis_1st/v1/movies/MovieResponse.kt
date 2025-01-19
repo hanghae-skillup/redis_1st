@@ -29,8 +29,7 @@ data class MovieResponse(
                     releaseDate = movie.releaseDate,
                     thumbnailUrl = movie.thumbnailUrl,
                     runtimeMinutes = movie.runtimeMinutes,
-                    // Fixme
-                    screens = emptyList(),
+                    screens = movie.screens.map { ScreenResponse.fromDomain(it) }
                 )
             }
         }
@@ -45,15 +44,13 @@ data class ScreenResponse(
     @JsonProperty("column") val column: Int,                            // 좌석 열 수
 ) {
     companion object {
-        fun fromDomain(screen: Screen, showTimes: List<ShowTime>): ScreenResponse {
+        fun fromDomain(screen: Screen): ScreenResponse {
             return ScreenResponse(
                 screenId = screen.id,
                 screenName = screen.name,
                 row = screen.row,
                 column = screen.column,
-                showTimes = showTimes
-                    .filter { it.screenId == screen.id }
-                    .map { ShowTimeResponse.fromDomain(it) }
+                showTimes = screen.showTimes.map { ShowTimeResponse.fromDomain(it) }
             )
         }
     }
