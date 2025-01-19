@@ -1,10 +1,9 @@
 package com.example.movie.response;
 
-import com.example.entity.Movie;
-import com.example.entity.MovieTheater;
-import com.example.entity.Screening;
-import com.example.entity.Theater;
+import com.example.repository.movie.dto.MovieDto;
+import com.example.repository.movie.dto.ScreeningInfoDto;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -13,38 +12,31 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
+@Slf4j
 public class MovieResponse {
     private String title;
     private String thumbnailUrl;
     private String genre;
     private String rating;
     private LocalDate releaseDate;
-    private List<String> theaters;
-    private List<String> screenings;
+    private List<ScreeningInfoResponse> screeningInfo;
 
-    MovieResponse(Movie movie) {
+    MovieResponse(MovieDto movie) {
         this.title = movie.getTitle();
         this.thumbnailUrl = movie.getThumbnailUrl();
         this.genre = movie.getGenre().getDescription();
         this.rating = movie.getRating().getDescription();
         this.releaseDate = movie.getReleaseDate();
-        this.theaters = createTheaters(movie);
-        this.screenings = createScreening(movie);
+        this.screeningInfo = createScreeningInfo(movie.getScreeningInfo());
     }
 
-    private static List<String> createTheaters(Movie movie) {
-        return movie.getMovieTheaters().stream()
-                .map(MovieTheater::getTheater)
-                .map(Theater::getName)
-                .collect(Collectors.toList());
-    }
-
-    private static List<String> createScreening(Movie movie) {
-        return movie.getScreenings().stream()
-                .sorted(Comparator.comparing(Screening::getStartedAt))
-                .map(screening -> screening.getStartedAt().format(DateTimeFormatter.ofPattern("HH:mm"))
-                        + " ~ "
-                        + screening.getEndedAt().format(DateTimeFormatter.ofPattern("HH:mm")))
+    private static List<ScreeningInfoResponse> createScreeningInfo(List<ScreeningInfoDto> screenings) {
+        return screenings.stream()
+                .sorted(Comparator.comparing(ScreeningInfoDto::getStartedAt))
+                .map(screening ->
+                        new ScreeningInfoResponse(screening.getTheaterName(),
+                                screening.getStartedAt().format(DateTimeFormatter.ofPattern("HH:mm")),
+                                screening.getEndedAt().format(DateTimeFormatter.ofPattern("HH:mm"))))
                 .collect(Collectors.toList());
     }
 }

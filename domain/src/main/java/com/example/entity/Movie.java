@@ -6,10 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import static jakarta.persistence.GenerationType.*;
+import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Getter
@@ -33,10 +33,7 @@ public class Movie extends BaseEntity {
     private Rating rating;
 
     @OneToMany(mappedBy = "movie")
-    private Set<MovieTheater> movieTheaters = new HashSet<>();
-
-    @OneToMany(mappedBy = "movie")
-    private Set<Screening> screenings = new HashSet<>();
+    private List<Screening> screenings = new ArrayList<>();
 
     public Movie(String title, String thumbnailUrl, Integer runningTime, LocalDate releaseDate, Genre genre, Rating rating) {
         this.title = title;

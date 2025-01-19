@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Getter
@@ -29,6 +28,10 @@ public class Screening extends BaseEntity {
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "theater_id")
+    private Theater theater;
+
     @OneToMany(mappedBy = "screening")
     private List<Seat> seats = new ArrayList<>();
 
@@ -40,18 +43,5 @@ public class Screening extends BaseEntity {
                 this.seats.add(new Seat(seatNumber, this));
             }
         }
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        Screening screening = (Screening) object;
-        return Objects.equals(id, screening.id) && Objects.equals(screeningAt, screening.screeningAt) && Objects.equals(startedAt, screening.startedAt) && Objects.equals(endedAt, screening.endedAt) && Objects.equals(movie, screening.movie) && Objects.equals(seats, screening.seats);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, screeningAt, startedAt, endedAt, movie, seats);
     }
 }

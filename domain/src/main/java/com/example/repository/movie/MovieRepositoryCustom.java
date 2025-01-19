@@ -1,9 +1,9 @@
 package com.example.repository.movie;
 
-import com.example.entity.Movie;
+import com.example.repository.movie.dto.MovieDto;
 
 import java.util.List;
 
 public interface MovieRepositoryCustom {
-    List<Movie> findAllByTitleAndGenre(String title, String genre);
+    List<MovieDto> findAllByTitleAndGenre(String title, String genre);
 }

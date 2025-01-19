@@ -1,4 +1,4 @@
-package com.example.repository.movie;
+package com.example.repository.movie.dto;
 
 import com.example.entity.Genre;
 import com.example.entity.Rating;
