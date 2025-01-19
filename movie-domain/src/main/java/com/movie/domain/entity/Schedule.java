@@ -3,11 +3,12 @@ package com.movie.domain.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "schedule")
 public class Schedule extends BaseEntity {
 
@@ -23,9 +24,26 @@ public class Schedule extends BaseEntity {
     @JoinColumn(name = "theater_id")
     private Theater theater;
 
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private LocalDateTime startAt;
+    private LocalDateTime endAt;
 
-    protected Schedule() {
+    public Schedule(Movie movie, Theater theater, LocalDateTime startAt, LocalDateTime endAt) {
+        this.movie = movie;
+        this.theater = theater;
+        this.startAt = startAt;
+        this.endAt = endAt;
+    }
+
+    public void updateScheduleDateTime(LocalDateTime startAt, LocalDateTime endAt) {
+        this.startAt = startAt;
+        this.endAt = endAt;
+    }
+
+    public void updateTheater(Theater theater) {
+        this.theater = theater;
+    }
+
+    public void updateMovie(Movie movie) {
+        this.movie = movie;
     }
 }

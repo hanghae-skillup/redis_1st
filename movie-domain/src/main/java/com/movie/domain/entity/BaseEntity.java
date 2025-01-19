@@ -4,10 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 @MappedSuperclass
 public abstract class BaseEntity {
 
@@ -24,5 +22,17 @@ public abstract class BaseEntity {
     private LocalDateTime updatedAt;
 
     protected BaseEntity() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+        this.updatedBy = createdBy;
+    }
+
+    public void update(String updatedBy) {
+        this.updatedBy = updatedBy;
+        this.updatedAt = LocalDateTime.now();
     }
 }

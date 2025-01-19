@@ -8,30 +8,26 @@ import com.movie.domain.repository.MovieRepository;
 import com.movie.domain.repository.ScheduleRepository;
 import java.util.Comparator;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class MovieService {
 
     private final MovieRepository movieRepository;
     private final ScheduleRepository scheduleRepository;
 
-    public MovieService(MovieRepository movieRepository,
-        ScheduleRepository scheduleRepository) {
-        this.movieRepository = movieRepository;
-        this.scheduleRepository = scheduleRepository;
-    }
-
     public List<MovieResponseDto> getNowShowingMovies() {
-
         List<Movie> movieList = movieRepository.findAll().stream()
             .sorted(Comparator.comparing(Movie::getReleaseDate).reversed())
             .toList();
 
         List<Schedule> scheduleList = scheduleRepository.findAllFetchMovieTheater().stream()
-            .sorted(Comparator.comparing(Schedule::getStartTime))
+            .filter(schedule -> schedule.getStartAt() != null)
+            .sorted(Comparator.comparing(Schedule::getStartAt))
             .toList();
 
         return movieList.stream()
@@ -41,8 +37,8 @@ public class MovieService {
                     .map(sch -> {
                         ScheduleInfo info = new ScheduleInfo();
                         info.setTheaterName(sch.getTheater().getName());
-                        info.setStartTime(sch.getStartTime());
-                        info.setEndTime(sch.getEndTime());
+                        info.setStartTime(sch.getStartAt());
+                        info.setEndTime(sch.getEndAt());
                         return info;
                     })
                     .toList();

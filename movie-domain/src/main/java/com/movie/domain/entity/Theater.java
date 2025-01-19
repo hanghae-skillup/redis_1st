@@ -4,11 +4,12 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "theater")
 public class Theater extends BaseEntity {
 
@@ -21,7 +22,12 @@ public class Theater extends BaseEntity {
     @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Seat> seats = new ArrayList<>();
 
-    protected Theater() {
+    public Theater(String name) {
+        this.name = name;
+    }
+
+    public void updateName(String name) {
+        this.name = name;
     }
 
     public void addSeat(Seat seat) {

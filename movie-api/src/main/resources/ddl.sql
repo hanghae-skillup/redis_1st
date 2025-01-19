@@ -34,8 +34,8 @@ CREATE TABLE IF NOT EXISTS schedule (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     movie_id BIGINT NOT NULL,
     theater_id BIGINT NOT NULL,
-    start_time DATETIME(6) NOT NULL,
-    end_time DATETIME(6) NOT NULL,
+    start_at DATETIME(6) NOT NULL,
+    end_at DATETIME(6) NOT NULL,
     created_at DATETIME(6),
     updated_at DATETIME(6),
     created_by VARCHAR(255),
@@ -66,7 +66,7 @@ VALUES
 ('2관', NOW(), NOW(), 'SYSTEM', 'SYSTEM'),
 ('3관', NOW(), NOW(), 'SYSTEM', 'SYSTEM');
 
-INSERT INTO schedule (movie_id, theater_id, start_time, end_time, created_at, updated_at, created_by, updated_by)
+INSERT INTO schedule (movie_id, theater_id, start_at, end_at, created_at, updated_at, created_by, updated_by)
 VALUES 
 (1, 1, '2024-01-19 10:00:00', '2024-01-19 12:00:00', NOW(), NOW(), 'SYSTEM', 'SYSTEM'),
 (2, 2, '2024-01-19 11:00:00', '2024-01-19 13:00:00', NOW(), NOW(), 'SYSTEM', 'SYSTEM'),
