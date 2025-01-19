@@ -19,7 +19,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database-platform: org.hibernate.dialect.MySQLDialect
   main:
     allow-bean-definition-overriding: true
   sql:
@@ -27,3 +27,7 @@ spring:
       mode: always
       schema-locations: classpath:schema.sql
       data-locations: classpath:data.sql
+  data:
+    redis:
+      host: redis
+      port: 6379
