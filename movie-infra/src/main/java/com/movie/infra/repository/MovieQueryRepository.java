@@ -1,7 +1,8 @@
 package com.movie.infra.repository;
 
+import com.movie.domain.dto.MovieProjection;
 import com.movie.domain.dto.MovieSearchCondition;
-import com.movie.domain.entity.Movie;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +18,15 @@ import static com.movie.domain.entity.QMovie.movie;
 public class MovieQueryRepository {
     private final JPAQueryFactory queryFactory;
 
-    public List<Movie> search(MovieSearchCondition condition) {
+    public List<MovieProjection> search(MovieSearchCondition condition) {
         return queryFactory
-                .selectFrom(movie)
+                .select(Projections.fields(MovieProjection.class,
+                        movie.id,
+                        movie.title,
+                        movie.thumbnail,
+                        movie.runningTime,
+                        movie.genre))
+                .from(movie)
                 .where(
                         titleEq(condition.getTitle()),
                         genreEq(condition.getGenre())

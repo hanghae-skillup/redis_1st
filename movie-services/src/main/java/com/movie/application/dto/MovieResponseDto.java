@@ -1,29 +1,33 @@
 package com.movie.application.dto;
 
-import java.time.LocalDate;
+import lombok.Builder;
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 import java.util.List;
-import lombok.Getter;
-import lombok.Setter;
-
 
 @Getter
-@Setter
+@Builder
 public class MovieResponseDto {
-
+    private Long id;
     private String title;
-    private String grade;
-    private LocalDate releaseDate;
-    private String thumbnailUrl;
-    private int runningTime;
+    private String thumbnail;
+    private Integer runningTime;
     private String genre;
     private List<ScheduleInfo> schedules;
 
     @Getter
-    @Setter
+    @Builder
     public static class ScheduleInfo {
-        private String theaterName;
-        private LocalDateTime startTime;
-        private LocalDateTime endTime;
+        private Long id;
+        private LocalDateTime startAt;
+        private TheaterInfo theater;
+    }
+
+    @Getter
+    @Builder
+    public static class TheaterInfo {
+        private Long id;
+        private String name;
     }
 }
