@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot'
+    id 'io.spring.dependency-management'
+}
+
+group = 'com.movie'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+compileJava {
+    options.compilerArgs += ['-parameters']
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':services')
+    implementation project(':domain')
+    implementation project(':infra')
+    
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    runtimeOnly 'com.mysql:mysql-connector-j:8.2.0'
+    
+    implementation 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+bootJar {
+    enabled = true
+    mainClass = 'com.movie.api.ApiApplication'
+    archiveFileName = 'app.jar'
+}
+
+jar {
+    enabled = false
+}
+
