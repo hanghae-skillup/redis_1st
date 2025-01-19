@@ -1,9 +1,9 @@
-package dto.internal;
+package dto.screen;
 
 import lombok.Getter;
 
 @Getter
 public class ScreenDTO {
-	private Long screen_id;
+	private Long screenId;
 	private String name;
 }

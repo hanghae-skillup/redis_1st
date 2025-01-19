@@ -1,13 +1,13 @@
-package module.service;
+package module.service.genre;
 
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import dto.internal.GenreDTO;
+import dto.genre.GenreDTO;
 import lombok.RequiredArgsConstructor;
-import module.repository.GenreRepository;
+import module.repository.genre.GenreRepository;
 
 @Service
 @RequiredArgsConstructor
