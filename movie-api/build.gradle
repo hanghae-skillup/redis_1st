@@ -35,8 +35,7 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
-}
-
-springBoot {
+}springBoot {
     mainClass = 'com.movie.api.ApiApplication'
 }
+

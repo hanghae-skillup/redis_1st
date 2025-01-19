@@ -3,9 +3,9 @@ import { check, sleep } from 'k6';
 
 export const options = {
   stages: [
-    { duration: '1m', target: 50 },  // 1분동안 50명의 가상 사용자로 증가
-    { duration: '3m', target: 50 },  // 3분동안 50명 유지
-    { duration: '1m', target: 0 },   // 1분동안 0명으로 감소
+    { duration: '1m', target: 50 },  // 1분 동안 0에서 50 VUs로 증가
+    { duration: '3m', target: 50 },  // 3분 동안 50 VUs 유지
+    { duration: '1m', target: 0 },   // 1분 동안 50에서 0 VUs로 감소
   ],
   thresholds: {
     http_req_duration: ['p(95)<500'], // 95%의 요청이 500ms 이내에 완료되어야 함
