@@ -1,4 +1,4 @@
-package com.example.movie.persistence.movie.projection
+package com.example.movie.persistence.movie.dto
 
 import com.example.movie.domain.genre.model.Genre
 import com.example.movie.domain.movie.model.Movie

@@ -3,9 +3,7 @@ package com.example.movie.persistence.movie.repository
 import com.example.movie.domain.movie.model.Movie
 import com.example.movie.domain.movie.repository.MovieRepository
 import com.example.movie.domain.screening.model.ScreeningStatus
-import com.example.movie.persistence.movie.projection.MovieDtoMapper
-import com.example.movie.persistence.movie.projection.toMovieCacheDtos
-import com.example.movie.persistence.movie.projection.toMovies
+import com.example.movie.persistence.movie.dto.MovieDtoMapper
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Repository
@@ -39,6 +37,6 @@ class CacheMovieRepositoryImpl(
 
         return movies.map { movie ->
             MovieDtoMapper.toMovie(movie, screeningsByMovieId[movie.id] ?: emptyList())
-        }.toMovieCacheDtos().toMovies()
+        }
     }
 }

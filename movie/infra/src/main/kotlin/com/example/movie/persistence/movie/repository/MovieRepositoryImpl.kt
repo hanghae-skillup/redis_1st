@@ -3,7 +3,7 @@ package com.example.movie.persistence.movie.repository
 import com.example.movie.domain.movie.model.Movie
 import com.example.movie.domain.movie.repository.MovieRepository
 import com.example.movie.domain.screening.model.ScreeningStatus
-import com.example.movie.persistence.movie.projection.MovieDtoMapper
+import com.example.movie.persistence.movie.dto.MovieDtoMapper
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime

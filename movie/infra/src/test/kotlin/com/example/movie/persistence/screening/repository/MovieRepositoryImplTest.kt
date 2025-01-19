@@ -2,8 +2,8 @@ package com.example.movie.persistence.screening.repository
 
 import com.example.movie.domain.movie.model.Rating
 import com.example.movie.domain.screening.model.ScreeningStatus
-import com.example.movie.persistence.movie.projection.MovieWithGenreDto
-import com.example.movie.persistence.movie.projection.ScreeningWithTheaterDto
+import com.example.movie.persistence.movie.dto.MovieWithGenreDto
+import com.example.movie.persistence.movie.dto.ScreeningWithTheaterDto
 import com.example.movie.persistence.movie.repository.MovieJpaRepository
 import com.example.movie.persistence.movie.repository.MovieRepositoryImpl
 import org.assertj.core.api.Assertions.assertThat

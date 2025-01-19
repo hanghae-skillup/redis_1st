@@ -2,8 +2,8 @@ package com.example.movie.persistence.movie.repository
 
 import com.example.movie.domain.screening.model.ScreeningStatus
 import com.example.movie.persistence.movie.model.MovieEntity
-import com.example.movie.persistence.movie.projection.MovieWithGenreDto
-import com.example.movie.persistence.movie.projection.ScreeningWithTheaterDto
+import com.example.movie.persistence.movie.dto.MovieWithGenreDto
+import com.example.movie.persistence.movie.dto.ScreeningWithTheaterDto
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
@@ -14,8 +14,9 @@ import java.time.LocalDateTime
 interface MovieJpaRepository : JpaRepository<MovieEntity, Long> {
     fun findAllByOrderByReleaseDateDesc(): List<MovieEntity>
 
-    @Query("""
-        SELECT new com.example.movie.persistence.movie.projection.MovieWithGenreDto(
+    @Query(
+        """
+        SELECT new com.example.movie.persistence.movie.dto.MovieWithGenreDto(
             m.id, m.title, m.rating, m.releaseDate, m.thumbnailUrl, m.runningTime,
             g.id, g.name
         )
@@ -30,7 +31,8 @@ interface MovieJpaRepository : JpaRepository<MovieEntity, Long> {
         AND (:title IS NULL OR m.title LIKE %:title%)
         AND (:genreId IS NULL OR g.id = :genreId)
         ORDER BY m.releaseDate DESC
-    """)
+    """
+    )
     fun findMoviesByCurrentTimeAndStatusAndTitleAndGenre(
         @Param("currentTime") currentTime: LocalDateTime,
         @Param("status") status: ScreeningStatus,
@@ -38,8 +40,9 @@ interface MovieJpaRepository : JpaRepository<MovieEntity, Long> {
         @Param("genreId") genreId: Long?
     ): List<MovieWithGenreDto>
 
-    @Query("""
-        SELECT new com.example.movie.persistence.movie.projection.ScreeningWithTheaterDto(
+    @Query(
+        """
+        SELECT new com.example.movie.persistence.movie.dto.ScreeningWithTheaterDto(
             s.id, s.movieId, s.screeningTime, s.screeningEndTime, s.status,
             t.id, t.name
         )
@@ -49,7 +52,8 @@ interface MovieJpaRepository : JpaRepository<MovieEntity, Long> {
         AND s.screeningTime > :currentTime
         AND s.status = :status
         ORDER BY s.screeningTime ASC
-    """)
+    """
+    )
     fun findScreeningsByMovieIds(
         @Param("movieIds") movieIds: List<Long>,
         @Param("currentTime") currentTime: LocalDateTime,

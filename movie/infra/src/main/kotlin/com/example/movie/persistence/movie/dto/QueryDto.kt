@@ -1,4 +1,4 @@
-package com.example.movie.persistence.movie.projection
+package com.example.movie.persistence.movie.dto
 
 import com.example.movie.domain.movie.model.Rating
 import com.example.movie.domain.screening.model.ScreeningStatus
