@@ -1,0 +1,39 @@
+filters:
+  - label: feat
+    regexs:
+      - /\bfeat\b/
+      - /feature/i
+    events: [issues, pull_request]
+    targets: [title]
+  - label: bug
+    regexs:
+      - /fix|bug/
+    targets: [title]
+  - label: documentation
+    regexs:
+      - /docs/
+    events: [pull_request]
+  - label: chore
+    regexs:
+      - /\bchore(\(.*\))?:/i
+  - label: 1주차
+    regexs:
+      - /1주차/ 
+    events: [issues, pull_request]
+    targets: [title]
+  - label: 2주차
+    regexs:
+      - /2주차/  
+    events: [issues, pull_request]
+    targets: [title]
+  - label: 3주차
+    regexs:
+      - /3주차/  
+    events: [issues, pull_request]
+    targets: [title]
+  - label: 4주차
+    regexs:
+      - /4주차/ 
+    events: [issues, pull_request]
+    targets: [title]
+      
