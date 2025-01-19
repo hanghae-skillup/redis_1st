@@ -29,7 +29,7 @@ class CacheConfig {
     @Profile("local-caffeine")
     fun caffeineConfig(): CacheManager {
         val caffeineConfig = Caffeine.newBuilder()
-            .expireAfterWrite(10, TimeUnit.MINUTES)
+            .expireAfterWrite(1, TimeUnit.MINUTES)
             .initialCapacity(50)
             .maximumSize(100)
 
@@ -57,7 +57,7 @@ class CacheConfig {
         }
 
         val redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
-            .entryTtl(Duration.ofMinutes(10))
+            .entryTtl(Duration.ofMinutes(1))
             .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(StringRedisSerializer()))
             .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(
                 GenericJackson2JsonRedisSerializer(objectMapper)
