@@ -1,5 +1,6 @@
 package com.study.cinema.domain.movie
 
+import com.querydsl.core.annotations.QueryProjection
 import java.time.LocalDate
 import java.time.ZonedDateTime
 
@@ -15,7 +16,7 @@ class MovieInfo {
         val genre: Genre,
         val schedules: List<TheaterScheduleArea>
     ) {
-        constructor(
+        @QueryProjection constructor(
             movie: Movie,
             movieSchedules: List<com.study.cinema.domain.schedule.MovieSchedule>
         ) : this(
@@ -36,7 +37,7 @@ class MovieInfo {
         val startAt: ZonedDateTime,
         val endAt: ZonedDateTime,
     ) {
-        constructor(movieSchedule: com.study.cinema.domain.schedule.MovieSchedule): this(
+        @QueryProjection constructor(movieSchedule: com.study.cinema.domain.schedule.MovieSchedule): this(
             movieScheduleId = movieSchedule.id,
             theaterTitle = movieSchedule.theater.title,
             startAt = movieSchedule.startAt,

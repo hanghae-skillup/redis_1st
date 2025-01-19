@@ -1,7 +1,12 @@
 package com.study.cinema.infra.jpa.movie
 
-import com.study.cinema.domain.schedule.MovieSchedule
+import com.study.cinema.domain.movie.Genre
+import com.study.cinema.domain.movie.MovieInfo
 
 interface MovieScheduleRepositoryCustom {
-    fun findByCinemaId(cinemaId: Long): List<MovieSchedule>
+    fun searchCinemaSchedule(
+        cinemaId: Long,
+        title: String?,
+        genre: Genre?,
+    ): List<MovieInfo.MovieSchedule>
 }

@@ -16,6 +16,6 @@ class QueryDslConfig(
 
     @Bean
     fun jpaQueryFactory(): JPAQueryFactory {
-        return JPAQueryFactory(JPQLTemplates.DEFAULT, em)
+        return JPAQueryFactory(CustomerHibernate5Templates(), em)
     }
 }
