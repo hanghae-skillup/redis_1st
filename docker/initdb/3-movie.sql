@@ -1,4 +1,4 @@
-INSERT INTO movie (`title`, `film_ratings`, `release_date`, `thumbnail_image_path`, `running_time`, `create_at`, `create_by`)
+﻿INSERT INTO movie (`title`, `film_ratings`, `release_date`, `thumbnail_image_path`, `running_time`, `create_at`, `create_by`)
 VALUES
     ('겨울왕국 2 1', 'MPAA_PG_13', '2009-09-26', 'https://example.com/movie1.webp', 171, '2025-01-18 11:15:00', 'choi'),
     ('날씨의 아이 2', 'MPAA_PG_13', '2023-12-24', 'https://example.com/movie2.webp', 161, '2025-01-18 11:15:00', 'jung'),
@@ -97,7 +97,10 @@ VALUES
     ('캡틴 마블 95', 'MPAA_PG', '2014-09-05', 'https://example.com/movie95.webp', 147, '2025-01-18 11:15:00', 'park'),
     ('토이 스토리 4 96', 'MPAA_PG_13', '2019-04-09', 'https://example.com/movie96.webp', 83, '2025-01-18 11:15:00', 'jung'),
     ('오펜하이머 97', 'MPAA_R_NC_17', '2019-06-06', 'https://example.com/movie97.webp', 185, '2025-01-18 11:15:00', 'park'),
-    ('어스 98', 'MPAA_PG', '2006-03-13', 'https://example.com/movie98.webp', 178, '2025-01-18 11:15:00', 'lee'),
+    ('어스 98', 'MPAA_PG', '2006-03-13', 'https://example.com/movie98.webp', 178, '2025-01-18 11:15:00', 'lee');
+
+INSERT INTO movie (`title`, `film_ratings`, `release_date`, `thumbnail_image_path`, `running_time`, `create_at`, `create_by`)
+VALUES
     ('너의 이름은 99', 'MPAA_R_NC_17', '2004-02-04', 'https://example.com/movie99.webp', 110, '2025-01-18 11:15:00', 'choi'),
     ('토이 스토리 4 100', 'MPAA_R_NC_17', '2010-07-17', 'https://example.com/movie100.webp', 180, '2025-01-18 11:15:00', 'lee'),
     ('반지의 제왕: 반지 원정대 101', 'MPAA_PG_13', '2010-05-14', 'https://example.com/movie101.webp', 114, '2025-01-18 11:15:00', 'choi'),
@@ -197,7 +200,10 @@ VALUES
     ('포드 V 페라리 195', 'MPAA_R_NC_17', '2019-09-22', 'https://example.com/movie195.webp', 194, '2025-01-18 11:15:00', 'kim'),
     ('쥬라기 월드: 도미니언 196', 'MPAA_R_NC_17', '2006-05-28', 'https://example.com/movie196.webp', 82, '2025-01-18 11:15:00', 'choi'),
     ('인셉션 197', 'MPAA_R_NC_17', '2020-09-06', 'https://example.com/movie197.webp', 113, '2025-01-18 11:15:00', 'park'),
-    ('알라딘 198', 'MPAA_PG', '2018-01-23', 'https://example.com/movie198.webp', 81, '2025-01-18 11:15:00', 'choi'),
+    ('알라딘 198', 'MPAA_PG', '2018-01-23', 'https://example.com/movie198.webp', 81, '2025-01-18 11:15:00', 'choi');
+
+INSERT INTO movie (`title`, `film_ratings`, `release_date`, `thumbnail_image_path`, `running_time`, `create_at`, `create_by`)
+VALUES
     ('너의 이름은 199', 'MPAA_PG_13', '2009-02-02', 'https://example.com/movie199.webp', 106, '2025-01-18 11:15:00', 'kim'),
     ('라라랜드 200', 'MPAA_R_NC_17', '2005-09-03', 'https://example.com/movie200.webp', 148, '2025-01-18 11:15:00', 'choi'),
     ('포드 V 페라리 201', 'MPAA_R_NC_17', '2014-12-04', 'https://example.com/movie201.webp', 184, '2025-01-18 11:15:00', 'park'),
@@ -297,7 +303,10 @@ VALUES
     ('닥터 스트레인지 295', 'MPAA_PG_13', '2024-03-05', 'https://example.com/movie295.webp', 102, '2025-01-18 11:15:00', 'choi'),
     ('명탐정 코난: 비색의 탄환 296', 'MPAA_PG', '2009-03-18', 'https://example.com/movie296.webp', 178, '2025-01-18 11:15:00', 'lee'),
     ('오펜하이머 297', 'MPAA_PG_13', '2012-12-15', 'https://example.com/movie297.webp', 111, '2025-01-18 11:15:00', 'jung'),
-    ('겨울왕국 298', 'MPAA_R_NC_17', '2016-11-26', 'https://example.com/movie298.webp', 128, '2025-01-18 11:15:00', 'jung'),
+    ('겨울왕국 298', 'MPAA_R_NC_17', '2016-11-26', 'https://example.com/movie298.webp', 128, '2025-01-18 11:15:00', 'jung');
+
+INSERT INTO movie (`title`, `film_ratings`, `release_date`, `thumbnail_image_path`, `running_time`, `create_at`, `create_by`)
+VALUES
     ('토이 스토리 4 299', 'MPAA_PG_13', '2005-02-13', 'https://example.com/movie299.webp', 168, '2025-01-18 11:15:00', 'park'),
     ('1917 300', 'MPAA_R_NC_17', '2015-04-15', 'https://example.com/movie300.webp', 159, '2025-01-18 11:15:00', 'lee'),
     ('쥬라기 월드: 도미니언 301', 'MPAA_R_NC_17', '2007-02-14', 'https://example.com/movie301.webp', 179, '2025-01-18 11:15:00', 'park'),
@@ -399,7 +408,10 @@ VALUES
     ('아바타: 물의 길 397', 'MPAA_PG_13', '2021-08-22', 'https://example.com/movie397.webp', 115, '2025-01-18 11:15:00', 'lee'),
     ('스파이더맨: 노 웨이 홈 398', 'MPAA_PG_13', '2013-12-29', 'https://example.com/movie398.webp', 114, '2025-01-18 11:15:00', 'kim'),
     ('탑건: 매버릭 399', 'MPAA_PG', '2011-05-19', 'https://example.com/movie399.webp', 130, '2025-01-18 11:15:00', 'kim'),
-    ('탑건: 매버릭 400', 'MPAA_R_NC_17', '2023-08-28', 'https://example.com/movie400.webp', 112, '2025-01-18 11:15:00', 'jung'),
+    ('탑건: 매버릭 400', 'MPAA_R_NC_17', '2023-08-28', 'https://example.com/movie400.webp', 112, '2025-01-18 11:15:00', 'jung');
+
+INSERT INTO movie (`title`, `film_ratings`, `release_date`, `thumbnail_image_path`, `running_time`, `create_at`, `create_by`)
+VALUES
     ('반지의 제왕: 반지 원정대 401', 'MPAA_R_NC_17', '2004-05-27', 'https://example.com/movie401.webp', 86, '2025-01-18 11:15:00', 'choi'),
     ('엘리멘탈 402', 'MPAA_PG', '2003-01-05', 'https://example.com/movie402.webp', 179, '2025-01-18 11:15:00', 'jung'),
     ('토이 스토리 4 403', 'MPAA_R_NC_17', '2020-03-21', 'https://example.com/movie403.webp', 158, '2025-01-18 11:15:00', 'choi'),
@@ -499,7 +511,7 @@ VALUES
     ('범죄도시3 497', 'MPAA_R_NC_17', '2001-08-31', 'https://example.com/movie497.webp', 142, '2025-01-18 11:15:00', 'kim'),
     ('쥬라기 월드: 도미니언 498', 'MPAA_R_NC_17', '2004-04-24', 'https://example.com/movie498.webp', 118, '2025-01-18 11:15:00', 'choi'),
     ('범죄도시3 499', 'MPAA_R_NC_17', '2021-09-09', 'https://example.com/movie499.webp', 188, '2025-01-18 11:15:00', 'choi'),
-    ('반지의 제왕: 반지 원정대 500', 'MPAA_R_NC_17', '2023ps -a-04-15', 'https://example.com/movie500.webp', 152, '2025-01-18 11:15:00', 'park');
+    ('반지의 제왕: 반지 원정대 500', 'MPAA_R_NC_17', '2023-04-15', 'https://example.com/movie500.webp', 152, '2025-01-18 11:15:00', 'park');
 
 INSERT INTO movie_genre (`movie_id`, `name`, `create_at`, `create_by`)
 VALUES
@@ -602,7 +614,10 @@ VALUES
     (97, '액션', '2025-01-18 11:30:04', 'lee'),
     (98, '액션', '2025-01-18 11:30:04', 'lee'),
     (99, '코미디', '2025-01-18 11:30:04', 'lee'),
-    (100, '다큐멘터리', '2025-01-18 11:30:04', 'lee'),
+    (100, '다큐멘터리', '2025-01-18 11:30:04', 'lee');
+
+INSERT INTO movie_genre (`movie_id`, `name`, `create_at`, `create_by`)
+VALUES
     (101, '드라마', '2025-01-18 11:30:04', 'lee'),
     (102, 'SF', '2025-01-18 11:30:04', 'lee'),
     (103, 'SF', '2025-01-18 11:30:04', 'lee'),
@@ -702,7 +717,10 @@ VALUES
     (197, '다큐멘터리', '2025-01-18 11:30:04', 'lee'),
     (198, '액션', '2025-01-18 11:30:04', 'lee'),
     (199, '코미디', '2025-01-18 11:30:04', 'lee'),
-    (200, '판타지', '2025-01-18 11:30:04', 'lee'),
+    (200, '판타지', '2025-01-18 11:30:04', 'lee');
+
+INSERT INTO movie_genre (`movie_id`, `name`, `create_at`, `create_by`)
+VALUES
     (201, '다큐멘터리', '2025-01-18 11:30:04', 'lee'),
     (202, '판타지', '2025-01-18 11:30:04', 'lee'),
     (203, '판타지', '2025-01-18 11:30:04', 'lee'),
@@ -802,7 +820,10 @@ VALUES
     (297, '코미디', '2025-01-18 11:30:04', 'lee'),
     (298, '액션', '2025-01-18 11:30:04', 'lee'),
     (299, '다큐멘터리', '2025-01-18 11:30:04', 'lee'),
-    (300, '드라마', '2025-01-18 11:30:04', 'lee'),
+    (300, '드라마', '2025-01-18 11:30:04', 'lee');
+
+INSERT INTO movie_genre (`movie_id`, `name`, `create_at`, `create_by`)
+VALUES
     (301, '드라마', '2025-01-18 11:30:04', 'lee'),
     (302, '스릴러', '2025-01-18 11:30:04', 'lee'),
     (303, '코미디', '2025-01-18 11:30:04', 'lee'),
@@ -902,7 +923,10 @@ VALUES
     (397, '다큐멘터리', '2025-01-18 11:30:04', 'lee'),
     (398, 'SF', '2025-01-18 11:30:04', 'lee'),
     (399, '모험', '2025-01-18 11:30:04', 'lee'),
-    (400, '판타지', '2025-01-18 11:30:04', 'lee'),
+    (400, '판타지', '2025-01-18 11:30:04', 'lee');
+
+INSERT INTO movie_genre (`movie_id`, `name`, `create_at`, `create_by`)
+VALUES
     (401, 'SF', '2025-01-18 11:30:04', 'lee'),
     (402, '판타지', '2025-01-18 11:30:04', 'lee'),
     (403, '액션', '2025-01-18 11:30:04', 'lee'),
@@ -1003,3 +1027,4 @@ VALUES
     (498, '코미디', '2025-01-18 11:30:04', 'lee'),
     (499, '코미디', '2025-01-18 11:30:04', 'lee'),
     (500, '드라마', '2025-01-18 11:30:04', 'lee');
+
