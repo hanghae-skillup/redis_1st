@@ -21,6 +21,8 @@ dependencies {
     implementation project(':module-redis-repo')
 
     implementation 'org.modelmapper:modelmapper:3.1.0'
+    implementation 'com.github.ben-manes.caffeine:caffeine:3.2.0'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
 
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
 
