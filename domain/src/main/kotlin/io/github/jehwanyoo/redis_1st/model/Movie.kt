@@ -11,4 +11,5 @@ data class Movie(
     val runtimeMinutes: Int,        // 러닝 타임 (분)
     val genre: String,              // 장르
     val rating: String,             // 영상물 등급
+    val screens: List<Screen>,      // 상영관 리스트
 )
