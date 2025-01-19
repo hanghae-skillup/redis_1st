@@ -1,35 +1,62 @@
 package com.movie.application.service;
 
 import com.movie.application.dto.MovieResponseDto;
-import com.movie.application.dto.MovieResponseDto.ScheduleInfo;
+import com.movie.domain.dto.MovieProjection;
 import com.movie.domain.dto.MovieSearchCondition;
 import com.movie.domain.entity.Movie;
 import com.movie.domain.entity.Schedule;
 import com.movie.domain.repository.MovieRepository;
 import com.movie.domain.repository.ScheduleRepository;
 import com.movie.infra.repository.MovieQueryRepository;
-import java.util.Comparator;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
-@Transactional(readOnly = true)
-@RequiredArgsConstructor
-public class MovieService {
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
+@Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
+public class MovieService {
     private final MovieRepository movieRepository;
     private final ScheduleRepository scheduleRepository;
     private final MovieQueryRepository movieQueryRepository;
 
     public List<MovieResponseDto> getNowShowingMovies(MovieSearchCondition condition) {
-        List<Movie> movieList = condition != null ? 
+        List<MovieProjection> movieList = condition != null ? 
             movieQueryRepository.search(condition) :
             movieRepository.findAll().stream()
                 .filter(movie -> movie.getReleaseDate() != null)
                 .sorted(Comparator.comparing(Movie::getReleaseDate).reversed())
-                .toList();
+                .map(movie -> new MovieProjection() {
+                    @Override
+                    public Long getId() {
+                        return movie.getId();
+                    }
+
+                    @Override
+                    public String getTitle() {
+                        return movie.getTitle();
+                    }
+
+                    @Override
+                    public String getThumbnail() {
+                        return movie.getThumbnail();
+                    }
+
+                    @Override
+                    public Integer getRunningTime() {
+                        return movie.getRunningTime();
+                    }
+
+                    @Override
+                    public String getGenre() {
+                        return movie.getGenre();
+                    }
+                })
+                .collect(Collectors.toList());
 
         List<Schedule> scheduleList = scheduleRepository.findAllFetchMovieTheater().stream()
             .filter(schedule -> schedule.getStartAt() != null)
@@ -37,28 +64,24 @@ public class MovieService {
             .toList();
 
         return movieList.stream()
-            .map(movie -> {
-                List<ScheduleInfo> scheduleInfos = scheduleList.stream()
-                    .filter(sch -> sch.getMovie().getId().equals(movie.getId()))
-                    .map(sch -> {
-                        ScheduleInfo info = new ScheduleInfo();
-                        info.setTheaterName(sch.getTheater().getName());
-                        info.setStartTime(sch.getStartAt());
-                        info.setEndTime(sch.getEndAt());
-                        return info;
-                    })
-                    .toList();
-
-                MovieResponseDto dto = new MovieResponseDto();
-                dto.setTitle(movie.getTitle());
-                dto.setGrade(movie.getGrade());
-                dto.setReleaseDate(movie.getReleaseDate());
-                dto.setThumbnailUrl(movie.getThumbnailUrl());
-                dto.setRunningTime(movie.getRunningTime() != null ? movie.getRunningTime() : 0);
-                dto.setGenre(movie.getGenre());
-                dto.setSchedules(scheduleInfos);
-                return dto;
-            })
-            .toList();
+            .map(movie -> MovieResponseDto.builder()
+                .id(movie.getId())
+                .title(movie.getTitle())
+                .thumbnail(movie.getThumbnail())
+                .runningTime(movie.getRunningTime())
+                .genre(movie.getGenre())
+                .schedules(scheduleList.stream()
+                    .filter(schedule -> schedule.getMovie().getId().equals(movie.getId()))
+                    .map(schedule -> MovieResponseDto.ScheduleInfo.builder()
+                        .id(schedule.getId())
+                        .startAt(schedule.getStartAt())
+                        .theater(MovieResponseDto.TheaterInfo.builder()
+                            .id(schedule.getTheater().getId())
+                            .name(schedule.getTheater().getName())
+                            .build())
+                        .build())
+                    .collect(Collectors.toList()))
+                .build())
+            .collect(Collectors.toList());
     }
 }
