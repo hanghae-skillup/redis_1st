@@ -18,26 +18,6 @@ class BulkInsertTest {
 
 
     @Test
-    void bulkInsertSchedule() {
-        // given
-
-        // when
-        bulkInsertSchedule.bulkInsertSchedules(3200, 80);
-
-        // then
-    }
-
-    @Test
-    void bulkInsertScreen() {
-        // given
-
-        // when
-        bulkInsertScreen.bulkInsertScreens(400, 40);
-
-        // then
-    }
-
-    @Test
     void bulkInsertMovie() {
         // given
 
@@ -52,9 +32,29 @@ class BulkInsertTest {
         // given
 
         // when
-        bulkInsertScreen.bulkInsertTheater(40, 10);
+        bulkInsertScreen.bulkInsertTheater(1_000, 100);
 
         // then
     }
-  
+
+    @Test
+    void bulkInsertScreen() {
+        // given
+
+        // when
+        bulkInsertScreen.bulkInsertScreens(10_000, 1_000);
+
+        // then
+    }
+
+    @Test
+    void bulkInsertSchedule() {
+        // given
+
+        // when
+        bulkInsertSchedule.bulkInsertSchedules(100_000, 1_000);
+
+        // then
+    }
+
 }
