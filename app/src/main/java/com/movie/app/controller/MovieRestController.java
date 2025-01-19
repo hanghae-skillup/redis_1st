@@ -22,16 +22,22 @@ public class MovieRestController {
         return movieRepository.findAll();
     }
 
+    @GetMapping("/api/movies/title")
+    @Cacheable(value = "Movies", key = "#title", cacheManager = "contentCacheManager")
+    public List<Movie> getMoivesWithTitle(@RequestParam String title) {
+        return movieRepository.findByTitle(title);
+    }
+ 
+    @GetMapping("/api/movies/genre")
+    @Cacheable(value = "Movies", key = "#genre", cacheManager = "contentCacheManager")
+    public List<Movie> getMoivesWithGenre(@RequestParam String genre) {
+        return movieRepository.findByGenre(genre);
+    }
+
     @PostMapping("/api/movies")
     public Movie postMovies(@RequestBody MovieRequestDto requestDto) {
         Movie movie = new Movie(requestDto);
         movieRepository.save(movie);
         return movie;
-    }
-
-    @GetMapping("/api/search")
-    @Cacheable(value = "Movies", key = "#title", cacheManager = "contentCacheManager")
-    public List<Movie> searchMoivesWithTitle(@RequestParam String title) {
-        return movieRepository.findByTitle(title);
     }
 }

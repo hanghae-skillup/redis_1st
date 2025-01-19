@@ -1,6 +1,30 @@
-
+let myGenre = "all"
 
 $(document).ready(function () {
+
+    $('#query').on('keypress', function (e) {
+        if (e.key == 'Enter') {
+            execSearch();
+        }
+    });
+
+    $('.nav div.nav-action').on('click', function () {
+        showGenre('action')
+    })
+
+    $('.nav div.nav-romance').on('click', function () {
+        showGenre('romance')
+    })
+
+    $('.nav div.nav-horror').on('click', function () {
+        showGenre('horror')
+    })
+
+    $('.nav div.nav-SF').on('click', function () {
+        showGenre('SF')
+    })
+
+
     showMovies();
 })
 
@@ -39,3 +63,45 @@ function addMovieItem(movie) {
         </div>`;
 }
 
+function execSearch() {
+    $('#search-result-box').empty();
+
+    let query = $('#query').val();
+    if (query =='') {
+        alert("검색어를 입력해주세요.");
+        $('#query').focus();
+        showMovies();
+    }
+
+    $.ajax({
+        type: 'GET',
+        url: `/api/movies/title?title=${query}`,
+        success: function(response) {
+            $('#search-result-box').empty();
+
+            for(let i=0; i<response.length; i++) {
+                let movie = response[i];
+                let tempHtml = addMovieItem(movie);
+                $('#search-result-box').append(tempHtml);
+            }
+        }
+    })
+}
+
+function showGenre(genre) {
+    $('#search-result-box').empty();
+
+    $.ajax({
+        type: 'GET',
+        url: `/api/movies/genre?genre=${genre}`,
+        success: function(response) {
+            $('#search-result-box').empty();
+
+            for(let i=0; i<response.length; i++) {
+                let movie = response[i];
+                let tempHtml = addMovieItem(movie);
+                $('#search-result-box').append(tempHtml);
+            }
+        }
+    })
+}
