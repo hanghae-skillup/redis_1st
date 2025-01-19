@@ -8,12 +8,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import module.entity.Genre;
+import module.repository.genre.GenreRepository;
 import module.util.PrivateGetSet;
 
-@DataJpaTest
+@SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class GenreRepositoryTest {
 
@@ -38,7 +39,7 @@ class GenreRepositoryTest {
 		List<Genre> genreList = genreRepository.findAll();
 
 		//when
-		List<String> nameList = genreList.stream().map(genre -> PrivateGetSet.getValue(genre, "name", String.class))
+		List<String> nameList = genreList.stream().map(genre -> PrivateGetSet.getValue(genre, "genreName", String.class))
 			.toList();
 
 		//then
