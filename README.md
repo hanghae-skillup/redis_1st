@@ -14,7 +14,27 @@ curl -X GET http://localhost:8080/api/v1/movies
 ### 1. movie-api
 > 영화 도메인 presentation 담당합니다.
 
-- GET /api/v1/movies?title=집에&genre=COMEDY
+### 2. application
+> Use Case 생성을 담당합니다.
+
+### 3. infrastructure
+> DB 연결과 Entity 관리를 담당합니다.
+
+### 4. domain
+> 도메인 로직을 포함합니다.
+
+## Architecture
+> 클린 아키텍처를 최대한 따라했습니다.
+
+![arc](etc/readme/arc2.png)
+
+## Table Design
+![erd_db](etc/readme/erd.png)
+
+## 성능 테스트
+### 캐싱할 데이터
+
+> API 응답을 캐싱하였습니다.
 
 ```json
 // 응답 예시
@@ -33,19 +53,6 @@ curl -X GET http://localhost:8080/api/v1/movies
   }
 ]
 ```
-### 2. application
-> Use Case 생성을 담당합니다.
 
-### 3. infrastructure
-> DB 연결과 Entity 관리를 담당합니다.
-
-### 4. domain
-> 도메인 로직을 포함합니다.
-
-## Architecture
-> 클린 아키텍처를 최대한 따라했습니다.
-
-![arc](etc/readme/arc2.png)
-
-## Table Design
-![erd_db](etc/readme/erd.png)
+### 보고서
+[성능 테스트 보고서](https://gusty-football-62b.notion.site/17f81b29f03680718163fe0b7798383e)
