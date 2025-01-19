@@ -21,7 +21,7 @@ public class Seats extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "seat_id")
-	private Long id;
+	private Long seatId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "screen_id", nullable = false)

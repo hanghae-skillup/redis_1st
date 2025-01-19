@@ -25,7 +25,7 @@ public class Movie extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "movie_id")
-	private Long id;
+	private Long movieId;
 
 	@Column(nullable = false)
 	private String title;

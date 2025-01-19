@@ -26,7 +26,7 @@ public class Showing extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "showing_id")
-	private Long id;
+	private Long showingId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "movie_id", nullable = false)

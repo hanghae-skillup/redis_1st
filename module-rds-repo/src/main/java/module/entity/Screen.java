@@ -18,7 +18,7 @@ public class Screen extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "screen_id")
-	private Long screen_id;
+	private Long screenId;
 
-	private String name;
+	private String screenName;
 }

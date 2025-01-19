@@ -18,10 +18,10 @@ public class Rating extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "rating_id", nullable = false)
-	private Long id;
+	private Long ratingId;
 
 	@Column(nullable = false)
-	private String name;
+	private String ratingName;
 
 	@Column(nullable = false)
 	private String img;
