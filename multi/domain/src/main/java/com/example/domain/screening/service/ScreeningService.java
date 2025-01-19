@@ -1,8 +1,11 @@
 package com.example.domain.screening.service;
 
-import com.example.domain.screening.Screening;
+import com.example.domain.movies.entity.enums.Genre;
+import com.example.domain.screening.entity.Screening;
+import com.example.domain.screening.entity.ScreeningResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +20,9 @@ public class ScreeningService {
         return screeningRepository.getScreeningInfo(screeningId);
     }
 
-    public List<Screening> getAllScreeningInfo(){
-        return screeningRepository.getAllScreeningInfo();
+    @Cacheable(value = "screeningCache", key = "#movieName + '_' + #genre")
+    public List<ScreeningResponseDTO> getAllScreeningInfo(String movieName, Genre genre){
+        return screeningRepository.getAllScreeningInfo(movieName,genre);
     }
 
    public void enrollScreening(Screening screening){
