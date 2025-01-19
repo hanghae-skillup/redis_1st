@@ -20,10 +20,6 @@ CREATE TABLE IF NOT EXISTS theater (
     created_at DATETIME(6),
     updated_at DATETIME(6),
     created_by VARCHAR(255),
-    updated_by VARCHAR(255),
-    created_at DATETIME(6),
-    updated_at DATETIME(6),
-    created_by VARCHAR(255),
     updated_by VARCHAR(255)
 );
 
@@ -37,7 +33,9 @@ CREATE TABLE IF NOT EXISTS schedule (
     created_at DATETIME(6),
     updated_at DATETIME(6),
     created_by VARCHAR(255),
-    updated_by VARCHAR(255)
+    updated_by VARCHAR(255),
+    FOREIGN KEY (movie_id) REFERENCES movie(id),
+    FOREIGN KEY (theater_id) REFERENCES theater(id)
 );
 
 -- Seat 테이블
@@ -48,5 +46,6 @@ CREATE TABLE IF NOT EXISTS seat (
     created_at DATETIME(6),
     updated_at DATETIME(6),
     created_by VARCHAR(255),
-    updated_by VARCHAR(255)
+    updated_by VARCHAR(255),
+    FOREIGN KEY (theater_id) REFERENCES theater(id)
 ); 
