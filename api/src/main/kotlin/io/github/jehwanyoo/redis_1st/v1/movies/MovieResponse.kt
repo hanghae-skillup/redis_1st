@@ -1,7 +1,7 @@
 package io.github.jehwanyoo.redis_1st.v1.movies
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import io.github.jehwanyoo.redis_1st.aggregate.MovieDetail
+import io.github.jehwanyoo.redis_1st.model.Movie
 import io.github.jehwanyoo.redis_1st.model.Screen
 import io.github.jehwanyoo.redis_1st.model.ShowTime
 import java.time.LocalDate
@@ -19,19 +19,18 @@ data class MovieResponse(
     @JsonProperty("screens") val screens: List<ScreenResponse>         // 상영관 정보 리스트
 ) {
     companion object {
-        fun fromDomain(movieDetails: List<MovieDetail>): List<MovieResponse> {
-            return movieDetails.map { movieDetail ->
+        fun fromDomain(movies: List<Movie>): List<MovieResponse> {
+            return movies.map { movie ->
                 MovieResponse(
-                    movieId = movieDetail.movie.id,
-                    title = movieDetail.movie.title,
-                    rating = movieDetail.movie.rating,
-                    genre = movieDetail.movie.genre,
-                    releaseDate = movieDetail.movie.releaseDate,
-                    thumbnailUrl = movieDetail.movie.thumbnailUrl,
-                    runtimeMinutes = movieDetail.movie.runtimeMinutes,
-                    screens = movieDetail.screens.map { screen ->
-                        ScreenResponse.fromDomain(screen, movieDetail.showTimes)
-                    }
+                    movieId = movie.id,
+                    title = movie.title,
+                    rating = movie.rating,
+                    genre = movie.genre,
+                    releaseDate = movie.releaseDate,
+                    thumbnailUrl = movie.thumbnailUrl,
+                    runtimeMinutes = movie.runtimeMinutes,
+                    // Fixme
+                    screens = emptyList(),
                 )
             }
         }
