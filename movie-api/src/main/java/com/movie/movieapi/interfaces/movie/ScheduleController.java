@@ -32,4 +32,12 @@ public class ScheduleController {
         return Response.success(responses);
     }
 
+    @PostMapping(value = "/cached", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Response<List<ScheduleDto.Response>> getSchedulesAsCached(@RequestBody ScheduleDto.Search searchDto) {
+        List<ScheduleDto.Response> responses = scheduleService.getSchedulesAsCached(searchDto.search()).stream()
+                .map(ScheduleDto.Response::from)
+                .toList();
+        return Response.success(responses);
+    }
+
 }

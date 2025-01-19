@@ -13,3 +13,12 @@ Content-Type: application/json
   "title": null,
   "genre": null
 }
+
+###
+POST http://localhost:8080/api/schedule/cached
+Content-Type: application/json
+
+{
+"title": null,
+"genre": null
+}
