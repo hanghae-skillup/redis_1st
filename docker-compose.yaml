@@ -7,7 +7,9 @@ services:
       - 'MYSQL_PASSWORD=hh99pw'
       - 'MYSQL_ROOT_PASSWORD=root01'
       - 'MYSQL_USER=hhuser'
+      - 'TZ=Asia/Seoul'  # 타임존 설정
     ports:
       - "33306:3306"
     volumes:
       - ./init-scripts:/docker-entrypoint-initdb.d
+      - ./mysql-config:/etc/mysql/conf.d  # 사용자 정의 설정 파일 경로

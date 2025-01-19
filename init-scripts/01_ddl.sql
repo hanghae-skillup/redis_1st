@@ -1,42 +1,38 @@
 CREATE TABLE `movie` (
-                       `running_time` int NOT NULL,
-                       `created_at` datetime(6) NOT NULL,
-                       `id` bigint NOT NULL AUTO_INCREMENT,
-                       `modified_at` datetime(6) NOT NULL,
-                       `released_date` datetime(6) NOT NULL,
-                       `created_by` varchar(100) NOT NULL,
-                       `modified_by` varchar(100) NOT NULL,
-                       `thumbnail` varchar(50) NOT NULL,
-                       `title` varchar(100) NOT NULL,
-                       `firm_rating` enum('AGE_12','AGE_15','ALL','LIMITED','RESTRICTED') NOT NULL,
-                       `genre` enum('ACTION','ANIMATION','COMEDY','DRAMA','FANTASY','HORROR','ROMANCE','SCI_FI','THRILLER') NOT NULL,
+                       `id` int(15) unsigned NOT NULL AUTO_INCREMENT COMMENT '영화 고유ID',
+                       `title` varchar(20) NOT NULL COMMENT '영화 제목',
+                       `firm_rating` varchar(10) NOT NULL COMMENT '영상물 등급',
+                       `genre` varchar(20) NOT NULL COMMENT '장르',
+                       `released_date` datetime NOT NULL COMMENT '개봉일',
+                       `thumbnail` varchar(200) NOT NULL COMMENT '썸네일',
+                       `running_time` int(3) NOT NULL COMMENT '영상 시간',
+                       `created_by` varchar(10) NOT NULL DEFAULT 'master' COMMENT '작성자',
+                       `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '작성일자',
+                       `modified_by` varchar(10) NOT NULL DEFAULT 'master' COMMENT '수정자',
+                       `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일자',
                        PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- hhcinema.screen definition
-
-CREATE TABLE `screen` (
-                        `created_at` datetime(6) NOT NULL,
-                        `end_time` datetime(6) NOT NULL,
-                        `id` bigint NOT NULL AUTO_INCREMENT,
-                        `modified_at` datetime(6) NOT NULL,
-                        `movie_id` bigint DEFAULT NULL,
-                        `start_time` datetime(6) NOT NULL,
-                        `theater_id` bigint DEFAULT NULL,
-                        `created_by` varchar(100) NOT NULL,
-                        `modified_by` varchar(100) NOT NULL,
-                        PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `theater` (
-                         `created_at` datetime(6) NOT NULL,
-                         `id` bigint NOT NULL AUTO_INCREMENT,
-                         `modified_at` datetime(6) NOT NULL,
-                         `created_by` varchar(100) NOT NULL,
-                         `modified_by` varchar(100) NOT NULL,
-                         `name` varchar(255) NOT NULL,
+                         `id` int(15) unsigned NOT NULL AUTO_INCREMENT COMMENT '영화관 고유ID',
+                         `name` varchar(15) NOT NULL COMMENT '영화관 명',
+                         `created_by` varchar(10) NOT NULL DEFAULT 'master' COMMENT '작성자',
+                         `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '작성일자',
+                         `modified_by` varchar(10) NOT NULL DEFAULT 'master' COMMENT '수정자',
+                         `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일자',
                          PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-
-
+CREATE TABLE `screen` (
+                        `id` int(15) unsigned NOT NULL AUTO_INCREMENT COMMENT '상영관 ID',
+                        `name` varchar(30) NOT NULL COMMENT '상영관 명',
+                        `movie_id` int(15) NOT NULL COMMENT '영화 고유ID',
+                        `theater_id` int(15) NOT NULL COMMENT '영화관 고유ID',
+                        `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '상영시작시간',
+                        `end_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '상영종료시간',
+                        `created_by` varchar(10) NOT NULL DEFAULT 'master' COMMENT '작성자',
+                        `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '작성일자',
+                        `modified_by` varchar(10) NOT NULL DEFAULT 'master' COMMENT '수정자',
+                        `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일자',
+                        PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
