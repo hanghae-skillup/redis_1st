@@ -5,12 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication(scanBasePackages = {
-    "com.movie.api",
-    "com.movie.application",
-    "com.movie.infra",
-    "com.movie.domain"
-})
+@SpringBootApplication(scanBasePackages = "com.movie.*")
 @EntityScan(basePackages = "com.movie.domain.entity")
 @EnableJpaRepositories(basePackages = {
     "com.movie.domain.repository",
