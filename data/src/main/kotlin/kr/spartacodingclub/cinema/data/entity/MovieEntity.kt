@@ -22,7 +22,10 @@ class MovieEntity(
     val runningTime: Int,
 
     @Enumerated(EnumType.STRING)
-    val genre: Genre
+    val genre: Genre,
+
+    @OneToMany(mappedBy = "movie")
+    val screenings: List<ScreeningEntity> = emptyList()
 ) : BaseEntity() {
     fun toDomain() = Movie(
         id = id,
