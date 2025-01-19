@@ -28,15 +28,25 @@ class MovieEntity(
     val genre: String,                   // 장르
 
     @Column(nullable = false)
-    val rating: String                   // 영상물 등급
+    val rating: String,                   // 영상물 등급
+
+    @OneToMany(mappedBy = "movie", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    val showTimes: List<ShowTimeEntity> = emptyList() // 상영 시간 리스트
 ) {
-    fun toDomain(): Movie = Movie(
-        id = id,
-        title = title,
-        releaseDate = releaseDate,
-        thumbnailUrl = thumbnailUrl,
-        runtimeMinutes = runtimeMinutes,
-        genre = genre,
-        rating = rating
-    )
+    fun toDomain(): Movie {
+        // 상영관 별로 집계
+        val screensGroupedByShowTimes = showTimes.groupBy { it.screen }
+        val screens = screensGroupedByShowTimes.map { (screen) -> screen.toDomain() }
+
+        return Movie(
+            id = id,
+            title = title,
+            releaseDate = releaseDate,
+            thumbnailUrl = thumbnailUrl,
+            runtimeMinutes = runtimeMinutes,
+            genre = genre,
+            rating = rating,
+            screens = screens,
+        )
+    }
 }
