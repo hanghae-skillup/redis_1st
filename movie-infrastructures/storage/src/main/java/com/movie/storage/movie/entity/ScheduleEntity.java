@@ -16,6 +16,7 @@ import java.util.Objects;
 public class ScheduleEntity extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "BIGINT UNSIGNED")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

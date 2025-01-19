@@ -33,14 +33,38 @@ public class ScheduleJpaQuerySupport extends QuerydslRepositorySupport {
 
     public List<SchedulePayload.Get> getSchedules(ScheduleStatement.Search search) {
         Map<ScreenEntity, SchedulePayload.Get> result = queryFactory.selectFrom(scheduleEntity)
-                .leftJoin(theaterEntity).on(theaterEntity.eq(scheduleEntity.theater))
-                .leftJoin(screenEntity).on(screenEntity.eq(scheduleEntity.screen))
-                .leftJoin(movieEntity).on(movieEntity.eq(scheduleEntity.movie))
+                .innerJoin(theaterEntity).on(theaterEntity.eq(scheduleEntity.theater))
+                .innerJoin(screenEntity).on(screenEntity.eq(scheduleEntity.screen))
+                .innerJoin(movieEntity).on(movieEntity.eq(scheduleEntity.movie))
                 .where(
                         searchConditions(search)
                 )
                 .orderBy(movieEntity.releasedAt.asc())
-                .transform(groupBy(scheduleEntity.screen).as(new QSchedulePayload_Get(
+                .transform(groupBy(screenEntity).as(new QSchedulePayload_Get(
+                        scheduleEntity.id,
+                        new QTheaterPayload_Get(theaterEntity.id, theaterEntity.name),
+                        new QScreenPayload_Get(screenEntity.id, screenEntity.name, screenEntity.theaterId),
+                        new QMoviePayload_Get(
+                                movieEntity.id, movieEntity.title, movieEntity.filmRating,
+                                movieEntity.genre, movieEntity.releasedAt, movieEntity.thumbnailUrl,
+                                movieEntity.runningTime
+                        ),
+                        list(new QTimeTablePayload_Get(
+                                scheduleEntity.startTime, scheduleEntity.endTime
+                        ))
+                )));
+        return result.values().stream().toList();
+    }
+
+    public List<SchedulePayload.Get> getSchedules(Long theaterId) {
+        Map<ScreenEntity, SchedulePayload.Get> result = queryFactory.selectFrom(scheduleEntity)
+                .innerJoin(theaterEntity).on(theaterEntity.eq(scheduleEntity.theater))
+                .innerJoin(screenEntity).on(screenEntity.eq(scheduleEntity.screen))
+                .innerJoin(movieEntity).on(movieEntity.eq(scheduleEntity.movie))
+                .where(
+                        theaterEntity.id.eq(theaterId)
+                )
+                .transform(groupBy(screenEntity).as(new QSchedulePayload_Get(
                         scheduleEntity.id,
                         new QTheaterPayload_Get(theaterEntity.id, theaterEntity.name),
                         new QScreenPayload_Get(screenEntity.id, screenEntity.name, screenEntity.theaterId),
