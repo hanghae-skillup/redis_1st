@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dto.internal.GenreDTO;
+import dto.genre.GenreDTO;
 import lombok.RequiredArgsConstructor;
-import module.service.GenreService;
+import module.service.genre.GenreService;
 
 @RestController
 @RequiredArgsConstructor
