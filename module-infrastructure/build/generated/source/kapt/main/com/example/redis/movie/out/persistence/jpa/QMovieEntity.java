@@ -32,7 +32,7 @@ public class QMovieEntity extends EntityPathBase<MovieEntity> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final ListPath<String, StringPath> movieGenre = this.<String, StringPath>createList("movieGenre", String.class, StringPath.class, PathInits.DIRECT2);
+    public final ListPath<MovieGenreEntity, QMovieGenreEntity> movieGenre = this.<MovieGenreEntity, QMovieGenreEntity>createList("movieGenre", MovieGenreEntity.class, QMovieGenreEntity.class, PathInits.DIRECT2);
 
     public final ListPath<MovieTheaterEntity, QMovieTheaterEntity> movieTheaters = this.<MovieTheaterEntity, QMovieTheaterEntity>createList("movieTheaters", MovieTheaterEntity.class, QMovieTheaterEntity.class, PathInits.DIRECT2);
 

@@ -28,10 +28,12 @@ class MovieEntity(
     @Column(name = "film_ratings")
     val filmRatings: FilmRatings,
 
-    @ElementCollection
-    @CollectionTable(name = "movie_genre", joinColumns = [JoinColumn(name = "movie_id")])
-    @Column(name = "name")
-    var movieGenre: MutableList<String> = mutableListOf(),
+//    @ElementCollection
+//    @CollectionTable(name = "movie_genre", joinColumns = [JoinColumn(name = "movie_id")])
+//    @Column(name = "name")0
+    @BatchSize(size = 1_000)
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
+    var movieGenre: MutableList<MovieGenreEntity> = mutableListOf(),
 
     @BatchSize(size = 1_000)
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
