@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,8 +11,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import dto.internal.MovieDTO;
-import dto.internal.ShowingDTO;
+import dto.movie.MovieShowingResponse;
+import module.service.showing.ShowingService;
 
 @SpringBootTest
 class ShowingServiceImplTest {
@@ -37,14 +36,13 @@ class ShowingServiceImplTest {
 	@DisplayName("2. 영화 정보 요구사항 테스트 ")
 	public void getTodayShowingTest() {
 		//given
-		List<Map.Entry<MovieDTO, List<ShowingDTO>>> todayShowing = showingService.getTodayShowing();
+		List<MovieShowingResponse> todayShowing = showingService.getTodayShowing(null, null);
 
 		//when
-		Map.Entry<MovieDTO, List<ShowingDTO>> movieDTOListMap = todayShowing.get(0);
+		MovieShowingResponse movieShowingResponse = todayShowing.getFirst();
 
 		//then
-		assertEquals(movieDTOListMap.getValue().getFirst().getStTime().getDayOfMonth(), LocalDateTime.now().getDayOfMonth());
-		assertEquals(movieDTOListMap.getValue().getLast().getStTime().getDayOfMonth(), LocalDateTime.now().getDayOfMonth());
+		assertTrue(movieShowingResponse.getShowings().get(0).getStTime().isAfter(LocalDateTime.now()));
 	}
 
 }
