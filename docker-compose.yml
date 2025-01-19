@@ -7,10 +7,19 @@ services:
     ports:
       - "3305:3306"
     volumes:
-      - ./mysql/conf.d:/etc/mysql/conf.d # MySQL 설정 파일 위치
+      - ./mysql/conf.d:/etc/mysql/conf.d
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_general_ci
+    networks:
+      - test_network
+
+  redis:
+    image: redis:7.0
+    container_name: redis-cache
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
     networks:
       - test_network
 

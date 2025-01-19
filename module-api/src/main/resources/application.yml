@@ -15,6 +15,14 @@ spring:
       ddl-auto: create
     defer-datasource-initialization: true
 
+  cache:
+    type: redis
+
+  data:
+    redis:
+      host: ${DATA_REDIS_HOST}
+      port: ${DATA_REDIS_PORT}
+
   sql:
     init:
       mode: always

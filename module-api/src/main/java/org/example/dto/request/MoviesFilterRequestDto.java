@@ -4,11 +4,12 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.lang.Nullable;
+
+import java.io.Serializable;
 
 @Setter
 @Getter
-public class MoviesFilterRequestDto {
+public class MoviesFilterRequestDto implements Serializable {
     @Size(max = 255)
     private String movieTitle;
 
