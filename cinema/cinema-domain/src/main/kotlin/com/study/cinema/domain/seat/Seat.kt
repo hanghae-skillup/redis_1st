@@ -7,8 +7,8 @@ import jakarta.persistence.*
 class Seat(
     @ManyToOne(fetch = FetchType.LAZY)
     val theater: Theater,
-    val seatRow: String,
-    val seatColumn: String,
+    val positionRow: String,
+    val positionColumn: String,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

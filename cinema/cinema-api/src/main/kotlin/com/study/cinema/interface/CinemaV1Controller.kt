@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("api/v1/cinemas/")
-class CinemaController(
+class CinemaV1Controller(
     private val movieScheduleSearchFacade: CinemaScheduleFacade
 ) {
 
@@ -18,6 +18,6 @@ class CinemaController(
         @PathVariable cinemaId: Long
     ) = ResponseEntity.ok(
         movieScheduleSearchFacade.getSchedulesByCinemaId(cinemaId)
-            .map { MovieV1Dto.Response.MovieWithTheaterSchedule(it) }
+            .map { CinemaV1Dto.Response.MovieWithTheaterSchedule(it) }
     )
 }

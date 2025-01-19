@@ -10,11 +10,11 @@ INSERT INTO cinema.movie (id, title, genre, movie_rating, release_date, running_
                                                                                                           (4, 'SF 어드벤처', 'SCI_FI', 'G', '2024-01-01', 140, 'https://example.com/images/scifi_thumbnail.jpg');
 
 -- 상영관 데이터 삽입
-INSERT INTO cinema.theater (id, title, seat_layout, cinema_id) VALUES
-                                                            (1, '1관', 'AAAAA,BBBBB,CCCCC,DDDDD,EEEEE', 1),
-                                                            (2, '2관', 'FFFFF,GGGGG,HHHHH,IIIII,JJJJJ', 1),
-                                                            (3, '3관', 'KKKKK,LLLLL,MMMMM,NNNNN,OOOOO', 1),
-                                                            (4, '4관', 'PPPPP,QQQQQ,RRRRR,SSSSS,TTTTT', 1);
+INSERT INTO cinema.theater (id, title, cinema_id) VALUES
+                                                            (1, '1관', 1),
+                                                            (2, '2관', 1),
+                                                            (3, '3관', 1),
+                                                            (4, '4관', 1);
 
 -- 상영 일정 데이터 삽입
 INSERT INTO cinema.movie_schedule (start_at, end_at, movie_id, theater_id, cinema_id) VALUES

@@ -23,7 +23,6 @@ CREATE TABLE cinema.movie (
 CREATE TABLE cinema.theater (
                          id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                          title VARCHAR(255) NOT NULL,
-                         seat_layout TEXT NOT NULL,
                          cinema_id BIGINT UNSIGNED NOT NULL
 );
 
@@ -35,3 +34,10 @@ CREATE TABLE cinema.movie_schedule (
                                 theater_id BIGINT UNSIGNED NOT NULL,
                                 cinema_id BIGINT UNSIGNED NOT NULL
 );
+
+CREATE TABLE cinema.seat(
+                            id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                            theater_id BIGINT UNSIGNED NOT NULL,
+                            position_row VARCHAR(255) NOT NULL,
+                            position_column VARCHAR(255) NOT NULL
+)

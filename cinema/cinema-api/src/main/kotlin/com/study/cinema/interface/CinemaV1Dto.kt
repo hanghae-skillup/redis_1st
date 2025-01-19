@@ -5,7 +5,7 @@ import com.study.cinema.domain.movie.MovieInfo
 import java.time.LocalDate
 import java.time.ZonedDateTime
 
-class MovieV1Dto {
+class CinemaV1Dto {
     class Response {
         data class MovieWithTheaterSchedule(
             val movieId: Long,

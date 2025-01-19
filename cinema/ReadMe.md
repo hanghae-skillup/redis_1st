@@ -80,7 +80,6 @@
 - 주요 컬럼:
     - `id` (PK): 상영관 ID
     - `title`: 상영관 이름
-    - `seat_layout`: 좌석 배치
     - `cinema_id` (FK): 영화관 ID
 
 #### 4. `movie_schedule`
