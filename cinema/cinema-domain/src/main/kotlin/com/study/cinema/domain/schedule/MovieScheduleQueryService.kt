@@ -4,6 +4,7 @@ import com.study.cinema.domain.movie.Genre
 import com.study.cinema.domain.movie.MovieInfo
 import com.study.cinema.infra.jpa.movie.MovieScheduleRepository
 import jakarta.transaction.Transactional
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 
 @Service
@@ -11,6 +12,12 @@ import org.springframework.stereotype.Service
 class MovieScheduleQueryService(
     private val movieScheduleRepository: MovieScheduleRepository,
 ) {
+
+    @Cacheable(
+        cacheNames = ["cinemaSchedule-v1"],
+        key = "#cinemaId + '_' + #genre?.name",
+        unless = "#title != null",
+    )
     fun searchCinemaSchedule(
         cinemaId: Long,
         title: String?,
@@ -20,9 +27,11 @@ class MovieScheduleQueryService(
             cinemaId = cinemaId,
             genre = genre,
             title = title,
+        )
+        return schedules.map { movieSchedule ->
+            movieSchedule.copy(
+                schedules = movieSchedule.schedules.sortedBy { it.startAt }
             )
-        return schedules
-            .sortedByDescending { it.releaseDate }
+        }
     }
-
 }

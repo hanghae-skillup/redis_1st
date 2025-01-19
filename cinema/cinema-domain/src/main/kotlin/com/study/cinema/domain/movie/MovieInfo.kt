@@ -1,12 +1,13 @@
 package com.study.cinema.domain.movie
 
 import com.querydsl.core.annotations.QueryProjection
+import java.io.Serializable
 import java.time.LocalDate
 import java.time.ZonedDateTime
 
 class MovieInfo {
 
-    data class MovieSchedule (
+    data class MovieSchedule @QueryProjection constructor (
         val movieId: Long,
         val movieTitle: String,
         val movieRating: MovieRating,
@@ -15,36 +16,12 @@ class MovieInfo {
         val runningTimeMinutes: Int,
         val genre: Genre,
         val schedules: List<TheaterScheduleArea>
-    ) {
-        @QueryProjection constructor(
-            movie: Movie,
-            movieSchedules: List<com.study.cinema.domain.schedule.MovieSchedule>
-        ) : this(
-            movieId = movie.id,
-            movieTitle = movie.title,
-            movieRating = movie.movieRating,
-            releaseDate = movie.releaseDate,
-            thumbnailUrl = movie.thumbnailUrl,
-            runningTimeMinutes = movie.runningTimeMinutes,
-            genre = movie.genre,
-            schedules = movieSchedules.map { TheaterScheduleArea(it) }
-        )
-    }
+    ) : Serializable
 
-    data class TheaterScheduleArea (
+    data class TheaterScheduleArea @QueryProjection constructor (
         val movieScheduleId: Long,
         val theaterTitle: String,
         val startAt: ZonedDateTime,
         val endAt: ZonedDateTime,
-    ) {
-        @QueryProjection constructor(movieSchedule: com.study.cinema.domain.schedule.MovieSchedule): this(
-            movieScheduleId = movieSchedule.id,
-            theaterTitle = movieSchedule.theater.title,
-            startAt = movieSchedule.startAt,
-            endAt = movieSchedule.endAt,
-        )
-    }
-
-
-
+    ) : Serializable
 }
