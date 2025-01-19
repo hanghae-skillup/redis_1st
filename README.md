@@ -30,7 +30,7 @@ peakRPS = 0.002 * 10 = 0.02; // 최대 RPS
 ```jsx
 export const options = {
   stages: [
-    { duration: '5m', target: 100 }
+    { duration: '5m', target: 100 } // 5분 동안 사용자 수 100명 증가시킨다
   ],
 	thresholds: {
 	  http_req_duration: ['p(95)<200'], // 95%의 요청이 200ms 이내에 응답해야 함
@@ -51,6 +51,7 @@ export default function() {
 ## 부하 테스트 결과 (스크린샷)
 ![img.png](img.png)
 - p(95)의 응답 소요 시간이 4.66s로 실행 계획 때 설정했던 임계값(200ms)을 넘는다.
+- 실패율은 0% 이다.
 
 ![img_1.png](img_1.png)
 - 1초당 최대 처리량은 16.2개이다.
@@ -83,7 +84,7 @@ peakRPS = 0.01 * 10 = 0.2; // 최대 RPS
 ```jsx
 export const options = {
   stages: [
-    { duration: '5m', target: 1000 }
+    { duration: '5m', target: 1000 } // 5분 동안 사용자 수 1000명 증가시킨다
   ],
 	thresholds: {
 	  http_req_duration: ['p(95)<200'], // 95%의 요청이 200ms 이내에 응답해야 함
@@ -166,7 +167,7 @@ peakRPS = 0.01 * 10 = 0.2; // 최대 RPS
 ```jsx
 export const options = {
   stages: [
-    { duration: '5m', target: 1000 }
+    { duration: '5m', target: 1000 } // 5분 동안 사용자 수 1000명 증가시킨다
   ],
 	thresholds: {
 	  http_req_duration: ['p(95)<200'], // 95%의 요청이 200ms 이내에 응답해야 함
@@ -199,7 +200,7 @@ peakRPS = 0.01 * 10 = 0.2; // 최대 RPS
 ```jsx
 export const options = {
   stages: [
-    { duration: '5m', target: 1000 }
+    { duration: '5m', target: 1000 } // 5분 동안 사용자 수 1000명 증가시킨다
   ],
 	thresholds: {
 	  http_req_duration: ['p(95)<200'], // 95%의 요청이 200ms 이내에 응답해야 함
@@ -222,9 +223,11 @@ export default function() {
 ### LIKE 연산
 ![img_4.png](img_4.png)
 - VU = 1000으로 했을 때 p(95)의 응답 소요 시간이 94.13ms로 실행 계획 때 설정했던 임계값(200ms)을 넘지 않는다.
+- 실패율은 0% 이다.
 
 ![img_5.png](img_5.png)
 - VU = 1500으로 했을 때는 p(95)의 응답 소요 시간이 553.3ms로 실행 계획 때 설정했던 임계값(200ms)을 넘는다.
+- 실패율은 0% 이다.
 
 ![img_6.png](img_6.png)
 - 최대 TPS는 1.18K 이다.
@@ -232,12 +235,11 @@ export default function() {
 ### 동등 연산
 ![img_8.png](img_8.png)
 - VU = 1000으로 했을 때 p(95)의 응답 소요 시간이 178.37ms로 실행 계획 때 설정했던 임계값(200ms)을 넘지 않는다.
-
-![img_10.png](img_10.png)
-- VU = 1500으로 했을 때 p(95)의 응답 소요 시간이 106.69ms로 실행 계획 때 설정했던 임계값(200ms)을 넘지 않는다.
+- 실패율은 0% 이다.
 
 ![img_9.png](img_9.png)
 - VU = 2000으로 했을 때 p(95)의 응답 소요 시간이 396.7ms로 실행 계획 때 설정했던 임계값(200ms)을 넘는다.
+- 실패율은 0% 이다.
 
 ![img_11.png](img_11.png)
 - 최대 TPS는 1.6K이다.
@@ -293,7 +295,7 @@ peakRPS = 0.1 * 10 = 1; // 최대 RPS
 ```jsx
 export const options = {
   stages: [
-    { duration: '5m', target: 5000 }
+    { duration: '5m', target: 5000 } // 5분 동안 사용자 수 5000명 증가시킨다
   ],
 	thresholds: {
 	  http_req_duration: ['p(95)<200'], // 95%의 요청이 200ms 이내에 응답해야 함
@@ -313,10 +315,12 @@ export default function() {
 
 ## 부하 테스트 결과 (스크린샷)
 ![img_13.png](img_13.png)
-- VU = 8000으로 했을 때 p(95)의 응답 소요 시간이 54.95ms로 실행 계획 때 설정했던 임계값(200ms)을 넘지 않는다.
+- VU = 5000으로 했을 때 p(95)의 응답 소요 시간이 54.95ms로 실행 계획 때 설정했던 임계값(200ms)을 넘지 않는다.
+- 실패율은 0% 이다.
 
 ![img_12.png](img_12.png)
 - VU = 8000으로 했을 때 p(95)의 응답 소요 시간이 795.16ms로 실행 계획 때 설정했던 임계값(200ms)을 넘는다.
+- 실패율은 0% 이다.
 
 ![img_14.png](img_14.png)
 - 최대 TPS는 5.32K 이다.
@@ -372,7 +376,7 @@ peakRPS = 0.1 * 10 = 1; // 최대 RPS
 ```jsx
 export const options = {
   stages: [
-    { duration: '5m', target: 5000 }
+    { duration: '5m', target: 5000 }  // 5분 동안 사용자 수 5000명 증가시킨다
   ],
 	thresholds: {
 	  http_req_duration: ['p(95)<200'], // 95%의 요청이 200ms 이내에 응답해야 함
@@ -391,3 +395,9 @@ export default function() {
 - 위 스크립트로 k6 부하테스트를 실행 할 예정이다.
 
 ## 부하 테스트 결과 (스크린샷)
+![img_18.png](img_18.png)
+- VU = 5000으로 했을 때 p(95)의 응답 소요 시간이 451.92ms로 실행 계획 때 설정했던 임계값(200ms)을 넘는다.
+- 실패율은 0% 이다.
+
+![img_20.png](img_20.png)
+- 최대 TPS는 4.13K 이다.
