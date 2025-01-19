@@ -5,11 +5,9 @@ import com.bmsnc.applicaion.port.in.RunningMovieCommand;
 import com.bmsnc.common.Result;
 import com.bmsnc.common.dto.MovieGenre;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 
 @RestController
 @RequiredArgsConstructor
