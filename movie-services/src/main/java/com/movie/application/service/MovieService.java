@@ -22,6 +22,7 @@ public class MovieService {
 
     public List<MovieResponseDto> getNowShowingMovies() {
         List<Movie> movieList = movieRepository.findAll().stream()
+            .filter(movie -> movie.getReleaseDate() != null)
             .sorted(Comparator.comparing(Movie::getReleaseDate).reversed())
             .toList();
 
