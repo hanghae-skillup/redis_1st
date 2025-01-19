@@ -17,4 +17,6 @@ public class MoviesFilterRequestDto {
             message = "장르는 다음 중 하나여야 합니다: ACTION, ROMANCE, HORROR, SF"
     )
     private String genre;
+
+    private boolean isPlaying;
 }

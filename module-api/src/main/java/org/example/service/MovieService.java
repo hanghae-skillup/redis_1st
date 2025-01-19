@@ -22,7 +22,8 @@ public class MovieService {
                 .filter(g -> g.name().equalsIgnoreCase(moviesFilterRequestDto.getGenre()))
                 .findFirst()
                 .orElse(null);
-        List<MovieScreeningInfo> movieScreeningInfos = movieJpaRepository.findScreeningInfos(moviesFilterRequestDto.getMovieTitle(), genre);
+        List<MovieScreeningInfo> movieScreeningInfos =
+                movieJpaRepository.findScreeningInfos(moviesFilterRequestDto.getMovieTitle(), genre, moviesFilterRequestDto.isPlaying());
         Map<Long, PlayingMoviesResponseDto> movieInfoMap = new HashMap<>();
 
         for (MovieScreeningInfo movieScreeningInfo : movieScreeningInfos) {
