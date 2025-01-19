@@ -46,6 +46,10 @@ subprojects { // 모든 하위 모듈들에 이 설정을 적용합니다.
 		// Lombok
 		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
+
+		// Caffeine
+		implementation 'org.springframework.boot:spring-boot-starter-cache'
+		implementation 'com.github.ben-manes.caffeine:caffeine:3.1.7'
 	}
 
 	test {

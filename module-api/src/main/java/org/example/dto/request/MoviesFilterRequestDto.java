@@ -18,5 +18,5 @@ public class MoviesFilterRequestDto {
     )
     private String genre;
 
-    private boolean isPlaying;
+    private boolean playing;
 }

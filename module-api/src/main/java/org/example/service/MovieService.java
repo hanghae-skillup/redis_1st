@@ -8,6 +8,7 @@ import org.example.dto.response.PlayingMoviesResponseDto;
 import org.example.dto.response.ScreeningInfo;
 import org.example.dto.response.ScreeningTimeInfo;
 import org.example.repository.MovieJpaRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -17,6 +18,8 @@ import java.util.*;
 public class MovieService {
     private final MovieJpaRepository movieJpaRepository;
 
+    @Cacheable(value = "playingMovies",
+            key = "#moviesFilterRequestDto.movieTitle + #moviesFilterRequestDto.genre + #moviesFilterRequestDto.playing")
     public List<PlayingMoviesResponseDto> getPlayingMovies(MoviesFilterRequestDto moviesFilterRequestDto) {
         Genre genre = Arrays.stream(Genre.values())
                 .filter(g -> g.name().equalsIgnoreCase(moviesFilterRequestDto.getGenre()))
