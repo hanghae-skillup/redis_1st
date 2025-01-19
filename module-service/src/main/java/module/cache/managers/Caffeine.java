@@ -3,19 +3,16 @@ package module.cache.managers;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import lombok.RequiredArgsConstructor;
 import module.cache.CacheType;
 
-@Configuration
-@EnableCaching
-@RequiredArgsConstructor
+// @Configuration
+// @EnableCaching
 public class Caffeine {
 
 	@Bean
