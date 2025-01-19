@@ -13,10 +13,10 @@ public record MovieSearchRequest(
         @ValidEnum(enumClass = MovieGenre.class)
         String genre
 ){
-        public static MovieSearchCommand toMovieSearchCommand(MovieSearchRequest movieSearchRequest) {
+        public MovieSearchCommand toMovieSearchCommand() {
                 return MovieSearchCommand.builder()
-                        .title(movieSearchRequest.title)
-                        .genre(nonNull(movieSearchRequest.genre) ? MovieGenre.valueOf(movieSearchRequest.genre) : null)
+                        .title(this.title)
+                        .genre(nonNull(this.genre) ? MovieGenre.valueOf(this.genre) : null)
                         .build();
         }
 }

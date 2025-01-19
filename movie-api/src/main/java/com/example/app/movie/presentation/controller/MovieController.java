@@ -21,7 +21,7 @@ public class MovieController {
 
     @GetMapping("/movies")
     public ResponseEntity<List<MovieResponse>> getMovies(@Valid MovieSearchRequest movieSearchRequest) {
-        var data = searchMovieUseCase.searchMovies(MovieSearchRequest.toMovieSearchCommand(movieSearchRequest))
+        var data = searchMovieUseCase.searchMovies(movieSearchRequest.toMovieSearchCommand())
                 .stream()
                 .map(MovieResponse::toResponse)
                 .toList();
