@@ -1,6 +1,6 @@
 rootProject.name = 'movie'
 
-include 'movie-domain'
-include 'movie-infra'
-include 'movie-services'
-include 'movie-api'
+include 'domain'
+include 'infra'
+include 'services'
+include 'api'
