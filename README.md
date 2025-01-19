@@ -50,3 +50,28 @@
 - 영화 상영표가 정의되어있는 테이블
 
 ![image](https://github.com/user-attachments/assets/6d40c181-db9d-4af8-bc10-aa21cb25de6a)
+
+***
+캐싱 데이터
+```json
+    {
+	      "id": "{movie_id}",
+        "title": "{movie_title}",
+        "film_ratings": "{film_ratings}",
+        "thumbnail_image_path": "{thumbnail_image_path}",
+        "running_time": "{running_time}",
+        "release_date": "{release_date}",
+        "movie_genre": [
+            "{movie_genre}:{0}"
+        ],
+        "theaters": [
+            {
+                "theater_name": "{theater_name}",
+                "screening_schedules": []
+            }
+        ]
+    }
+```
+
+성능 테스트 보고서
+- https://www.notion.so/1807e833dea78069aefcf9e532d2dc6d?showMoveTo=true&saveParent=true
