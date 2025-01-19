@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS cinema.movie_schedule;
 DROP TABLE IF EXISTS cinema.theater;
 DROP TABLE IF EXISTS cinema.movie;
 DROP TABLE IF EXISTS cinema.cinema;
+DROP TABLE IF EXISTS cinema.seat;
 
 CREATE TABLE cinema.cinema (
                         id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
