@@ -4,9 +4,9 @@ import com.study.cinema.domain.schedule.MovieScheduleQueryService
 import org.springframework.stereotype.Component
 
 @Component
-class MovieScheduleSearchFacade(
+class CinemaScheduleFacade(
     private val movieScheduleQueryService: MovieScheduleQueryService
 ) {
-    fun findByCinemaId(campaignId: Long) =
+    fun getSchedulesByCinemaId(campaignId: Long) =
          movieScheduleQueryService.findByCinemaId(campaignId)
 }
