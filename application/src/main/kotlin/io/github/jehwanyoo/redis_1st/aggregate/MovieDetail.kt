@@ -1,8 +1,8 @@
 package io.github.jehwanyoo.redis_1st.aggregate
 
-import io.github.jehwanyoo.redis_1st.entity.Movie
-import io.github.jehwanyoo.redis_1st.entity.Screen
-import io.github.jehwanyoo.redis_1st.entity.ShowTime
+import io.github.jehwanyoo.redis_1st.model.Movie
+import io.github.jehwanyoo.redis_1st.model.Screen
+import io.github.jehwanyoo.redis_1st.model.ShowTime
 
 data class MovieDetail(
     val movie: Movie,                // Aggregate Root

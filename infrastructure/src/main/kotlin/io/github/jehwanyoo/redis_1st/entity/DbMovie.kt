@@ -1,5 +1,6 @@
 package io.github.jehwanyoo.redis_1st.entity
 
+import io.github.jehwanyoo.redis_1st.model.Movie
 import jakarta.persistence.*
 import java.time.LocalDate
 import java.util.*

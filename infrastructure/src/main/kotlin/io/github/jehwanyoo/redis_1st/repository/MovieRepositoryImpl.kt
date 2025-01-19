@@ -1,7 +1,7 @@
 package io.github.jehwanyoo.redis_1st.repository
 
 import io.github.jehwanyoo.redis_1st.entity.DbMovie
-import io.github.jehwanyoo.redis_1st.entity.Movie
+import io.github.jehwanyoo.redis_1st.model.Movie
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import java.util.*
