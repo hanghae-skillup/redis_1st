@@ -42,6 +42,7 @@ public class MovieRepositoryImpl implements MovieRepositoryCustom {
         return queryFactory.select(new QMovieDto(movie.id, movie.title, movie.thumbnailUrl, movie.genre, movie.rating, movie.releaseDate))
                 .from(movie)
                 .where(titleLike(title),genreEq(genre))
+                .orderBy(movie.releaseDate.desc())
                 .fetch();
     }
 
