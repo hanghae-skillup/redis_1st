@@ -6,8 +6,8 @@ import java.time.LocalDate
 import java.util.*
 
 @Entity
-@Table(name = "MOVIE")
-class DbMovie(
+@Table(name = "movie")
+class MovieEntity(
     @Id
     @GeneratedValue
     val id: UUID,                       // UUID
@@ -41,7 +41,7 @@ class DbMovie(
     )
 
     companion object {
-        fun fromDomain(movie: Movie): DbMovie = DbMovie(
+        fun fromDomain(movie: Movie): MovieEntity = MovieEntity(
             id = movie.id,
             title = movie.title,
             releaseDate = movie.releaseDate,
