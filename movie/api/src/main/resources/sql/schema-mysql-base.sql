@@ -48,7 +48,9 @@ CREATE TABLE IF NOT EXISTS screening (
     updated_by VARCHAR(50) NOT NULL,
     updated_at TIMESTAMP NOT NULL
     );
---
+
+SET cte_max_recursion_depth = 20000;
+
 -- ALTER TABLE movie
 --     ADD INDEX idx_movie_title (title),
 --     ADD INDEX idx_movie_genre_id (genre_id),

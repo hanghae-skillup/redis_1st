@@ -258,7 +258,7 @@ INSERT INTO screening (movie_id, theater_id, screening_time, screening_end_time,
 WITH RECURSIVE numbers AS (
     SELECT 1 AS n
     UNION ALL
-    SELECT n + 1 FROM numbers WHERE n < 50000
+    SELECT n + 1 FROM numbers WHERE n < 10000
 )
 SELECT
     MOD(n, 500) + 1,

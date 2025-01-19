@@ -1,0 +1,52 @@
+services:
+  redis:
+    image: redis:7.0
+    container_name: movie-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - redis_data:/data
+    restart: always
+  movie-mysql:
+    image: mysql:8.0
+    container_name: movie-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=movie_db
+      - MYSQL_ROOT_PASSWORD=root
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    restart: always
+    volumes:
+      - ./api/src/main/resource/sql:/docker-entrypoint-initdb.d
+      - movie_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api-server:
+    build: .
+    container_name: movie-api
+    image: movie-api-server:1.0.0
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - DB_URL=movie-mysql
+    ports:
+      - "8080:8080"
+    depends_on:
+      movie-mysql:
+        condition: service_healthy
+    restart: on-failure
+
+volumes:
+  movie_data:
+  redis_data:
