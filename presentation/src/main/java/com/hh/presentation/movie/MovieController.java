@@ -25,7 +25,7 @@ public class MovieController {
          @RequestParam(required = false) String genre
   ){
 
-    return Response.success(movieService.findMoviesWithGroupConcat(
+    return Response.success(movieService.getMovieScreenings(
             pageable,
             title,
             genre != null ? Genre.valueOf(genre):null)

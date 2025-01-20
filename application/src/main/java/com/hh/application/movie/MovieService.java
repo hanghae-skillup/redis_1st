@@ -11,6 +11,6 @@ import java.util.List;
 @Service
 public interface MovieService {
 
-  public Page<MovieScreeningDto> findMoviesWithGroupConcat(Pageable pageable, String title, Genre genre);
+  public Page<MovieScreeningDto> getMovieScreenings(Pageable pageable, String title, Genre genre);
 
 }

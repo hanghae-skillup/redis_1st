@@ -19,9 +19,14 @@ spring:
           time_zone: Asia/Seoul
     show-sql: true
 
-
   jackson:
     time-zone: Asia/Seoul
+  # redis 설정
+  data:
+    redis:
+      host: 'localhost'
+      port: 6379
+  cache.type: redis
 
 
 logging:

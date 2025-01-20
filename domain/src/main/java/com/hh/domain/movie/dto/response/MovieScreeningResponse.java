@@ -17,7 +17,7 @@ public class MovieScreeningResponse {
   private int movieId;
   private String title;
   private FirmRating firmRating;
-  private LocalDateTime releasedDate;
+  private String releasedDate;
   private String thumbnail;
   private int runningTime;
   private Genre genre;

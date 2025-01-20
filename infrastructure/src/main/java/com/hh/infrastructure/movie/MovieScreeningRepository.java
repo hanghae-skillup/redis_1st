@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -28,9 +29,10 @@ public class MovieScreeningRepository {
 
   private final JPAQueryFactory jpaQueryFactory;
 
-  public Page<MovieScreeningDto> findMoviesWithGroupConcat(Pageable pageable, String reqTitle, Genre reqGenre, LocalDateTime today) {
+  public Page<MovieScreeningDto> getMovieScreenings(Pageable pageable, String reqTitle, Genre reqGenre, LocalDateTime today) {
     LocalDateTime startOfToday = LocalDate.now().atTime(LocalTime.MIN);
     LocalDateTime endOfToday = LocalDate.now().atTime(LocalTime.MAX);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     // Total count 계산 (페이징을 위한 전체 데이터 개수)
     long total = jpaQueryFactory
@@ -101,7 +103,7 @@ public class MovieScreeningRepository {
       //startTime(상영 시작 시간) 빠른 시간 기준으로 정렬
       screens.sort(Comparator.comparing(ScreenDto::getStartTime));
 
-      return new MovieScreeningDto(movieId, title, firmRating, releasedDate, thumbnail, runningTime, genre, screens);
+      return new MovieScreeningDto(movieId, title, firmRating, releasedDate.format(formatter), thumbnail, runningTime, genre, screens);
     }).collect(Collectors.toList());
 
     return new PageImpl<>(mappedResults, pageable, total);
