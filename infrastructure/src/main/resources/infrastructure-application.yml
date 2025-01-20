@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: infrastructure
+
+  datasource:
+    url: jdbc:mysql://mysql-db:3306/project_movie
+    username: master
+    password: password
+    hikari:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+  data:
+    redis:
+      host: redis-cache
+      port: 6379
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect

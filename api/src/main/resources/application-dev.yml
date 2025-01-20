@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: api
+
+  config:
+    import: classpath:infrastructure-application-dev.yml
+
+server:
+  port: 8081

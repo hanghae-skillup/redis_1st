@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: api
+
+  config:
+    import: classpath:infrastructure-application.yml
