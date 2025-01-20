@@ -8,5 +8,6 @@ dependencies {
     implementation project(':movie-domain:domain')
     implementation project(':movie-domain:common')
     implementation project(':movie-infrastructures:storage')
+    implementation project(':movie-infrastructures:redis')
 
 }
