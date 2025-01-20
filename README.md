@@ -101,7 +101,9 @@ k6 run performance_test/[with_title || without_title].js --summary-trend-stats="
 | 전체 조회 API             | 623.62ms | 	9.19ms | 	262.42ms | 	5.18s   | 	2.21s  | 	3.58s  | 	4.5s    |
 | title 검색 API (인덱스 없음) | 11.61ms  | 635µs   | 4.62ms    | 207.08ms | 20.14ms | 30.4ms  | 189.38ms |
 | title 검색 API (인덱스 있음) | 16.16ms  | 624µs   | 5.02ms    | 343.06ms | 19.6ms  | 28.42ms | 332.71ms |
+| 전체 조히 API (로컬 캐시)     |          |         |           |          |         |         |          |
 | title 검색 API (로컬 캐시)  |          |         |           |          |         |         |          |
+| 전체 조히 API (로컬 캐시)     |          |         |           |          |         |         |          |
 | title 검색 API (분산 캐시)  |          |         |           |          |         |         |          |
 
 LIKE 검색 시 전/후방 검색(%%)을 진행하기 때문에 인덱스 효과는 없는 것으로 보임
