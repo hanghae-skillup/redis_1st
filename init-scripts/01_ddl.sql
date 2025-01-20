@@ -36,3 +36,13 @@ CREATE TABLE `screen` (
                         `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일자',
                         PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- title 컬럼에 B-Tree 인덱스 생성
+CREATE INDEX idx_movie_title ON movie(title);
+
+-- released_date 컬럼에 인덱스 생성
+CREATE INDEX idx_movie_released_date ON movie(released_date);
+
+
+CREATE INDEX idx_screen_time_range ON screen(start_time, end_time);
