@@ -17,7 +17,6 @@ public enum GenreDto {
 
     public static boolean isValidGenre(String value) {
         for (GenreDto genre : GenreDto.values()) {
-            System.out.println(genre.name());
             if (genre.name().equalsIgnoreCase(value)) {
                 return true;
             }
