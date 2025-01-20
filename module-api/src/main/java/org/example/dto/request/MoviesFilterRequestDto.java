@@ -5,11 +5,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
-
 @Setter
 @Getter
-public class MoviesFilterRequestDto implements Serializable {
+public class MoviesFilterRequestDto {
     @Size(max = 255)
     private String movieTitle;
 

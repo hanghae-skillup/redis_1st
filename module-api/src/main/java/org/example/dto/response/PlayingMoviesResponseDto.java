@@ -5,12 +5,13 @@ import lombok.Getter;
 import org.example.domain.movie.AgeRating;
 import org.example.domain.movie.Genre;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
 @Getter
-public class PlayingMoviesResponseDto {
+public class PlayingMoviesResponseDto implements Serializable {
     private String title;
     private String thumbnail;
     private Genre genre;
