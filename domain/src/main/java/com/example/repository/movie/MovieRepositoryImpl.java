@@ -41,7 +41,7 @@ public class MovieRepositoryImpl implements MovieRepositoryCustom {
     private List<MovieDto> findAllMovie(String title, String genre) {
         return queryFactory.select(new QMovieDto(movie.id, movie.title, movie.thumbnailUrl, movie.genre, movie.rating, movie.releaseDate))
                 .from(movie)
-                .where(titleLike(title),genreEq(genre))
+                .where(titleEq(title),genreEq(genre))
                 .orderBy(movie.releaseDate.desc())
                 .fetch();
     }
@@ -61,11 +61,11 @@ public class MovieRepositoryImpl implements MovieRepositoryCustom {
                 .map(MovieDto::getId).toList();
     }
 
-    private Predicate titleLike(String title) {
+    private Predicate titleEq(String title) {
         if (title == null) {
             return null;
         }
-        return movie.title.contains(title);
+        return movie.title.eq(title);
     }
 
     private Predicate genreEq(String genre) {
