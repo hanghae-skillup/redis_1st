@@ -1,4 +1,4 @@
-package io.github.jehwanyoo.redis_1st.entity
+package io.github.jehwanyoo.redis_1st.repository.entity
 
 import io.github.jehwanyoo.redis_1st.model.Screen
 import jakarta.persistence.*

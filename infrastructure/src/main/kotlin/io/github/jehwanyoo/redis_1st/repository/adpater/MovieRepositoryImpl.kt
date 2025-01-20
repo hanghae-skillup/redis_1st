@@ -1,7 +1,8 @@
-package io.github.jehwanyoo.redis_1st.repository
+package io.github.jehwanyoo.redis_1st.repository.adpater
 
-import io.github.jehwanyoo.redis_1st.entity.MovieEntity
+import io.github.jehwanyoo.redis_1st.repository.entity.MovieEntity
 import io.github.jehwanyoo.redis_1st.model.Movie
+import io.github.jehwanyoo.redis_1st.repository.port.MovieRepository
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import java.util.*

@@ -5,22 +5,25 @@
 
 ## 멀티 모듈 구조
 
-Clean Architecture 구조를 참조하여 4개의 멀티 모듈을 구성했습니다.
+Clean Architecture / Hexagonal Architecture 구조를 참조하여 5개의 멀티 모듈을 구성했습니다.
 
-- api
+- core
+    - SpringBoot 진입 지점 코드가 존재합니다.
+    - Bean 등록을 위한 의존성이 존재합니다.
+
+- api (Web Adapter)
     - HTTP 요청을 처리하기 위한 RestController 코드가 위치합니다.
     - 요청, 응답을 위한 DTO 코드가 위치합니다.
 
-- application
-    - 특정 비지니스 시나리오를 처리하기 위한 유즈케이스 코드가 위치합니다.
-    - 도메인들이 조합된 특정 비지니스 시나리오의 DTO 코드가 위치합니다.
+- application (Port)
+    - 특정 비지니스 시나리오를 처리하기 위한 인터페이스 코드가 위치합니다. (예, In-Port, UseCase)
+    - 외부 의존성이 필요한 작업들에 대한 인터페이스 코드가 위치합니다. (예, Out-Port, Repository)
 
-- domain
-    - 도메인 객체와 공통 서비스 코드가 위치합니다.
-    - 외부 의존성이 필요한 작업들에 대한 인터페이스 코드가 위치합니다. (예, Repository)
+- domain (Entity)
+    - 도메인 모델 코드가 위치합니다.
 
-- infrastructure
-    - 외부 의존성을 가지는 인터페이스 구현체가 존재합니다.
+- infrastructure (Adapter)
+    - 외부 의존성을 가지는 인터페이스 구현체가 존재합니다. (DB, Cache...)
 
 ## 테이블 디자인
 

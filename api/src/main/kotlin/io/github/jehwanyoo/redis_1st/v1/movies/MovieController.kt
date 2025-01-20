@@ -1,8 +1,8 @@
 package io.github.jehwanyoo.redis_1st.v1.movies
 
-import io.github.jehwanyoo.redis_1st.use_case.GetMoviesByTitleContainingUseCase
+import io.github.jehwanyoo.redis_1st.usecase.port.GetMoviesByTitleContainingUseCase
+import io.github.jehwanyoo.redis_1st.usecase.port.GetMoviesUseCase
 import io.github.jehwanyoo.redis_1st.v1.BaseApiV1Controller
-import io.github.jehwanyoo.redis_1st.use_case.GetMoviesUseCase
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController

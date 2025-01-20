@@ -1,8 +1,8 @@
-package io.github.jehwanyoo.redis_1st.seeder
+package io.github.jehwanyoo.redis_1st.repository.seeder
 
-import io.github.jehwanyoo.redis_1st.entity.MovieEntity
-import io.github.jehwanyoo.redis_1st.entity.ScreenEntity
-import io.github.jehwanyoo.redis_1st.entity.ShowTimeEntity
+import io.github.jehwanyoo.redis_1st.repository.entity.MovieEntity
+import io.github.jehwanyoo.redis_1st.repository.entity.ScreenEntity
+import io.github.jehwanyoo.redis_1st.repository.entity.ShowTimeEntity
 import org.springframework.boot.CommandLineRunner
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Component
