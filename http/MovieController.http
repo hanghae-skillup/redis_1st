@@ -1,1 +1,1 @@
-GET http://localhost:8080/movies
+GET http://localhost:8080/movies?title=하&genre=action
