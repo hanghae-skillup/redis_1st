@@ -14,6 +14,13 @@ class MovieRepositoryImpl(
         val entities = jpaMovieRepository.findAll()
         return entities.map { entity -> entity.toDomain() }
     }
+
+    override fun findByTitleContaining(title: String): List<Movie> {
+        val entities = jpaMovieRepository.findByTitleContaining(title)
+        return entities.map { it.toDomain() }
+    }
 }
 
-interface JpaMovieRepository : JpaRepository<MovieEntity, UUID>
+interface JpaMovieRepository : JpaRepository<MovieEntity, UUID> {
+    fun findByTitleContaining(title: String): List<MovieEntity>
+}
