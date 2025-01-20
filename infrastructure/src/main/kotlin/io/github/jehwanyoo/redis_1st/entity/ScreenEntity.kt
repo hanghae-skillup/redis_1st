@@ -9,7 +9,7 @@ import java.util.*
 class ScreenEntity(
     @Id
     @GeneratedValue
-    val id: UUID,               // 고유 ID
+    val id: UUID? = null,       // 고유 ID
 
     @Column(nullable = false)
     val name: String,           // 상영관 이름
@@ -24,6 +24,10 @@ class ScreenEntity(
     val showTimes: List<ShowTimeEntity> = emptyList()
 ) {
     fun toDomain(): Screen {
+        if (id == null) {
+            throw IllegalStateException("Entity is not persisted yet: $this")
+        }
+
         return Screen(
             id = id,
             name = name,

@@ -10,7 +10,7 @@ import java.util.*
 class MovieEntity(
     @Id
     @GeneratedValue
-    val id: UUID,                       // UUID
+    val id: UUID? = null,               // UUID
 
     @Column(nullable = false)
     val title: String,                  // 영화 제목
@@ -34,6 +34,10 @@ class MovieEntity(
     val showTimes: List<ShowTimeEntity> = emptyList() // 상영 시간 리스트
 ) {
     fun toDomain(): Movie {
+        if (id == null) {
+            throw IllegalStateException("Entity is not persisted yet: $this")
+        }
+
         // 상영관 별로 집계
         val screensGroupedByShowTimes = showTimes.groupBy { it.screen }
         val screens = screensGroupedByShowTimes.map { (screen) -> screen.toDomain() }
