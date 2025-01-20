@@ -21,6 +21,20 @@ spring:
       hibernate:
         format_sql: true
         highlight_sql: true
+
+  cache:
+    type: redis
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+#    type: caffeine
+#    cache-names: movies
+#    caffeine:
+#      spec: maximumSize=100,expireAfterWrite=1m
+
 logging:
   level:
     org.hibernate.type.descriptor.sql: trace # 파라미터 값 출력
