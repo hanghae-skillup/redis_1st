@@ -10,17 +10,13 @@ import com.hanghae.application.projection.MovieScheduleProjection;
 import com.hanghae.domain.model.Movie;
 import com.hanghae.domain.model.ScreeningSchedule;
 import com.hanghae.domain.model.UploadFile;
-import com.hanghae.domain.model.enums.MovieGenre;
-import com.hanghae.domain.model.enums.MovieRating;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.sql.Date;
 
 @Service
 @RequiredArgsConstructor
