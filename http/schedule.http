@@ -14,11 +14,20 @@ Content-Type: application/json
   "genre": null
 }
 
-###
+### 로컬 캐시를 이용한 영화 스케줄 검색
 POST http://localhost:8080/api/schedule/cached
 Content-Type: application/json
 
 {
 "title": null,
 "genre": null
+}
+
+### Redis 캐시를 이용한 영화 스케줄 검색
+POST http://localhost:8080/api/schedule/redis
+Content-Type: application/json
+
+{
+  "title": null,
+  "genre": "ACTION"
 }
