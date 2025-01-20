@@ -1,5 +1,6 @@
 package com.hh.application.movie;
 
+import com.hh.application.config.cache.redis.RestPage;
 import com.hh.domain.movie.Genre;
 import com.hh.domain.movie.dto.MovieScreeningDto;
 import com.hh.infrastructure.movie.MovieScreeningRepository;
@@ -20,8 +21,9 @@ public class MovieServiceImpl implements MovieService {
 
   @Override
   @Transactional
-  @Cacheable(cacheNames = "movieScreening")
-  public Page<MovieScreeningDto> findMoviesWithGroupConcat(Pageable pageable, String title, Genre genre) {
+  @Cacheable(value = "cacheManager", key = " #pageable.pageNumber+ ':'+ #title + ':' + #genre ")
+  //@Cacheable(cacheNames = "movieScreening")
+  public RestPage<MovieScreeningDto> getMovieScreenings(Pageable pageable, String title, Genre genre) {
     // Pageable 객체 생성 (페이지 번호: 0, 페이지 크기: 10)
     //Pageable pageable = PageRequest.of(1, 10);
 
@@ -29,12 +31,12 @@ public class MovieServiceImpl implements MovieService {
     LocalDateTime today = LocalDateTime.now();
 
     // Service 메서드 호출
-    /*List<MovieScreeningDto> result = movieScreeningRepository.findMoviesWithGroupConcat(pageable, title, genre, today);
+    /*List<MovieScreeningDto> result = movieScreeningRepository.getMovieScreenings(pageable, title, genre, today);
 
     // 결과 출력
     for (MovieScreeningDto dto : result) {
       System.out.println(dto.toString());
     }*/
-    return movieScreeningRepository.findMoviesWithGroupConcat(pageable, title, genre, today);
+    return new RestPage<>(movieScreeningRepository.getMovieScreenings(pageable, title, genre, today));
   }
 }

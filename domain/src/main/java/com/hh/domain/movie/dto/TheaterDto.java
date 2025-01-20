@@ -3,9 +3,11 @@ package com.hh.domain.movie.dto;
 import com.hh.domain.movie.Theater;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class TheaterDto {
   private int id;
 

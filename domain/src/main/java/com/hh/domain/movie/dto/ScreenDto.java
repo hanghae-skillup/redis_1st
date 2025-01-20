@@ -3,6 +3,7 @@ package com.hh.domain.movie.dto;
 import com.hh.domain.movie.Screen;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 @ToString
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class ScreenDto {
 
   private Integer id;
