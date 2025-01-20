@@ -6,7 +6,10 @@ import java.time.LocalDate
 import java.util.*
 
 @Entity
-@Table(name = "movie")
+@Table(
+    name = "movie",
+    indexes = [Index(name = "idx_movie_title", columnList = "title")]
+)
 class MovieEntity(
     @Id
     @GeneratedValue
