@@ -54,6 +54,9 @@ subprojects { // 모든 하위 모듈들에 이 설정을 적용합니다.
 		// Redis
 		implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 		implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+		// Reddison
+		implementation 'org.redisson:redisson-spring-boot-starter:3.22.1'
 	}
 
 	test {
