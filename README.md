@@ -368,21 +368,33 @@ create index idx_title_genre_released_at on movie(title, genre, released_at);
     - 영화1 ~ 영화100 
     - 영화1 ~ 영화250
 
+
+### 실행 계획
+
+| id | select\_type | table | partitions | type | possible\_keys | key | key\_len | ref | rows | filtered | Extra |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 1 | SIMPLE | me1\_0 | null | range | PRIMARY,idx\_title\_genre\_released\_at | idx\_title\_genre\_released\_at | 484 | null | 111 | 10 | Using index condition; Using filesort |
+| 1 | SIMPLE | se1\_0 | null | ref | idx\_theater,idx\_screen,idx\_movie | idx\_movie | 9 | movie.me1\_0.id | 204 | 100 | Using where |
+| 1 | SIMPLE | te1\_0 | null | eq\_ref | PRIMARY | PRIMARY | 8 | movie.se1\_0.theater\_id | 1 | 100 | null |
+| 1 | SIMPLE | se2\_0 | null | eq\_ref | PRIMARY | PRIMARY | 8 | movie.se1\_0.screen\_id | 1 | 100 | null |
+
+
+
 ### 성능 비교
 
-- 영화1 ~ 영화10, 5가지 장르
+- 영화1 ~ 영화10 (총 10개의 영화), 5가지 장르
 
 #### 부하 테스트 결과
 
 <img src="./docs/k6/local-cache-schedule/1.1-10.png">
 
-- 영화1 ~ 영화100, 5가지 장르
+- 영화1 ~ 영화100 (총 100개의 영화), 5가지 장르
 
 #### 부하 테스트 결과
 
 <img src="./docs/k6/local-cache-schedule/2.1-100.png">
 
-- 영화1 ~ 영화250, 5가지 장르
+- 영화1 ~ 영화250 (총 250개의 영화), 5가지 장르
 
 #### 부하 테스트 결과
 
@@ -391,6 +403,55 @@ create index idx_title_genre_released_at on movie(title, genre, released_at);
 ### 결론
 
 > 영화1 ~ 영화100 데이터 검색 시, 가장 좋은 성능을 나타냄
+
+</details>
+
+<details>
+  <summary style="font-weight: bold; font-size: 15px;">Redis 캐시 & 부하 테스트</summary>
+
+### 캐시 데이터
+
+- 적용 캐시 종류
+  - redis (Lsssecttuce)
+  - TTL: 10분
+
+- 총 데이터
+  - 장르 : ACTION, ROMANCE, HORROR, SF, ANIMATION (5가지 장르)
+  - 영화명: 영화명은 영화1 부터 영화500까지 존재함
+  - 테스트
+    - 영화1 ~ 영화100
+    - 영화1 ~ 영화250
+    
+### 실행 계획
+
+| id | select\_type | table | partitions | type | possible\_keys | key | key\_len | ref | rows | filtered | Extra |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 1 | SIMPLE | me1\_0 | null | range | PRIMARY,idx\_title\_genre\_released\_at | idx\_title\_genre\_released\_at | 484 | null | 111 | 10 | Using index condition; Using filesort |
+| 1 | SIMPLE | se1\_0 | null | ref | idx\_theater,idx\_screen,idx\_movie | idx\_movie | 9 | movie.me1\_0.id | 204 | 100 | Using where |
+| 1 | SIMPLE | te1\_0 | null | eq\_ref | PRIMARY | PRIMARY | 8 | movie.se1\_0.theater\_id | 1 | 100 | null |
+| 1 | SIMPLE | se2\_0 | null | eq\_ref | PRIMARY | PRIMARY | 8 | movie.se1\_0.screen\_id | 1 | 100 | null |
+
+
+### 성능 비교
+
+- 영화1 ~ 영화100 (총 100개의 영화), 5가지 장르
+
+부하 테스트 결과
+
+<img src="./docs/k6/redis-cache-schedule/1.1-100.png">
+
+- 영화1 ~ 영화500 (총 250개의 영화), 5가지 장르
+
+부하 테스트 결과
+
+<img src="./docs/k6/redis-cache-schedule/2.1-500.png">
+
+|          | 검색 범위                            | 상능비교 (p(95) 기준) |
+|----------|----------------------------------|-----------------|
+| 로컬 캐시    | 영화1 ~ 영화250 (총 250개의 영화), 5가지 장르 | 434.88ms        |
+| redis 캐시 | 영화1 ~ 영화500 (총 500개의 영화), 5가지 장르 | 314.51ms        |
+
+> 로컬 캐시 대비 redis를 적용한 분산 캐시가 약 25% 이상 빠른 것을 확인함
 
 </details>
 
