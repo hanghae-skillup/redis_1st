@@ -8,9 +8,11 @@ import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -26,24 +28,24 @@ public class MovieScreeningRepository {
 
   private final JPAQueryFactory jpaQueryFactory;
 
-/*  public List<MovieScreeningDto> findMovieScreening(){
-    return jpaQueryFactory.select(Projections.constructor(MovieScreeningDto.class,
-              movie.title,
-            movie.firmRating,
-            theater.name,
-            movie.thumbnail,
-            movie.runningTime,
-            movie.genre,
-            screen.startTime,
-            screen.endTime
-            ))
-            .from(movie)
-            .join(screen).on(movie.id.eq(screen.movieId))
-            .join(theater).on(theater.id.eq(screen.theaterId))
-            .fetch();
-  }*/
+  public Page<MovieScreeningDto> findMoviesWithGroupConcat(Pageable pageable, String reqTitle, Genre reqGenre, LocalDateTime today) {
+    LocalDateTime startOfToday = LocalDate.now().atTime(LocalTime.MIN);
+    LocalDateTime endOfToday = LocalDate.now().atTime(LocalTime.MAX);
 
-  public List<MovieScreeningDto> findMoviesWithGroupConcat(Pageable pageable, String searchKeyword, LocalDateTime today) {
+    // Total count 계산 (페이징을 위한 전체 데이터 개수)
+    long total = jpaQueryFactory
+            .select(movie.id.countDistinct())
+            .from(movie)
+            .innerJoin(screen).on(movie.id.eq(screen.movieId))
+            .where(
+                    movie.releasedDate.loe(today) // 개봉일이 today 이전
+                            .and(screen.startTime.goe(startOfToday))
+                            .and(screen.startTime.loe(endOfToday))
+                            .and(reqTitle != null && !reqTitle.isEmpty() ? movie.title.containsIgnoreCase(reqTitle) : null)
+                            .and(reqGenre != null ? movie.genre.eq(reqGenre) : null)
+            )
+            .fetchOne();
+
     List<Tuple> results = jpaQueryFactory
             .select(
                     movie.id,
@@ -54,17 +56,18 @@ public class MovieScreeningRepository {
                     movie.runningTime,
                     movie.genre,
                     stringTemplate("GROUP_CONCAT({0})", screen.name).as("screenNames"),
-                    stringTemplate("GROUP_CONCAT({0})", screen.startTime).as("startTimes"),
-                    stringTemplate("GROUP_CONCAT({0})", screen.endTime).as("endTimes")
+                    stringTemplate("GROUP_CONCAT(DATE_FORMAT({0}, '%H:%i'))", screen.startTime).as("startTimes"),
+                    stringTemplate("GROUP_CONCAT(DATE_FORMAT({0}, '%H:%i'))", screen.endTime).as("endTimes")
             )
             .from(movie)
             .innerJoin(screen).on(movie.id.eq(screen.movieId))
             .innerJoin(theater).on(theater.id.eq(screen.theaterId))
             .where(
                     movie.releasedDate.loe(today) // 개봉일이 today 이전
-                            .and(searchKeyword != null && !searchKeyword.isEmpty()
-                                    ? movie.title.containsIgnoreCase(searchKeyword)
-                                    : null)
+                            .and( screen.startTime.goe(startOfToday))
+                            .and(screen.startTime.loe(endOfToday))
+                            .and(reqTitle != null && !reqTitle.isEmpty() ? movie.title.containsIgnoreCase(reqTitle) : null)
+                            .and(reqGenre != null ? movie.genre.eq(reqGenre) : null)
             )
             .groupBy(movie.id)
             .orderBy(movie.id.asc())
@@ -72,17 +75,8 @@ public class MovieScreeningRepository {
             .limit(pageable.getPageSize())
             .fetch();
 
-    for (Tuple tuple : results) {
-      // 디버깅: Tuple 전체 내용 확인
-      System.out.println(tuple);
-
-      // GROUP_CONCAT 결과 가져오기
-      String screenNames = tuple.get(Expressions.stringPath("screenNames")); // 별칭 사용
-      System.out.println("Screen Names: " + screenNames);
-    }
-   // return null;
     // 결과 매핑
-    return results.stream().map(tuple -> {
+    List<MovieScreeningDto> mappedResults =  results.stream().map(tuple -> {
       int movieId = tuple.get(movie.id);
       String title = tuple.get(movie.title);
       FirmRating firmRating = tuple.get(movie.firmRating);
@@ -99,16 +93,18 @@ public class MovieScreeningRepository {
       for (int i = 0; i < screenNames.length; i++) {
         screens.add(new ScreenDto(
                 screenNames[i],
-                startTimes[i].substring(11, 16),
-                endTimes[i].substring(11, 16)
+                startTimes[i],
+                endTimes[i]
         ));
       }
 
-      //startTime 기준으로 정렬
+      //startTime(상영 시작 시간) 빠른 시간 기준으로 정렬
       screens.sort(Comparator.comparing(ScreenDto::getStartTime));
 
       return new MovieScreeningDto(movieId, title, firmRating, releasedDate, thumbnail, runningTime, genre, screens);
     }).collect(Collectors.toList());
+
+    return new PageImpl<>(mappedResults, pageable, total);
   }
 
 }
