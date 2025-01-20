@@ -90,11 +90,13 @@ default ✓ [ 100% ] 10 VUs  30s
 
 ```
 
-- 평균 응답 시간(avg) : 22.96ms(전)	7.21ms(후)	캐시 적용 후가 더 빠름
-- 최소 응답 시간 (min) : 9.99ms(전)	2.47ms(후)	캐시 적용 후가 더 빠름
-- 최대 응답 시간 (max) : 56.3ms	83.38ms	캐시 적용 후가 더 높음
-- P(90) 응답 시간 : 31.11ms	5.91ms	캐시 적용 후가 더 빠름
-- P(95) 응답 시간 : 35.63ms	6.81ms	캐시 적용 후가 더 빠름
+| **Metric**              | **캐시 적용 전** | **캐시적용 후** | **차이**              |
+|--------------------------|-------------|-------------|-----------------------|
+| 평균 대기 시간 (avg)     | 22.26ms     | 6.45ms      | 캐시적용 후가 더 빠름     |
+| 최소 대기 시간 (min)     | 9.58ms      | 2.18ms      | 캐시적용 후가 더 빠름     |
+| 최대 대기 시간 (max)     | 55.64ms     | 82.66ms     | 캐시적용 전이 더 낮음     |
+| P(90) 대기 시간         | 30.28ms     | 5.28ms      | 캐시적용 후가 더 빠름     |
+| P(95) 대기 시간         | 35.07ms     | 5.54ms      | 캐시적용 후가 더 빠름     |
 
 #### caffeine 캐시와 redis cache 비교
 
@@ -148,3 +150,21 @@ running (0m33.4s), 00000/10000 VUs, 50586 complete and 0 interrupted iterations
 default ✓ [ 100% ] 10000 VUs  30s
 ```
 
+| **Metric**                | **Caffeine 캐시**         | **Redis 캐시**           | **차이**                           |
+|---------------------------|--------------------------|--------------------------|------------------------------------|
+| **data_received**         | 200 MB (6.1 MB/s)       | 154 MB (4.6 MB/s)        | Caffeine 캐시가 더 많이 수신      |
+| **data_sent**             | 6.4 MB (194 kB/s)       | 6.0 MB (180 kB/s)        | Caffeine 캐시가 더 많이 전송      |
+| **http_req_blocked (avg)**| 522.73ms                | 595.67ms                 | Caffeine 캐시가 더 빠름           |
+| **http_req_blocked (p90)**| 620.65ms                | 912.48ms                 | Caffeine 캐시가 더 빠름           |
+| **http_req_blocked (p95)**| 3.16s                   | 3.78s                    | Caffeine 캐시가 더 빠름           |
+| **http_req_connecting**   | avg=519.43ms, max=16.3s | avg=559.43ms, max=16.82s | Caffeine 캐시가 더 빠름           |
+| **http_req_duration (avg)**| 2.14s                  | 3.08s                    | Caffeine 캐시가 더 빠름           |
+| **http_req_duration (p90)**| 3.51s                  | 4.99s                    | Caffeine 캐시가 더 빠름           |
+| **http_req_duration (p95)**| 4.23s                  | 5.67s                    | Caffeine 캐시가 더 빠름           |
+| **http_req_failed**       | 3.84% (2474/64344)      | 5.80% (2939/50586)       | Caffeine 캐시가 더 적은 실패율    |
+| **http_req_receiving (avg)**| 81.24ms               | 103.59ms                 | Caffeine 캐시가 더 빠름           |
+| **http_req_sending (avg)**| 412.53µs               | 412.53µs                 | 동일                             |
+| **http_req_waiting (avg)**| 2.06s                  | 2.98s                    | Caffeine 캐시가 더 빠름           |
+| **http_reqs**             | 64344 (1958.32/s)      | 50586 (1516.59/s)        | Caffeine 캐시가 처리량 더 높음    |
+| **iteration_duration (avg)**| 4.81s                 | 6.18s                    | Caffeine 캐시가 더 빠름           |
+| **iterations**            | 64344                  | 50586                    | Caffeine 캐시가 더 많은 요청 처리 |
