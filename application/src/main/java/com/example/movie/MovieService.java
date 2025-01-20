@@ -6,7 +6,9 @@ import com.example.movie.response.MoviesServiceResponse;
 import com.example.repository.movie.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +19,9 @@ public class MovieService {
 
     private final MovieRepository movieRepository;
 
+    @Transactional(readOnly = true)
+//    @Cacheable(value = "movies", key = "#request.title + ':' + #request.genre")
+    @Cacheable(cacheNames = "getMovies", key = "'movie:title:' + #request.title + ':genre:' + #request.genre", cacheManager = "movieCacheManager")
     public List<MovieResponse> getMovies(MovieSearchServiceRequest request) {
         return MoviesServiceResponse.of(movieRepository.findAllByTitleAndGenre(request.getTitle(), request.getGenre()));
     }
