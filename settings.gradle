@@ -2,5 +2,6 @@ rootProject.name = 'movie'
 
 include 'movie-api'
 include 'movie-infrastructures:storage'
+include 'movie-infrastructures:redis'
 include 'movie-domain:common'
 include 'movie-domain:domain'
