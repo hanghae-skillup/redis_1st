@@ -1,4 +1,4 @@
-package com.hh.infrastructure.movie.config;
+package com.hh.infrastructure.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;

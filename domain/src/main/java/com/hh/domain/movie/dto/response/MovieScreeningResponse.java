@@ -1,4 +1,4 @@
-package com.hh.presentation.response;
+package com.hh.domain.movie.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.hh.domain.movie.FirmRating;

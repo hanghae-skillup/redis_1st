@@ -37,6 +37,4 @@ public class MovieDto {
             entity.getRunningTime()
     );
   }
-
-
 }
