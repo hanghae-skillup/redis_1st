@@ -38,6 +38,12 @@ subprojects {
 
 	dependencies {
 		implementation 'org.springframework.boot:spring-boot-starter'
+
+		implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+		implementation 'org.springframework.boot:spring-boot-starter-cache'
+		implementation 'com.github.ben-manes.caffeine:caffeine'
+
 		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
