@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name= "screen")
-public class ScreenEntity {
+public class ScreenEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "screen_id")
@@ -28,27 +28,11 @@ public class ScreenEntity {
     @Column
     private String screenName; //상영관 이름
 
-    @Column(updatable = false)
-    private Long createdBy; // 작성자 ID
-
-    @CreationTimestamp
-    @Column(updatable = false)
-    private LocalDateTime createdAt; // 작성일
-
-    @Column
-    private Long updatedBy; // 수정자 ID
-
-    @UpdateTimestamp
-    @Column(insertable = false)
-    private LocalDateTime updatedAt; //수정일
-
     @Builder
-    public ScreenEntity(Long id, String screenName, Long createdBy, LocalDateTime createdAt, Long updatedBy, LocalDateTime updatedAt) {
+    public ScreenEntity(Long id, String screenName, Long createdBy, Long updatedBy) {
         this.id = id;
         this.screenName = screenName;
-        this.createdBy = createdBy;
-        this.createdAt = createdAt;
-        this.updatedBy = updatedBy;
-        this.updatedAt = updatedAt;
+        this.setCreatedBy(createdBy);
+        this.setUpdatedBy(updatedBy);
     }
 }

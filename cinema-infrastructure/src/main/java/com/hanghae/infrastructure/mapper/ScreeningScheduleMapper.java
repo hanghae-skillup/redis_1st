@@ -9,7 +9,7 @@ public class ScreeningScheduleMapper {
                 entity.getId(),
                 MovieMapper.toDomain(entity.getMovieEntity()),
                 ScreenMapper.toDomain(entity.getScreenEntity()),
-                entity.getShowStartDatetime(),
+                entity.getShowStartAt(),
                 entity.getCreatedBy(),
                 entity.getCreatedAt(),
                 entity.getUpdatedBy(),
@@ -22,11 +22,9 @@ public class ScreeningScheduleMapper {
                 .id(domain.getScheduleId())
                 .movieEntity(MovieMapper.toEntity(domain.getMovie()))
                 .screenEntity(ScreenMapper.toEntity(domain.getScreen()))
-                .showStartDatetime(domain.getShowStartDatetime())
+                .showStartAt(domain.getShowStartAt())
                 .createdBy(domain.getCreatedBy())
-                .createdAt(domain.getCreatedAt())
                 .updatedBy(domain.getUpdatedBy())
-                .updatedAt(domain.getUpdatedAt())
                 .build();
         return entity;
     }

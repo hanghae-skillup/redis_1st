@@ -2,6 +2,8 @@ package com.hanghae.infrastructure.entity;
 
 import com.hanghae.domain.model.enums.MovieGenre;
 import com.hanghae.domain.model.enums.MovieRating;
+import com.hanghae.infrastructure.converter.MovieGenreConverter;
+import com.hanghae.infrastructure.converter.MovieRatingConverter;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -22,7 +24,7 @@ import java.time.LocalDateTime;
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name= "movie")
-public class MovieEntity {
+public class MovieEntity extends BaseEntity {
     @Id
     @Column(name = "movie_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +33,7 @@ public class MovieEntity {
     @Column(nullable = false)
     private String title; // 영화 제목
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = MovieRatingConverter.class) //enum > db코드 변환
     @Column(nullable = false)
     private MovieRating rating; // 영상물 등급 ID
 
@@ -39,9 +41,9 @@ public class MovieEntity {
     private LocalDate releaseDate; // 개봉일
 
     @Column(nullable = false)
-    private Long runningTime; // 러닝 타임(분)
+    private Long runningTimeMinutes; // 러닝 타임(분)
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = MovieGenreConverter.class) //enum > db코드 변환
     @Column(nullable = false)
     private MovieGenre genre; // 영화 장르 ID
 
@@ -49,32 +51,16 @@ public class MovieEntity {
     @JoinColumn(name = "file_id")
     private UploadFileEntity uploadFileEntity; // 업로드 파일 (썸네일)
 
-    @Column
-    private Long createdBy; // 작성자 ID
-
-    @CreationTimestamp
-    @Column(updatable = false)
-    private LocalDateTime createdAt; // 작성일
-
-    @Column
-    private Long updatedBy; // 수정자 ID
-
-    @UpdateTimestamp
-    @Column(insertable = false)
-    private LocalDateTime updatedAt; //수정일
-
     @Builder
-    public MovieEntity(Long id, String title, MovieRating rating, LocalDate releaseDate, Long runningTime, MovieGenre genre, UploadFileEntity uploadFileEntity, Long createdBy, LocalDateTime createdAt, Long updatedBy, LocalDateTime updatedAt) {
+    public MovieEntity(Long id, String title, MovieRating rating, LocalDate releaseDate, Long runningTimeMinutes, MovieGenre genre, UploadFileEntity uploadFileEntity, Long createdBy, Long updatedBy) {
         this.id = id;
         this.title = title;
         this.rating = rating;
         this.releaseDate = releaseDate;
-        this.runningTime = runningTime;
+        this.runningTimeMinutes = runningTimeMinutes;
         this.genre = genre;
         this.uploadFileEntity = uploadFileEntity;
-        this.createdBy = createdBy;
-        this.createdAt = createdAt;
-        this.updatedBy = updatedBy;
-        this.updatedAt = updatedAt;
+        this.setCreatedBy(createdBy);
+        this.setUpdatedBy(updatedBy);
     }
 }

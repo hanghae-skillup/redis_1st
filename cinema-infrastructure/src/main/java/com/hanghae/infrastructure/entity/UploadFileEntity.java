@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name= "upload_file")
-public class UploadFileEntity {
+public class UploadFileEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "file_id")
@@ -34,29 +34,13 @@ public class UploadFileEntity {
     @Column
     private String originFileName; // 원본 파일 이름
 
-    @Column(nullable = false)
-    private Long createdBy; // 작성자 ID
-
-    @CreationTimestamp
-    @Column(updatable = false)
-    private LocalDateTime createdAt; // 작성일
-
-    @Column
-    private Long updatedBy; // 수정자 ID
-
-    @UpdateTimestamp
-    @Column(insertable = false)
-    private LocalDateTime updatedAt; //수정일
-
     @Builder
-    public UploadFileEntity(Long id, String filePath, String fileName, String originFileName, Long createdBy, LocalDateTime createdAt, Long updatedBy, LocalDateTime updatedAt) {
+    public UploadFileEntity(Long id, String filePath, String fileName, String originFileName, Long createdBy, Long updatedBy) {
         this.id = id;
         this.filePath = filePath;
         this.fileName = fileName;
         this.originFileName = originFileName;
-        this.createdBy = createdBy;
-        this.createdAt = createdAt;
-        this.updatedBy = updatedBy;
-        this.updatedAt = updatedAt;
+        this.setCreatedBy(createdBy);
+        this.setUpdatedBy(updatedBy);
     }
 }
