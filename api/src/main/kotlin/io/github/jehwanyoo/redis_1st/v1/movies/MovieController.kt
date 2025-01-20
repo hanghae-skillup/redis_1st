@@ -24,7 +24,7 @@ class MovieController(
     @Cacheable(
         cacheNames = ["movies-search"],
         key = "#title",
-        condition = "#title != null && title != ''", // title 이 null 이거나 '' 이면 캐싱하지 않음
+        condition = "#title != null && #title != ''", // title 이 null 이거나 '' 이면 캐싱하지 않음
     )
     @GetMapping("/movies/search")
     fun getMoviesSearch(@RequestParam(required = false) title: String?): List<MovieResponse> {
