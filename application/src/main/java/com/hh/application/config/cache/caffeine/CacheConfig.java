@@ -1,5 +1,5 @@
-package com.hh.application.config.cache;
-
+package com.hh.application.config.cache.caffeine;
+/*
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -14,10 +14,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Configuration
-@EnableCaching
+@EnableCaching*/
 public class CacheConfig {
 
-  @Bean
+ /* @Bean
   public CacheManager cacheManager() {
     SimpleCacheManager cacheManager = new SimpleCacheManager();
     List<CaffeineCache> caches = Arrays.stream(CacheType.values())
@@ -32,5 +32,5 @@ public class CacheConfig {
             .collect(Collectors.toList());
         cacheManager.setCaches(caches);
         return cacheManager;
-  }
+  }*/
 }

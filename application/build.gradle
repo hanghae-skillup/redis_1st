@@ -31,7 +31,10 @@ dependencies {
 
   //캐싱 관련 추가
   implementation 'org.springframework.boot:spring-boot-starter-cache'
-  implementation 'com.github.ben-manes.caffeine:caffeine'
+  //implementation 'com.github.ben-manes.caffeine:caffeine'
+  implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+  implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
 
   compileOnly 'org.projectlombok:lombok'
   annotationProcessor 'org.projectlombok:lombok'

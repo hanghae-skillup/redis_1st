@@ -1,4 +1,4 @@
-package com.hh.application.config.cache;
+package com.hh.application.config.cache.caffeine;
 
 
 import lombok.Getter;
