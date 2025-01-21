@@ -5,26 +5,24 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
-@Table(name="tb_theater")
+@Table(name="tb_movie_theater_rel")
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TheaterJpaEntity extends BaseJpaEntity {
+public class MovieTheaterEntity extends BaseJpaEntity {
 
     @Id
-    @Column(name = "theater_id")
+    @Column(name = "movie_theater_rel_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "movie_id")
+    private MovieEntity movie;
 
-    @OneToMany(mappedBy = "theater")
-    private Set<MovieTheaterJpaEntity> movieTheaters = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "theater_id")
+    private TheaterEntity theater;
 }

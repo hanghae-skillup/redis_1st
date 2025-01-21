@@ -15,7 +15,7 @@ import java.time.LocalTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShowtimeJpaEntity extends BaseJpaEntity {
+public class ShowtimeEntity extends BaseJpaEntity {
 
     @Id
     @Column(name = "showtime_id")
@@ -28,5 +28,5 @@ public class ShowtimeJpaEntity extends BaseJpaEntity {
 
     @ManyToOne
     @JoinColumn(name = "movie_id")
-    private MovieJpaEntity movie;
+    private MovieEntity movie;
 }

@@ -3,45 +3,46 @@ package com.example.app.movie.out.persistence.mapper;
 import com.example.app.movie.domain.Movie;
 import com.example.app.movie.domain.Showtime;
 import com.example.app.movie.domain.Theater;
-import com.example.app.movie.out.persistence.entity.MovieJpaEntity;
-import com.example.app.movie.out.persistence.entity.MovieTheaterJpaEntity;
-import com.example.app.movie.out.persistence.entity.ShowtimeJpaEntity;
+import com.example.app.movie.out.persistence.entity.MovieEntity;
+import com.example.app.movie.out.persistence.entity.MovieTheaterEntity;
+import com.example.app.movie.out.persistence.entity.ShowtimeEntity;
 import org.mapstruct.Mapper;
+
 
 @Mapper(componentModel = "spring")
 public abstract class MovieMapper {
 
-    public Movie MovieJpaEntityToMovie(MovieJpaEntity movieJpaEntity) {
-        var showtimes = movieJpaEntity.getShowtimes()
+    public Movie movieEntityToMovie(MovieEntity movieEntity) {
+        var showtimes = movieEntity.getShowtimes()
                 .stream()
-                .map(this::ShowtimeJpaEntityToShowtime)
+                .map(this::showtimeJpaEntityToShowtime)
                 .toList();
 
-        var theaters = movieJpaEntity.getMovieTheaters()
+        var theaters = movieEntity.getMovieTheaters()
                 .stream()
-                .map(this::MovieTheaterJpaEntityToTheater)
+                .map(this::movieTheaterJpaEntityToTheater)
                 .toList();
 
         return Movie.builder()
-                .id(movieJpaEntity.getId())
-                .title(movieJpaEntity.getTitle())
-                .description(movieJpaEntity.getDescription())
-                .status(movieJpaEntity.getStatus())
-                .rating(movieJpaEntity.getRating())
-                .genre(movieJpaEntity.getGenre())
-                .thumbnail(movieJpaEntity.getThumbnail())
-                .runningTime(movieJpaEntity.getRunningTime())
-                .releaseDate(movieJpaEntity.getReleaseDate())
+                .id(movieEntity.getId())
+                .title(movieEntity.getTitle())
+                .description(movieEntity.getDescription())
+                .status(movieEntity.getStatus())
+                .rating(movieEntity.getRating())
+                .genre(movieEntity.getGenre())
+                .thumbnail(movieEntity.getThumbnail())
+                .runningTime(movieEntity.getRunningTime())
+                .releaseDate(movieEntity.getReleaseDate())
                 .showtimes(showtimes)
                 .theaters(theaters)
                 .build();
     }
 
-    private Showtime ShowtimeJpaEntityToShowtime(ShowtimeJpaEntity showtimeJpaEntity) {
-        return new Showtime(showtimeJpaEntity.getStart(), showtimeJpaEntity.getEnd());
+    private Showtime showtimeJpaEntityToShowtime(ShowtimeEntity showtimeEntity) {
+        return new Showtime(showtimeEntity.getStart(), showtimeEntity.getEnd());
     }
 
-    private Theater MovieTheaterJpaEntityToTheater(MovieTheaterJpaEntity movieTheaterJpaEntity) {
+    private Theater movieTheaterJpaEntityToTheater(MovieTheaterEntity movieTheaterJpaEntity) {
         return new Theater(movieTheaterJpaEntity.getTheater().getName());
     }
 }

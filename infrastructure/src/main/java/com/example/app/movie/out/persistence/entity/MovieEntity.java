@@ -18,7 +18,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MovieJpaEntity extends BaseJpaEntity {
+public class MovieEntity extends BaseJpaEntity {
 
     @Id
     @Column(name = "movie_id")
@@ -47,8 +47,8 @@ public class MovieJpaEntity extends BaseJpaEntity {
     private LocalDate releaseDate;
 
     @OneToMany(mappedBy = "movie")
-    private Set<ShowtimeJpaEntity> showtimes = new HashSet<>();
+    private Set<ShowtimeEntity> showtimes = new HashSet<>();
 
     @OneToMany(mappedBy = "movie")
-    private Set<MovieTheaterJpaEntity> movieTheaters = new HashSet<>();
+    private Set<MovieTheaterEntity> movieTheaters = new HashSet<>();
 }

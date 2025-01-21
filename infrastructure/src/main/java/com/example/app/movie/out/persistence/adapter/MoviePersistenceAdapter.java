@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.example.app.movie.out.persistence.entity.QMovieJpaEntity.movieJpaEntity;
+import static com.example.app.movie.out.persistence.entity.QMovieEntity.movieEntity;
 import static java.util.Objects.nonNull;
 
 @Repository
@@ -26,16 +26,16 @@ public class MoviePersistenceAdapter implements LoadMoviePort {
     public List<Movie> loadAllMovies(MovieSearchCommand movieSearchCommand) {
         return movieRepository.findAllBy(toPredicate(movieSearchCommand))
                 .stream()
-                .map(movieMapper::MovieJpaEntityToMovie)
+                .map(movieMapper::movieEntityToMovie)
                 .toList();
     }
 
     private Predicate toPredicate(MovieSearchCommand movieSearchCommand) {
         return ExpressionUtils.allOf(
                 nonNull(movieSearchCommand.title()) ?
-                        movieJpaEntity.title.containsIgnoreCase(movieSearchCommand.title()) : null,
+                        movieEntity.title.containsIgnoreCase(movieSearchCommand.title()) : null,
                 nonNull(movieSearchCommand.genre()) ?
-                        movieJpaEntity.genre.eq(movieSearchCommand.genre()) : null
+                        movieEntity.genre.eq(movieSearchCommand.genre()) : null
         );
     }
 }
