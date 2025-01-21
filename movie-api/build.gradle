@@ -5,6 +5,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-    implementation project(':movie-domain')
-    implementation project(':movie-storage')
+    implementation project(':movie-domain:domain')
+    implementation project(':movie-domain:common')
+    implementation project(':movie-infrastructures:storage')
+    implementation project(':movie-infrastructures:redis')
+
 }
