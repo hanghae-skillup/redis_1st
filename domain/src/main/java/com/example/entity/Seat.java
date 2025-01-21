@@ -18,12 +18,12 @@ public class Seat {
     private boolean reserved;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "screening_id")
-    private Screening screening;
+    @JoinColumn(name = "theater_id")
+    private Theater theater;
 
-    public Seat(String seatNumber, Screening screening) {
+    public Seat(String seatNumber, Theater theater) {
         this.seatNumber = seatNumber;
-        this.screening = screening;
+        this.theater = theater;
         this.reserved = false;
     }
 
