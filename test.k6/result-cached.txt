@@ -1,0 +1,40 @@
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+     execution: local
+        script: test.k6/test-cached.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 10 max VUs, 1m30s max duration (incl. graceful stop):
+              * default: Up to 10 looping VUs for 1m0s over 3 stages (gracefulRampDown: 30s, gracefulStop: 30s)
+
+
+     ✓ Cached API: status is 200
+     ✓ Cached API: response time < 500ms
+
+     checks.........................: 100.00% 918 out of 918
+     data_received..................: 4.0 MB  65 kB/s
+     data_sent......................: 59 kB   971 B/s
+     http_req_blocked...............: avg=30.69µs  min=3µs    med=13µs   max=1.1ms   p(90)=18µs    p(95)=22µs
+     http_req_connecting............: avg=15.03µs  min=0s     med=0s     max=1.02ms  p(90)=0s      p(95)=0s
+     http_req_duration..............: avg=6.08ms   min=2.28ms med=6.1ms  max=56.76ms p(90)=7.64ms  p(95)=8.3ms
+       { expected_response:true }...: avg=6.08ms   min=2.28ms med=6.1ms  max=56.76ms p(90)=7.64ms  p(95)=8.3ms
+     http_req_failed................: 0.00%   0 out of 459
+     http_req_receiving.............: avg=268.22µs min=35µs   med=286µs  max=800µs   p(90)=381.4µs p(95)=449.1µs
+     http_req_sending...............: avg=40.38µs  min=8µs    med=40µs   max=131µs   p(90)=58µs    p(95)=62.09µs
+     http_req_tls_handshaking.......: avg=0s       min=0s     med=0s     max=0s      p(90)=0s      p(95)=0s
+     http_req_waiting...............: avg=5.77ms   min=2.19ms med=5.78ms max=56.43ms p(90)=7.23ms  p(95)=7.89ms
+     http_reqs......................: 459     7.583888/s
+     iteration_duration.............: avg=1s       min=1s     med=1s     max=1.05s   p(90)=1s      p(95)=1s
+     iterations.....................: 459     7.583888/s
+     vus............................: 1       min=1          max=10
+     vus_max........................: 10      min=10         max=10
+
+
+running (1m00.5s), 00/10 VUs, 459 complete and 0 interrupted iterations
+default ✓ [======================================] 00/10 VUs  1m0s
+
