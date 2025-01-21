@@ -5,4 +5,7 @@ GET http://localhost:8080/api/v1/movies
 GET http://localhost:8080/api/v1/movies?genre=COMEDY&title=%EC%8B%A0
 
 ###
+GET http://localhost:8080/api/v1/movies?genre=SF&title=17
+
+###
 GET http://localhost:8080/api/v1/movies?genre=ACTION
