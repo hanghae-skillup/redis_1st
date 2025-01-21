@@ -1,3 +1,0 @@
-### 영화 목록 조회 테스트 (GET)
-GET http://localhost:8080/movies
-Accept: application/json

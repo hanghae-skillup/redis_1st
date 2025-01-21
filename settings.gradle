@@ -1,7 +1,5 @@
 rootProject.name = 'redis_1st'
 
-include 'movie-adapter'
-include 'movie-api'
 include 'movie-application'
-include 'movie-common'
+include 'movie-infrastructure'
 include 'movie-domain'

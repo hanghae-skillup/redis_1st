@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: jdbc:mysql://mysql-service:3306/prod_database
+      ?useUnicode=true
+      &characterEncoding=UTF-8
+      &serverTimezone=Asia/Seoul
+      &useSSL=true  # 운영 환경에서는 보안 강화를 위해 SSL 사용
+      &allowPublicKeyRetrieval=false  # 보안 취약점 방지
+    username: prod_user
+    password: prod_password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        jdbc.time_zone: Asia/Seoul
+        connection.characterEncoding: UTF-8
+        connection.useUnicode: true
+        connection.collation: utf8mb4_unicode_ci
+
+  sql.init.mode: never
+
+logging:
+  level:
+    org.springframework: INFO

@@ -11,8 +11,28 @@ services:
       MYSQL_DATABASE: dev_database         # 생성할 데이터베이스 이름
       MYSQL_USER: dev_user                 # 사용자 계정 이름
       MYSQL_PASSWORD: dev_password         # 사용자 계정 비밀번호
+      TZ: Asia/Seoul                       # 시간대 설정 (KST로 설정)
     volumes:
       - mysql_data:/var/lib/mysql          # 데이터 영구 저장 (볼륨 사용)
+    command:
+      - --character-set-server=utf8mb4         # 인코딩 규칙 (유니코드 4바이트 지원)
+      - --collation-server=utf8mb4_0900_ai_ci  # 정렬 규칙 (대소문자 및 액센트 구분 없음)
+
+  redis:
+    image: redis:latest
+    container_name: redis-container-movie
+    restart: always
+    ports:
+      - "6379:6379"  # Redis 기본 포트
+    command: > # AOF 영구 저장 비활성화, RDB 스냅샷 저장 비활성화, 캐시 용량 512MB, LRU 알고리즘으로 키 삭제
+      redis-server 
+      --appendonly no
+      --save ""
+      --maxmemory 512mb
+      --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data  # Redis 데이터 저장
 
 volumes:
-  mysql_data:                              # 데이터가 유지될 볼륨 정의
+  mysql_data:
+  redis_data:

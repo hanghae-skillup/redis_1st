@@ -1,0 +1,27 @@
+### 영화 목록 조회 (제목 및 장르 필터링) 테스트 (GET)
+GET http://localhost:8080/api/v1/movies?title=in&genre=SCI_FI
+Accept: application/json
+
+### 영화 추가 테스트 (POST)
+POST http://localhost:8080/api/v1/movies
+Accept: application/json
+Content-Type: application/json
+
+{
+  "title": "Superbad",
+  "contentRating": "FIFTEEN",
+  "releaseDate": "2007-08-17",
+  "thumbnailUrl": "https://example.com/superbad.jpg",
+  "runtimeMinutes": 113,
+  "genre": "comedy"
+}
+
+### 영화 상영 일정 추가 (POST)
+POST http://localhost:8080/api/v1/movies/501/screenings
+Content-Type: application/json
+Accept: application/json
+
+{
+  "theaterId": 1,
+  "startTime": "14:00:00"
+}
