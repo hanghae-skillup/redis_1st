@@ -1,0 +1,46 @@
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:33306/hhcinema?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false
+    username: hhuser
+    password: hh99pw
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  sql.init.mode: never
+  jpa:
+    hibernate:
+      ddl-auto: none  # create, update, validate, none
+
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        jdbc:
+          time_zone: Asia/Seoul
+    show-sql: true
+
+  jackson:
+    time-zone: Asia/Seoul
+  # redis 설정
+  data:
+    redis:
+      host: 'localhost'
+      port: 6379
+  cache.type: redis
+
+
+logging:
+  level:
+    com.hh.com.hh.presentation: debug
+    #request, response ??? ??
+    org.springframework.web.servlet: debug
+    #jpa ?? ??
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
+        #springboot 3.0 ???? logging.level.org.hibernate.orm.jdbc.bind: trace ? ?? jpa ?? parameter ?? ?? ??
+        orm:
+          jdbc:
+            bind: trace
