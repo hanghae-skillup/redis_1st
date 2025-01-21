@@ -43,3 +43,18 @@ CREATE TABLE `tb_theater` (
     `created_at` datetime NOT NULL,
     PRIMARY KEY (`theater_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+ALTER TABLE `my`.`tb_movie`
+    ADD INDEX `idx_genre_title_release_date` (`genre` ASC, `title` ASC, `release_date` DESC) VISIBLE,
+ADD INDEX `idx_genre` (`genre` ASC) VISIBLE,
+ADD INDEX `idx_title` (`title` ASC) VISIBLE;
+;
+
+
+ALTER TABLE `my`.`tb_movie_showtime`
+    ADD INDEX `idx_movie_id` (`movie_id` ASC) VISIBLE;
+;
+
+ALTER TABLE `my`.`tb_movie_theater_rel`
+    ADD INDEX `idx_movie_id` (`movie_id` ASC) VISIBLE;
+;
