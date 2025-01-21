@@ -19,7 +19,7 @@ public class SearchMovieService implements SearchMovieUseCase {
     private final LoadMoviePort loadMoviePort;
 
     @Override
-    @Cacheable(value = "movies", key = "#movieSearchCommand")
+    @Cacheable(value = "movies", key = "#movieSearchCommand.title + ':' + #movieSearchCommand.genre")
     public List<Movie> searchMovies(MovieSearchCommand movieSearchCommand) {
         return loadMoviePort.loadAllMovies(movieSearchCommand);
     }
