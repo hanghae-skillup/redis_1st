@@ -1,0 +1,35 @@
+services:
+  app:
+    build: .
+    ports:
+      - 8080:8080
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+      redis-cache:
+        condition: service_healthy
+
+  mysql-db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root-password
+      MYSQL_USER: master
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: project_movie
+    volumes:
+      - ./database:/var/lib/mysql
+    ports:
+      - 3306:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping"]
+      interval: 5s
+      retries: 5
+
+  redis-cache:
+    image: redis
+    ports:
+      - 6379:6379
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 5
