@@ -20,8 +20,7 @@ public class MovieService {
     private final MovieRepository movieRepository;
 
     @Transactional(readOnly = true)
-//    @Cacheable(value = "movies", key = "#request.title + ':' + #request.genre")
-    @Cacheable(cacheNames = "getMovies", key = "'movie:title:' + #request.title + ':genre:' + #request.genre", cacheManager = "movieCacheManager")
+    @Cacheable(value = "movies", key = "#request.title + ':' + #request.genre")
     public List<MovieResponse> getMovies(MovieSearchServiceRequest request) {
         return MoviesServiceResponse.of(movieRepository.findAllByTitleAndGenre(request.getTitle(), request.getGenre()));
     }

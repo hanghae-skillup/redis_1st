@@ -5,6 +5,7 @@ import com.example.repository.movie.dto.ScreeningInfoDto;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @Slf4j
-public class MovieResponse {
+public class MovieResponse implements Serializable {
     private String title;
     private String thumbnailUrl;
     private String genre;
