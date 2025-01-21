@@ -3,6 +3,7 @@ package org.haas.infrastructure.persistence.movie.repository;
 import lombok.RequiredArgsConstructor;
 import org.haas.core.domain.exception.MovieException;
 import org.haas.core.domain.movie.Movie;
+import org.haas.core.domain.movie.MovieStatus;
 import org.haas.core.domain.movie.repository.MovieRepository;
 import org.haas.infrastructure.persistence.movie.entity.MovieEntity;
 import org.haas.infrastructure.persistence.movie.mapper.MovieMapper;
@@ -34,8 +35,18 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public List<Movie> findAllStatusShowing() {
-        List<MovieEntity> movieEntities = movieJpaRepository.findAllByMovieStatus_Showing();
+    public List<Movie> findAllStatusShowingMovies() {
+        List<MovieEntity> movieEntities = movieJpaRepository.findAllByMovieStatus(MovieStatus.SHOWING);
+        return movieEntities
+                .stream()
+                .map(movieMapper::toDomain)
+                .collect(toList())
+                ;
+    }
+
+    @Override
+    public List<Movie> findAllByMovieStatusOrderByReleasedAtDesc() {
+        List<MovieEntity> movieEntities = movieJpaRepository.findAllByMovieStatusOrderByReleasedAtDesc(MovieStatus.SHOWING);
         return movieEntities
                 .stream()
                 .map(movieMapper::toDomain)

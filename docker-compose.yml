@@ -3,10 +3,10 @@ version: '3.8'
 services:
   db:
     image: mysql:8.0
-    container_name: my_project_db
+    container_name: redis_hanghae
     restart: always
     environment:
-      MYSQL_DATABASE: mydatabase
+      MYSQL_DATABASE: redis_hanghae
       MYSQL_USER: user
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: rootpassword

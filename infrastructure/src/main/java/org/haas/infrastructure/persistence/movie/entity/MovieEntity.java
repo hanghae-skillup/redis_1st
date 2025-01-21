@@ -2,10 +2,14 @@ package org.haas.infrastructure.persistence.movie.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.haas.core.domain.genre.Genre;
 import org.haas.core.domain.movie.Movie;
 import org.haas.core.domain.movie.MovieStatus;
+import org.haas.core.domain.screening.Screening;
+import org.haas.infrastructure.persistence.screening.entity.ScreeningEntity;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -21,7 +25,7 @@ public class MovieEntity {
 
     private String title;
 
-    private String genre;
+    private Genre genre;
 
     private int runningTime;
 
@@ -35,6 +39,10 @@ public class MovieEntity {
 
     @Enumerated(EnumType.STRING)
     private MovieStatus movieStatus;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "movie_id")
+    private List<ScreeningEntity> screenings;
 
 
 }
