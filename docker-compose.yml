@@ -1,0 +1,40 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: skillUp-redis-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root1234            # MySQL 루트 비밀번호 설정
+      MYSQL_DATABASE: redisdb                     # 기본 데이터베이스 이름
+      MYSQL_USER: user                         # MySQL 사용자 이름
+      MYSQL_PASSWORD: user1234                 # MySQL 사용자 비밀번호
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./init-scripts:/docker-entrypoint-initdb.d # init-scripts 폴더를 MySQL 컨테이너의 초기화 스크립트 디렉토리로 매핑
+    command:
+      - --skip-character-set-client-handshake
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    networks:
+      - my-network
+
+  redis:
+    image: redis:latest                     # Redis 이미지를 사용
+    container_name: skillUp-redis
+    ports:
+      - "6379:6379"                             # Redis 기본 포트 매핑
+    volumes:
+      - redis-data:/data                        # Redis 데이터 저장용 볼륨
+    command: [ "redis-server", "--appendonly", "yes" ]
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local
+  redis-data:
+    driver: local

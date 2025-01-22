@@ -1,0 +1,8 @@
+dependencies {
+    // 모듈 의존성
+    implementation project(':module-common')
+    implementation project(':module-screening')
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}
