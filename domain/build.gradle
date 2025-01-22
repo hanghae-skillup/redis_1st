@@ -1,0 +1,11 @@
+dependencies {
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.17.2'
+}
+
+bootJar {
+    enabled = false
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

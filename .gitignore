@@ -1,0 +1,9 @@
+# Spring Boot
+*.log
+*.class
+
+# Gradle
+.gradle/
+
+# IntelliJ IDEA
+.idea/
