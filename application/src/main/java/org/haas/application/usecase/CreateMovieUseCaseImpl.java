@@ -5,6 +5,7 @@ import org.haas.core.domain.movie.Movie;
 import org.haas.core.domain.movie.repository.MovieRepository;
 import org.springframework.stereotype.Service;
 
+@Deprecated
 @RequiredArgsConstructor
 @Service
 public class CreateMovieUseCaseImpl implements CreateMovieUseCase {

@@ -23,7 +23,8 @@ public class ScreeningEntity {
 
     private LocalDateTime endTime;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "theater_id")
     private TheaterEntity theater;
 
 }

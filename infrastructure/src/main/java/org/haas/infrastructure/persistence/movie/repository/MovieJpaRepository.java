@@ -13,7 +13,7 @@ public interface MovieJpaRepository extends JpaRepository<MovieEntity, Long> {
     List<MovieEntity> findAllByMovieStatus(MovieStatus movieStatus);
 
     @Query(
-            " SELECT m FROM movies m " +
+            " SELECT m FROM MovieEntity m " +
             " WHERE m.movieStatus = :movieStatus " +
             " ORDER BY m.releasedAt DESC "
     )

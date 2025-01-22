@@ -3,9 +3,7 @@ package org.haas.infrastructure.persistence.movie.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.haas.core.domain.genre.Genre;
-import org.haas.core.domain.movie.Movie;
 import org.haas.core.domain.movie.MovieStatus;
-import org.haas.core.domain.screening.Screening;
 import org.haas.infrastructure.persistence.screening.entity.ScreeningEntity;
 
 import java.time.LocalDate;
@@ -42,6 +40,7 @@ public class MovieEntity {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_id")
+    @OrderBy("startTime ASC")
     private List<ScreeningEntity> screenings;
 
 

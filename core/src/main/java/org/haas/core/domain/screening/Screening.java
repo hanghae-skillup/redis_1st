@@ -20,5 +20,4 @@ public class Screening {
 
     private Theater theater;
 
-    private Movie movie;
 }
