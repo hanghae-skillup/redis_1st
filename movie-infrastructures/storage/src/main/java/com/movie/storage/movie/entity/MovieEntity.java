@@ -14,7 +14,10 @@ import java.util.Objects;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "movie")
+@Table(
+        name = "movie",
+        indexes = @Index(name = "idx_genre_title_releasedAt", columnList = "genre, title, released_at")
+)
 public class MovieEntity extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
