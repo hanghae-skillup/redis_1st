@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/schedule")
+@RequestMapping("/api/schedules")
 @RequiredArgsConstructor
 public class ScheduleController {
 
@@ -42,7 +42,7 @@ public class ScheduleController {
 
     @PostMapping(value = "/redis", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Response<List<ScheduleDto.Response>> getSchedulesByRedis(@RequestBody ScheduleDto.Search searchDto) {
-        List<ScheduleDto.Response> responses = scheduleService.getSchedulesAsCached(searchDto.search()).stream()
+        List<ScheduleDto.Response> responses = scheduleService.getSchedulesByRedis(searchDto.search()).stream()
                 .map(ScheduleDto.Response::from)
                 .toList();
         return Response.success(responses);
