@@ -17,18 +17,24 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.redis.cache.RedisCacheManager;
 
+import module.service.showing.ShowingCacheService;
 import module.service.showing.ShowingService;
 
 @SpringBootTest
 public class ShowingCacheTest {
 
 	ShowingService showingService;
+	ShowingCacheService showingCacheService;
 	ModelMapper modelMapper;
 	RedisCacheManager redisCacheManager;
 
 	@Autowired
-	public ShowingCacheTest(ShowingService showingService, ModelMapper modelMapper, RedisCacheManager redisCacheManager) {
+	public ShowingCacheTest(ShowingService showingService,
+		ShowingCacheService showingCacheService,
+		ModelMapper modelMapper,
+		RedisCacheManager redisCacheManager) {
 		this.showingService = showingService;
+		this.showingCacheService = showingCacheService;
 		this.modelMapper = modelMapper;
 		this.redisCacheManager = redisCacheManager;
 	}
@@ -65,7 +71,7 @@ public class ShowingCacheTest {
 		Assertions.assertNotNull(redisCacheManager.getCache("movies").get("nullGnull"));
 
 		//then
-		showingService.evictShowingCache();
+		showingCacheService.evictShowingCache();
 		Assertions.assertNull(redisCacheManager.getCache("movies").get("nullGnull"));
 	}
 
@@ -83,7 +89,7 @@ public class ShowingCacheTest {
 
 		//when
 		// 해당 영화의 상영정보가 업데이트 되어 캐시를 지워줘야 하는 상황
-		showingService.evictShowingCache("말할 수 없는 비밀", 2L);
+		showingCacheService.evictShowingCache("말할 수 없는 비밀", 2L);
 
 		//then
 		// 생성 되었던 키들이 모두 제거되었는지 확인
