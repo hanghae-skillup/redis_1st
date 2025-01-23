@@ -8,6 +8,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,5 +18,15 @@ public class ReservationEntity extends BaseEntity {
 
     @EmbeddedId
     private ReservationComplexIds id;
+
+    private Long userId;
+
+    private LocalDateTime reservedAt;
+
+    public void makeReservation(Long scheduleId, Long seatId, Long userId) {
+        this.id = ReservationComplexIds.of(scheduleId, seatId);
+        this.userId = userId;
+        this.reservedAt = LocalDateTime.now();
+    }
 
 }
