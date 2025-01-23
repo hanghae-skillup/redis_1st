@@ -1,14 +1,14 @@
 insert into user_account(name, created_by, created_at, modified_by, modified_at) values
- ('Carmine', 'admin', '2025-01-01', 'admin', '2025-01-01'),
- ('Will', 'admin', '2025-01-01', 'admin', '2025-01-01'),
- ('Janeczka', 'admin', '2025-01-01', 'admin', '2025-01-01'),
- ('Amberly', 'admin', '2025-01-01', 'admin', '2025-01-01'),
- ('Dore', 'admin', '2025-01-01', 'admin', '2025-01-01'),
- ('Madalena', 'admin', '2025-01-01', 'admin', '2025-01-01'),
- ('Deny', 'admin', '2025-01-01', 'admin', '2025-01-01'),
- ('Allx', 'admin', '2025-01-01', 'admin', '2025-01-01'),
- ('Tonie', 'admin', '2025-01-01', 'admin', '2025-01-01'),
- ('Stanleigh', 'admin', '2025-01-01', 'admin', '2025-01-01');
+ ('Carmine', 1, '2025-01-01', 1, '2025-01-01'),
+ ('Will', 1, '2025-01-01', 1, '2025-01-01'),
+ ('Janeczka', 1, '2025-01-01', 1, '2025-01-01'),
+ ('Amberly', 1, '2025-01-01', 1, '2025-01-01'),
+ ('Dore', 1, '2025-01-01', 1, '2025-01-01'),
+ ('Madalena', 1, '2025-01-01', 1, '2025-01-01'),
+ ('Deny', 1, '2025-01-01', 1, '2025-01-01'),
+ ('Allx', 1, '2025-01-01', 1, '2025-01-01'),
+ ('Tonie', 1, '2025-01-01', 1, '2025-01-01'),
+ ('Stanleigh', 1, '2025-01-01', 1, '2025-01-01');
 
 -- insert into movie (title, film_rating, genre, thumbnail_url, running_time, released_at, created_by, created_at, modified_by, modified_at) values
 --        ('범죄도시', 'R_15', 'ACTION', 'http://thumbnailA.png', 120, '2025-01-01', 'admin', '2025-01-01', 'admin', '2025-01-01'),
