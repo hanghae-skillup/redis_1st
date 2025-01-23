@@ -2,9 +2,6 @@ package module.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
@@ -12,69 +9,104 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import module.entity.Genre;
-import module.entity.Movie;
-import module.entity.Rating;
-import module.entity.Showing;
-import module.util.PrivateGetSet;
+import dto.genre.GenreResponse;
+import dto.movie.MovieResponse;
+import dto.movie.MovieShowingResponse;
+import module.repository.movie.MovieRepository;
+import module.repository.showing.ShowingRepository;
 
-@DataJpaTest
+@SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class ShowingRepositoryTest {
 
-	ShowingRepository showingRepository;
+	private final ShowingRepository showingRepository;
+	private final MovieRepository movieRepository;
 
 	@Autowired
-	public ShowingRepositoryTest(ShowingRepository showingRepository) {
+	public ShowingRepositoryTest(ShowingRepository showingRepository, MovieRepository movieRepository) {
 		this.showingRepository = showingRepository;
+		this.movieRepository = movieRepository;
 	}
 
 	@Test
-	@DisplayName("1. 상영중인 영화 조회")
-	public void selectShowing() {
-		//given
-		LocalDateTime today = LocalDateTime.of(LocalDate.now(), LocalTime.MIN).plusHours(6);
-		LocalDateTime edDay = LocalDateTime.of(LocalDate.now().plusDays(2), LocalTime.MAX);
-
-		//when
-		List<Showing> showings = showingRepository.findShowingsByStTimeBetween(today, edDay);
-
-		// //then
-		showings.forEach(showing -> {
-			Assertions.assertTrue(PrivateGetSet.getValue(showing, "stTime", LocalDateTime.class).getDayOfMonth() <= LocalDate.now()
-				.plusDays(2L)
-				.getDayOfMonth());
-		});
+	@DisplayName("의존성 주입 테스트")
+	public void injectionTest(){
+		assertNotNull(showingRepository);
 	}
 
 	@Test
-	@DisplayName("2. 장르 및 영화등급 조회 테스트")
-	public void showingConditionCheck() {
-		// 영화별 장르 하나씩
+	@DisplayName("모든영화의 상영정보인지 테스트")
+	public void findAll(){
+		// given
+		List<MovieShowingResponse> movieShowingResponseList = showingRepository.getShowingByMovieTitleAndGenre(null, null);
+
+		// when
+		long numberOfMovie = movieRepository.count();
+
+		// then
+		assertEquals(numberOfMovie,movieShowingResponseList.size());
+	}
+
+	@Test
+	@DisplayName("genre필터링 테스트")
+	public void genreFiltering(){
 		//given
-		LocalDateTime today = LocalDateTime.of(LocalDate.now(), LocalTime.MIN).plusHours(6);
-		LocalDateTime edDay = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
-		List<Showing> showings = showingRepository.findShowingsByStTimeBetween(today, edDay);
+		List<MovieShowingResponse> showingByMovieTitleAndGenre =
+			showingRepository.getShowingByMovieTitleAndGenre(null,2L);
 
 		//when
-		List<Movie> movieList = showings.stream()
-			.map(showing -> PrivateGetSet.getValue(showing,"movie", Movie.class))
+		List<Long> genreIdList = showingByMovieTitleAndGenre.stream()
+			.map(MovieShowingResponse::getMovie)
+			.map(MovieResponse::getGenre)
+			.map(GenreResponse::getGenreId)
 			.toList();
 
 		//then
-		movieList.forEach(movie -> {
-			Genre genre = PrivateGetSet.getValue(movie, "genre", Genre.class);
-			String genreName = PrivateGetSet.getValue(genre, "name", String.class);
-			Rating rating = PrivateGetSet.getValue(movie, "rating", Rating.class);
-			String ratingName = PrivateGetSet.getValue(rating, "name", String.class);
-			assertNotNull(genre);
-			assertNotNull(genreName);
-			assertNotNull(rating);
-			assertNotNull(ratingName);
-			assertFalse(genreName.isEmpty());
-			assertFalse(ratingName.isEmpty());
-		});
+		genreIdList.stream().forEach(id-> assertTrue(id.equals(2L)));
+
+		assertTrue(genreIdList.size() > 0);
+	}
+
+	@Test
+	@DisplayName("영화제목 필터링 테스트")
+	public void titleFiltering() {
+		//given
+		List<MovieShowingResponse> showingByMovieTitleAndGenre =
+			showingRepository.getShowingByMovieTitleAndGenre("말",null);
+
+		//when
+		List<String> titleList = showingByMovieTitleAndGenre.stream()
+			.map(MovieShowingResponse::getMovie)
+			.map(MovieResponse::getTitle)
+			.toList();
+
+		//then
+		titleList.stream()
+			.forEach(title-> assertTrue(title.contains("말")));
+
+		assertTrue(titleList.size() > 0);
+	}
+
+	@Test
+	@DisplayName("영화제목 및 장르 아이디 필터링 테스트")
+	public void titleAndGenreFiltering(){
+		//given
+		List<MovieShowingResponse> showingByMovieTitleAndGenre =
+			showingRepository.getShowingByMovieTitleAndGenre("일",2L);
+
+		//when
+		List<MovieResponse> movieResponses = showingByMovieTitleAndGenre.stream()
+			.map(MovieShowingResponse::getMovie)
+			.toList();
+
+		//then
+		movieResponses.stream()
+			.peek(movieResponse -> assertTrue(movieResponse.getTitle().contains("일")))
+			.map(MovieResponse::getGenre)
+			.forEach(genreResponse -> assertTrue(genreResponse.getGenreId().equals(2L)));
+
+		assertTrue(movieResponses.size() > 0);
 	}
 }

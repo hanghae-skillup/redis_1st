@@ -23,7 +23,7 @@ public class Ticket extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ticket_id")
-	private Long id;
+	private Long ticketId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "showing_id",nullable = false)

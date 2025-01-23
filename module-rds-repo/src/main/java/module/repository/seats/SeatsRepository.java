@@ -1,4 +1,4 @@
-package module.repository;
+package module.repository.seats;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -9,13 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import dto.external.MovieShowingResponse;
+import dto.movie.MovieShowingResponse;
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
-import module.service.ShowingService;
+import module.service.showing.ShowingService;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,7 +30,7 @@ public class ShowingController {
 		@Valid @Range(min = 2, max = 10, message = "존재하지 않는 장르 입니다.")
 		@Nullable @RequestParam Long genreId
 	) {
-		List<MovieShowingResponse> allShowingList = showingService.getTodayShowing();
+		List<MovieShowingResponse> allShowingList = showingService.getTodayShowing(title, genreId);
 		if (allShowingList.isEmpty()) {
 			return ResponseEntity.noContent().build();
 		} else {

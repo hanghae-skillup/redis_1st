@@ -1,10 +1,10 @@
-package dto.internal;
+package dto.rating;
 
 import lombok.Getter;
 
 @Getter
 public class RatingDTO {
-	private Long id;
-	private String name;
+	private Long ratingId;
+	private String ratingName;
 	private String img;
 }

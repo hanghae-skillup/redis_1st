@@ -18,7 +18,7 @@ public class ControllerAdvice {
 	protected ResponseEntity<ErrorResponse> notValidParameter(HandlerMethodValidationException e){
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 			.body(ErrorResponse.builder()
-				.errorCode(400)
+				.errorCode(HttpStatus.BAD_REQUEST.value())
 				.message(e.getParameterValidationResults().get(0).getResolvableErrors().get(0).getDefaultMessage())
 				.build());
 	}

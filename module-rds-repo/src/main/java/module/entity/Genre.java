@@ -18,9 +18,9 @@ public class Genre extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "genre_id")
-	private Long id;
+	private Long genreId;
 
 	@Column(nullable = false)
-	private String name;
+	private String genreName;
 }
 

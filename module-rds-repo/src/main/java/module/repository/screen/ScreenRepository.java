@@ -1,4 +1,4 @@
-package module.repository;
+package module.repository.screen;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
