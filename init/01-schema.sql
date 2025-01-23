@@ -37,7 +37,6 @@ CREATE TABLE screening (
 -- Seat 테이블 생성
 CREATE TABLE seat (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    reserved BIT NOT NULL DEFAULT 0,
-    screening_id INT UNSIGNED NOT NULL,
+    theater_id INT UNSIGNED NOT NULL,
     seat_number VARCHAR(10) NOT NULL
 );
