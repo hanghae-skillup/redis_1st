@@ -1,0 +1,4 @@
+### 예매 가능한 영화 조회
+GET http://localhost:8080/api/v1/movies
+Accept: application/json
+
