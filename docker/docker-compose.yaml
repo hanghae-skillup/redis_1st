@@ -1,0 +1,83 @@
+version: '3.8'
+services:
+  redis-movie:
+    image: mysql:9.1.0
+    container_name: cinema-mysql
+    restart: always
+    ports:
+      - "3309:3306"
+    volumes:
+      - ./db/conf.d:/etc/mysql/conf.d
+      - ./db/data:/var/lib/mysql
+      - ./db/initdb.d:/docker-entrypoint-initdb.d
+    environment:
+      - TZ=Asia/Seoul
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=redis-movie
+      - MYSQL_USER=hongs
+      - MYSQL_PASSWORD=local1234
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+
+  redis:
+    image: redis
+    container_name: redis-container
+    ports:
+      - "6380:6379"
+
+
+  influxdb:
+    image: influxdb:2.7.5
+    networks:
+      - monitoring
+    ports:
+      - "8086:8086"
+    volumes:
+      - ./influxdb/data:/var/lib/influxdb2
+      - ./influxdb/config:/etc/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=hongs
+      - DOCKER_INFLUXDB_INIT_PASSWORD=local1234
+      - DOCKER_INFLUXDB_INIT_ORG=hongs
+      - DOCKER_INFLUXDB_INIT_BUCKET=redis-cinema
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=EsM8u2l07RkAdG8pLE0adgUtL2tXBrdWqVtQyb1rBv4MnRuza8UF4hNYlzzFakyF66Cw9WnRyGLepctBa5DBWQ==
+#      - DOCKER_INFLUXDB_INIT_RETENTION=1d # 데이터 보존 기간 (24시간)  => default : 0 (infinite)
+
+  k6:
+    image: k6-custom:latest
+    container_name: cinema-k6-load-test
+    restart: always
+    networks:
+      - monitoring
+    ports:
+      - "6565:6565"
+    environment:
+      - K6_OUT=xk6-influxdb=http://influxdb:8086
+      - K6_INFLUXDB_ORGANIZATION=hongs
+      - K6_INFLUXDB_BUCKET=redis-cinema
+      - K6_INFLUXDB_INSECURE=true
+      - K6_INFLUXDB_TOKEN=EsM8u2l07RkAdG8pLE0adgUtL2tXBrdWqVtQyb1rBv4MnRuza8UF4hNYlzzFakyF66Cw9WnRyGLepctBa5DBWQ==
+    volumes:
+      - ./k6/scripts:/scripts
+    entrypoint: ["tail", "-f", "/dev/null"] # 컨테이너 실행 후 대기 상태 유지
+
+
+  grafana:
+    image: grafana/grafana:8.2.6
+    ports:
+      - "3000:3000"
+    networks:
+     - monitoring
+    environment:
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_BASIC_ENABLED=false
+    volumes:
+      - ./grafana/grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+
+networks:
+  monitoring:
+    driver: bridge

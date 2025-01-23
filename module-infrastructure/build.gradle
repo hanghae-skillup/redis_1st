@@ -1,0 +1,61 @@
+plugins {
+    id 'org.springframework.boot' version '3.4.1'
+}
+
+jar {
+    enabled = true
+}
+
+bootJar {
+    enabled = false
+}
+
+bootRun {
+    enabled = false
+}
+
+group = 'project.redis.infrastructure'
+version = '0.0.1-SNAPSHOT'
+
+
+dependencies {
+    implementation project(':module-domain')
+    implementation project(':module-common')
+    implementation project(':module-application')
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.flywaydb:flyway-mysql'
+
+    implementation 'com.querydsl:querydsl-apt:5.0.0'
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    implementation 'com.querydsl:querydsl-core:5.0.0'
+
+    annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+def generatedQueryDSLDir = 'src/main/generated'
+println(generatedQueryDSLDir)
+
+sourceSets {
+    main {
+        java {
+            srcDirs += [generatedQueryDSLDir]
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.generatedSourceOutputDirectory.set(file(generatedQueryDSLDir))
+}
+
+clean {
+    delete file(generatedQueryDSLDir)
+}

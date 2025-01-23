@@ -1,0 +1,27 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+### GET screenings (기본 2일)
+GET http://localhost:8080/api/v1/screenings?genreName=판타지
+Content-Type: application/json
+
+
+### GET screenings (3일 이내 상영 영화 목록 가능)
+GET http://localhost:8080/api/v1/screenings?maxScreeningDay=3
+Content-Type: application/json
+
+
+### GET screenings (기본 2일 + 판타지 장르)
+GET http://localhost:8080/api/v1/screenings?maxScreeningDay=3&genreName=판타지
+Content-Type: application/json
+
+
+### GET screenings (기본 2일 + 판타지 장르 + local cache)
+GET http://localhost:8080/api/v2/screenings/local-caching?maxScreeningDay=3&genreName=판타지
+Content-Type: application/json
+
+
+### GET screenings (기본 2일 + 판타지 장르 + redis)
+GET http://localhost:8080/api/v3/screenings/redis?maxScreeningDay=3&genreName=판타지
+Content-Type: application/json
