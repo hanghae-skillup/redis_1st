@@ -19,10 +19,24 @@ import module.repository.showing.ShowingRepository;
 public class ShowingService {
 
 	private final ShowingRepository showingRepository;
+	private final CacheManager cacheManager;
 
 	@Cacheable(cacheNames = "movies", key = "#title + 'G' + #genreId")
 	public List<MovieShowingResponse> getTodayShowing(String title, Long genreId) {
 		return showingRepository.getShowingByMovieTitleAndGenre(title, genreId);
+	}
+
+	public void evictShowingCache() {
+		cacheManager.getCache("movies").clear();
+	}
+
+	public void evictShowingCache(String title, Long genreId){
+		for (int i = 0; i < title.length(); i++) {
+			for (int j = i; j < title.length(); j++) {
+				Objects.requireNonNull(cacheManager.getCache("movies"),"there is no cache named 'movies'")
+					.evictIfPresent(title.substring(i,j+1) + 'G' + genreId);
+			}
+		}
 	}
 
 }
