@@ -5,8 +5,18 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 1234
       MYSQL_DATABASE: theater
+      TZ: Asia/Seoul
+      CHARACTER_SET_SERVER: utf8mb4
     ports:
       - 3306:3306
     volumes:
       - ./init:/docker-entrypoint-initdb.d/
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
     restart: always
+
+  my-redis:
+    image: redis
+    ports:
+      - 6379:6379

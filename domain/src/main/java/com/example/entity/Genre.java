@@ -1,8 +1,10 @@
 package com.example.entity;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@RequiredArgsConstructor
 public enum Genre {
     ACTION("액션"),
     SF("SF"),
@@ -10,8 +12,4 @@ public enum Genre {
     HORROR("호로");
 
     private final String description;
-
-    Genre(String description) {
-        this.description = description;
-    }
 }

@@ -4,15 +4,12 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.BatchSize;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import static jakarta.persistence.GenerationType.*;
+import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Getter
@@ -21,6 +18,7 @@ public class Movie extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+    @Column(columnDefinition = "INT UNSIGNED")
     private Long id;
 
     private String title;
@@ -35,10 +33,7 @@ public class Movie extends BaseEntity {
     private Rating rating;
 
     @OneToMany(mappedBy = "movie")
-    private Set<MovieTheater> movieTheaters = new HashSet<>();
-
-    @OneToMany(mappedBy = "movie")
-    private Set<Screening> screenings = new HashSet<>();
+    private List<Screening> screenings = new ArrayList<>();
 
     public Movie(String title, String thumbnailUrl, Integer runningTime, LocalDate releaseDate, Genre genre, Rating rating) {
         this.title = title;

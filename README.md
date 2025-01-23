@@ -57,4 +57,8 @@
 
 Movie(영화)와 Theater(극장)은 M:N 관계이므로 MovieTheater로 일대다 다대일 관계로 설계하였습니다.
 Movie(영화)와 Screening(상영)은 1:N 관계이므로 일대다 관계로 설계하였습니다.
-Screening(상영)과 Seat(좌석)은 1:N 관계이므로 일대다 관계로 설계하였습니다.
+Theater(극장)과 Seat(좌석)은 1:N 관계이므로 일대다 관계로 설계하였습니다.
+
+## 성능측정
+
+[성능측정보고서 링크](https://kind-artichoke-34f.notion.site/180a4bf15f1a805eadc6c3bbc20f74a9?pvs=4)
