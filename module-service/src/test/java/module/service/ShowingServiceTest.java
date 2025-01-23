@@ -15,25 +15,25 @@ import dto.movie.MovieShowingResponse;
 import module.service.showing.ShowingService;
 
 @SpringBootTest
-class ShowingServiceImplTest {
+class ShowingServiceTest {
 
 	ShowingService showingService;
 	ModelMapper modelMapper;
 
 	@Autowired
-	public ShowingServiceImplTest(ShowingService showingService, ModelMapper modelMapper) {
+	public ShowingServiceTest(ShowingService showingService, ModelMapper modelMapper) {
 		this.showingService = showingService;
 		this.modelMapper = modelMapper;
 	}
 
 	@Test
-	@DisplayName("1. injection Test")
+	@DisplayName("injection Test")
 	public void injectionTest() {
 		assertNotNull(showingService);
 	}
 
 	@Test
-	@DisplayName("2. 영화 정보 요구사항 테스트 ")
+	@DisplayName("영화 정보 요구사항 테스트 ")
 	public void getTodayShowingTest() {
 		//given
 		List<MovieShowingResponse> todayShowing = showingService.getTodayShowing(null, null);
