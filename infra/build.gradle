@@ -7,4 +7,7 @@ dependencies {
     api 'com.github.ben-manes.caffeine:caffeine'
     api("org.springframework.boot:spring-boot-starter-data-redis")
     api("org.redisson:redisson-spring-boot-starter:3.17.0:")
+
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    api("org.springframework.boot:spring-boot-starter-data-jpa")
 }

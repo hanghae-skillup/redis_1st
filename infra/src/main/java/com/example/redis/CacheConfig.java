@@ -33,6 +33,12 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class CacheConfig {
 
+    @Value("${spring.data.redis.host}")
+    private String host;
+
+    @Value("${spring.data.redis.port}")
+    private int port;
+
     @Bean
     public ObjectMapper objectMapper() {
         return new ObjectMapper()
@@ -48,7 +54,7 @@ public class CacheConfig {
         // TypedJsonJacksonCodec 설정
         config.setCodec(new TypedJsonJacksonCodec(Object.class,objectMapper));
         config.useSingleServer()
-                .setAddress("redis://localhost:6379"); // Redis 서버 주소 (필요에 따라 변경)
+                .setAddress(String.format("redis://%s:%d", host, port));
 
         return Redisson.create(config);
     }
