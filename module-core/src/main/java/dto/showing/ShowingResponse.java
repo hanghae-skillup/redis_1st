@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 public class ShowingResponse {
 	private Long showingId;
-	private LocalDateTime stTime;
-	private LocalDateTime edTime;
+	private LocalDateTime showStTime;
+	private LocalDateTime showEdTime;
 	private ScreenResponse screen;
 }

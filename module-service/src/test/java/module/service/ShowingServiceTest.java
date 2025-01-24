@@ -42,7 +42,7 @@ class ShowingServiceTest {
 		MovieShowingResponse movieShowingResponse = todayShowing.getFirst();
 
 		//then
-		assertTrue(movieShowingResponse.getShowings().get(0).getStTime().isAfter(LocalDateTime.now()));
+		assertTrue(movieShowingResponse.getShowings().get(0).getShowStTime().isAfter(LocalDateTime.now()));
 	}
 
 }
