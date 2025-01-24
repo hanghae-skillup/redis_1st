@@ -1,6 +1,5 @@
 package org.example.controller;
 
-import org.example.TestBean;
 import org.example.service.MovieService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,9 +18,6 @@ class MovieControllerTest {
 
     @MockBean
     private MovieService movieService;
-
-    @MockBean
-    private TestBean testBean;
 
     @DisplayName("상영 중인 영화를 조회한다.")
     @Test
