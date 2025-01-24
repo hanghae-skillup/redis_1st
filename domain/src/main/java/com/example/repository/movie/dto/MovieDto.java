@@ -1,7 +1,7 @@
 package com.example.repository.movie.dto;
 
-import com.example.entity.Genre;
-import com.example.entity.Rating;
+import com.example.entity.movie.Genre;
+import com.example.entity.movie.Rating;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 
