@@ -30,7 +30,7 @@ class MovieRepositoryTest {
         String search = "파일";
 
         // when
-        List<MoviesDetailDto> result = movieRepository.findAll(now, null, search);
+        List<MoviesDetailDto> result = movieRepository.searchWithFiltering(now, null, search);
 
         // then
         assertThat(result).isNotEmpty();
@@ -45,7 +45,7 @@ class MovieRepositoryTest {
         Genre genre = Genre.SF;
 
         // when
-        List<MoviesDetailDto> result = movieRepository.findAll(now, genre, null);
+        List<MoviesDetailDto> result = movieRepository.searchWithFiltering(now, genre, null);
 
         // then
         assertThat(result).isNotEmpty();
@@ -61,7 +61,7 @@ class MovieRepositoryTest {
         String search = "파일";
 
         // when
-        List<MoviesDetailDto> result = movieRepository.findAll(now, genre, search);
+        List<MoviesDetailDto> result = movieRepository.searchWithFiltering(now, genre, search);
 
         // then
         assertThat(result).isNotEmpty();
@@ -75,7 +75,7 @@ class MovieRepositoryTest {
         LocalDateTime now = LocalDateTime.now();
 
         // when
-        List<MoviesDetailDto> result = movieRepository.findAll(now, null, null);
+        List<MoviesDetailDto> result = movieRepository.searchWithFiltering(now, null, null);
 
         // then
         assertThat(result).isNotEmpty();
