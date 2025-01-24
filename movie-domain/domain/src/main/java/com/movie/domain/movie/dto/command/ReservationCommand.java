@@ -4,8 +4,10 @@ import java.util.List;
 
 public class ReservationCommand {
 
-    public static record Reserve(Long scheduleId, List<Long> seatIds, Long userId) {
-
+    public record Reserve(Long scheduleId, List<Long> seatIds, String token) {
+        public static Reserve of(Long scheduleId, List<Long> seatIds, String token) {
+            return new Reserve(scheduleId, seatIds, token);
+        }
     }
 
 }

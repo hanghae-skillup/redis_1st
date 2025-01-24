@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ErrorCode {
 
+    // 202
     CONTENT_NOT_FOUND(HttpStatus.ACCEPTED, "CONTENT_NOT_FOUND"),
+    RESERVATION_LIMIT_EXCEEDED(HttpStatus.ACCEPTED, "RESERVATION_LIMIT_EXCEEDED"),
 
 
     ;
