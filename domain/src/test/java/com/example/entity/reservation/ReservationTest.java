@@ -36,6 +36,41 @@ class ReservationTest {
                 .hasMessageContaining("5개 이상의 좌성은 예약할 수 없습니다.");
     }
 
+    @Test
+    @DisplayName("연속적인 좌석이 아니면 예약할 수 없다.")
+    void reserve_seat_continuous_exception() {
+        Movie movie = createMovie();
+        Theater theater = createTheater();
+        Screening screening = createScreening(movie, theater);
+        Reservation reservation = createReservation(screening);
+
+        Seat seat1 = createSeat("A1", theater);
+        Seat seat2 = createSeat("B2", theater);
+        Seat seat3 = createSeat("C3", theater);
+        Seat seat4 = createSeat("D4", theater);
+        Seat seat5 = createSeat("E5", theater);
+
+
+        Seat seat6 = createSeat("A1", theater);
+        Seat seat7 = createSeat("A3", theater);
+        Seat seat8 = createSeat("A5", theater);
+
+        Seats seats1 = new Seats(List.of(seat1, seat2, seat3, seat4, seat5));
+        Seats seats2 = new Seats(List.of(seat6, seat7, seat8));
+
+
+        assertThatThrownBy(() -> {
+            reservation.reservation(seats1);
+        })
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("좌석 예매는 연속적인 좌석만 예매 가능합니다.");
+        assertThatThrownBy(() -> {
+            reservation.reservation(seats2);
+        })
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("좌석 예매는 연속적인 좌석만 예매 가능합니다.");
+    }
+
     private Movie createMovie() {
         return Movie.builder()
                 .title("히트맨 2")

@@ -38,5 +38,8 @@ public class Reservation extends BaseEntity {
         if (seats.isSizeExceedingLimit()) {
             throw new IllegalArgumentException("5개 이상의 좌성은 예약할 수 없습니다.");
         }
+        if (!seats.isContinuousSeat()) {
+            throw new IllegalArgumentException("좌석 예매는 연속적인 좌석만 예매 가능합니다.");
+        }
     }
 }

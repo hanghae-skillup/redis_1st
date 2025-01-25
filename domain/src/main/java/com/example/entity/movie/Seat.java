@@ -32,4 +32,12 @@ public class Seat {
         this.seatNumber = seatNumber;
         this.theater = theater;
     }
+
+    public String getRow() {
+        return seatNumber.substring(0, 1);
+    }
+
+    public int getColumn() {
+        return Integer.parseInt(seatNumber.substring(1));
+    }
 }
