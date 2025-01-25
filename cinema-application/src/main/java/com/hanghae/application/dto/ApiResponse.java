@@ -15,7 +15,7 @@ public record ApiResponse<T> (
     }
 
     public static <T> ApiResponse<T> of(String message, int status, T data) {
-        if (data == null || (data instanceof List<?> list && list.isEmpty())) {
+        if ((data == null || (data instanceof List<?> list && list.isEmpty())) && (message == null || message.isEmpty())) {
             return new ApiResponse<>("조회된 결과가 없습니다.", 200, null);
         }
         return new ApiResponse<>(message, status, data);

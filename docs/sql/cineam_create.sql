@@ -44,7 +44,7 @@ CREATE TABLE member (
 CREATE TABLE ticket_reservation (
 	ticket_id	INT UNSIGNED	AUTO_INCREMENT PRIMARY KEY COMMENT '영화예매 ID',
 	schedule_id	INT UNSIGNED	NOT NULL COMMENT '상영시간표 ID',
-	seat_id	INT UNSIGNED	NOT NULL COMMENT '좌석 ID',
+	screen_seat	varchar(3)	NOT NULL COMMENT '상영관 좌석 (enum 사용)',
 	member_id	INT UNSIGNED	NOT NULL COMMENT '회원 ID',
 	created_by	INT UNSIGNED	NULL COMMENT '작성자',
 	created_at	datetime	NULL COMMENT '작성일',
@@ -54,7 +54,9 @@ CREATE TABLE ticket_reservation (
 
 CREATE TABLE screen_seat (
 	seat_id	INT UNSIGNED	AUTO_INCREMENT PRIMARY KEY COMMENT '좌석 ID',
-	seat_name	varchar(2)	NULL COMMENT '좌석 이름',
+	screen_id INT UNSIGNED	NOT NULL COMMENT '상영관 ID',
+	seat_row	char(1)	NULL COMMENT '좌석 행 (알파벳)',
+	max_seat_number	INT UNSIGNED	NULL COMMENT '최대 좌석 번호',
 	created_by	INT UNSIGNED	NULL COMMENT '작성자',
 	created_at	datetime	NULL COMMENT '작성일',
 	updated_by	INT UNSIGNED	NULL COMMENT '수정자',

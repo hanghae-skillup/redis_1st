@@ -24,3 +24,6 @@ VALUES (2, 2, '2025-02-20 12:00:00', 99, NOW());
 
 INSERT INTO screening_schedule (movie_id, screen_id, show_start_at, created_by, created_at)
 VALUES (3, 1, '2025-02-17 13:20:00', 99, NOW());
+
+INSERT INTO member (birth_date, created_by, created_at)
+VALUES ('1999-01-01', 99, NOW());
