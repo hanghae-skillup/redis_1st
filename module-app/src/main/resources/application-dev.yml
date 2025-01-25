@@ -15,7 +15,7 @@ spring:
   data:
     redis:
       host: host.docker.internal
-      port: 6379
+      port: 6300
 
 
 logging:
