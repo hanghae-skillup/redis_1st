@@ -6,7 +6,7 @@ import com.example.jpa.entity.movie.Grade;
 import java.time.LocalDate;
 import java.util.List;
 
-public record MoviesDetail(
+public record MoviesDetailResponse(
         Long movieId,
         String movieName,
         Grade grade,

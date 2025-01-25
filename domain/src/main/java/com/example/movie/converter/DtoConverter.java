@@ -1,7 +1,7 @@
 package com.example.movie.converter;
 
 import com.example.jpa.repository.movie.dto.MoviesDetailDto;
-import com.example.movie.dto.MoviesDetail;
+import com.example.movie.dto.MoviesDetailResponse;
 import com.example.movie.dto.ScreeningTimeDetail;
 import com.example.movie.dto.ScreeningsDetail;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Component
 @NoArgsConstructor
 public class DtoConverter {
-    public List<MoviesDetail> moviesNowScreening(List<MoviesDetailDto> dbResults) {
+    public List<MoviesDetailResponse> moviesNowScreening(List<MoviesDetailDto> dbResults) {
         return dbResults.stream()
                 .collect(Collectors.groupingBy(MoviesDetailDto::getMovieId))
                 .entrySet().stream()
@@ -41,7 +41,7 @@ public class DtoConverter {
                             .toList();
 
                     // Create the final DTO
-                    return new MoviesDetail(
+                    return new MoviesDetailResponse(
                             movieId, // Add movieId here
                             firstEntry.getMovieName(),
                             firstEntry.getGrade(),

@@ -1,14 +1,12 @@
 package com.example.movie.service;
 
 import com.example.movie.converter.DtoConverter;
-import com.example.movie.dto.MoviesDetail;
+import com.example.movie.dto.MoviesDetailResponse;
 import com.example.jpa.entity.movie.Genre;
-import com.example.jpa.repository.movie.MovieRepository;
 import com.example.jpa.repository.movie.dto.MoviesDetailDto;
 import com.example.movie.dto.ScreeningTimeDetail;
 import com.example.movie.dto.ScreeningsDetail;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,13 +20,13 @@ public class MovieService {
     private final MovieCacheService movieCacheService;
     private final DtoConverter dtoConverter;
 
-    public List<MoviesDetail> getMovies(LocalDateTime now, Boolean isNowShowing, Genre genre, String search) {
+    public List<MoviesDetailResponse> getMovies(LocalDateTime now, Boolean isNowShowing, Genre genre, String search) {
         List<MoviesDetailDto> cachedMovies = movieCacheService.getMoviesByGenre(genre);
-        List<MoviesDetail> moviesDetails = dtoConverter.moviesNowScreening(cachedMovies);
-        return filterByStartAtAndTitle(now, isNowShowing, search, moviesDetails);
+        List<MoviesDetailResponse> moviesDetailResponses = dtoConverter.moviesNowScreening(cachedMovies);
+        return filterByStartAtAndTitle(now, isNowShowing, search, moviesDetailResponses);
     }
 
-    private static List<MoviesDetail> filterByStartAtAndTitle(LocalDateTime now, Boolean isNowShowing, String search, List<MoviesDetail> cachedMovies) {
+    private static List<MoviesDetailResponse> filterByStartAtAndTitle(LocalDateTime now, Boolean isNowShowing, String search, List<MoviesDetailResponse> cachedMovies) {
         return cachedMovies.stream()
                 .map(movie -> {
                     List<ScreeningsDetail> filteredScreenings = movie.screeningsDetails().stream()
@@ -41,7 +39,7 @@ public class MovieService {
                             .filter(screening -> !screening.screeningTimes().isEmpty())
                             .toList();
 
-                    return new MoviesDetail(
+                    return new MoviesDetailResponse(
                             movie.movieId(),
                             movie.movieName(),
                             movie.grade(),
@@ -56,7 +54,7 @@ public class MovieService {
                     boolean matchesSearch = search == null || movie.movieName().toLowerCase().contains(search.toLowerCase());
                     return !movie.screeningsDetails().isEmpty() && matchesSearch;
                 })
-                .sorted(Comparator.comparing(MoviesDetail::releaseDate).reversed())
+                .sorted(Comparator.comparing(MoviesDetailResponse::releaseDate).reversed())
                 .toList();
     }
 

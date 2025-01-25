@@ -4,4 +4,6 @@ jar.enabled = true
 
 dependencies {
     implementation project(':infra')
+
+    api ('org.springframework.boot:spring-boot-starter-validation')
 }

@@ -1,13 +1,11 @@
 package com.example.movie.service;
 
 import com.example.movie.converter.DtoConverter;
-import com.example.movie.dto.MoviesDetail;
-import com.example.movie.service.MovieService;
+import com.example.movie.dto.MoviesDetailResponse;
 import com.example.jpa.entity.movie.Genre;
 import com.example.jpa.entity.movie.Grade;
 import com.example.jpa.repository.movie.MovieRepository;
 import com.example.jpa.repository.movie.dto.MoviesDetailDto;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,26 +35,26 @@ class MovieServiceTest {
         //given
         LocalDateTime now = LocalDateTime.now();
         List<MoviesDetailDto> mockDbResults = initMoviesDetailDtoData(now);
-        List<MoviesDetail> mockConvertedResults = initMoviesDetailData();
+        List<MoviesDetailResponse> mockConvertedResults = initMoviesDetailData();
 
         when(movieRepository.searchWithFiltering(now,null,null)).thenReturn(mockDbResults);
         when(dtoConvertor.moviesNowScreening(mockDbResults)).thenReturn(mockConvertedResults);
 
         //when
-        List<MoviesDetail> result = movieService.getMovies(now, Boolean.TRUE, null, null);
+        List<MoviesDetailResponse> result = movieService.getMovies(now, Boolean.TRUE, null, null);
 
         //then
         assertThat(result.get(0).movieId()).isEqualTo(2L);
         assertThat(result.get(1).movieId()).isEqualTo(1L);
     }
 
-    private static List<MoviesDetail> initMoviesDetailData() {
-        List<MoviesDetail> mockConvertedResults = List.of(
-                new MoviesDetail(
+    private static List<MoviesDetailResponse> initMoviesDetailData() {
+        List<MoviesDetailResponse> mockConvertedResults = List.of(
+                new MoviesDetailResponse(
                         1L, "Movie A", Grade.ALL_AGE, LocalDate.of(2023, 12, 15),
                         "thumbnailA.jpg", 120L, Genre.ACTION, List.of()
                 ),
-                new MoviesDetail(
+                new MoviesDetailResponse(
                         2L, "Movie B", Grade.FROM_12_AGE, LocalDate.of(2024, 1, 10),
                         "thumbnailB.jpg", 130L, Genre.ROMANCE, List.of()
                 )

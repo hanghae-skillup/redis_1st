@@ -3,8 +3,7 @@ package com.example.movie.converter;
 import com.example.jpa.entity.movie.Genre;
 import com.example.jpa.entity.movie.Grade;
 import com.example.jpa.repository.movie.dto.MoviesDetailDto;
-import com.example.movie.dto.MoviesDetail;
-import org.jetbrains.annotations.NotNull;
+import com.example.movie.dto.MoviesDetailResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -24,12 +23,12 @@ class DtoConverterTest {
 
         //when
         DtoConverter dtoConvertor = new DtoConverter();
-        List<MoviesDetail> result = dtoConvertor.moviesNowScreening(dbResults);
+        List<MoviesDetailResponse> result = dtoConvertor.moviesNowScreening(dbResults);
 
         //then
         assertThat(result).hasSize(2); // 영화 ID로 그룹화 결과 두 개 (Movie A, Movie B)
 
-        MoviesDetail movieA = result.get(0);
+        MoviesDetailResponse movieA = result.get(0);
         assertThat(movieA.movieId()).isEqualTo(1L); // Movie A
         assertThat(movieA.screeningsDetails()).hasSize(2); // Theater 1, Theater 2
         assertThat(movieA.screeningsDetails().get(0).screeningTimes())
@@ -39,7 +38,7 @@ class DtoConverterTest {
                 .extracting("startAt")
                 .isSorted(); // Theater 2 시간표 정렬 검증
 
-        MoviesDetail movieB = result.get(1);
+        MoviesDetailResponse movieB = result.get(1);
         assertThat(movieB.movieId()).isEqualTo(2L); // Movie B
         assertThat(movieB.screeningsDetails()).hasSize(1); // Theater 1만 포함
         assertThat(movieB.screeningsDetails().get(0).screeningTimes())
