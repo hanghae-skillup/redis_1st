@@ -36,3 +36,33 @@ INSERT INTO `tb_movie_theater_rel` (`movie_theater_rel_id`,`movie_id`,`theater_i
 INSERT INTO `tb_movie_theater_rel` (`movie_theater_rel_id`,`movie_id`,`theater_id`,`updated_at`,`created_at`) VALUES (7,2,1,'2025-01-09 00:00:00','2025-01-09 00:00:00');
 INSERT INTO `tb_movie_theater_rel` (`movie_theater_rel_id`,`movie_id`,`theater_id`,`updated_at`,`created_at`) VALUES (8,3,2,'2025-01-09 00:00:00','2025-01-09 00:00:00');
 INSERT INTO `tb_movie_theater_rel` (`movie_theater_rel_id`,`movie_id`,`theater_id`,`updated_at`,`created_at`) VALUES (9,4,8,'2025-01-09 00:00:00','2025-01-09 00:00:00');
+
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'A1', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'A2', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'A3', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'A4', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'A5', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'B1', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'B2', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'B3', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'B4', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'B5', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'C1', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'C2', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'C3', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'C4', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'C5', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'D1', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'D2', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'D3', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'D4', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'D5', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'E1', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'E2', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'E3', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'E4', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');
+INSERT INTO `my`.`tb_seat` (`movie_id`, `theater_id`, `showtime_id`, `booking_date`, `theaterSeat`, `reserved`, `updated_at`, `created_at`) VALUES ('2', '1', '5', '2025-03-01', 'E5', '0', '2025-01-25 00:00:00', '2025-01-25 00:00:00');

@@ -1,6 +1,6 @@
 package com.example.app.movie.out.persistence.entity;
 
-import com.example.app.movie.common.BaseJpaEntity;
+import com.example.app.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import java.time.LocalTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShowtimeEntity extends BaseJpaEntity {
+public class ShowtimeEntity extends BaseEntity {
 
     @Id
     @Column(name = "showtime_id")

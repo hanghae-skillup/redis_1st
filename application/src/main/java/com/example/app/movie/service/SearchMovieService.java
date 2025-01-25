@@ -1,7 +1,7 @@
 package com.example.app.movie.service;
 
 import com.example.app.movie.domain.Movie;
-import com.example.app.movie.dto.MovieSearchCommand;
+import com.example.app.movie.dto.SearchMovieCommand;
 import com.example.app.movie.port.LoadMoviePort;
 import com.example.app.movie.usecase.SearchMovieUseCase;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +19,8 @@ public class SearchMovieService implements SearchMovieUseCase {
     private final LoadMoviePort loadMoviePort;
 
     @Override
-    @Cacheable(value = "movies", key = "#movieSearchCommand.title + ':' + #movieSearchCommand.genre")
-    public List<Movie> searchMovies(MovieSearchCommand movieSearchCommand) {
-        return loadMoviePort.loadAllMovies(movieSearchCommand);
+    @Cacheable(value = "movies", key = "#searchMovieCommand.title + ':' + #searchMovieCommand.genre")
+    public List<Movie> searchMovies(SearchMovieCommand searchMovieCommand) {
+        return loadMoviePort.loadAllMovies(searchMovieCommand);
     }
 }

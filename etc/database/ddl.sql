@@ -44,6 +44,34 @@ CREATE TABLE `tb_theater` (
     PRIMARY KEY (`theater_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE TABLE `my`.`tb_booking` (
+    `booking_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `user_id` INT UNSIGNED NOT NULL,
+    `movie_id` INT UNSIGNED NOT NULL,
+    `showtime_id` INT UNSIGNED NOT NULL,
+    `booking_date` DATE NOT NULL,
+    `theater_id` INT UNSIGNED NOT NULL,
+    `total_seats` TINYINT(3) UNSIGNED NOT NULL,
+    `updated_at` DATETIME NOT NULL,
+    `created_at` DATETIME NOT NULL,
+PRIMARY KEY (`booking_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `my`.`tb_seat` (
+    `seat_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `booking_id` INT UNSIGNED NULL,
+    `movie_id` INT UNSIGNED NOT NULL,
+    `theater_id` INT UNSIGNED NOT NULL,
+    `showtime_id` INT UNSIGNED NOT NULL,
+    `booking_date` DATE NOT NULL,
+    `theaterSeat` VARCHAR(3) NOT NULL,
+    `reserved` TINYINT(1) NOT NULL DEFAULT 1,
+    `updated_at` DATETIME NOT NULL,
+    `created_at` DATETIME NOT NULL,
+PRIMARY KEY (`seat_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
 ALTER TABLE `my`.`tb_movie`
     ADD INDEX `idx_genre_title_release_date` (`genre` ASC, `title` ASC, `release_date` DESC) VISIBLE,
 ADD INDEX `idx_genre` (`genre` ASC) VISIBLE,
