@@ -27,7 +27,7 @@ class ReservationTest {
         Seat seat5 = createSeat("A5", theater);
         Seat seat6 = createSeat("B1", theater);
 
-        List<Seat> seats = List.of(seat1, seat2, seat3, seat4, seat5, seat6);
+        Seats seats = new Seats(List.of(seat1, seat2, seat3, seat4, seat5, seat6));
 
         assertThatThrownBy(() -> {
             reservation.reservation(seats);
