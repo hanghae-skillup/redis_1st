@@ -38,6 +38,8 @@ public class QSeat extends EntityPathBase<Seat> {
 
     public final EnumPath<Row> row = createEnum("row", Row.class);
 
+    public final NumberPath<Long> screenScheduleId = createNumber("screenScheduleId", Long.class);
+
     //inherited
     public final StringPath updatedBy = _super.updatedBy;
 

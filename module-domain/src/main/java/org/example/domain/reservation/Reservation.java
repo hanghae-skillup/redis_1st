@@ -26,19 +26,14 @@ public class Reservation extends BaseEntity {
     @Column(nullable = false)
     private Long usersId;
 
-    @Column(nullable = false)
-    private Long screenRoomId;
-
     @Builder
-    public Reservation(LocalDateTime reserveTime, Long usersId, Long screenRoomId) {
+    public Reservation(Long usersId) {
         this.usersId = usersId;
-        this.screenRoomId = screenRoomId;
     }
 
-    public static Reservation create(Long usersId, Long screenRoomId) {
+    public static Reservation create(Long usersId) {
         return Reservation.builder()
                 .usersId(usersId)
-                .screenRoomId(screenRoomId)
                 .build();
     }
 }
