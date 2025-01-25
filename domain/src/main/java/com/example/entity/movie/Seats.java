@@ -9,7 +9,7 @@ public class Seats {
     private final List<Seat> seats;
 
     public Seats(List<Seat> seats) {
-        this.seats = seats;
+        this.seats = List.copyOf(seats);
     }
 
     public boolean isSizeExceedingLimit() {
