@@ -1,6 +1,11 @@
 version: '3.8' #Docker Compose 버전
 
 services:
+  redis:
+    image: redis:latest
+    container_name: redis-container
+    ports:
+      - "6379:6379"
   mysql:
     image: mysql:8.1 # 사용할 MySQL 이미지 버전
     container_name: mysql-container # 컨테이너 이름
