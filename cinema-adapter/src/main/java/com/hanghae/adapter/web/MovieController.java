@@ -1,5 +1,6 @@
 package com.hanghae.adapter.web;
 
+import com.hanghae.application.dto.ApiResponse;
 import com.hanghae.application.dto.MovieScheduleRequestDto;
 import com.hanghae.application.dto.MovieScheduleResponseDto;
 import com.hanghae.application.dto.ShowingMovieScheduleResponseDto;
@@ -20,20 +21,19 @@ public class MovieController {
 
     //영화 상영 시간표 조회
     @GetMapping("/v1/movie-schedules")
-    public List<MovieScheduleResponseDto> getMovieSchedules() {
+    public ApiResponse<List<MovieScheduleResponseDto>> getMovieSchedules() {
         return movieScheduleService.getMovieSchedules();
     }
 
     //영화별 상영 시간표 조회 (grouping)
     @GetMapping("/v2/movie-schedules")
-    public List<ShowingMovieScheduleResponseDto> getShowingMovieSchedules(@ModelAttribute MovieScheduleRequestDto requestDto) {
+    public ApiResponse<List<ShowingMovieScheduleResponseDto>> getShowingMovieSchedules(@ModelAttribute MovieScheduleRequestDto requestDto) {
         return movieScheduleService.getShowingMovieSchedules(requestDto);
     }
 
     //redis 캐시삭제 (테스트용)
     @GetMapping("/test/evict-cache")
-    public String evictCache() {
-        movieScheduleService.evictShowingMovieCache();
-        return "redis cache 삭제";
+    public ApiResponse<Void> evictCache() {
+        return movieScheduleService.evictShowingMovieCache();
     }
 }

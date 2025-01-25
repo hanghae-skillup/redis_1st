@@ -3,6 +3,7 @@ package com.hanghae.infrastructure.adapter;
 import com.hanghae.application.dto.MovieScheduleRequestDto;
 import com.hanghae.application.port.out.MovieRepositoryPort;
 import com.hanghae.application.projection.MovieScheduleProjection;
+import com.hanghae.infrastructure.config.RedisCacheName;
 import com.hanghae.infrastructure.entity.*;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
@@ -24,7 +25,7 @@ public class MovieRepositoryAdapter implements MovieRepositoryPort {
      * 영화별 상영시간표 그룹핑하여 조회
      * showing_movies
      */
-    @Cacheable(value = "showing_movie_schedules", key = "#requestDto?.title + '_' + #requestDto?.genre", unless = "#result == null or #result.isEmpty()")
+    @Cacheable(value = RedisCacheName.SHOWING_MOVIE_SCHEDULES, key = "#requestDto?.title + '_' + #requestDto?.genre", unless = "#result == null or #result.isEmpty()")
     @Override
     public List<MovieScheduleProjection> findShowingMovieSchedules(MovieScheduleRequestDto requestDto) {
         // @Cacheable 사용으로 캐시를 사용한다.

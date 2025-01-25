@@ -1,5 +1,6 @@
 package com.hanghae.application.service;
 
+import com.hanghae.application.dto.ApiResponse;
 import com.hanghae.application.dto.MovieScheduleRequestDto;
 import com.hanghae.application.dto.MovieScheduleResponseDto;
 import com.hanghae.application.dto.ShowingMovieScheduleResponseDto;
@@ -26,17 +27,16 @@ public class MovieScheduleServiceImpl implements MovieScheduleService {
 
     @Override
     @Transactional
-    public List<MovieScheduleResponseDto> getMovieSchedules() {
+    public ApiResponse<List<MovieScheduleResponseDto>> getMovieSchedules() {
         List<ScreeningSchedule> schedules = screeningScheduleRepositoryPort.findAll();
+        List<MovieScheduleResponseDto> responseDtos = schedules.stream().map(this::convertToDto).collect(Collectors.toList());
 
-        return schedules.stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+        return ApiResponse.of("Success", 200, responseDtos);
     }
 
     @Override
     @Transactional
-    public List<ShowingMovieScheduleResponseDto> getShowingMovieSchedules(MovieScheduleRequestDto requestDto) {
+    public ApiResponse<List<ShowingMovieScheduleResponseDto>> getShowingMovieSchedules(MovieScheduleRequestDto requestDto) {
         List<MovieScheduleProjection> projections = movieRepositoryPort.findShowingMovieSchedules(requestDto);
 
         Map<Long, ShowingMovieScheduleResponseDto> movieMap = new LinkedHashMap<>();
@@ -72,12 +72,13 @@ public class MovieScheduleServiceImpl implements MovieScheduleService {
                     .build());
         }
 
-        return new ArrayList<>(movieMap.values());
+        return ApiResponse.of("Success", 200, new ArrayList<>(movieMap.values()));
     }
 
     @Override
-    public void evictShowingMovieCache() {
+    public ApiResponse<Void> evictShowingMovieCache() {
         movieRepositoryPort.evictShowingMovieCache();
+        return ApiResponse.of("Success", 204);
     }
 
     private MovieScheduleResponseDto convertToDto(ScreeningSchedule schedule) {

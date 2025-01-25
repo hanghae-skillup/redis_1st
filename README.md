@@ -6,10 +6,10 @@
 > Redis  
   
 ### 규칙
-* `infrastruct` 계층에서의 결과값은 `domain model` 혹은 `Projection(QueryDSL 조회시)` 객체 로 리턴한다.  
+* `infrastruct` 계층에서의 결과값은 `domain model` 혹은 `Projection(필요한 속성만 조회)` 객체 로 리턴한다.  
 * `domain model`에서 `Dto`로 변환은 `application` 계층에서 한다.  
 * `Dto`는 상태가 변하지 않는 경우 `recode`로 작성한다.(`RequestDto`는 거의 대부분)  
-* `Projection`는 `QueryDSL` 결과를 받기에 `class`로 작성한다.  
+* `QueryDSL`로 조회한 결과를 받기는 객체는 `class`로 작성한다.  
 * `Dto`, `Projection`는 `application`계층에 위치한다.    
 * `Projection`은 `Dto`로 변환될 수 있다.    
     
@@ -479,13 +479,16 @@ constant_load ✓ [======================================] 000/100 VUs  10m0s  1
 
 >1. cinema-adapter  
 >     * 외부로부터의 요청을 받는 역할을 합니다.
->     * 요청을 받아  `cinema-application`에 입력 포트를 호출 합니다.
+>     * 요청을 받아 `application 계층`에 입력 포트를 호출 합니다.  
+>     * `Controller`가 해당 계층에 위치합니다.
 >
 >2. cinema-application  
 >     * 입력/출력 포트에 대한 인터페이스를 정의하고 입력 포트에 비즈니스 로직을 구현 합니다.
->     * 입력 포트는 Adapter에서 호출됩니다.
->     * 출력 포트는 인터페이스만 정의하여 외부 시스템(DB등)과의 의존성을 최소화 합니다.
->     * domain service 로직은 application 모듈 port(in)에서 호출합니다. 
+>     * 입력 포트(`port-in`)는 `adapter 계층`에서 호출됩니다.
+>     * 입력 포트(`port-in`) 인터페이스의 구현은 `application 계층`에서 합니다. 
+>     * 출력 포트(`port-out`)는 인터페이스만 정의하여 외부 시스템(DB등)과의 의존성을 최소화 합니다.
+>     * 출력 포트(`port-out`) 인터페이스의 구현은 `infrastructure 계층`에서 합니다.
+>     * `domain service` 로직은 `application 계층`의 `port(in)`에서 호출합니다. 
 >
 >3. cinema-domain  
 >     * 외부에 의존하지 않는 독립적이고 핵심적인 비즈니스 모델 및 서비스 로직이 위치합니다.
@@ -499,6 +502,13 @@ constant_load ✓ [======================================] 000/100 VUs  10m0s  1
   
 도메인과 jpa엔티티를 나누었고 mapper클래스로 변환하도록 하였습니다.   
   
+데이터 흐름
+```
+컨트롤러(adapter)  →  입력포트(application-port-in)  →  출력포트(application-port-out)  →  DB접근(infrastructure-repository)  
+                                  ↓                      ↳ 출력포트의 구현체는 
+                     도메인모델 or Servier(domain)           infrastructure계층 Adapter에 구현 
+```
+   
 ### 테이블 디자인
 
 아래와 같이 7개 테이블로 구성하였습니다.
