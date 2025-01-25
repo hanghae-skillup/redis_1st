@@ -13,7 +13,7 @@ spring:
         dialect: com.example.redis.cmmn.MySQLFullTextDialect
         #dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
-        default_batch_fetch_size: 100
+        default_batch_fetch_size: 1000
 
 logging:
   level:

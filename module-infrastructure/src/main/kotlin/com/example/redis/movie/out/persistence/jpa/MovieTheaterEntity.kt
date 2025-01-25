@@ -17,7 +17,6 @@ class MovieTheaterEntity(
     @JoinColumn(name = "theater_id")
     val theater: TheaterEntity,
 
-    @BatchSize(size = 1_000)
     @OneToMany(mappedBy = "movieTheater", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     val screeningSchedules: MutableList<ScreeningScheduleEntity> = mutableListOf(),
 
@@ -25,6 +24,5 @@ class MovieTheaterEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "movie_theater_id")
     val id: Long? = null,
-
     ): BaseEntity() {
 }

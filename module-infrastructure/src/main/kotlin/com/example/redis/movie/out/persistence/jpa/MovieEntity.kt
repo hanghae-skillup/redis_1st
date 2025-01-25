@@ -11,6 +11,10 @@ import java.time.LocalDateTime
 @QueryEntity
 @Table(name = "movie")
 class MovieEntity(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "movie_id")
+    val id: Long? = null,
 
     @Column(name = "title")
     val title: String,
@@ -28,20 +32,9 @@ class MovieEntity(
     @Column(name = "film_ratings")
     val filmRatings: FilmRatings,
 
-//    @ElementCollection
-//    @CollectionTable(name = "movie_genre", joinColumns = [JoinColumn(name = "movie_id")])
-//    @Column(name = "name")0
-    @BatchSize(size = 1_000)
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     var movieGenre: MutableList<MovieGenreEntity> = mutableListOf(),
 
-    @BatchSize(size = 1_000)
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     val movieTheaters: MutableList<MovieTheaterEntity> = mutableListOf(),
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "movie_id")
-    val id: Long? = null
-): BaseEntity() {
-}
+): BaseEntity() {}

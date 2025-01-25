@@ -7,6 +7,11 @@ import jakarta.persistence.*
 @Entity
 class SeatEntity(
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "seat_id")
+    val id: Long? = null,
+
     @Column(name = "seat_row")
     val row: String,
 
@@ -16,10 +21,4 @@ class SeatEntity(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "theater_id")
     val theater: TheaterEntity,
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "seat_id")
-    val id: Long? = null,
-): BaseEntity() {
-}
+): BaseEntity() { }
