@@ -15,16 +15,16 @@ open class BaseEntity(
 
     @CreatedDate
     @Column(name = "create_at")
-    val createAt: LocalDateTime? = null,
+    var createAt: LocalDateTime? = null,
 
     @Column(name = "create_by")
-    val createBy: String? = null,
+    var createBy: String? = null,
 
     @LastModifiedDate
     @Column(name = "update_at")
-    val updateAt: LocalDateTime? = null,
+    var updateAt: LocalDateTime? = null,
 
     @Column(name = "update_by")
-    val updateBy: String? = null
+    var updateBy: String? = null
 ) {
 }

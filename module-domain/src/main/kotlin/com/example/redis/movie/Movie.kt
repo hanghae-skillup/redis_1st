@@ -14,6 +14,9 @@ data class Movie(
     val screenings: MutableList<Screening> = mutableListOf(),
     val createAt: LocalDateTime?,
     val updateAt: LocalDateTime?,
-
     ) {
+
+    init {
+        this.screenings.sortBy { it.startTime }
+    }
 }

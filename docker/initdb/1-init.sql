@@ -46,12 +46,24 @@ CREATE TABLE IF NOT EXISTS screening(
     update_by varchar(197) NULL COMMENT '수정자'
 );
 
-CREATE TABLE seat (
+CREATE TABLE IF NOT EXISTS seat (
     seat_id bigint unsigned AUTO_INCREMENT PRIMARY KEY COMMENT '좌석 ID',
     theater_id bigint unsigned NOT NULL COMMENT '상영관 ID',
     seat_row varchar(197) NOT NULL COMMENT '좌석(행)',
     seat_col varchar(197) NOT NULL COMMENT '좌석(열)',
     create_at datetime NOT NULL COMMENT '생성일',
+    create_by varchar(197) NULL COMMENT '생성자',
+    update_at datetime NULL COMMENT '수정일',
+    update_by varchar(197) NULL COMMENT '수정자'
+);
+
+CREATE TABLE IF NOT EXISTS reserve (
+    reserve_id bigint unsigned AUTO_INCREMENT PRIMARY KEY COMMENT '예약 테이블 ID',
+    reserve_group_id varchar(197) NOT NULL COMMENT '예약 정보를 GROUPING 하는 UUID',
+    screening_id bigint unsigned NOT NULL COMMENT '상영시간 ID',
+    seat_id bigint unsigned NOT NULL COMMENT '좌석 ID',
+    user_id bigint unsigned NOT NULL COMMENT '사용자 ID',
+    create_at datetime NULL COMMENT '생성일',
     create_by varchar(197) NULL COMMENT '생성자',
     update_at datetime NULL COMMENT '수정일',
     update_by varchar(197) NULL COMMENT '수정자'

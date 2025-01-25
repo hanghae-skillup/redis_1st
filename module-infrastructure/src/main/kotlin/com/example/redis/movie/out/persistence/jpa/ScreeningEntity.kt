@@ -25,6 +25,9 @@ class ScreeningEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "theater_id")
-    val theater: TheaterEntity
+    val theater: TheaterEntity,
+
+    @OneToMany(mappedBy = "screening", fetch = FetchType.LAZY)
+    val reservations: MutableList<ReservationEntity> = mutableListOf()
 ): BaseEntity() {
 }

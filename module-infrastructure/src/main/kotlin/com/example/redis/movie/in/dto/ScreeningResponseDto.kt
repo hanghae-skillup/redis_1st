@@ -13,6 +13,9 @@ data class ScreeningResponseDto(
     @JsonProperty(value = "theater_name")
     val theaterName: String,
 
+    @JsonProperty(value = "screening_id")
+    val screeningId: Long,
+
     @JsonProperty(value = "start_time")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     val startTime: LocalDateTime,
@@ -27,6 +30,7 @@ data class ScreeningResponseDto(
             return ScreeningResponseDto(
                 theaterId = screening.theater.theaterId,
                 theaterName = screening.theater.name,
+                screeningId = screening.screeningId,
                 startTime = screening.startTime,
                 endTime = screening.endTime,
             )

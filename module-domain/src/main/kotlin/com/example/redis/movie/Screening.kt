@@ -4,7 +4,7 @@ import com.example.redis.theater.Theater
 import java.time.LocalDateTime
 
 data class Screening(
-    val screeningScheduleId: Long,
+    val screeningId: Long,
     val startTime: LocalDateTime,
     val endTime: LocalDateTime,
     val theater: Theater,

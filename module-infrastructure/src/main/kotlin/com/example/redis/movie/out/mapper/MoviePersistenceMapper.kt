@@ -1,14 +1,17 @@
 package com.example.redis.movie.out.mapper
 
 import com.example.redis.movie.Movie
+import com.example.redis.movie.Reservation
 import com.example.redis.movie.out.persistence.jpa.MovieEntity
 import com.example.redis.movie.Screening
+import com.example.redis.movie.out.persistence.jpa.ReservationEntity
 import com.example.redis.movie.out.persistence.jpa.ScreeningEntity
 import com.example.redis.theater.Theater
+import com.example.redis.theater.out.mapper.TheaterPersistenceMapper.Companion.toTheaterDomain
 import com.example.redis.theater.out.persistence.jpa.TheaterEntity
+import java.util.UUID
 
 class MoviePersistenceMapper {
-
     companion object {
         fun toMovieDomain(entity: MovieEntity): Movie {
             requireNotNull(entity.id)
@@ -28,19 +31,13 @@ class MoviePersistenceMapper {
         private fun toScreeningDomain(entity: ScreeningEntity): Screening {
             requireNotNull(entity.id)
             return Screening(
-                screeningScheduleId = entity.id,
+                screeningId = entity.id,
                 startTime = entity.startTime,
                 endTime = entity.endTime,
                 theater = toTheaterDomain(entity.theater)
             )
         }
 
-        private fun toTheaterDomain(entity: TheaterEntity): Theater {
-            requireNotNull(entity.id)
-            return Theater(
-                theaterId = entity.id,
-                name = entity.name,
-            )
-        }
+
     }
 }
