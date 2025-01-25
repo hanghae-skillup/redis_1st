@@ -30,22 +30,21 @@ data class MovieResponseDto(
     val movieGenre: MutableList<String> = mutableListOf(),
 
     @JsonProperty(value = "theaters")
-    val theaters: MutableList<MovieTheaterResponseDto> = mutableListOf(),
+    val theaters: MutableList<ScreeningResponseDto> = mutableListOf(),
 
     ) {
-    companion object {
-        fun toDto(movie: Movie): MovieResponseDto {
-            return MovieResponseDto(
-                id = movie.movieId,
-                title = movie.title,
-                filmRatings = movie.filmRatings,
-                runningTime = movie.runningTime,
-                thumbnailImagePath = movie.thumbnailImagePath,
-                releaseDate = movie.releaseDate,
-                movieGenre = movie.movieGenre,
-                theaters = movie.theaters.stream().map { MovieTheaterResponseDto.toDto(it) }.toList()
-            )
-        }
-
+        companion object {
+            fun toDto(movie: Movie): MovieResponseDto {
+                return MovieResponseDto(
+                    id = movie.movieId,
+                    title = movie.title,
+                    filmRatings = movie.filmRatings,
+                    runningTime = movie.runningTime,
+                    thumbnailImagePath = movie.thumbnailImagePath,
+                    releaseDate = movie.releaseDate,
+                    movieGenre = movie.movieGenre,
+                    theaters = movie.screenings.stream().map { ScreeningResponseDto.toDto(it) }.toList()
+                )
+            }
     }
 }

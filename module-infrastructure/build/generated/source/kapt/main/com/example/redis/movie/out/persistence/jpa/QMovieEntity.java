@@ -34,11 +34,11 @@ public class QMovieEntity extends EntityPathBase<MovieEntity> {
 
     public final ListPath<MovieGenreEntity, QMovieGenreEntity> movieGenre = this.<MovieGenreEntity, QMovieGenreEntity>createList("movieGenre", MovieGenreEntity.class, QMovieGenreEntity.class, PathInits.DIRECT2);
 
-    public final ListPath<MovieTheaterEntity, QMovieTheaterEntity> movieTheaters = this.<MovieTheaterEntity, QMovieTheaterEntity>createList("movieTheaters", MovieTheaterEntity.class, QMovieTheaterEntity.class, PathInits.DIRECT2);
-
     public final DateTimePath<java.time.LocalDateTime> releaseDate = createDateTime("releaseDate", java.time.LocalDateTime.class);
 
     public final NumberPath<Long> runningTime = createNumber("runningTime", Long.class);
+
+    public final ListPath<ScreeningEntity, QScreeningEntity> screening = this.<ScreeningEntity, QScreeningEntity>createList("screening", ScreeningEntity.class, QScreeningEntity.class, PathInits.DIRECT2);
 
     public final StringPath thumbnailImagePath = createString("thumbnailImagePath");
 

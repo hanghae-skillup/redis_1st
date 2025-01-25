@@ -1,5 +1,6 @@
 package com.example.redis.movie
 
+import com.example.redis.theater.Theater
 import java.time.LocalDateTime
 
 data class Movie(
@@ -10,7 +11,7 @@ data class Movie(
     val thumbnailImagePath: String,
     val filmRatings: String,
     val movieGenre: MutableList<String> = mutableListOf(),
-    val theaters: MutableList<MovieTheater> = mutableListOf(),
+    val screenings: MutableList<Screening> = mutableListOf(),
     val createAt: LocalDateTime?,
     val updateAt: LocalDateTime?,
 

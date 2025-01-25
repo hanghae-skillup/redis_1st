@@ -2,6 +2,7 @@ package com.example.redis.movie.out.persistence.jpa
 
 import com.example.redis.cmmn.BaseEntity
 import com.example.redis.movie.FilmRatings
+import com.example.redis.movie.Screening
 import com.querydsl.core.annotations.QueryEntity
 import jakarta.persistence.*
 import org.hibernate.annotations.BatchSize
@@ -36,5 +37,5 @@ class MovieEntity(
     var movieGenre: MutableList<MovieGenreEntity> = mutableListOf(),
 
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
-    val movieTheaters: MutableList<MovieTheaterEntity> = mutableListOf(),
+    val screening: MutableList<ScreeningEntity> = mutableListOf()
 ): BaseEntity() {}

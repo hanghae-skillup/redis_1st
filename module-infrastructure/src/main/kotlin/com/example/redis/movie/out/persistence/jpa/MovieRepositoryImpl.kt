@@ -4,7 +4,7 @@ import com.example.redis.movie.Movie
 import com.example.redis.movie.out.persistence.jpa.QMovieEntity.*
 import com.example.redis.movie.out.persistence.jpa.QMovieGenreEntity.*
 //import com.example.redis.movie.out.persistence.jpa.QMovieGenreEntity.*
-import com.example.redis.movie.out.persistence.jpa.QMovieTheaterEntity.*
+import com.example.redis.movie.out.persistence.jpa.QScreeningEntity.*
 import com.example.redis.theater.out.persistence.jpa.QTheaterEntity
 import com.example.redis.theater.out.persistence.jpa.QTheaterEntity.*
 import com.querydsl.core.types.dsl.BooleanExpression
@@ -15,6 +15,7 @@ import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
 import java.math.BigDecimal
+import kotlin.streams.toList
 
 @Repository
 class MovieRepositoryImpl(
@@ -23,13 +24,23 @@ class MovieRepositoryImpl(
 
     override fun findByOrderByReleaseDateDesc(title: String?, genre: String?): MutableList<MovieEntity> {
 
+        val movieIds = mutableListOf<Long>()
+        if (!genre.isNullOrEmpty()) {
+            movieIds.addAll(
+                queryFactory.select(movieGenreEntity.id)
+                    .from(movieGenreEntity)
+                    .where(movieGenreEntity.name.eq(genre))
+                    .fetch()
+            )
+        }
+
         return queryFactory.select(movieEntity)
             .from(movieEntity)
-            .leftJoin(movieEntity.movieTheaters, movieTheaterEntity)
+            .join(movieEntity.screening, screeningEntity)
             .fetchJoin()
-            .leftJoin(movieTheaterEntity.theater, theaterEntity)
+            .join(screeningEntity.theater, theaterEntity)
             .fetchJoin()
-            .where(likeTitle(title), eqMovieGenre(genre))
+            .where(likeTitle(title), eqMovieGenre(movieIds))
             .orderBy(movieEntity.releaseDate.desc())
             .fetch()
     }
@@ -45,27 +56,20 @@ class MovieRepositoryImpl(
         return matchExpression
     }
 
-//    fun eqMovieGenre(genre: String?): BooleanExpression? {
-//        if(StringUtils.isNullOrEmpty(genre)) {
-//            return null
-//        }
-//        return movieEntity.movieGenre.contains(
-//            JPAExpressions
-//                .selectFrom(movieGenreEntity)
-//                .where(movieGenreEntity.name.eq(genre), movieEntity.id.eq(movieGenreEntity.movie.id))
-//        )
-//    }
-
-    fun eqMovieGenre(genre: String?): BooleanExpression? {
-        if (!genre.isNullOrEmpty()) {
-            val existsQuery = JPAExpressions.selectOne()
-                .from(movieGenreEntity)
-                .where(
-                    movieGenreEntity.name.eq(genre)
-                        .and(movieGenreEntity.movie.id.eq(movieEntity.id))
-                )
-            return existsQuery.exists()
-        }
-        return null
+    fun eqMovieGenre(movieIds: MutableList<Long>): BooleanExpression? {
+        return if(movieIds.isEmpty()) null else movieEntity.id.`in`(movieIds)
     }
+
+//    fun eqMovieGenre(genre: String?): BooleanExpression? {
+//        if (!genre.isNullOrEmpty()) {
+//            val existsQuery = JPAExpressions.selectOne()
+//                .from(movieGenreEntity)
+//                .where(
+//                    movieGenreEntity.name.eq(genre)
+//                        .and(movieGenreEntity.movie.id.eq(movieEntity.id))
+//                )
+//            return existsQuery.exists()
+//        }
+//        return null
+//    }
 }

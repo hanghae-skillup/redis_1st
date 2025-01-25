@@ -2,10 +2,10 @@ package com.example.redis.movie.out.mapper
 
 import com.example.redis.movie.Movie
 import com.example.redis.movie.out.persistence.jpa.MovieEntity
-import com.example.redis.movie.out.persistence.jpa.MovieTheaterEntity
-import com.example.redis.movie.MovieTheater
-import com.example.redis.movie.ScreeningSchedule
-import com.example.redis.movie.out.persistence.jpa.ScreeningScheduleEntity
+import com.example.redis.movie.Screening
+import com.example.redis.movie.out.persistence.jpa.ScreeningEntity
+import com.example.redis.theater.Theater
+import com.example.redis.theater.out.persistence.jpa.TheaterEntity
 
 class MoviePersistenceMapper {
 
@@ -20,29 +20,26 @@ class MoviePersistenceMapper {
                 thumbnailImagePath = entity.thumbnailImagePath,
                 filmRatings = entity.filmRatings.name,
                 movieGenre = entity.movieGenre.stream().map { it.name }.toList(),
-                theaters = entity.movieTheaters.stream().map { toTheaterDomain(it) }.toList(),
+                screenings = entity.screening.stream().map { toScreeningDomain(it) }.toList(),
                 createAt = entity.createAt,
                 updateAt = entity.updateAt
             )
         }
-
-        private fun toTheaterDomain(entity: MovieTheaterEntity): MovieTheater {
-            requireNotNull(entity.theater.id)
-            return MovieTheater(
-                theaterId = entity.theater.id,
-                name =  entity.theater.name,
-                screeningSchedules = entity.screeningSchedules.stream().map{
-                    toScreeningScheduleDomain(it)
-                }.toList()
+        private fun toScreeningDomain(entity: ScreeningEntity): Screening {
+            requireNotNull(entity.id)
+            return Screening(
+                screeningScheduleId = entity.id,
+                startTime = entity.startTime,
+                endTime = entity.endTime,
+                theater = toTheaterDomain(entity.theater)
             )
         }
 
-        private fun toScreeningScheduleDomain(entity: ScreeningScheduleEntity): ScreeningSchedule {
+        private fun toTheaterDomain(entity: TheaterEntity): Theater {
             requireNotNull(entity.id)
-            return ScreeningSchedule(
-                screeningScheduleId = entity.id,
-                startTime =  entity.startTime,
-                endTime = entity.endTime,
+            return Theater(
+                theaterId = entity.id,
+                name = entity.name,
             )
         }
     }

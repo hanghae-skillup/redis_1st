@@ -11,7 +11,7 @@ class MovieService(
     private val movieAdapter: MoviePort,
 ): MovieUseCase {
 
-    @Cacheable("titleCache")
+    @Cacheable("movieSearchCache")
     @Transactional(readOnly = true)
     override fun gets(title: String?, genre: String?): MutableList<Movie> {
         val movies = movieAdapter.findByOrderByReleaseDateDesc(title, genre)

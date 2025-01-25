@@ -30,9 +30,9 @@ public class QTheaterEntity extends EntityPathBase<TheaterEntity> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final ListPath<com.example.redis.movie.out.persistence.jpa.MovieTheaterEntity, com.example.redis.movie.out.persistence.jpa.QMovieTheaterEntity> movieTheaters = this.<com.example.redis.movie.out.persistence.jpa.MovieTheaterEntity, com.example.redis.movie.out.persistence.jpa.QMovieTheaterEntity>createList("movieTheaters", com.example.redis.movie.out.persistence.jpa.MovieTheaterEntity.class, com.example.redis.movie.out.persistence.jpa.QMovieTheaterEntity.class, PathInits.DIRECT2);
-
     public final StringPath name = createString("name");
+
+    public final ListPath<com.example.redis.movie.out.persistence.jpa.ScreeningEntity, com.example.redis.movie.out.persistence.jpa.QScreeningEntity> screening = this.<com.example.redis.movie.out.persistence.jpa.ScreeningEntity, com.example.redis.movie.out.persistence.jpa.QScreeningEntity>createList("screening", com.example.redis.movie.out.persistence.jpa.ScreeningEntity.class, com.example.redis.movie.out.persistence.jpa.QScreeningEntity.class, PathInits.DIRECT2);
 
     public final ListPath<SeatEntity, QSeatEntity> seats = this.<SeatEntity, QSeatEntity>createList("seats", SeatEntity.class, QSeatEntity.class, PathInits.DIRECT2);
 
