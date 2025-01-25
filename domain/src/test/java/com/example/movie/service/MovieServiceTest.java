@@ -39,7 +39,7 @@ class MovieServiceTest {
         List<MoviesDetailDto> mockDbResults = initMoviesDetailDtoData(now);
         List<MoviesDetail> mockConvertedResults = initMoviesDetailData();
 
-        when(movieRepository.findAll(now,null,null)).thenReturn(mockDbResults);
+        when(movieRepository.searchWithFiltering(now,null,null)).thenReturn(mockDbResults);
         when(dtoConvertor.moviesNowScreening(mockDbResults)).thenReturn(mockConvertedResults);
 
         //when
