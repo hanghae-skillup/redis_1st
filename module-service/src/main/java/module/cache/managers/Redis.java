@@ -16,7 +16,9 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import lombok.RequiredArgsConstructor;
@@ -31,7 +33,8 @@ public class Redis {
 	@Bean
 	public RedisCacheManager redisCacheManager() {
 		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.registerModule(new JavaTimeModule()); // Java 8 날짜/시간 모듈 등록
+		objectMapper.registerModule(new JavaTimeModule());
+		objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
 
 		RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
 			.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
@@ -40,8 +43,10 @@ public class Redis {
 
 		Map<String, RedisCacheConfiguration> redisCacheConfigurationMap = new HashMap<>();
 		Arrays.stream(CacheType.values())
-			.forEach(cacheType -> redisCacheConfigurationMap.put(cacheType.getCacheName(),
-				redisCacheConfiguration.entryTtl(Duration.ofMinutes(cacheType.getExpireAfterWriteMinutes()))));
+			.forEach(cacheType ->
+				redisCacheConfigurationMap.put(cacheType.getCacheName(),
+				redisCacheConfiguration.entryTtl(Duration.ofMinutes(cacheType.getExpireAfterWriteMinutes())))
+			);
 
 		return RedisCacheManager.RedisCacheManagerBuilder
 			.fromConnectionFactory(connectionFactory)
