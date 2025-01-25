@@ -34,7 +34,7 @@ public class ShowingCustomRepositoryImpl implements ShowingCustomRepository {
 		BooleanBuilder conditionBuilder = new BooleanBuilder();
 
 		if(title != null){
-			conditionBuilder.and(showing.movie.title.eq(title));
+			conditionBuilder.and(showing.movie.title.contains(title));
 		}
 
 		if(genreId != null){
@@ -51,7 +51,7 @@ public class ShowingCustomRepositoryImpl implements ShowingCustomRepository {
 
 			// 2) 조건
 			.where(
-				showing.stTime.after(LocalDateTime.now())
+				showing.showStTime.after(LocalDateTime.now())
 					.and(conditionBuilder)
 			)
 
@@ -81,13 +81,13 @@ public class ShowingCustomRepositoryImpl implements ShowingCustomRepository {
 							).as("rating")
 						).as("movie"),
 
-						// ┌ 여러 개가 될 showing 필드는 list(...) 로 묶어서 매핑
+						// ┌ 여러 개가 될 showing 필드는 list(...)
 						list(
 							Projections.fields(
 								ShowingResponse.class,
 								showing.showingId.as("showingId"),
-								showing.stTime.as("stTime"),
-								showing.edTime.as("edTime"),
+								showing.showStTime.as("showStTime"),
+								showing.showEdTime.as("showEdTime"),
 								Projections.fields(
 									ScreenResponse.class,
 									screen.screenId.as("screenId"),

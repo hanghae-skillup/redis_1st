@@ -12,9 +12,9 @@ import module.entity.Showing;
 public interface ShowingRepository extends JpaRepository<Showing, Long>, ShowingCustomRepository {
 
 	@Query("SELECT s FROM Showing s " +
-		"WHERE FUNCTION('DATE', s.stTime) = FUNCTION('DATE', :day) " +
+		"WHERE FUNCTION('DATE', s.showStTime) = FUNCTION('DATE', :day) " +
 		"AND s.screen = :screen " +
-		"ORDER BY s.stTime DESC")
+		"ORDER BY s.showStTime DESC")
 	List<Showing> findShowingsByStTimeLikeAndScreenIs(LocalDateTime day, Screen screen);
 
 }
