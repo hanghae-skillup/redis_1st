@@ -75,7 +75,7 @@ function execSearch() {
 
     $.ajax({
         type: 'GET',
-        url: `/api/movies/title?title=${query}`,
+        url: `/api/movies?title=${query}`,
         success: function(response) {
             $('#search-result-box').empty();
 
@@ -93,7 +93,7 @@ function showGenre(genre) {
 
     $.ajax({
         type: 'GET',
-        url: `/api/movies/genre?genre=${genre}`,
+        url: `/api/movies?genre=${genre}`,
         success: function(response) {
             $('#search-result-box').empty();
 

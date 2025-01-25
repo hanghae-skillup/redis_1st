@@ -1,13 +1,13 @@
 package com.movie.app.controller;
 import java.util.List;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import com.movie.app.domain.Movie;
 import com.movie.app.domain.MovieRepository;
 import com.movie.app.domain.MovieRequestDto;
 
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 
 
@@ -18,20 +18,18 @@ public class MovieRestController {
     private final MovieRepository movieRepository;
 
     @GetMapping("/api/movies")
-    public List<Movie> getMovies() {
-        return movieRepository.findAll();
-    }
-
-    @GetMapping("/api/movies/title")
-    @Cacheable(value = "Movies", key = "#title", cacheManager = "contentCacheManager")
-    public List<Movie> getMoivesWithTitle(@RequestParam String title) {
-        return movieRepository.findByTitle(title);
-    }
- 
-    @GetMapping("/api/movies/genre")
-    @Cacheable(value = "Movies", key = "#genre", cacheManager = "contentCacheManager")
-    public List<Movie> getMoivesWithGenre(@RequestParam String genre) {
-        return movieRepository.findByGenre(genre);
+    public List<Movie> getMovies(
+        @Size(max = 100, message = "title length should not exceed 100 characters")
+        @RequestParam(required=false) String title,
+        @RequestParam(required=false) String genre) {
+        
+            if(genre != null) {
+                return movieRepository.findByGenre(genre);
+            } else if (title != null) {
+                return movieRepository.findByTitle(title);
+            } else {
+                return movieRepository.findAll();
+            }     
     }
 
     @PostMapping("/api/movies")
