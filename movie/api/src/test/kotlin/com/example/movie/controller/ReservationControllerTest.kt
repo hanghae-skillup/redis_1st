@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.post
 import java.util.concurrent.Callable
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
 
@@ -50,6 +51,7 @@ class ReservationControllerTest(
 
     @Test
     fun `Lock을 적용하기 전에는 동시에 요청해도 다 성공하게 된다`() {
+        val latch = CountDownLatch(1)
         val request1 = ReservationRequest(
             screeningId = 1,
             seatIds = listOf(1, 2, 3),
@@ -66,6 +68,7 @@ class ReservationControllerTest(
         val executor = Executors.newFixedThreadPool(3)
 
         val task1 = Callable {
+            latch.await()
             mockMvc.post("/api/v1/reservations") {
                 contentType = MediaType.APPLICATION_JSON
                 content = requestJson1
@@ -74,6 +77,7 @@ class ReservationControllerTest(
         }
 
         val task2 = Callable {
+            latch.await()
             mockMvc.post("/api/v1/reservations") {
                 contentType = MediaType.APPLICATION_JSON
                 content = requestJson1
@@ -82,6 +86,7 @@ class ReservationControllerTest(
         }
 
         val task3 = Callable {
+            latch.await()
             mockMvc.post("/api/v1/reservations") {
                 contentType = MediaType.APPLICATION_JSON
                 content = requestJson2
@@ -89,6 +94,7 @@ class ReservationControllerTest(
             }.andReturn()
         }
 
+        latch.countDown()
         val futures: List<Future<MvcResult>> = executor.invokeAll(listOf(task1, task2, task3))
         executor.shutdown()
 

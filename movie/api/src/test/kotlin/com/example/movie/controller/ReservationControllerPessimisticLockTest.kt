@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.post
 import java.util.concurrent.Callable
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
 
@@ -25,6 +26,7 @@ class ReservationControllerPessimisticLockTest(
 ) {
     @Test
     fun `Lock을 적용하면 동시 요청시 충돌하면 실패 응답을 한다`() {
+        val latch = CountDownLatch(1)
         val request1 = ReservationRequest(
             screeningId = 1,
             seatIds = listOf(1, 2, 3),
@@ -35,12 +37,19 @@ class ReservationControllerPessimisticLockTest(
             seatIds = listOf(1, 2, 3),
             userId = 2
         )
+        val requestAnotherScreeningSameSeat = ReservationRequest(
+            screeningId = 9,
+            seatIds = listOf(1, 2, 3),
+            userId = 2
+        )
         val requestJson1 = objectMapper.writeValueAsString(request1)
         val requestJson2 = objectMapper.writeValueAsString(request2)
+        val requestJsonAnotherDay = objectMapper.writeValueAsString(requestAnotherScreeningSameSeat)
 
         val executor = Executors.newFixedThreadPool(3)
 
         val task1 = Callable {
+            latch.await()
             mockMvc.post("/api/v1/reservations") {
                 contentType = MediaType.APPLICATION_JSON
                 content = requestJson1
@@ -49,6 +58,7 @@ class ReservationControllerPessimisticLockTest(
         }
 
         val task2 = Callable {
+            latch.await()
             mockMvc.post("/api/v1/reservations") {
                 contentType = MediaType.APPLICATION_JSON
                 content = requestJson1
@@ -57,6 +67,7 @@ class ReservationControllerPessimisticLockTest(
         }
 
         val task3 = Callable {
+            latch.await()
             mockMvc.post("/api/v1/reservations") {
                 contentType = MediaType.APPLICATION_JSON
                 content = requestJson2
@@ -64,7 +75,17 @@ class ReservationControllerPessimisticLockTest(
             }.andReturn()
         }
 
-        val futures: List<Future<MvcResult>> = executor.invokeAll(listOf(task1, task2, task3))
+        val task4 = Callable {
+            latch.await()
+            mockMvc.post("/api/v1/reservations") {
+                contentType = MediaType.APPLICATION_JSON
+                content = requestJsonAnotherDay
+                accept = MediaType.APPLICATION_JSON
+            }.andReturn()
+        }
+
+        latch.countDown()
+        val futures: List<Future<MvcResult>> = executor.invokeAll(listOf(task1, task2, task3, task4))
         executor.shutdown()
 
         val results = futures.map { it.get() }
@@ -73,8 +94,10 @@ class ReservationControllerPessimisticLockTest(
         println("Thread1 status: ${statuses[0]}, responseBody: ${results[0].response.contentAsString}")
         println("Thread2 status: ${statuses[1]}, responseBody: ${results[1].response.contentAsString}")
         println("Thread3 status: ${statuses[2]}, responseBody: ${results[2].response.contentAsString}")
+        println("Thread3 status: ${statuses[3]}, responseBody: ${results[3].response.contentAsString}")
 
-        assertThat(statuses).containsOnlyOnce(200)
+        assertThat(statuses.subList(0, 3)).containsOnlyOnce(200)
+        assertThat(statuses.last()).isEqualTo(200)
         assertThat(statuses).contains(200, 400)
     }
 }
