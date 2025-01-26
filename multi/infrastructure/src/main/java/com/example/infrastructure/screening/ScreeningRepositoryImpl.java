@@ -1,6 +1,9 @@
+
 package com.example.infrastructure.screening;
 
-import com.example.domain.screening.Screening;
+import com.example.domain.movies.entity.enums.Genre;
+import com.example.domain.screening.entity.Screening;
+import com.example.domain.screening.entity.ScreeningResponseDTO;
 import com.example.domain.screening.service.ScreeningRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +24,8 @@ public class ScreeningRepositoryImpl implements ScreeningRepository {
     }
 
     @Override
-    public List<Screening> getAllScreeningInfo() {
-        return screeningJpaRepository.findAll();
+    public List<ScreeningResponseDTO> getAllScreeningInfo(String movieName, Genre genre) {
+        return null;
     }
 
     @Override
@@ -30,3 +33,4 @@ public class ScreeningRepositoryImpl implements ScreeningRepository {
         screeningJpaRepository.save(screening);
     }
 }
+

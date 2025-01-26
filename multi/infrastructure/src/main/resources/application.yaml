@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/theater?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: root1234!!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    show-sql: true
+    format-sql: true
+
+
+  cache:
+    type: redis
+    data:
+      redis:
+        host: redis_boot
+        port: 6379
+        lettuce:
+          pool:
+            max-active: 10
+            max-idle: 5
+            min-idle: 1
+          shutdown-timeout: 100ms

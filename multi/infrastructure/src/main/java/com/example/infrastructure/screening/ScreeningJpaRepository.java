@@ -1,6 +1,6 @@
 package com.example.infrastructure.screening;
 
-import com.example.domain.screening.Screening;
+import com.example.domain.screening.entity.Screening;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
