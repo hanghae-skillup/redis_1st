@@ -3,12 +3,15 @@ package com.example.movie.service
 import com.example.movie.lock.aop.DistributedLock
 import com.example.movie.domain.reservation.exception.ReservationException
 import com.example.movie.domain.reservation.model.Reservation
+import com.example.movie.lock.withLock
+import org.redisson.api.RedissonClient
 import org.springframework.dao.OptimisticLockingFailureException
 import org.springframework.stereotype.Service
 
 @Service
 class ReservationFacade(
     private val reservationService: ReservationService,
+    private val redissonClient: RedissonClient
 ) : ReservationUseCase {
     companion object {
         private const val MAX_RETRY_ATTEMPTS = 3
@@ -19,7 +22,11 @@ class ReservationFacade(
         var retryCount = 0
         while (retryCount < MAX_RETRY_ATTEMPTS) {
             try {
-                return reservationService.reserve(userId, screeningId, requestSeatIds)
+                val lockKey = "lock:reservation:$screeningId"
+                return redissonClient.withLock(lockKey, 2000, 1000, {
+                    reservationService.reserve(userId, screeningId, requestSeatIds)
+                })
+//                return reservationService.reserve(userId, screeningId, requestSeatIds)
             } catch (e: OptimisticLockingFailureException) {
                 retryCount++
                 if (retryCount >= MAX_RETRY_ATTEMPTS) {
