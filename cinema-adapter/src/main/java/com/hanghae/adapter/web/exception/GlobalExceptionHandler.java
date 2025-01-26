@@ -24,4 +24,11 @@ public class GlobalExceptionHandler {
         ApiResponse<Void> apiResponse = ApiResponse.of(e.getMessage(), HttpStatus.BAD_REQUEST.value());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ApiResponse<Void>> handleRuntimeException(RuntimeException e) {
+        log.error("RuntimeException occurred: {}", e.getMessage(), e);  // 로그 추가
+        ApiResponse<Void> apiResponse = ApiResponse.of(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiResponse);
+    }
 }
