@@ -11,4 +11,8 @@ class ScreeningRepositoryImpl(
     override fun findById(id: Long): Screening? {
         return screeningJpaRepository.findById(id).orElse(null)?.toDomain()
     }
+
+    override fun findByIdWithLock(id: Long): Screening? {
+        return screeningJpaRepository.findByIdWithLock(id)?.toDomain()
+    }
 }

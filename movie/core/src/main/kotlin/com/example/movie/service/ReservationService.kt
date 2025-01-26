@@ -26,7 +26,9 @@ class ReservationService(
     override fun reserve(userId: Long, screeningId: Long, requestSeatIds:List<Long>) : List<Reservation> {
         val currentTime = timeHandler.getCurrentTime()
 
-        val screening = screeningRepository.findById(screeningId)
+//        val screening = screeningRepository.findById(screeningId)
+//            ?: throw ReservationException("상영 정보를 찾을 수 없습니다")
+        val screening = screeningRepository.findByIdWithLock(screeningId)
             ?: throw ReservationException("상영 정보를 찾을 수 없습니다")
 
         val movie = movieRepository.findById(screening.movieId)
@@ -42,8 +44,10 @@ class ReservationService(
         val seats = seatRepository.findAllByIdIn(requestSeatIds)
         validateSeats(seats)
 
+//        val reservedSeats = reservationRepository
+//            .findByScreeningAndSeats(screening, seats)
         val reservedSeats = reservationRepository
-            .findByScreeningAndSeats(screening, seats)
+            .findByScreeningAndSeatsWithLock(screening, seats)
         if (reservedSeats.isNotEmpty()) {
             throw ReservationException("이미 예약된 좌석입니다")
         }

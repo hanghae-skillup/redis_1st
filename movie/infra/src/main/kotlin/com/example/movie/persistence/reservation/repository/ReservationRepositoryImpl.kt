@@ -18,6 +18,13 @@ class ReservationRepositoryImpl(
         return reservations.map { it.toDomain() }
     }
 
+    override fun findByScreeningAndSeatsWithLock(screening: Screening, seats: List<Seat>) : List<Reservation> {
+        val reservations = reservationJpaRepository.findByScreeningIdAndSeatIdsWithLock(
+            screeningId = screening.id,
+            seatIds = seats.map { it.id })
+        return reservations.map { it.toDomain() }
+    }
+
     override fun findByScreeningIdAndUserId(screeningId: Long, userId: Long): List<Reservation> {
         return reservationJpaRepository.findByScreeningIdAndUserId(screeningId, userId).map { it.toDomain() }
     }
