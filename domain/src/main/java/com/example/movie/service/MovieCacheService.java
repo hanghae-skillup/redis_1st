@@ -17,12 +17,11 @@ public class MovieCacheService {
 
     @Cacheable(
             cacheNames = "getMoviesByGenre",
-            key = "'movies:genre:' + #genre",
+            key = "'movies:genre:' +  #p0",
             cacheManager = "cacheManager"
     )
-    public List<MoviesDetailDto> getMoviesByGenre(Genre genre) {
-        System.out.println("test: "+genre);
-        return movieRepository.searchWithFiltering(null, genre, null);
+    public List<MoviesDetailDto> getMoviesByGenre(String genre) {
+        return movieRepository.searchWithFiltering(null, Genre.valueOf(genre), null);
     }
 
 }
