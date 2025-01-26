@@ -6,9 +6,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+@Getter
 @Entity
 @SuperBuilder
 @NoArgsConstructor
@@ -25,4 +27,7 @@ public class Rating extends BaseEntity{
 
 	@Column(nullable = false)
 	private String img;
+
+	@Column(nullable = false)
+	private Integer age;
 }
