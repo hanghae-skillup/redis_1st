@@ -4,8 +4,9 @@ import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
 import com.movie.app.domain.Movie;
-import com.movie.app.domain.MovieRepository;
 import com.movie.app.domain.MovieRequestDto;
+import com.movie.app.domain.TicketingRequestDto;
+import com.movie.app.service.MovieService;
 
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 public class MovieRestController {
 
-    private final MovieRepository movieRepository;
+    private final MovieService movieService;
 
     @GetMapping("/api/movies")
     public List<Movie> getMovies(
@@ -24,18 +25,21 @@ public class MovieRestController {
         @RequestParam(required=false) String genre) {
         
             if(genre != null) {
-                return movieRepository.findByGenre(genre);
+                return movieService.getMoviesByGenre(genre);
             } else if (title != null) {
-                return movieRepository.findByTitle(title);
+                return movieService.getMoviesByTitle(title);
             } else {
-                return movieRepository.findAll();
+                return movieService.getMoviesAll();
             }     
     }
 
     @PostMapping("/api/movies")
     public Movie postMovies(@RequestBody MovieRequestDto requestDto) {
-        Movie movie = new Movie(requestDto);
-        movieRepository.save(movie);
-        return movie;
+        return movieService.postMovie(requestDto);
+    }
+
+    @PutMapping("/api/ticketing/{id}")
+    public Movie ticketingMovie(@PathVariable Long id, @RequestBody TicketingRequestDto requestDto) {
+        return movieService.ticketing(id ,requestDto);
     }
 }

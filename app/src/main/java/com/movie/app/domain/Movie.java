@@ -1,5 +1,6 @@
 package com.movie.app.domain;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -14,6 +15,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity(name="Movie")
 public class Movie extends Timestamped{
+
+    private static final int MAX_SEATS = 25;
+
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long id;
@@ -40,7 +44,14 @@ public class Movie extends Timestamped{
     private String theater;
 
     @Column
-    private List<String> screeningSchedule;
+    private LocalTime screenStartTime;
+
+    @Column
+    private LocalTime screenEndTime;
+
+    @Column
+    private Boolean[] seats = new Boolean[MAX_SEATS];
+    
     
     public Movie(MovieRequestDto requestDto) {
         this.title = requestDto.getTitle();
@@ -50,6 +61,16 @@ public class Movie extends Timestamped{
         this.runningTime = requestDto.getRunningTime();
         this.genre = requestDto.getGenre();
         this.theater = requestDto.getTheater();
-        this.screeningSchedule = requestDto.getScreeningSchedule();
+    }
+
+    public void updateSeats(List<Integer> wantedSeats) {
+        if(this.seats == null) {
+            this.seats = new Boolean[MAX_SEATS];
+        }
+
+        for (int i=0; i<wantedSeats.size(); i++) {
+            int val= wantedSeats.get(i);
+            this.seats[val]=true;
+        }
     }
 }
