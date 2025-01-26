@@ -13,6 +13,8 @@ import com.querydsl.core.types.dsl.StringTemplate
 import com.querydsl.core.util.StringUtils
 import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.impl.JPAQueryFactory
+import jakarta.persistence.LockModeType
+import org.springframework.data.jpa.repository.Lock
 import org.springframework.stereotype.Repository
 import java.math.BigDecimal
 import kotlin.streams.toList
@@ -60,16 +62,4 @@ class MovieRepositoryImpl(
         return if(movieIds.isEmpty()) null else movieEntity.id.`in`(movieIds)
     }
 
-//    fun eqMovieGenre(genre: String?): BooleanExpression? {
-//        if (!genre.isNullOrEmpty()) {
-//            val existsQuery = JPAExpressions.selectOne()
-//                .from(movieGenreEntity)
-//                .where(
-//                    movieGenreEntity.name.eq(genre)
-//                        .and(movieGenreEntity.movie.id.eq(movieEntity.id))
-//                )
-//            return existsQuery.exists()
-//        }
-//        return null
-//    }
 }

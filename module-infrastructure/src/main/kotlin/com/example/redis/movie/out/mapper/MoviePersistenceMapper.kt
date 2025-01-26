@@ -28,7 +28,7 @@ class MoviePersistenceMapper {
                 updateAt = entity.updateAt
             )
         }
-        private fun toScreeningDomain(entity: ScreeningEntity): Screening {
+        fun toScreeningDomain(entity: ScreeningEntity): Screening {
             requireNotNull(entity.id)
             return Screening(
                 screeningId = entity.id,
@@ -37,7 +37,6 @@ class MoviePersistenceMapper {
                 theater = toTheaterDomain(entity.theater)
             )
         }
-
 
     }
 }

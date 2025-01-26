@@ -1,6 +1,6 @@
 package com.example.redis.theater.out.persistence.adapters
 
-import com.example.redis.movie.out.movie.TheaterPort
+import com.example.redis.movie.out.TheaterPort
 import com.example.redis.theater.Seat
 import com.example.redis.theater.out.mapper.TheaterPersistenceMapper
 import com.example.redis.theater.out.persistence.jpa.SeatEntity

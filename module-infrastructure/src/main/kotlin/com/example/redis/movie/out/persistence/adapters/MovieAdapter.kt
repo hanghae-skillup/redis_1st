@@ -2,9 +2,11 @@ package com.example.redis.movie.out.persistence.adapters
 
 import com.example.redis.movie.Movie
 import com.example.redis.movie.Reservation
+import com.example.redis.movie.ReservationReceipt
 import com.example.redis.movie.out.mapper.MoviePersistenceMapper
-import com.example.redis.movie.out.movie.MoviePort
+import com.example.redis.movie.out.MoviePort
 import com.example.redis.movie.out.persistence.jpa.*
+import com.example.redis.theater.out.mapper.TheaterPersistenceMapper
 import com.example.redis.theater.out.persistence.adapters.TheaterAdapter
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException
 import org.springframework.stereotype.Service
@@ -16,7 +18,6 @@ class MovieAdapter(
     private val movieRepository: MovieRepository,
     private val screeningRepository: ScreeningRepository,
     private val reservationRepository: ReservationRepository,
-    private val theaterAdapter: TheaterAdapter,
 ): MoviePort {
     override fun findByOrderByReleaseDateDesc(title: String?, genre: String?): MutableList<Movie> {
         val movies = this.movieRepository.findByOrderByReleaseDateDesc(title, genre)
@@ -33,20 +34,35 @@ class MovieAdapter(
         return this.screeningRepository.findById(screeningId)
             .orElseThrow { NotFoundException() }
     }
-    override fun reserve(reservation: Reservation): String {
-        val seats = reservation.extractSeats()
-        val findSeats = theaterAdapter.findSeatsByIds(seats)
-        if(findSeats.size != seats.size) {
+    
+    //TODO: update 방식으로 변경
+    override fun reserve(reservation: Reservation): ReservationReceipt {
+        // 영화 검증
+        findById(reservation.movieId)
+
+        val seatIds = reservation.extractSeats().stream().map { it.seatId }.toList()
+        val findReservations = this.reservationRepository.findSeatsByIds(reservation.screeningId, seatIds)
+        if(findReservations.size != seatIds.size) {
             throw IllegalStateException()
         }
 
-        val existReservations = this.reservationRepository.findByUserId(reservation.userId)
-        reservation.IsLimit(existReservations.size)
+        val existReservations = this.reservationRepository.findByUserId(reservation.screeningId, reservation.userId)
+        reservation.isLimit(existReservations.size)
 
-        findById(reservation.movieId)
         val screening = findScreeningById(reservation.screeningId)
-        val saveReservations = findSeats.stream().map { ReservationEntity.fromDomain(reservation, screening, it) }.toList()
-        this.reservationRepository.saveAll(saveReservations)
-        return reservation.reserveGroupId
+        findReservations.forEach {
+            it.reserveReceiptId = reservation.reserveReceiptId
+            it.userId = reservation.userId
+        }
+
+        this.reservationRepository.saveAll(findReservations)
+
+        return ReservationReceipt(
+            reservation.reserveReceiptId,
+            MoviePersistenceMapper.toScreeningDomain(screening),
+            findReservations.stream()
+                .map { TheaterPersistenceMapper.toSeatDomain(it.seat) }
+                .toList()
+        )
     }
 }

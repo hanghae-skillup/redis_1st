@@ -5,7 +5,7 @@ import java.util.UUID
 
 class Reservation(
     val movieId: Long,
-    val reserveGroupId: String = UUID.randomUUID().toString(),
+    val reserveReceiptId: String = UUID.randomUUID().toString(),
     val screeningId: Long,
     var userId :Long,
     val seats: MutableList<Seat> = mutableListOf()
@@ -18,11 +18,13 @@ class Reservation(
         return seats
     }
 
-    fun IsLimit(exist: Int) {
+    fun isLimit(exist: Int): Boolean {
         if(this.seats.size + exist > LIMIT) {
             throw IllegalStateException()
         }
+        return true;
     }
+
     private fun validate(seats: MutableList<Seat>) {
         //A1 ... A5까지
         //A1, A2, B1, B2

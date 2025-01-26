@@ -10,8 +10,8 @@ import java.util.UUID
     name = "reserve",
     uniqueConstraints = [
         UniqueConstraint(
-            name = "reserve_group_id_idx",
-            columnNames = ["reserve_group_id", "screening_id", "seat_id"]
+            name = "reserve_unique_id_idx",
+            columnNames = ["screening_id", "seat_id"]
         )
     ]
 )
@@ -22,11 +22,11 @@ class ReservationEntity(
     @Column(name = "reserve_id")
     val id: Long? = null,
 
-    @Column(name = "reserve_group_id")
-    val reserveGroupId: String,
+    @Column(name = "reserve_receipt_id")
+    var reserveReceiptId: String? = null,
 
     @Column(name = "user_id")
-    val userId: Long,
+    var userId: Long? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "screening_id")
@@ -41,7 +41,7 @@ class ReservationEntity(
     companion object {
         fun fromDomain(reservation: Reservation, screening: ScreeningEntity, seat: SeatEntity): ReservationEntity {
             return ReservationEntity(
-                reserveGroupId = reservation.reserveGroupId,
+                reserveReceiptId = reservation.reserveReceiptId,
                 userId = reservation.userId,
                 screening = screening,
                 seat = seat

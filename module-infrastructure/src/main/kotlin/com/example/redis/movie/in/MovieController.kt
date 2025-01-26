@@ -4,7 +4,7 @@ import com.example.redis.movie.`in`.dto.MovieReserveRequestDto
 import com.example.redis.movie.`in`.dto.MovieResponseDto
 import com.example.redis.movie.`in`.dto.MovieSearchRequestQueryDto
 import com.example.redis.movie.`in`.mapper.MovieControllerMapper
-import com.example.redis.movie.`in`.movie.MovieUseCase
+import com.example.redis.movie.`in`.MovieUseCase
 import jakarta.validation.Valid
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
