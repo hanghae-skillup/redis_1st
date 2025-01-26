@@ -2,6 +2,7 @@ version: '3.8'
 services:
   mysql:
     image: mysql:8.0.37
+    container_name: movie-db
     environment:
       MYSQL_ROOT_PASSWORD: 1234
     ports:
@@ -11,4 +12,9 @@ services:
       - --collation-server=utf8mb4_unicode_ci
       - --skip-character-set-client-handshake
     volumes:
-      - ./database:/docker-entrypoint-initdb.d
+      - ./etc/database:/docker-entrypoint-initdb.d
+  redis:
+    image: redis:7.4.2
+    container_name: movie-redis
+    ports:
+      - "6379:6379"

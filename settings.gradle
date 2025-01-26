@@ -1,2 +1,2 @@
 rootProject.name = 'movie-application'
-include 'movie-api', 'core', 'infrastructure'
+include 'domain', 'infrastructure', 'application', 'movie-api'

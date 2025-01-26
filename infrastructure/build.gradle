@@ -1,33 +1,34 @@
-plugins {
-    id 'java'
-    id 'org.springframework.boot' version '3.3.2'
-    id 'io.spring.dependency-management' version '1.1.6'
-}
-
-group = 'com.example'
-version = '0.0.1-SNAPSHOT'
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    implementation project(':core')
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation project(':domain')
+    implementation project(':application')
 
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'
+    annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
+    annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
+
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
     runtimeOnly 'com.mysql:mysql-connector-j'
+}
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+def querydslDir = "$buildDir/generated/qclass"
+
+sourceSets {
+    main.java.srcDirs += [querydslDir]
+}
+
+tasks.withType(JavaCompile) {
+    options.generatedSourceOutputDirectory = file(querydslDir)
+}
+
+clean {
+    delete file(querydslDir)
+}
+
+bootJar {
+    enabled = false
 }
 
 tasks.named('test') {
