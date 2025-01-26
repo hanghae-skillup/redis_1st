@@ -11,14 +11,26 @@
    - 공통적으로 사용되는 유틸리티 클래스, 상수, 공통 타입 DTO 등을 포함함.
    - 라이브러리 의존성 최소화 (Lombok 제외 순수 java 코드)
    - 필요한 모듈에서 의존성 추가 가능
-
-2. Domain 모듈
-   - 내부 비지니스 핵심 로직 (Entity, Service, Repository)
-   - 공통 Dto(DataResponse 등)을 제외한 비지니스 로직에 밀집하게 관련된 dto 포함
-   - 기능이 추가되면 각각의 Domain을 나눌예정 -> moviedomain , orderdomain ...
+  
+2. api 모듈 (presentation Layer)
+   - 외부와 통신하는 모듈 cotroller와 DtoMapper 포함
+   - Controller와 밀접하게 관련되어있는 GlobalExceptiopnHandler 까지 포함.
+   - 모든 모듈 의존성 포함 
 
 3. 어플리케이션 모듈
-   - 실제 실행 가능한 모듈. 실제 통신에 관련된 로직 포함 (Controller) -> app-api
-   - batch 작업같은 독립적인 어플리케이션등도 포함하는것으로 생각했음 -> app-batch와 같이 추가 예정
-   - Controller와 밀접하게 관련되어있는 GlobalExceptiopnHandler 까지 포함.
-   - Common, Domain 의존 
+   - 서비스 로직
+
+4. Domain 모듈
+   - 내부 비지니스 핵심 로직 (Entity, Repository,Projection에 필요한 Dto)
+
+5. infra 모듈
+   - 외부 시스템과의 연동을 담당한다.
+
+
+### 모듈간의 관계 
+Layerd Architecture는 기본적으로  api -> application -> domain -> infra의 의존 관계
+
+
+### 성능 테스트 보고서 
+- https://www.notion.so/17f3ae348c6980ffa6ace55763c86dbc?pvs=4
+

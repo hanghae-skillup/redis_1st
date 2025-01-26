@@ -20,6 +20,11 @@ rootProject.name = 'redis_1st'
 
 
 include 'common'
-include 'domain:movie-domain'
-include 'app:app-api'
+include 'api'
+include 'application'
+include 'domain'
+include 'infra'
+
+
+
 

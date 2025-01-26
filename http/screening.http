@@ -1,0 +1,3 @@
+### Screening API 테스트
+GET http://localhost:8080/api/screenings?title=Movie 51&genre=ACTION
+Content-Type: application/json
