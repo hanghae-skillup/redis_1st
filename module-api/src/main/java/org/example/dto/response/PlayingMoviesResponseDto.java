@@ -10,7 +10,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 public class PlayingMoviesResponseDto implements Serializable {

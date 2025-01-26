@@ -1,6 +1,6 @@
 package org.example.controller;
 
-import org.example.service.MovieService;
+import org.example.service.movie.MovieService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
