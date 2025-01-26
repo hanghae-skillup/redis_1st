@@ -9,11 +9,23 @@ import java.time.LocalDateTime
 @Table(name = "theater")
 class TheaterEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "theater_id")
+    @Column(name = "theater_id", columnDefinition = "INT UNSIGNED")
     val id: Long = 0,
 
     val name: String,
 ) : BaseEntity() {
+    companion object {
+        fun from(theater: Theater)=  TheaterEntity(
+            id = theater.id,
+            name = theater.name,
+        ).apply {
+            createdBy = theater.createdBy
+            createdAt = theater.createdAt
+            updatedBy = theater.updatedBy
+            updatedAt = theater.updatedAt
+        }
+    }
+
     fun toDomain(): Theater {
         return Theater(
             id = id,
@@ -23,14 +35,5 @@ class TheaterEntity(
             updatedBy = updatedBy,
             updatedAt = updatedAt
         )
-    }
-
-    companion object {
-        fun from(theater: Theater): TheaterEntity {
-            return TheaterEntity(
-                id = theater.id,
-                name = theater.name,
-            )
-        }
     }
 }

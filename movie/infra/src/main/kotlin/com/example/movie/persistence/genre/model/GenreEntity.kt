@@ -1,6 +1,6 @@
 package com.example.movie.persistence.genre.model
 
-import com.example.movie.domain.movie.model.Genre
+import com.example.movie.domain.genre.model.Genre
 import com.example.movie.persistence.common.BaseEntity
 import jakarta.persistence.*
 
@@ -8,7 +8,7 @@ import jakarta.persistence.*
 @Table(name = "genre")
 class GenreEntity (
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "genre_id")
+    @Column(name = "genre_id", columnDefinition = "INT UNSIGNED")
     val id: Long,
 
     @Column(unique = true)
@@ -26,15 +26,5 @@ class GenreEntity (
             updatedBy = updatedBy,
             updatedAt = updatedAt
         )
-    }
-
-    companion object {
-        fun from(genre: Genre): GenreEntity {
-            return GenreEntity(
-                id = genre.id,
-                name = genre.name,
-                description = genre.description,
-            )
-        }
     }
 }

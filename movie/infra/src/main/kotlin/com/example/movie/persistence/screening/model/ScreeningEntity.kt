@@ -12,15 +12,14 @@ import java.time.LocalDateTime
 @Table(name = "screening")
 class ScreeningEntity(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "screening_id")
+    @Column(name = "screening_id", columnDefinition = "INT UNSIGNED")
     val id: Long = 0,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_id", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    val movie: MovieEntity,
+    @Column(name = "movie_id", columnDefinition = "INT UNSIGNED")
+    val movieId: Long,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "theater_id", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "theater_id", columnDefinition = "INT UNSIGNED", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
     val theater: TheaterEntity,
 
     val screeningTime: LocalDateTime,
@@ -30,10 +29,26 @@ class ScreeningEntity(
     @Enumerated(EnumType.STRING)
     val status: ScreeningStatus,
 ) : BaseEntity() {
+    companion object {
+        fun from(screening: Screening) = ScreeningEntity(
+            id = screening.id,
+            movieId = screening.movieId,
+            theater = TheaterEntity.from(screening.theater),
+            screeningTime = screening.screeningTime,
+            screeningEndTime = screening.screeningEndTime,
+            status = screening.status,
+        ).apply {
+            createdBy = screening.createdBy
+            createdAt = screening.createdAt
+            updatedBy = screening.updatedBy
+            updatedAt = screening.updatedAt
+        }
+    }
+
     fun toDomain(): Screening {
         return Screening(
             id = id,
-            movie = movie.toDomain(),
+            movieId = movieId,
             theater = theater.toDomain(),
             screeningTime = screeningTime,
             screeningEndTime = screeningEndTime,
@@ -43,18 +58,5 @@ class ScreeningEntity(
             updatedBy = updatedBy,
             updatedAt = updatedAt
         )
-    }
-
-    companion object {
-        fun from(screening: Screening, movie: MovieEntity, theater: TheaterEntity): ScreeningEntity {
-            return ScreeningEntity(
-                id = screening.id,
-                movie = movie,
-                theater = theater,
-                screeningTime = screening.screeningTime,
-                screeningEndTime = screening.screeningEndTime,
-                status = screening.status,
-            )
-        }
     }
 }

@@ -1,12 +1,12 @@
 package com.example.movie.controller
 
-import com.example.movie.domain.movie.model.Genre
+import com.example.movie.domain.genre.model.Genre
 import com.example.movie.domain.movie.model.Movie
 import com.example.movie.domain.movie.model.Rating
 import com.example.movie.domain.screening.model.Screening
 import com.example.movie.domain.screening.model.ScreeningStatus
 import com.example.movie.domain.theater.model.Theater
-import com.example.movie.service.NowPlayingMoviesUseCase
+import com.example.movie.service.MovieSearchUseCase
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,29 +25,29 @@ class MovieControllerTest {
     private lateinit var mockMvc: MockMvc
 
     @MockitoBean
-    private lateinit var nowPlayingMoviesUseCase: NowPlayingMoviesUseCase
+    private lateinit var movieSearchUseCase: MovieSearchUseCase
 
     @Test
     fun `현재 상영중인 영화 목록을 응답한다`() {
         val currentTime = LocalDateTime.of(2024, 1, 2, 0, 0, 0)
-        val movie = createMovie(currentTime)
+
         val theater = createTheater(currentTime)
         val screenings = listOf(
-            createScreening(currentTime, currentTime.plusHours(12), movie, theater),
-            createScreening(currentTime, currentTime.plusHours(14), movie, theater),
+            createScreening(currentTime, currentTime.plusHours(12), theater),
+            createScreening(currentTime, currentTime.plusHours(14), theater),
         )
-        val movieScreenings = mapOf(movie to screenings)
+        val movie = createMovie(currentTime, screenings)
 
-        whenever(nowPlayingMoviesUseCase.getNowPlayingMovies())
-            .thenReturn(movieScreenings)
+        whenever(movieSearchUseCase.getMoviesByStatusAndTitleAndGenre(ScreeningStatus.SCHEDULED, null, null))
+            .thenReturn(listOf(movie))
 
-        mockMvc.perform(get("/api/v1/movies/now-playing"))
+        mockMvc.perform(get("/api/v1/movies").param("status", "SCHEDULED"))
             .andExpect(status().isOk)
             .andExpect(jsonPath("$[0].id").value(movie.id))
             .andExpect(jsonPath("$[0].screenings.length()").value(2))
     }
 
-    private fun createMovie(currentTime: LocalDateTime): Movie {
+    private fun createMovie(currentTime: LocalDateTime, screenings: List<Screening>): Movie {
         return Movie(
             id = 1,
             title = "title1",
@@ -56,6 +56,7 @@ class MovieControllerTest {
             releaseDate = LocalDate.of(2024,1,1),
             thumbnailUrl = "https://image.testdb/image.jpg",
             runningTime = 120,
+            screenings = screenings,
             createdBy = "test",
             createdAt = currentTime,
             updatedBy = "test",
@@ -75,19 +76,18 @@ class MovieControllerTest {
         )
     }
 
-    private fun createScreening(currentTime: LocalDateTime, screeningTime: LocalDateTime, movie: Movie, theater: Theater): Screening {
+    private fun createScreening(currentTime: LocalDateTime, screeningTime: LocalDateTime, theater: Theater): Screening {
         return Screening(
             id = 1,
-            movie = movie,
+            movieId = 1,
             theater = theater,
             screeningTime = screeningTime,
-            screeningEndTime = screeningTime.plusMinutes(movie.runningTime.toLong()),
+            screeningEndTime = screeningTime.plusMinutes(120),
             status = ScreeningStatus.SCHEDULED,
             createdBy = "test",
             createdAt = currentTime,
             updatedBy = "test",
             updatedAt = currentTime
-
         )
     }
 

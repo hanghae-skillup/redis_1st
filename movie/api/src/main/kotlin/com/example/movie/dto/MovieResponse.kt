@@ -1,6 +1,6 @@
 package com.example.movie.dto
 
-import com.example.movie.domain.movie.model.Genre
+import com.example.movie.domain.genre.model.Genre
 import com.example.movie.domain.movie.model.Movie
 import com.example.movie.domain.movie.model.Rating
 import com.example.movie.domain.screening.model.Screening
@@ -19,7 +19,7 @@ data class MovieResponse(
     val screenings: List<ScreeningResponse>
 ) {
     companion object {
-        fun from(movie: Movie, screenings: List<Screening>): MovieResponse {
+        fun from(movie: Movie): MovieResponse {
             return MovieResponse(
                 id = movie.id,
                 title = movie.title,
@@ -28,7 +28,7 @@ data class MovieResponse(
                 releaseDate = movie.releaseDate,
                 thumbnailUrl = movie.thumbnailUrl,
                 runningTime = movie.runningTime,
-                screenings = screenings.map { ScreeningResponse.from(it) }
+                screenings = movie.screenings.map { ScreeningResponse.from(it) }
             )
         }
     }

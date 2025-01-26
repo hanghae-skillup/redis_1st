@@ -1,0 +1,28 @@
+services:
+  movie-mysql:
+    image: mysql:8.0
+    container_name: movie-mysql-test
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=movie_db
+      - MYSQL_ROOT_PASSWORD=root
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7.0
+    container_name: movie-redis-test
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

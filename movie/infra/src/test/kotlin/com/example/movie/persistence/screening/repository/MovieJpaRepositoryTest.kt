@@ -1,6 +1,5 @@
 package com.example.movie.persistence.screening.repository
 
-import com.example.movie.domain.movie.repository.MovieRepository
 import com.example.movie.domain.screening.model.ScreeningStatus
 import com.example.movie.persistence.movie.repository.MovieJpaRepository
 import org.assertj.core.api.Assertions.assertThat
@@ -25,7 +24,7 @@ class MovieJpaRepositoryTest {
         val currentTime = LocalDateTime.now()
 
         // when
-        val movies = movieJpaRepository.findMoviesNowPlaying(currentTime, ScreeningStatus.SCHEDULED)
+        val movies = movieJpaRepository.findMoviesByCurrentTimeAndStatusAndTitleAndGenre(currentTime, ScreeningStatus.SCHEDULED, null, null)
 
         // then
         assertThat(movies).isNotEmpty()
