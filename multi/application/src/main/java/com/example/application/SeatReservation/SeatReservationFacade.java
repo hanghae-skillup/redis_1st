@@ -1,5 +1,6 @@
 package com.example.application.SeatReservation;
 
+import com.example.application.SeatReservation.annotation.DistributedLock;
 import com.example.application.SeatReservation.redis.DistributedLockManager;
 import com.example.domain.screening.service.ScreeningService;
 import com.example.domain.seatReservation.service.SeatReservationService;
@@ -22,6 +23,7 @@ public class SeatReservationFacade {
     private final DistributedLockManager distributedLockManager; // DistributedLockManager 주입
 
     //@Transactional
+    /*
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public boolean reserve(Long screeningId, Long userId, String seatNumber, Integer count) {
 
@@ -44,9 +46,16 @@ public class SeatReservationFacade {
                     screeningId, userId, seatNumber, e);
             return false; // 락 획득 실패 또는 기타 오류 시 false 반환
         }
-
-
     }
+     */
+
+    @DistributedLock(key = "seatReservation:lock", leaseTime = 5000, waitTime = 1000)
+    @Transactional(isolation = Isolation.SERIALIZABLE)
+    public boolean reserve(Long screeningId, Long userId, String seatNumber, Integer count) {
+                        var screening = screeningService.getScreeningInfo(screeningId);
+                        return seatReservationService.reserve(count, userId, seatNumber, screening);
+    }
+
 
 
 }
