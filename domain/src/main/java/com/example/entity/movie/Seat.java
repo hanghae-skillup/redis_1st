@@ -24,7 +24,7 @@ public class Seat {
     @JoinColumn(name = "theater_id")
     private Theater theater;
 
-    @OneToMany(mappedBy = "reservation")
+    @OneToMany(mappedBy = "seat")
     private List<ReservedSeat> reservedSeats = new ArrayList<>();
 
     @Builder

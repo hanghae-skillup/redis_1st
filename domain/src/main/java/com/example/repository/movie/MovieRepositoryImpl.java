@@ -47,7 +47,7 @@ public class MovieRepositoryImpl implements MovieRepositoryCustom {
     }
 
     private Map<Long, List<ScreeningInfoDto>> findScreeningInfoMap(List<Long> movieIds) {
-        return queryFactory.select(new QScreeningInfoDto(screening.movie.id, theater.name, screening.startedAt, screening.endedAt))
+        return queryFactory.select(new QScreeningInfoDto(screening.movie.id, screening.id, theater.name, screening.startedAt, screening.endedAt))
                 .from(screening)
                 .join(screening.theater, theater)
                 .where(screening.movie.id.in(movieIds))
