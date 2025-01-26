@@ -15,6 +15,8 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.CyclicBarrier
 import java.util.concurrent.Executors
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 
 @SpringBootTest
@@ -81,7 +83,7 @@ class ReserveFacadeTest {
             ),
             baseReservation.copy(
                 reserveReceiptId = receiptIds[2],userId = 3,
-                seats = seats.subList(0, 3).toMutableList()
+                seats = seats.subList(0, 5).toMutableList()
             ),
             baseReservation.copy(
                 reserveReceiptId = receiptIds[3],
@@ -110,9 +112,12 @@ class ReserveFacadeTest {
         executors.shutdown()
 
 //        모든 receiptId에 대한 예약 개수 확인
-//        val receiptIdCounts = receiptIds.associateWith { receiptId ->
-//            reserveFacade.findReserveCount(receiptId)
-//        }
+        val receiptIdCounts = receiptIds.associateWith { receiptId ->
+            reserveFacade.findReserveCount(receiptId)
+        }
+
+        val count = receiptIdCounts.values.sumOf { it }
+        assertNotEquals(5, count, "")
 //
 //        // 검증: 어떤 하나의 receiptId는 5개 예약, 나머지는 0개 예약
 //        val targetReceiptId = receiptIdCounts.entries.find { it.value == 5 }?.key
