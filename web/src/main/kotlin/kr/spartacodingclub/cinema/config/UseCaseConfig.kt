@@ -15,7 +15,6 @@ class UseCaseConfig(
     fun getMovieSchedulesUseCase(): GetMovieSchedulesUseCase {
         return GetMovieSchedulesUseCase(
             movieRepository = movieRepository,
-            screeningRepository = screeningRepository
         )
     }
 }

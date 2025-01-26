@@ -15,5 +15,27 @@ services:
       - --collation-server=utf8mb4_unicode_ci
       - --default-time-zone=+09:00
 
+  redis:
+    container_name: cinema-redis
+    image: redis:7.2-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cinema-network
+
 volumes:
   mysql-data:
+  redis_data:
+    driver: local
+
+networks:
+  cinema-network:
+    driver: bridge

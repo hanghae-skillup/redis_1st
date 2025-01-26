@@ -9,7 +9,7 @@ class ScreeningRepositoryImpl(
     private val screeningJpaRepository: ScreeningJpaRepository
 ) : ScreeningRepository {
     override fun findAllByMovieIdOrderByStartTimeAsc(movieId: Long): List<Screening> {
-        return screeningJpaRepository.findAllByMovieIdOrderByStartTimeAsc(movieId)
+        return screeningJpaRepository.findAllByMovieIdWithMovieAndTheaterOrderByStartTimeAsc(movieId)
             .map { it.toDomain() }
     }
 }
