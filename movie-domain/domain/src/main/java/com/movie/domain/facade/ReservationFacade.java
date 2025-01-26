@@ -1,36 +1,46 @@
 package com.movie.domain.facade;
 
-import com.movie.domain.exception.ApplicationException;
-import com.movie.domain.exception.ErrorCode;
 import com.movie.domain.movie.ReservationService;
+import com.movie.domain.movie.SeatService;
+import com.movie.domain.movie.domain.Reservation;
+import com.movie.domain.movie.domain.Seat;
 import com.movie.domain.movie.dto.command.ReservationCommand;
 import com.movie.domain.userAccount.UserAccount;
 import com.movie.domain.userAccount.UserAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class ReservationFacade {
 
     private final UserAccountService userAccountService;
+    private final SeatService seatService;
     private final ReservationService reservationService;
 
-    public void makeReservation(ReservationCommand.Reserve reserve) {
-        if (reserve.seatIds().size() > 5) {
-            throw new ApplicationException(
-                    ErrorCode.RESERVATION_LIMIT_EXCEEDED,
-                    "seats are exceeded over 5 - requested seats : %d".formatted(reserve.seatIds().size()));
-        }
+    public void makeReservation(ReservationCommand.GetReserveData getReserveData) {
+        // 예약하려는 자리가 5개가 넘어가는지 확인
+        Seat.isExceeded(getReserveData.seatIds().size());
 
-        UserAccount userAccount = userAccountService.getUserAccountByToken(reserve.token());
         // 자리가 연속적인지 확인
-        // 자리가 선점되 있는지 확인
+        List<Seat> seats = seatService.getSeats(getReserveData.seatIds());
+        Seat.isConsecutive(seats);
 
-        // reservation 스케줄 양 만큼 미리 등록
-        // seat은 25개 지정해서 등록
+        // 자리가 선점되있는지 확인
+        ReservationCommand.Get get = ReservationCommand.Get.of(getReserveData.scheduleId(), getReserveData.seatIds());
+        List<Reservation> reservations = reservationService.getReservations(get);
+        Reservation.isAlreadyReserved(reservations, seats);
 
+        // 유효셩 검증후 예약 진행
+        UserAccount userAccount = userAccountService.getUserAccountByToken(getReserveData.token());
 
+        ReservationCommand.Reserve reserve =
+                ReservationCommand.Reserve.of(getReserveData.scheduleId(), getReserveData.seatIds(), userAccount.getId());
+        reservationService.makeReservation(reserve);
     }
+
+
 
 }

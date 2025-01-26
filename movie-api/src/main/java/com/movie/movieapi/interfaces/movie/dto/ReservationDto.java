@@ -11,8 +11,8 @@ public class ReservationDto {
             return new Reserve(scheduleId, seatIds);
         }
 
-        public ReservationCommand.Reserve toCommand(String token) {
-            return ReservationCommand.Reserve.of(scheduleId, seatIds, token);
+        public ReservationCommand.GetReserveData toCommand(String token) {
+            return ReservationCommand.GetReserveData.of(scheduleId, seatIds, token);
         }
     }
 

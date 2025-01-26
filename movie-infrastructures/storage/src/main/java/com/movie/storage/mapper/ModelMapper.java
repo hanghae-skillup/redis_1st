@@ -1,20 +1,45 @@
 package com.movie.storage.mapper;
 
-import com.movie.domain.movie.domain.Movie;
-import com.movie.domain.movie.domain.Schedule;
-import com.movie.domain.movie.domain.Screen;
-import com.movie.domain.movie.domain.Theater;
+import com.movie.common.enums.AxisY;
+import com.movie.domain.movie.domain.*;
 import com.movie.domain.userAccount.UserAccount;
-import com.movie.storage.movie.entity.MovieEntity;
-import com.movie.storage.movie.entity.ScheduleEntity;
-import com.movie.storage.movie.entity.ScreenEntity;
-import com.movie.storage.movie.entity.TheaterEntity;
+import com.movie.storage.movie.entity.*;
 import com.movie.storage.userAccount.UserAccountEntity;
+
+import java.time.LocalDateTime;
 
 public class ModelMapper {
 
-    public static UserAccount from(UserAccountEntity entity) {
-        return UserAccount.of(entity.getId(), entity.getName(), entity.getToken());
+    public record UserAccountMapper(Long id, String name, String token) {
+        public static UserAccount from(UserAccountEntity entity) {
+            return UserAccount.of(entity.getId(), entity.getName(), entity.getToken());
+        }
+
+        public static UserAccountMapper of(Long id, String name, String token) {
+            return new UserAccountMapper(id, name, token);
+        }
+    }
+
+    public record SeatMapper(Long id, String seatNumber, AxisY axisY, Integer axisX) {
+        public static SeatMapper of(Long id, String seatNumber, AxisY axisY, Integer axisX) {
+            return new SeatMapper(id, seatNumber, axisY, axisX);
+        }
+
+        public static Seat from(SeatEntity entity) {
+            return Seat.of(
+                    entity.getId(), entity.getSeatNumber(),
+                    entity.getAxisY(), entity.getAxisX()
+            );
+        }
+    }
+
+    public record ReservationMapper(Long scheduleId, Long seatId, Long userId, LocalDateTime reservedAt) {
+        public static Reservation from (ReservationEntity entity) {
+            return Reservation.of(
+                    entity.getId().getScheduleId(), entity.getId().getSeatId(),
+                    entity.getUserId(), entity.getReservedAt()
+            );
+        }
     }
 
     public static Schedule from(ScheduleEntity scheduleEntity) {

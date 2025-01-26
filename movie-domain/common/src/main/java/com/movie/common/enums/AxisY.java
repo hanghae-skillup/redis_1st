@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum AxisX {
+public enum AxisY {
 
     A, B, C, D, E
 
