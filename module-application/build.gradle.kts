@@ -4,4 +4,5 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-cache")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation(project(":module-domain"))
+    implementation(project(":module-common"))
 }

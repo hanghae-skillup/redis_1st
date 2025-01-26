@@ -24,7 +24,6 @@ class ReservationRepositoryImpl(
                 reservationEntity.screening.id.eq(screeningId),
                 reservationEntity.reserveReceiptId.isNull
             )
-            .setLockMode(LockModeType.OPTIMISTIC) // 비관적 락 설정
             .fetch()
     }
 
