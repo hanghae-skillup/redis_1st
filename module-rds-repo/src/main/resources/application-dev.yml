@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://host.docker.internal:3300/hanghaeho
+    username: root
+    password: Tlmm3PjdJ*
+  jpa:
+    hibernate:
+      ddl-auto: update # 데이터 손실을 방지
+      dialect: org.hibernate.dialect.MySQLDialect # MySQL 8.x 버전 호환
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+logging:
+  level:
+    org.springframework.orm.jpa: DEBUG
+    org.springframework.transaction: DEBUG
