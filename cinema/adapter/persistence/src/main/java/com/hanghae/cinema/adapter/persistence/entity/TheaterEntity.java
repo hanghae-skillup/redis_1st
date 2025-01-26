@@ -1,9 +1,11 @@
 package com.hanghae.cinema.adapter.persistence.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
-@Table(name = "tb_theater")
+@Getter
+@Table(name = "theater")
 public class TheaterEntity extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

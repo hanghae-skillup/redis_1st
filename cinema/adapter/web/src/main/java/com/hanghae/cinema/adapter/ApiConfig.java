@@ -1,4 +1,4 @@
-package com.hanghae.cinema.config;
+package com.hanghae.cinema.adapter;
 
 import com.hanghae.cinema.adapter.persistence.config.JpaConfig;
 import com.hanghae.cinema.adapter.persistence.config.PersistenceConfig;

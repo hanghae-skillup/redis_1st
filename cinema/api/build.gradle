@@ -1,8 +1,0 @@
-bootJar {enabled = true}
-jar {enabled = false}
-
-dependencies {
-    implementation project(":domain")
-    implementation project(":application")
-    implementation project(":adapter:persistence")
-}

@@ -1,8 +1,13 @@
 package com.hanghae.cinema.domain.model;
 
+import lombok.Builder;
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 
-public class Showtime {
+@Getter
+@Builder
+public class ShowTime {
     private Long id;
     private Movie movie;
     private Theater theater;

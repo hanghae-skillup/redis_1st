@@ -1,14 +1,15 @@
 package com.hanghae.cinema.adapter.persistence.repository;
 
 import com.hanghae.cinema.adapter.persistence.entity.MovieEntity;
-import org.springframework.data.domain.Sort;
+import com.hanghae.cinema.application.dto.MovieResponseDTO;
+import com.hanghae.cinema.domain.type.MovieGenre;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
-@Repository
-public interface MovieRepository extends JpaRepository<MovieEntity, Long> {
-    List<MovieEntity> findAllByReleaseAtLessThanEqual(LocalDate date, Sort sort);
+public interface MovieRepository extends JpaRepository<MovieEntity, Long>, MovieRepositoryCustom {
+
+    List<MovieResponseDTO> findMovie(LocalDate date, LocalDateTime dateTime, String keyword, MovieGenre genre);
 }

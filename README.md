@@ -1,8 +1,59 @@
-## Multi Module
-- adapter : 어댑터 모듈
-- application : 포트 모듈
-- domain : 도메인 모듈
-- api : 웹 어플리케이션 진입점 모듈
+## 기술 스택
+- Spring Boot 3.4.1
+- Gradle
+- Java 17
+- Docker Compose
+- MySQL
+- JPA
+- IntelliJ Http Request
+
+<br/>
+
+## How to run
+1. MySQL docker container 생성 및 백그라운드 실행
+    ```
+    docker-compose up -d
+    ```
+
+2. adapter.web 모듈 내에 있는 `ApiApplication` 실행
+
+<br/>
+
+## Architecture
+- `헥사고날 아키텍처`를 기반으로 `멀티 모듈`로 구성하였습니다.
+- domain
+- application
+- adapter
+   - web
+   - persistence
+
+### Module
+1. domain
+    - 외부 의존성 없이 독립적으로 동작하는 모듈입니다.
+    - 애플리케이션의 핵심 비즈니스 로직과 엔티티를 포함합니다.
+    - 특정 프레임워크나 규약에 종속되지 않도록 도메인은 순수 자바 객체(POJO) 로 구성되었습니다.
+      
+2. application
+    - 비즈니스 로직의 흐름을 제어하는 모듈입니다.
+    - `usecase`(port) 는 in-port에 해당하며, in-adapter 에서 호출할수 있도록 의존성 역전 원칙을 적용하여 인터페이스로 선언하였습니다.
+    - `usecase` 의 구현은 `service` 클래스에서 이루어집니다.
+    - `port` 는 out-port 에 해당하며, out adpater 을 사용할 수 있도록 의존성 역전 원칙을 적용하여 인터페이스로 선언하였습니다.
+    - `port` 의 구현체는 `adapter` 모듈에서 작성되었습니다.
+      
+3. adapter.web (in-adapter)
+    - 사용자와의 상호작용을 처리하는 입력 및 출력 모듈입니다.
+    - 컨틀롤러를 중심으로 동작하며, 웹 진입접 역할을 합니다. 
+    - 애플리케이션의 진입점인 `Application` 클래스가 위치합니다.
+      
+4. adapter.persistence (out-adpater)
+   - 데이터베이스와의 상호 작용을 처리하며, 영속성을 관리하는 모듈입니다.
+   - 리포지토리와 엔티티를 포함하고 있습니다.
+     
+### 의존성 방향
+- adapter.web -> application -> domain
+- adapter.persistence -> application -> domain
+
+<br/>
 
 ## Entity Relationship Diagram
 <img width="822" alt="redis_erd" src="https://github.com/user-attachments/assets/e29a1f00-8f2c-40bf-99df-749d741025e9" />
@@ -34,4 +85,7 @@
 - Movie <-> ShotTime
     - 1:N 관계로 한 영화는 여러 상영 정보를 가질 수 있습니다.
 - Theater <-> ShowTime
-    - 1:N 관계로 한 극장은 여러 상영 정보를 가질 수 있습니다.  
+    - 1:N 관계로 한 극장은 여러 상영 정보를 가질 수 있습니다.
+ 
+## 성능 테스트 보고서
+[성능 테스트 보고서 보러가기](https://www.notion.so/17fe5ab6924e80109e6efc1149612b21?pvs=4)
