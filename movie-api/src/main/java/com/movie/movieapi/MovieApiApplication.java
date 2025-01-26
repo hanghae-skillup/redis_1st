@@ -7,7 +7,11 @@ import org.springframework.context.annotation.ComponentScan;
 
 @ConfigurationPropertiesScan
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.movie.domain", "com.movie.storage", "com.movie.movieapi", "com.movie.redis"})
+@ComponentScan(basePackages = {
+        "com.movie.domain", "com.movie.storage",
+        "com.movie.movieapi", "com.movie.redis",
+        "com.movie.application"
+})
 public class MovieApiApplication {
 
     public static void main(String[] args) {

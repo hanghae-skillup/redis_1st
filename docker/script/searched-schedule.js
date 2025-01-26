@@ -33,7 +33,7 @@ export default function () {
 
     const payload = JSON.stringify({title, genre});
     const param = {headers: {'Content-Type': 'application/json'}}
-    let response = http.post(`http://localhost:8080/api/schedule`, payload, param);
+    let response = http.post(`http://localhost:8080/api/schedules`, payload, param);
     // 응답 확인
     check(response, {
         'is status 200': (r) => r.status === 200,

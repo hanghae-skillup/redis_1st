@@ -1,6 +1,5 @@
 package com.movie.redis.config;
 
-import jakarta.annotation.PostConstruct;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
@@ -17,18 +16,10 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class RedisConfig {
 
-    @Value("${spring.data.redis.host:localhost}")
+    @Value("${spring.data.redis.host}")
     private String host;
-    @Value("${spring.data.redis.port:6379}")
+    @Value("${spring.data.redis.port}")
     private int port;
-
-    private static final String REDISSON_HOST_PREFIX = "redis";
-
-    @PostConstruct
-    public void logRedisConfig() {
-        System.out.println("Redis Host: " + host);
-        System.out.println("Redis Port: " + port);
-    }
 
     @Bean
     public RedissonClient redissonClient() {

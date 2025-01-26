@@ -41,7 +41,7 @@ public class BulkInsertScreen {
                 String name = "%d관".formatted(screenId);
 
                 sqlBuilder.append(String.format(
-                        "('%d', '%s', 'admin', '2025-01-01', 'admin', '2025-01-01'),",
+                        "('%d', '%s', 1, '2025-01-01', 1, '2025-01-01'),",
                         theaterId, name
                 ));
 
@@ -98,7 +98,7 @@ public class BulkInsertScreen {
                 String name = "영화관%d".formatted(theaterId);
 
                 sqlBuilder.append(String.format(
-                        "('%s', 'admin', '2025-01-01', 'admin', '2025-01-01'),",
+                        "('%s', 1, '2025-01-01', 1, '2025-01-01'),",
                         name
                 ));
 

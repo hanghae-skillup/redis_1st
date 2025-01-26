@@ -1,4 +1,4 @@
-package com.movie.domain.exception;
+package com.movie.common.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

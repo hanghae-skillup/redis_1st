@@ -3,19 +3,19 @@ GET https://examples.http-client.intellij.net/get
     ?generated-in=IntelliJ IDEA
 
 ### 영화관 id 별 스케쥴 목록조회
-GET http://localhost:8080/api/schedule?theaterId=1
+GET http://localhost:8080/api/schedules?theaterId=1
 
 ### 스캐줄 별 영화관, 상영관, 영화 정보, 타임 테이블 목록 조회 - 영화 제목(title), 장르(genre)를 통한 검색기능 및 개봉일 기준 오름차순 조회
-POST http://localhost:8080/api/schedule
+POST http://localhost:8080/api/schedules
 Content-Type: application/json
 
 {
-  "title": null,
+  "title": "영화",
   "genre": null
 }
 
 ### 로컬 캐시를 이용한 영화 스케줄 검색
-POST http://localhost:8080/api/schedule/cached
+POST http://localhost:8080/api/schedules/cached
 Content-Type: application/json
 
 {
@@ -24,10 +24,20 @@ Content-Type: application/json
 }
 
 ### Redis 캐시를 이용한 영화 스케줄 검색
-POST http://localhost:8080/api/schedule/redis
+POST http://localhost:8080/api/schedules/redis
 Content-Type: application/json
 
 {
   "title": null,
   "genre": "ACTION"
+}
+
+### 예약 API 추가
+POST http://localhost:8080/api/reservations
+Content-Type: application/json
+Authorization: 1f504eb92b17
+
+{
+  "scheduleId": 1,
+  "seatIds": [1, 2, 3]
 }

@@ -5,6 +5,7 @@ spring:
   config:
     import:
       - storage.yml
+      - redis.yml
   web.resources.add-mappings: false
 
 server:

@@ -69,7 +69,7 @@ public class BulkInsertSchedule {
                         .append(movieId).append(", '")
                         .append(startTime.format(formatter)).append("', '")
                         .append(endTime.format(formatter)).append("', ")
-                        .append("'admin', '2025-01-01', 'admin', '2025-01-01')");
+                        .append("1, '2025-01-01', 1, '2025-01-01')");
 
                 recordCount++;
                 startTime = endTime; // 다음 시작 시간으로 업데이트
