@@ -22,7 +22,7 @@ public class RedissonLockAdapter implements RedissonLockPort {
         RLock lock = redissonClient.getLock(lockKey);
 
         try {
-            return lock.tryLock(5, 10, TimeUnit.SECONDS); // 최대 5초 대기, 10초 후 자동 해제
+            return lock.tryLock(1, 300, TimeUnit.SECONDS); // 점유하기 위해 1초 대기, 획득한 락 5분 후 자동 해제
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             return false;
@@ -46,7 +46,7 @@ public class RedissonLockAdapter implements RedissonLockPort {
             for (ScreenSeat seat : seats) {
                 String lockKey = "reservation:lock:" + scheduleId + ":" + seat;
                 RLock lock = redissonClient.getLock(lockKey);
-                boolean locked = lock.tryLock(5, 10, TimeUnit.SECONDS);
+                boolean locked = lock.tryLock(1, 300, TimeUnit.SECONDS); // 점유하기 위해 1초 대기, 획득한 락 5분 후 자동 해제
                 if (!locked) {
                     //락 획득 실패 시 이미 획득한 락들을 해제
                     releaseLocks(acquiredLocks);
