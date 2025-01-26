@@ -9,6 +9,7 @@ import com.movie.domain.userAccount.UserAccount;
 import com.movie.domain.userAccount.UserAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class ReservationFacade {
     private final SeatService seatService;
     private final ReservationService reservationService;
 
+    @Transactional
     public void makeReservation(ReservationCommand.GetReserveData getReserveData) {
         // 예약하려는 자리가 5개가 넘어가는지 확인
         Seat.isExceeded(getReserveData.seatIds().size());
@@ -28,19 +30,18 @@ public class ReservationFacade {
         List<Seat> seats = seatService.getSeats(getReserveData.seatIds());
         Seat.isConsecutive(seats);
 
+        // 유효셩 검증후 예약 진행
+        UserAccount userAccount = userAccountService.getUserAccountByToken(getReserveData.token());
+
         // 자리가 선점되있는지 확인
+//        reservationService.validReserved(getReserveData.scheduleId(), getReserveData.seatIds(), seats);
         ReservationCommand.Get get = ReservationCommand.Get.of(getReserveData.scheduleId(), getReserveData.seatIds());
         List<Reservation> reservations = reservationService.getReservations(get);
         Reservation.isAlreadyReserved(reservations, seats);
-
-        // 유효셩 검증후 예약 진행
-        UserAccount userAccount = userAccountService.getUserAccountByToken(getReserveData.token());
 
         ReservationCommand.Reserve reserve =
                 ReservationCommand.Reserve.of(getReserveData.scheduleId(), getReserveData.seatIds(), userAccount.getId());
         reservationService.makeReservation(reserve);
     }
-
-
 
 }

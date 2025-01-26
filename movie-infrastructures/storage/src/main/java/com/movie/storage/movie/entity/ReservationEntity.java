@@ -1,9 +1,7 @@
 package com.movie.storage.movie.entity;
 
 import com.movie.storage.BaseEntity;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,8 +21,16 @@ public class ReservationEntity extends BaseEntity {
 
     private LocalDateTime reservedAt;
 
-    public void makeReservation(Long scheduleId, Long seatId, Long userId) {
-        this.id = ReservationComplexIds.of(scheduleId, seatId);
+    @Version
+    private Integer version;
+
+    public ReservationEntity(ReservationComplexIds id, Long userId, LocalDateTime reservedAt) {
+        this.id = id;
+        this.userId = userId;
+        this.reservedAt = reservedAt;
+    }
+
+    public void makeReservation(Long userId) {
         this.userId = userId;
         this.reservedAt = LocalDateTime.now();
     }

@@ -27,7 +27,7 @@ public class BaseEntity {
 
     @LastModifiedBy
     @Column(nullable = false)
-    private String modifiedBy;
+    private Long modifiedBy;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @LastModifiedDate

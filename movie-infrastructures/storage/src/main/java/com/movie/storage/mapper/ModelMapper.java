@@ -3,6 +3,7 @@ package com.movie.storage.mapper;
 import com.movie.common.enums.AxisY;
 import com.movie.domain.movie.domain.*;
 import com.movie.domain.userAccount.UserAccount;
+import com.movie.storage.movie.dto.payload.ReservationPayload;
 import com.movie.storage.movie.entity.*;
 import com.movie.storage.userAccount.UserAccountEntity;
 
@@ -34,13 +35,22 @@ public class ModelMapper {
     }
 
     public record ReservationMapper(Long scheduleId, Long seatId, Long userId, LocalDateTime reservedAt) {
-        public static Reservation from (ReservationEntity entity) {
+        public static Reservation from(ReservationEntity entity) {
             return Reservation.of(
                     entity.getId().getScheduleId(), entity.getId().getSeatId(),
                     entity.getUserId(), entity.getReservedAt()
             );
         }
+
+        public static Reservation fromPayload(ReservationPayload.Get get) {
+            return Reservation.of(
+                    get.getScheduleId(), get.getSeatId(),
+                    get.getUserId(), get.getReservedAt()
+            );
+        }
     }
+
+
 
     public static Schedule from(ScheduleEntity scheduleEntity) {
         return null;
