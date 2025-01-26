@@ -19,6 +19,26 @@ services:
     volumes:
       - ./data/mysql:/var/lib/mysql
 
+  test-db:
+    image: mysql:8.0
+    container_name: mysql-test-container
+    restart: always
+    ports:
+      - "3308:3306"  # 테스트 DB에 접근하기 위한 포트
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: redis_prac_test_db  # 테스트 전용 데이터베이스 이름
+      MYSQL_USER: test_user
+      MYSQL_PASSWORD: test_password
+      TZ: Asia/Seoul
+    volumes:
+      - ./data/mysql-test:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-p$MYSQL_ROOT_PASSWORD" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   flyway:
     image: flyway/flyway:9.0.0
     container_name: flyway-container
@@ -31,7 +51,22 @@ services:
       "migrate"
     ]
     volumes:
-      - ./db/migration:/flyway/sql
+      - ./api/src/main/resources/db/migration:/flyway/sql
+
+  flyway-test:
+    image: flyway/flyway:9.0.0
+    container_name: flyway-test-container
+    depends_on:
+      test-db:
+        condition: service_healthy
+    command: [
+      "-url=jdbc:mysql://test-db:3306/redis_prac_test_db",
+      "-user=test_user",
+      "-password=test_password",
+      "migrate"
+    ]
+    volumes:
+      - ./api/src/main/resources/db/migration:/flyway/sql
 
   redis:
     image: redis:6.2        # Redis 이미지 (최신 안정 버전 선택)
