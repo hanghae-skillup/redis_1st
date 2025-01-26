@@ -66,7 +66,7 @@ public class CreateBookingService implements CreateBookingUseCase {
             updateSeatPort.updateAllSeats(requestSeatIds, booking.id());
 
             return booking;
-        }, lockKey, 2L, 3L);
+        }, lockKey, 1L, 2L);
     }
 
     private void checkLimitMaxSeats(Integer totalSeat) {
