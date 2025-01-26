@@ -1,9 +1,9 @@
 package io.github.jehwanyoo.redis_1st.v1.movies
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import io.github.jehwanyoo.redis_1st.aggregate.MovieDetail
-import io.github.jehwanyoo.redis_1st.entity.Screen
-import io.github.jehwanyoo.redis_1st.entity.ShowTime
+import io.github.jehwanyoo.redis_1st.model.Movie
+import io.github.jehwanyoo.redis_1st.model.Screen
+import io.github.jehwanyoo.redis_1st.model.ShowTime
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
@@ -19,19 +19,17 @@ data class MovieResponse(
     @JsonProperty("screens") val screens: List<ScreenResponse>         // 상영관 정보 리스트
 ) {
     companion object {
-        fun fromDomain(movieDetails: List<MovieDetail>): List<MovieResponse> {
-            return movieDetails.map { movieDetail ->
+        fun fromDomain(movies: List<Movie>): List<MovieResponse> {
+            return movies.map { movie ->
                 MovieResponse(
-                    movieId = movieDetail.movie.id,
-                    title = movieDetail.movie.title,
-                    rating = movieDetail.movie.rating,
-                    genre = movieDetail.movie.genre,
-                    releaseDate = movieDetail.movie.releaseDate,
-                    thumbnailUrl = movieDetail.movie.thumbnailUrl,
-                    runtimeMinutes = movieDetail.movie.runtimeMinutes,
-                    screens = movieDetail.screens.map { screen ->
-                        ScreenResponse.fromDomain(screen, movieDetail.showTimes)
-                    }
+                    movieId = movie.id,
+                    title = movie.title,
+                    rating = movie.rating,
+                    genre = movie.genre,
+                    releaseDate = movie.releaseDate,
+                    thumbnailUrl = movie.thumbnailUrl,
+                    runtimeMinutes = movie.runtimeMinutes,
+                    screens = movie.screens.map { ScreenResponse.fromDomain(it) }
                 )
             }
         }
@@ -46,15 +44,13 @@ data class ScreenResponse(
     @JsonProperty("column") val column: Int,                            // 좌석 열 수
 ) {
     companion object {
-        fun fromDomain(screen: Screen, showTimes: List<ShowTime>): ScreenResponse {
+        fun fromDomain(screen: Screen): ScreenResponse {
             return ScreenResponse(
                 screenId = screen.id,
                 screenName = screen.name,
                 row = screen.row,
                 column = screen.column,
-                showTimes = showTimes
-                    .filter { it.screenId == screen.id }
-                    .map { ShowTimeResponse.fromDomain(it) }
+                showTimes = screen.showTimes.map { ShowTimeResponse.fromDomain(it) }
             )
         }
     }

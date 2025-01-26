@@ -1,1 +1,8 @@
-GET http://localhost:8080/v1/movies
+GET http://localhost:8080/api/v1/movies
+
+###
+
+# title로 조회
+
+GET http://localhost:8080/api/v1/movies/search?title=어벤져스
+

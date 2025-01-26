@@ -1,4 +1,4 @@
-package io.github.jehwanyoo.redis_1st.entity
+package io.github.jehwanyoo.redis_1st.model
 
 import java.time.LocalDate
 import java.util.*
@@ -11,4 +11,5 @@ data class Movie(
     val runtimeMinutes: Int,        // 러닝 타임 (분)
     val genre: String,              // 장르
     val rating: String,             // 영상물 등급
+    val screens: List<Screen>,      // 상영관 리스트
 )
