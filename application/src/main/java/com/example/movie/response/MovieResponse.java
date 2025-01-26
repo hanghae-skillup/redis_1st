@@ -35,7 +35,9 @@ public class MovieResponse implements Serializable {
         return screenings.stream()
                 .sorted(Comparator.comparing(ScreeningInfoDto::getStartedAt))
                 .map(screening ->
-                        new ScreeningInfoResponse(screening.getTheaterName(),
+                        new ScreeningInfoResponse(
+                                screening.getScreeningId(),
+                                screening.getTheaterName(),
                                 screening.getStartedAt().format(DateTimeFormatter.ofPattern("HH:mm")),
                                 screening.getEndedAt().format(DateTimeFormatter.ofPattern("HH:mm"))))
                 .collect(Collectors.toList());

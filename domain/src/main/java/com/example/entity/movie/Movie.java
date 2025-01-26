@@ -1,7 +1,9 @@
-package com.example.entity;
+package com.example.entity.movie;
 
+import com.example.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,6 +37,7 @@ public class Movie extends BaseEntity {
     @OneToMany(mappedBy = "movie")
     private List<Screening> screenings = new ArrayList<>();
 
+    @Builder
     public Movie(String title, String thumbnailUrl, Integer runningTime, LocalDate releaseDate, Genre genre, Rating rating) {
         this.title = title;
         this.thumbnailUrl = thumbnailUrl;

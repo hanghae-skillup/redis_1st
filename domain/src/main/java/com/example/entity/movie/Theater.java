@@ -1,7 +1,9 @@
-package com.example.entity;
+package com.example.entity.movie;
 
+import com.example.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,6 +24,7 @@ public class Theater extends BaseEntity {
     @OneToMany(mappedBy = "theater")
     private List<Seat> seats = new ArrayList<>();
 
+    @Builder
     public Theater(String name) {
         this.name = name;
     }

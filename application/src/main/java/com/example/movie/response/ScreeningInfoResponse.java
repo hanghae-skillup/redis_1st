@@ -8,6 +8,7 @@ import java.io.Serializable;
 @Getter
 @RequiredArgsConstructor
 public class ScreeningInfoResponse implements Serializable {
+    private final Long screeningId;
     private final String theaterName;
     private final String startedAt;
     private final String endedAt;

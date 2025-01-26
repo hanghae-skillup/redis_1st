@@ -1,7 +1,9 @@
-package com.example.entity;
+package com.example.entity.movie;
 
+import com.example.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,4 +31,13 @@ public class Screening extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "theater_id")
     private Theater theater;
+
+    @Builder
+    public Screening(LocalDate screeningAt, LocalDateTime startedAt, LocalDateTime endedAt, Movie movie, Theater theater) {
+        this.screeningAt = screeningAt;
+        this.startedAt = startedAt;
+        this.endedAt = endedAt;
+        this.movie = movie;
+        this.theater = theater;
+    }
 }

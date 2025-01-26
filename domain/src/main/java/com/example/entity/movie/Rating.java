@@ -1,4 +1,4 @@
-package com.example.entity;
+package com.example.entity.movie;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
