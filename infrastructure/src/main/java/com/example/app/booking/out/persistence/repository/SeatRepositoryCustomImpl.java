@@ -21,7 +21,7 @@ public class SeatRepositoryCustomImpl implements SeatRepositoryCustom {
                 .select(seatEntity)
                 .from(seatEntity)
                 .where(predicate)
-                .setLockMode(LockModeType.PESSIMISTIC_WRITE)
+                .setLockMode(LockModeType.OPTIMISTIC)
                 .fetch();
     }
 }
