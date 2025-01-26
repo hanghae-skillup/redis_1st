@@ -75,3 +75,14 @@
 
 성능 테스트 보고서
 - https://www.notion.so/1807e833dea78069aefcf9e532d2dc6d?showMoveTo=true&saveParent=true
+
+*** 
+
+```
+waitTime: 1초, releaseTime: 10초
+```
+**waitTime**
+Lock 설정 시 대기 시간은 예매가 진행 중임을 의미하므로, 대기 시간을 길게 가져갈 필요가 없다고 판단하여 1초로 설정했습니다.
+
+**releaseTime**
+Lock의 timeout 시간을 10초로 설정했습니다. 이는 로직이 10초 이내에 수행된다고 판단했으며, 너무 짧은 시간은 처리 중 lock이 풀리는 문제를, 너무 긴 시간은 lock이 해제되지 않아 점유 상태가 지속되는 문제를 방지하기 위함입니다.
