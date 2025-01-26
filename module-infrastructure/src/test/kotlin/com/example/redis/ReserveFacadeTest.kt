@@ -80,8 +80,7 @@ class ReserveFacadeTest {
                 seats = seats.subList(0, 2).toMutableList()
             ),
             baseReservation.copy(
-                reserveReceiptId = receiptIds[2],
-                userId = 3,
+                reserveReceiptId = receiptIds[2],userId = 3,
                 seats = seats.subList(0, 3).toMutableList()
             ),
             baseReservation.copy(
@@ -92,7 +91,7 @@ class ReserveFacadeTest {
             baseReservation.copy(
                 reserveReceiptId = receiptIds[4],
                 userId = 5,
-                seats = seats.subList(2, 4).toMutableList()
+                seats = seats.subList(2, 5).toMutableList()
             )
         )
 
@@ -110,7 +109,7 @@ class ReserveFacadeTest {
         latch.await()
         executors.shutdown()
 
-        // 모든 receiptId에 대한 예약 개수 확인
+//        모든 receiptId에 대한 예약 개수 확인
 //        val receiptIdCounts = receiptIds.associateWith { receiptId ->
 //            reserveFacade.findReserveCount(receiptId)
 //        }

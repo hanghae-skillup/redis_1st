@@ -2,6 +2,8 @@ package com.example.redis.reserve.out.persistence.jpa
 
 import com.example.redis.reserve.out.persistence.jpa.QReservationEntity.*
 import com.querydsl.jpa.impl.JPAQueryFactory
+import jakarta.persistence.LockModeType
+import org.springframework.data.jpa.repository.Lock
 
 class ReservationRepositoryImpl(
     private val queryFactory: JPAQueryFactory,
@@ -22,6 +24,7 @@ class ReservationRepositoryImpl(
                 reservationEntity.screening.id.eq(screeningId),
                 reservationEntity.reserveReceiptId.isNull
             )
+            .setLockMode(LockModeType.PESSIMISTIC_WRITE) // 비관적 락 설정
             .fetch()
     }
 
