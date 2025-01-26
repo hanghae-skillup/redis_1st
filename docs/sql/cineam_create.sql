@@ -52,11 +52,11 @@ CREATE TABLE ticket_reservation (
 	updated_at	datetime	NULL COMMENT '수정일'
 );
 
-CREATE TABLE screen_seat (
-	seat_id	INT UNSIGNED	AUTO_INCREMENT PRIMARY KEY COMMENT '좌석 ID',
+CREATE TABLE screen_seat_layout (
+	seat_layout_id	INT UNSIGNED	AUTO_INCREMENT PRIMARY KEY COMMENT '좌석 ID',
 	screen_id INT UNSIGNED	NOT NULL COMMENT '상영관 ID',
-	seat_row	char(1)	NULL COMMENT '좌석 행 (알파벳)',
-	max_seat_number	INT UNSIGNED	NULL COMMENT '최대 좌석 번호',
+	seat_row	char(1)	NOT NULL COMMENT '좌석 행 (알파벳)',
+	max_seat_number	INT UNSIGNED	NOT NULL COMMENT '최대 좌석 번호',
 	created_by	INT UNSIGNED	NULL COMMENT '작성자',
 	created_at	datetime	NULL COMMENT '작성일',
 	updated_by	INT UNSIGNED	NULL COMMENT '수정자',

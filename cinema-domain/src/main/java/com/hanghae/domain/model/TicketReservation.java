@@ -19,4 +19,10 @@ public class TicketReservation {
     private final Long updatedBy; // 수정자 ID
     private final LocalDateTime updatedAt; //수정일
 
+    /* 영화예매 정적 팩토리 메서드 추가 */
+    public static TicketReservation create(ScreeningSchedule screeningSchedule, Member member, ScreenSeat screenSeat) {
+        return new TicketReservation(
+                null, screenSeat, screeningSchedule, member, member.getMemberId(), null, null, null
+        );
+    }
 }

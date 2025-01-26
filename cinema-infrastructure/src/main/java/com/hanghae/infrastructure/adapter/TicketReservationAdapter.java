@@ -1,7 +1,9 @@
 package com.hanghae.infrastructure.adapter;
 
 import com.hanghae.application.port.out.TicketReservationRepositoryPort;
+import com.hanghae.domain.model.ScreenSeatLayout;
 import com.hanghae.domain.model.TicketReservation;
+import com.hanghae.domain.model.enums.ScreenSeat;
 import com.hanghae.infrastructure.entity.TicketReservationEntity;
 import com.hanghae.infrastructure.mapper.TicketReservationMapper;
 import com.hanghae.infrastructure.repository.TicketReservationRepositoryJpa;
@@ -26,5 +28,17 @@ public class TicketReservationAdapter implements TicketReservationRepositoryPort
         
         //엔티티를 도메인으로 변환하여 리턴
         return savedEntitys.stream().map(TicketReservationMapper::toDomain).collect(Collectors.toList());
+    }
+
+    @Override
+    public int countByScreeningScheduleIdAndMemberId(Long scheduleId, Long memberId) {
+        //회원ID와
+        return repository.countByScreeningScheduleEntityIdAndMemberEntityId(scheduleId, memberId);
+    }
+
+    @Override
+    public int countByScheduleIdAndScreenSeats(Long scheduleId, List<ScreenSeat> screenSeats) {
+        // 상영시간표ID와 좌석목록으로 예약내역 조회(count)
+        return repository.countByScheduleIdAndScreenSeats(scheduleId, screenSeats);
     }
 }

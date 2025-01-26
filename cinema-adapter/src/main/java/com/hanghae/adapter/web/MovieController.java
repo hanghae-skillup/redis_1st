@@ -28,6 +28,7 @@ public class MovieController {
     }
 
     //영화 예약
+    // TODO :: 좌석선택API와 영화예약API 분리
     @PostMapping("/v1/movie-reservation")
     public ApiResponse<Void> saveMovieReservation(@RequestBody MovieReservationRequestDto requestDto) {
         return movieReservationService.saveMovieReservation(requestDto);
