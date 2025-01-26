@@ -34,11 +34,9 @@ public class QSeat extends EntityPathBase<Seat> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> lastModifiedDate = _super.lastModifiedDate;
 
-    public final NumberPath<Long> reservationId = createNumber("reservationId", Long.class);
-
     public final EnumPath<Row> row = createEnum("row", Row.class);
 
-    public final NumberPath<Long> screenScheduleId = createNumber("screenScheduleId", Long.class);
+    public final NumberPath<Long> screenRoomId = createNumber("screenRoomId", Long.class);
 
     //inherited
     public final StringPath updatedBy = _super.updatedBy;

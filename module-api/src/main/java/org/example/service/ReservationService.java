@@ -1,7 +1,6 @@
 package org.example.service;
 
 import jakarta.persistence.OptimisticLockException;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.domain.reservation.Reservation;
@@ -12,31 +11,42 @@ import org.example.dto.ReservedSeats;
 import org.example.dto.request.ReservationRequestDto;
 import org.example.dto.request.ReservationSeat;
 import org.example.repository.ReservationJpaRepository;
+import org.example.repository.ScreenScheduleJpaRepository;
 import org.example.repository.SeatJpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 @Slf4j
 @Service
 @AllArgsConstructor
-@Transactional
 public class ReservationService {
     private final ReservationJpaRepository reservationJpaRepository;
     private final SeatJpaRepository seatJpaRepository;
+    private final ScreenScheduleJpaRepository screenScheduleJpaRepository;
+
+    @Transactional
     public void reserveMovie(ReservationRequestDto reservationRequestDto) {
         validateSeats(reservationRequestDto.reservationSeats());
 
-        // 이미 예매된 좌석 확인
+        Long screenRoomId = screenScheduleJpaRepository.findScreenRoomIdById(reservationRequestDto.screenScheduleId());
         validateUserReserveSeats(reservationRequestDto.reservationSeats(), reservationRequestDto.usersId(), reservationRequestDto.screenScheduleId());
 
-        // 좌석이 선점되어 있는지 확인
-        validateAlreadyReservedSeats(reservationRequestDto.reservationSeats(), reservationRequestDto.screenScheduleId());
-
         try {
-            Reservation savedReservation = saveReservation(reservationRequestDto.usersId());
-            saveSeats(reservationRequestDto.reservationSeats(), savedReservation.getId(), reservationRequestDto.screenScheduleId());
+            List<Seat> seats = new ArrayList<>();
+            for (ReservationSeat reservationSeat : reservationRequestDto.reservationSeats()) {
+                Row row = Row.valueOf(reservationSeat.row());
+                Col col = Col.valueOf(reservationSeat.col());
+
+                Seat seat = seatJpaRepository.findSeats(screenRoomId, row, col)
+                        .orElseThrow(() -> new IllegalStateException("예약할 수 없는 좌석입니다."));
+
+                seats.add(seat);
+            }
+            saveReservation(reservationRequestDto.usersId(), reservationRequestDto.screenScheduleId(), seats);
         } catch (OptimisticLockException e) {
             throw new IllegalArgumentException("다른 사용자가 이미 예약을 진행 중입니다. 다시 시도해 주세요.");
         }
@@ -73,7 +83,7 @@ public class ReservationService {
     }
 
     private void validateUserReserveSeats(List<ReservationSeat> reservationSeats, Long userId, Long screenScheduleId) {
-        List<ReservedSeats> reservedSeatsByUserId = seatJpaRepository.findReservedSeatByUserId(userId, screenScheduleId);
+        List<ReservedSeats> reservedSeatsByUserId = reservationJpaRepository.findReservedSeatByUserIdAndScreenScheduleId(userId, screenScheduleId);
         if (reservedSeatsByUserId.isEmpty()) {
             return;
         }
@@ -85,6 +95,8 @@ public class ReservationService {
     }
 
     private void isInMaxCount(List<ReservationSeat> reservationSeats, List<ReservedSeats> reservedSeatsByUserId) {
+        log.info(String.valueOf(reservedSeatsByUserId.size()));
+        log.info(String.valueOf(reservationSeats.size()));
         if (reservationSeats.size() + reservedSeatsByUserId.size() > 5) {
             throw new IllegalArgumentException("최대 5좌석만 예약 가능합니다.");
         }
@@ -111,7 +123,6 @@ public class ReservationService {
     }
 
     private void isContinuousCol(List<ReservationSeat> reservationSeats, List<ReservedSeats> reservedSeatsByUserId) {
-
         Col reservedCol = reservedSeatsByUserId.get(reservedSeatsByUserId.size() - 1).getCol();
         Col reservationCol = Col.valueOf(reservationSeats.get(0).col());
         if (reservationCol.getColumn() != reservedCol.getColumn()+1) {
@@ -119,30 +130,15 @@ public class ReservationService {
         }
     }
 
-    private void validateAlreadyReservedSeats(List<ReservationSeat> reservationSeats, Long screenScheduleId) {
-        for (ReservationSeat seat : reservationSeats) {
-            Row row = Row.valueOf(seat.row());
-            Col col = Col.valueOf(seat.col());
-
-            boolean alreadyReserved = seatJpaRepository.existsReservedSeat(row, col, screenScheduleId);
-
-            if (alreadyReserved) {
-                throw new IllegalArgumentException("이미 예약된 좌석입니다.");
+    private void saveReservation(Long userId, Long screenScheduleId, List<Seat> seats) {
+        for (Seat seat : seats) {
+            boolean isReserved = reservationJpaRepository.existsByUsersIdAndScreenScheduleIdAndSeatId(userId, screenScheduleId, seat.getId());
+            if (isReserved) {
+                throw new IllegalStateException("예약할 수 없는 좌석입니다.");
             }
-        }
-    }
 
-    private Reservation saveReservation(Long userId) {
-        Reservation reservation = Reservation.create(userId);
-        return reservationJpaRepository.save(reservation);
-    }
-
-    private void saveSeats(List<ReservationSeat> reservationSeats, Long reservationId, Long screenScheduleId) {
-        for (ReservationSeat reservationSeat : reservationSeats) {
-            Row row = Row.valueOf(reservationSeat.row());
-            Col col = Col.valueOf(reservationSeat.col());
-            Seat seat = Seat.create(row, col, reservationId, screenScheduleId);
-            seatJpaRepository.save(seat);
+            Reservation reservation = Reservation.create(userId, screenScheduleId, seat.getId());
+            reservationJpaRepository.save(reservation);
         }
     }
 }

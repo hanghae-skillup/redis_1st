@@ -2,16 +2,13 @@ package org.example.domain.seat;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.example.domain.reservation.Reservation;
 import org.example.entity.BaseEntity;
-import org.hibernate.annotations.ColumnDefault;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(uniqueConstraints =
-        {@UniqueConstraint(name = "UniqueRowAndColAndScreenRoom", columnNames = {"seat_row", "seat_col", "screenScheduleId"})})
 public class Seat extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,25 +24,5 @@ public class Seat extends BaseEntity {
     private Col col;
 
     @Column(nullable = false)
-    private Long reservationId;
-
-    @Column(nullable = false)
-    private Long screenScheduleId;
-
-    @Builder
-    public Seat(Row row, Col col, Long reservationId, Long screenScheduleId) {
-        this.row = row;
-        this.col = col;
-        this.reservationId = reservationId;
-        this.screenScheduleId = screenScheduleId;
-    }
-
-    public static Seat create(Row row, Col col, Long reservationId, Long screenScheduleId) {
-        return Seat.builder()
-                .row(row)
-                .col(col)
-                .reservationId(reservationId)
-                .screenScheduleId(screenScheduleId)
-                .build();
-    }
+    private Long screenRoomId;
 }
