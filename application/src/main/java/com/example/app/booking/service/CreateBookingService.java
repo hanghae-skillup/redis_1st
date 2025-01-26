@@ -58,7 +58,8 @@ public class CreateBookingService implements CreateBookingUseCase {
         var booking = createBookingPort.saveBooking(createBookingCommand);
 
         // 요청한 자리들 업데이트
-        updateSeatPort.updateAllSeats(requestSeats, booking);
+        var requestSeatIds = requestSeats.stream().map(Seat::id).toList();
+        updateSeatPort.updateAllSeats(requestSeatIds, booking.id());
     }
 
     private void checkLimitMaxSeats(Integer totalSeat) {

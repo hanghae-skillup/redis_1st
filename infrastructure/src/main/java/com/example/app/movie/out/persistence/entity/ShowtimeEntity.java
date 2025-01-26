@@ -19,11 +19,13 @@ public class ShowtimeEntity extends BaseEntity {
 
     @Id
     @Column(name = "showtime_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "`start`")
     private LocalTime start;
 
+    @Column(name = "`end`")
     private LocalTime end;
 
     @ManyToOne

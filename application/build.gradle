@@ -1,5 +1,8 @@
 dependencies {
     implementation project(':domain')
+
+    testImplementation project(':infrastructure')
+    testRuntimeOnly 'com.h2database:h2'
 }
 
 bootJar {

@@ -1,6 +1,5 @@
 package com.example.app.booking.out.persistence.adapter;
 
-import com.example.app.booking.domain.Booking;
 import com.example.app.booking.domain.Seat;
 import com.example.app.booking.dto.SearchSeatCommand;
 import com.example.app.booking.out.persistence.entity.SeatEntity;
@@ -26,12 +25,11 @@ public class SeatPersistenceAdapter implements LoadSeatPort, UpdateSeatPort {
     private final SeatMapper seatMapper;
 
     @Override
-    public List<Seat> updateAllSeats(List<Seat> seats, Booking booking) {
-        var ids = seats.stream().map(Seat::id).toList();
-        var seatEntities = seatRepository.findAllById(ids);
+    public List<Seat> updateAllSeats(List<Long> seatIds, Long bookingId) {
+        var seatEntities = seatRepository.findAllById(seatIds);
 
         for (SeatEntity seat : seatEntities) {
-            seat.occupySeat(booking.id());
+            seat.occupySeat(bookingId);
         }
 
         return seatRepository.saveAll(seatEntities)
@@ -50,7 +48,7 @@ public class SeatPersistenceAdapter implements LoadSeatPort, UpdateSeatPort {
 
     @Override
     public List<Seat> loadAllSeats(SearchSeatCommand searchSeatCommand) {
-        return seatRepository.findAllBy(toPredicate(searchSeatCommand))
+        return seatRepository.findAllByWithLock(toPredicate(searchSeatCommand))
                 .stream()
                 .map(seatMapper::seatEnityToSeat)
                 .toList();

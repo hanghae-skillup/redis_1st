@@ -15,7 +15,7 @@ public class MovieTheaterEntity extends BaseEntity {
 
     @Id
     @Column(name = "movie_theater_rel_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

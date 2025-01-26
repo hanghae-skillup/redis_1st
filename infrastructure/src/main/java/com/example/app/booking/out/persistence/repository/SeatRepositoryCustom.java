@@ -6,5 +6,5 @@ import com.querydsl.core.types.Predicate;
 import java.util.List;
 
 public interface SeatRepositoryCustom {
-    List<SeatEntity> findAllBy(Predicate predicate);
+    List<SeatEntity> findAllByWithLock(Predicate predicate);
 }

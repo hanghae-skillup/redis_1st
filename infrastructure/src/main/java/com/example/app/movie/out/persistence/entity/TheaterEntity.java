@@ -20,7 +20,7 @@ public class TheaterEntity extends BaseEntity {
 
     @Id
     @Column(name = "theater_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;

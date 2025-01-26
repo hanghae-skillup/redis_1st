@@ -3,6 +3,7 @@ package com.example.app.booking.out.persistence.repository;
 import com.example.app.booking.out.persistence.entity.SeatEntity;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.LockModeType;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -15,11 +16,12 @@ public class SeatRepositoryCustomImpl implements SeatRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<SeatEntity> findAllBy(Predicate predicate) {
+    public List<SeatEntity> findAllByWithLock(Predicate predicate) {
         return queryFactory
                 .select(seatEntity)
                 .from(seatEntity)
                 .where(predicate)
+                .setLockMode(LockModeType.PESSIMISTIC_WRITE)
                 .fetch();
     }
 }

@@ -22,7 +22,7 @@ public class MovieEntity extends BaseEntity {
 
     @Id
     @Column(name = "movie_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;
