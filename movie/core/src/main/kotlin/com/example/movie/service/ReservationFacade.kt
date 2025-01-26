@@ -1,5 +1,6 @@
 package com.example.movie.service
 
+import com.example.movie.lock.aop.DistributedLock
 import com.example.movie.domain.reservation.exception.ReservationException
 import com.example.movie.domain.reservation.model.Reservation
 import org.springframework.dao.OptimisticLockingFailureException
@@ -13,6 +14,7 @@ class ReservationFacade(
         private const val MAX_RETRY_ATTEMPTS = 3
     }
 
+    @DistributedLock(key = "'lock:reservation:' + #screeningId", waitTime = 2000, leaseTime = 1000)
     override fun reserve(userId: Long, screeningId: Long, requestSeatIds: List<Long>): List<Reservation> {
         var retryCount = 0
         while (retryCount < MAX_RETRY_ATTEMPTS) {
