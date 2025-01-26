@@ -34,7 +34,7 @@ public class CreateBookingService implements CreateBookingUseCase {
 
     @Override
     @Transactional
-    public void createBooking(CreateBookingCommand createBookingCommand) {
+    public Booking createBooking(CreateBookingCommand createBookingCommand) {
         // 연속된 row 체크
         checkSeatsInSequence(createBookingCommand.seats());
 
@@ -60,6 +60,8 @@ public class CreateBookingService implements CreateBookingUseCase {
         // 요청한 자리들 업데이트
         var requestSeatIds = requestSeats.stream().map(Seat::id).toList();
         updateSeatPort.updateAllSeats(requestSeatIds, booking.id());
+
+        return booking;
     }
 
     private void checkLimitMaxSeats(Integer totalSeat) {
