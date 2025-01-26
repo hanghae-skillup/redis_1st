@@ -6,6 +6,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
 	// cache
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
@@ -14,4 +15,5 @@ dependencies {
 	implementation 'org.springframework:spring-tx'
 
 	implementation project(':movie-domain:common')
+	implementation project(':movie-infrastructures:redis')
 }

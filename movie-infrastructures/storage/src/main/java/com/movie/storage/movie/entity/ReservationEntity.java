@@ -21,9 +21,6 @@ public class ReservationEntity extends BaseEntity {
 
     private LocalDateTime reservedAt;
 
-    @Version
-    private Integer version;
-
     public ReservationEntity(ReservationComplexIds id, Long userId, LocalDateTime reservedAt) {
         this.id = id;
         this.userId = userId;

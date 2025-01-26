@@ -33,7 +33,6 @@ public class ReservationJpaQuerySupport extends QuerydslRepositorySupport {
                         reservationEntity.id.scheduleId.eq(scheduleId)
                                 .and(reservationEntity.id.seatId.in(seatIds))
                 )
-                .setLockMode(LockModeType.PESSIMISTIC_WRITE)
                 .fetch();
     }
 

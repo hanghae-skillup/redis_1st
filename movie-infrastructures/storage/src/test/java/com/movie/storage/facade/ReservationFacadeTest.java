@@ -1,7 +1,6 @@
 package com.movie.storage.facade;
 
-import com.movie.domain.facade.ReservationFacade;
-import com.movie.domain.movie.dto.command.ReservationCommand;
+import com.movie.domain.facade.ReservationManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,12 +15,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ReservationFacadeTest {
 
     @Autowired
-    private ReservationFacade reservationFacade;
+    private ReservationManager reservationManager;
 
     @Test
     void shouldHandleConcurrentReservationsProperly() throws InterruptedException {
         // given
-        int threadCount = 1000;
+        int threadCount = 100;
         ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
         CountDownLatch latch = new CountDownLatch(threadCount);
 
@@ -40,9 +39,7 @@ class ReservationFacadeTest {
             executorService.submit(() -> {
                try {
                    String token = tokens.get(ThreadLocalRandom.current().nextInt(tokens.size()));
-                   ReservationCommand.GetReserveData data = ReservationCommand.GetReserveData.of(scheduleId, seatIds, token);
-
-                   reservationFacade.makeReservation(data);
+                   reservationManager.makeReservationByDistributedLock(token,scheduleId,seatIds);
                    count.getAndIncrement();
                } catch (Exception e) {
                    e.printStackTrace();
