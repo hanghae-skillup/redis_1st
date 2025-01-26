@@ -46,14 +46,14 @@ public class ReservationService {
 
         List<ReservedSeat> allByUserId = reservedSeatRepository.findAllByMemberId(member, screening);
         if (seats.size() + allByUserId.size() > 5) {
-            throw new IllegalArgumentException("하나의 사영시간에 5좌석이상 예약할 수 없습니다");
+            throw new IllegalArgumentException("하나의 상영시간에 5좌석이상 예매할 수 없습니다");
         }
 
         // 4. 예약된 좌석 검증
         List<ReservedSeat> existingReservations = reservedSeatRepository.findByScreeningAndSeats(screening, seats);
 
         if (!existingReservations.isEmpty()) {
-            throw new IllegalArgumentException("이미 예약된 좌석입니다.");
+            throw new IllegalArgumentException("이미 예매된 좌석입니다.");
         }
 
         Reservation reservation = Reservation.builder()
