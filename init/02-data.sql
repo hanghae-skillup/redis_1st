@@ -1,5 +1,10 @@
 SET NAMES utf8mb4;
 SET CHARACTER_SET_SERVER = 'utf8mb4';
+
+-- User Data
+INSERT INTO user (id, username, email, password, created_at, updated_at) VALUES (1, 'kimbro1', 'kimbro1@gmail.com', '1234', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO user (id, username, email, password, created_at, updated_at) VALUES (2, 'kimbro2', 'kimbro2@gmail.com', '1234', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
 -- Movie Data
 INSERT INTO movie (id, release_date, running_time, created_at, updated_at, thumbnail_url, title, genre, rating) VALUES (1, '2014-07-30', 168, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'https://example.com/movie1.jpg', '명량', 'SF', 'ALL');
 INSERT INTO movie (id, release_date, running_time, created_at, updated_at, thumbnail_url, title, genre, rating) VALUES (2, '2019-01-23', 144, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'https://example.com/movie2.jpg', '극한직업', 'ACTION', 'ADULT');
