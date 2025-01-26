@@ -12,8 +12,20 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
 class GlobalExceptionHandler {
+
+    @ExceptionHandler(IllegalStateException::class)
+    fun handleIllegalStateException(ex: IllegalStateException): ResponseEntity<ApiResponse<Unit>> {
+        val response = ApiResponse<Unit>(
+            status = HttpStatus.CONFLICT,
+            message = "",
+            errors = emptyList<ErrorResponse>().toMutableList(),
+        )
+        return ResponseEntity(response, HttpStatus.CONFLICT)
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleValidationException(ex: MethodArgumentNotValidException): ResponseEntity<ApiResponse<Unit>> {
+
         // 유효성 검증 실패 항목들을 순회하며 메시지 생성
         val errors = ex.bindingResult.allErrors.map {
             ErrorResponse(

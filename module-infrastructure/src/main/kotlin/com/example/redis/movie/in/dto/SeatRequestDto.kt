@@ -5,15 +5,15 @@ import jakarta.validation.constraints.NotNull
 
 class SeatRequestDto(
     @JsonProperty(value = "seat_id")
-    @NotNull
+    @field:NotNull
     val seatId: Long,
 
     @JsonProperty(value = "seat_row")
-    @NotNull
+    @field:NotNull
     val seatRow: String,
 
     @JsonProperty(value = "seat_col")
-    @NotNull
+    @field:NotNull
     val seatCol: String
 ) {
 }

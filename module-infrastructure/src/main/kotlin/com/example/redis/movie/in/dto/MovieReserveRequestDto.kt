@@ -7,20 +7,20 @@ import jakarta.validation.constraints.Size
 
 class MovieReserveRequestDto(
     @JsonProperty(value = "movie_id")
-    @NotNull
+    @field:NotNull
     val movieId: Long,
 
     @JsonProperty(value = "user_id")
-    @NotNull
+    @field:NotNull
     val userId: Long,
 
     @JsonProperty(value = "screening_id")
-    @NotNull
+    @field:NotNull
     val screeningId: Long,
 
     @JsonProperty(value = "seats")
-    @Size(min = 1, max = 5, message = "The seat must have one to five.")
-    @Valid
-    val seats: List<SeatRequestDto>
+    @field:Valid
+    @field:Size(min = 1, max = 5, message = "The seat must have one to five.")
+    val seats: List<@Valid SeatRequestDto>
 ) {
 }
