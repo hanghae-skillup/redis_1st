@@ -17,6 +17,7 @@ java {
 allprojects {
     group = "io.github.eedys1234"
     version = "0.1.0-SNAPSHOT"
+    apply(plugin = "org.jetbrains.kotlin.plugin.spring")
 
     repositories {
         mavenCentral()
@@ -25,7 +26,6 @@ allprojects {
 
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
-    apply(plugin = "org.jetbrains.kotlin.plugin.spring")
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
     apply(plugin = "kotlin-jpa")
@@ -52,5 +52,10 @@ subprojects {
 
     tasks.withType<Test> {
         useJUnitPlatform()
+        javaLauncher.set(
+            javaToolchains.launcherFor {
+                languageVersion.set(JavaLanguageVersion.of(17)) // 원하는 Java 버전 설정
+            }
+        )
     }
 }

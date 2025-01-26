@@ -33,9 +33,7 @@ class MovieAdapter(
             .orElseThrow { NotFoundException() }
     }
     
-    //TODO: update 방식으로 변경
     override fun reserve(reservation: Reservation): ReservationReceipt {
-        // 영화 검증
         findById(reservation.movieId)
 
         val seatIds = reservation.extractSeats().stream().map { it.seatId }.toList()
@@ -62,5 +60,9 @@ class MovieAdapter(
                 .map { TheaterPersistenceMapper.toSeatDomain(it.seat) }
                 .toList()
         )
+    }
+
+    override fun findReserveCount(reserveReceiptId: String): Int {
+        return this.reservationRepository.findCountByReserveReceiptId(reserveReceiptId)
     }
 }

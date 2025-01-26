@@ -26,4 +26,10 @@ class MovieService(
         val id = movieAdapter.reserve(reservation)
         return id
     }
+
+    @Transactional(readOnly = false)
+    override fun findReserveCount(reserveReceiptId: String): Int {
+        return movieAdapter.findReserveCount(reserveReceiptId)
+    }
+
 }

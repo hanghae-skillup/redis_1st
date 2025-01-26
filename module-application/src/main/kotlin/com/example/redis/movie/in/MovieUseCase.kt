@@ -7,5 +7,7 @@ import com.example.redis.movie.ReservationReceipt
 interface MovieUseCase {
 
     fun gets(title: String?, genre: String?): MutableList<Movie>
+
+    fun findReserveCount(reserveReceiptId: String): Int
     fun reserve(movieId: Long, reservation: Reservation): ReservationReceipt
 }

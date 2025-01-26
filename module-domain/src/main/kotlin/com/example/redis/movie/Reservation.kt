@@ -3,9 +3,9 @@ package com.example.redis.movie
 import com.example.redis.theater.Seat
 import java.util.UUID
 
-class Reservation(
+data class Reservation(
     val movieId: Long,
-    val reserveReceiptId: String = UUID.randomUUID().toString(),
+    var reserveReceiptId: String = UUID.randomUUID().toString(),
     val screeningId: Long,
     var userId :Long,
     val seats: MutableList<Seat> = mutableListOf()

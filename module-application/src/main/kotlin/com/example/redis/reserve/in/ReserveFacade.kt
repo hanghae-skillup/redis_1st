@@ -27,4 +27,8 @@ class ReserveFacade(
         applicationEventPublisher.publishEvent(reserveEvent)
         return reservationReceipt.reserveReceiptId
     }
+
+    override fun findReserveCount(reserveReceiptId: String): Int {
+        return movieService.findReserveCount(reserveReceiptId)
+    }
 }

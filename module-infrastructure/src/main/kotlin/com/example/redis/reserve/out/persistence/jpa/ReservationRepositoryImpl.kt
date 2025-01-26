@@ -24,4 +24,12 @@ class ReservationRepositoryImpl(
             )
             .fetch()
     }
+
+    override fun findCountByReserveReceiptId(reserveReceipt: String): Int {
+        return queryFactory.select(reservationEntity)
+            .from(reservationEntity)
+            .where(
+                reservationEntity.reserveReceiptId.eq(reserveReceipt)
+            ).fetch().size
+    }
 }
