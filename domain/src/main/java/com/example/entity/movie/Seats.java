@@ -1,7 +1,11 @@
 package com.example.entity.movie;
 
+import com.example.entity.reservation.ReservedSeat;
+import lombok.Getter;
+
 import java.util.List;
 
+@Getter
 public class Seats {
 
     private static final int MAX_ALLOWED_SEATS = 5;
@@ -47,5 +51,13 @@ public class Seats {
                 .map(Seat::getRow)
                 .distinct()
                 .toList();
+    }
+
+    public boolean isSeatMatch(List<Long> seatIds) {
+        return this.seats.size() != seatIds.size();
+    }
+
+    public boolean isTotalSeatCountExceeding(List<ReservedSeat> reservedSeats) {
+        return this.seats.size() + reservedSeats.size() > MAX_ALLOWED_SEATS;
     }
 }
