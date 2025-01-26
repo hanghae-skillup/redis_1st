@@ -1,11 +1,13 @@
 package com.example.repository.reservation;
 
+import com.example.entity.member.Member;
 import com.example.entity.movie.Screening;
 import com.example.entity.movie.Seat;
 import com.example.entity.reservation.ReservedSeat;
-import com.example.entity.member.Member;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.LockModeType;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,9 +22,11 @@ public class ReservedSeatRepositoryImpl implements ReservedSeatRepositoryCustom 
     }
 
     @Override
+    @Transactional
     public List<ReservedSeat> findByScreeningAndSeats(Screening screening, List<Seat> seats) {
         return queryFactory.selectFrom(reservedSeat)
                 .where(reservedSeat.reservation.screening.eq(screening).and(reservedSeat.seat.in(seats)))
+                .setLockMode(LockModeType.PESSIMISTIC_WRITE)
                 .fetch();
     }
 
