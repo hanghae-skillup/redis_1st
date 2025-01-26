@@ -3,6 +3,7 @@ package org.example.service;
 import jakarta.persistence.OptimisticLockException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.common.exception.SeatException;
 import org.example.domain.reservation.Reservation;
 import org.example.domain.seat.Col;
 import org.example.domain.seat.Row;
@@ -20,10 +21,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import static org.example.common.response.BaseResponseStatus.*;
+
 @Slf4j
 @Service
 @AllArgsConstructor
 public class ReservationService {
+    private static final int MAX_SEAT_COUNT = 5;
+
     private final ReservationJpaRepository reservationJpaRepository;
     private final SeatJpaRepository seatJpaRepository;
     private final ScreenScheduleJpaRepository screenScheduleJpaRepository;
@@ -42,13 +47,13 @@ public class ReservationService {
                 Col col = Col.valueOf(reservationSeat.col());
 
                 Seat seat = seatJpaRepository.findSeats(screenRoomId, row, col)
-                        .orElseThrow(() -> new IllegalStateException("예약할 수 없는 좌석입니다."));
+                        .orElseThrow(() -> new SeatException(UNAVAILABLE_SEAT_ERROR));
 
                 seats.add(seat);
             }
             saveReservation(reservationRequestDto.usersId(), reservationRequestDto.screenScheduleId(), seats);
         } catch (OptimisticLockException e) {
-            throw new IllegalArgumentException("다른 사용자가 이미 예약을 진행 중입니다. 다시 시도해 주세요.");
+            throw new SeatException(CONCURRENT_RESERVATION_ERROR);
         }
     }
 
@@ -58,8 +63,8 @@ public class ReservationService {
     }
 
     private void validateSeatCount(List<ReservationSeat> seats) {
-        if (seats.size() > 5) {
-            throw new IllegalArgumentException("최대 5좌석만 예약 가능합니다.");
+        if (seats.size() > MAX_SEAT_COUNT) {
+            throw new SeatException(MAX_SEATS_EXCEEDED_ERROR);
         }
     }
 
@@ -71,13 +76,13 @@ public class ReservationService {
             ReservationSeat current = seats.get(i);
 
             if (!prev.row().equals(current.row())) {
-                throw new IllegalArgumentException("연속된 좌석만 예약할 수 있습니다. 행이 다릅니다.");
+                throw new SeatException(SEAT_ROW_DISCONTINUITY_ERROR);
             }
 
             int prevCol = Col.valueOf(prev.col()).getColumn();
             int currentCol = Col.valueOf(current.col()).getColumn();
             if (currentCol != prevCol + 1) {
-                throw new IllegalArgumentException("연속된 좌석만 예약할 수 있습니다. 열이 연속되지 않았습니다.");
+                throw new SeatException(SEAT_COLUMN_DISCONTINUITY_ERROR);
             }
         }
     }
@@ -95,10 +100,8 @@ public class ReservationService {
     }
 
     private void isInMaxCount(List<ReservationSeat> reservationSeats, List<ReservedSeats> reservedSeatsByUserId) {
-        log.info(String.valueOf(reservedSeatsByUserId.size()));
-        log.info(String.valueOf(reservationSeats.size()));
-        if (reservationSeats.size() + reservedSeatsByUserId.size() > 5) {
-            throw new IllegalArgumentException("최대 5좌석만 예약 가능합니다.");
+        if (reservationSeats.size() + reservedSeatsByUserId.size() > MAX_SEAT_COUNT) {
+            throw new SeatException(MAX_SEATS_EXCEEDED_ERROR);
         }
     }
 
@@ -107,7 +110,7 @@ public class ReservationService {
             for (ReservationSeat reservationSeat : reservationSeats) {
                 if (reservedSeats.getRow().equals(Row.valueOf(reservationSeat.row()))
                         && reservedSeats.getCol().equals(Col.valueOf(reservationSeat.col()))) {
-                    throw new IllegalArgumentException("이미 예약된 좌석이 포함되어 있습니다");
+                    throw new SeatException(ALREADY_RESERVED_SEAT_ERROR);
                 }
             }
         }
@@ -117,7 +120,7 @@ public class ReservationService {
         Row row = reservedSeatsByUserId.get(0).getRow();
         for (ReservationSeat reservationSeat : reservationSeats) {
             if (!row.equals(Row.valueOf(reservationSeat.row()))) {
-                throw new IllegalArgumentException("연속된 좌석만 예약할 수 있습니다. 행이 다릅니다.");
+                throw new SeatException(SEAT_ROW_DISCONTINUITY_ERROR);
             }
         }
     }
@@ -126,7 +129,7 @@ public class ReservationService {
         Col reservedCol = reservedSeatsByUserId.get(reservedSeatsByUserId.size() - 1).getCol();
         Col reservationCol = Col.valueOf(reservationSeats.get(0).col());
         if (reservationCol.getColumn() != reservedCol.getColumn()+1) {
-            throw new IllegalArgumentException("연속된 좌석만 예약할 수 있습니다. 열이 연속되지 않았습니다.");
+            throw new SeatException(SEAT_COLUMN_DISCONTINUITY_ERROR);
         }
     }
 
@@ -134,7 +137,7 @@ public class ReservationService {
         for (Seat seat : seats) {
             boolean isReserved = reservationJpaRepository.existsByUsersIdAndScreenScheduleIdAndSeatId(userId, screenScheduleId, seat.getId());
             if (isReserved) {
-                throw new IllegalStateException("예약할 수 없는 좌석입니다.");
+                throw new SeatException(ALREADY_RESERVED_SEAT_ERROR);
             }
 
             Reservation reservation = Reservation.create(userId, screenScheduleId, seat.getId());
