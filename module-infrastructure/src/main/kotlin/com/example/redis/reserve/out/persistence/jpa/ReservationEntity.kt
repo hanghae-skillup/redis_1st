@@ -36,6 +36,9 @@ class ReservationEntity(
     @JoinColumn(name = "seat_id")
     val seat: SeatEntity,
 
+    @Version
+    var version: Int = 0
+
     ): BaseEntity() {
 
     companion object {
@@ -44,7 +47,7 @@ class ReservationEntity(
                 reserveReceiptId = reservation.reserveReceiptId,
                 userId = reservation.userId,
                 screening = screening,
-                seat = seat
+                seat = seat,
             )
         }
     }

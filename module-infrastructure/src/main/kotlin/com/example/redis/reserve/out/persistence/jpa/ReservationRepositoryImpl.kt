@@ -24,7 +24,7 @@ class ReservationRepositoryImpl(
                 reservationEntity.screening.id.eq(screeningId),
                 reservationEntity.reserveReceiptId.isNull
             )
-            .setLockMode(LockModeType.PESSIMISTIC_WRITE) // 비관적 락 설정
+            .setLockMode(LockModeType.OPTIMISTIC) // 비관적 락 설정
             .fetch()
     }
 
