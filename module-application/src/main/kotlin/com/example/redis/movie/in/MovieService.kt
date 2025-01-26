@@ -23,7 +23,6 @@ class MovieService(
 
     @Transactional(readOnly = false)
     override fun reserve(movieId: Long, reservation: Reservation): ReservationReceipt {
-        //예약 완료
         val id = movieAdapter.reserve(reservation)
         return id
     }

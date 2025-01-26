@@ -5,13 +5,18 @@ import com.example.redis.movie.event.ReserveEvent
 import com.example.redis.movie.`in`.MovieUseCase
 import org.apache.catalina.core.ApplicationPushBuilder
 import org.springframework.context.ApplicationEventPublisher
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
+@Service
 class ReserveFacade(
     private val applicationEventPublisher: ApplicationEventPublisher,
     private val movieService: MovieUseCase
-) {
+): ReserveUseCase {
 
-    fun reserve(movieId: Long, reservation: Reservation) {
+    @Transactional(readOnly = false)
+
+    override fun reserve(movieId: Long, reservation: Reservation): String {
         val reservationReceipt = movieService.reserve(movieId, reservation)
         val reserveEvent = ReserveEvent(
             reserveReceiptId = reservationReceipt.reserveReceiptId,
@@ -20,5 +25,6 @@ class ReserveFacade(
             createAt = reservationReceipt.createAt
         )
         applicationEventPublisher.publishEvent(reserveEvent)
+        return reservationReceipt.reserveReceiptId
     }
 }

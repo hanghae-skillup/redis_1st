@@ -5,6 +5,8 @@ import com.example.redis.movie.`in`.dto.MovieResponseDto
 import com.example.redis.movie.`in`.dto.MovieSearchRequestQueryDto
 import com.example.redis.movie.`in`.mapper.MovieControllerMapper
 import com.example.redis.movie.`in`.MovieUseCase
+import com.example.redis.reserve.`in`.ReserveFacade
+import com.example.redis.reserve.`in`.ReserveUseCase
 import jakarta.validation.Valid
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -21,7 +23,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 @RestController
 @RequestMapping("/api/v1/movies")
 class MovieController(
-    private val movieUseCase: MovieUseCase
+    private val movieUseCase: MovieUseCase,
+    private val reserveFacade: ReserveUseCase,
 ) {
 
     @GetMapping
@@ -32,7 +35,7 @@ class MovieController(
 
     @PostMapping("/{movieId}/reserve")
     fun reserve(@PathVariable movieId: Long, @RequestBody @Valid body: MovieReserveRequestDto): ResponseEntity<Unit> {
-        val groupId = this.movieUseCase.reserve(movieId, MovieControllerMapper.toReservationDomain(body))
+        val groupId = this.reserveFacade.reserve(movieId, MovieControllerMapper.toReservationDomain(body))
 
         val location = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}")
