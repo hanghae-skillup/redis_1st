@@ -7,10 +7,11 @@ import com.example.app.booking.port.CreateBookingPort;
 import com.example.app.booking.port.LoadBookingPort;
 import com.example.app.booking.port.LoadSeatPort;
 import com.example.app.booking.port.UpdateSeatPort;
+import com.example.app.common.annotation.DistributedLock;
 import com.example.app.common.exception.APIException;
 import com.example.app.movie.type.TheaterSeat;
 import com.example.app.booking.usecase.CreateBookingUseCase;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,8 @@ public class CreateBookingService implements CreateBookingUseCase {
 
     @Override
     @Transactional
-    public Booking createBooking(CreateBookingCommand createBookingCommand) {
+    @DistributedLock(key = "#lockKey")
+    public Booking createBooking(String lockKey, CreateBookingCommand createBookingCommand) {
         // 연속된 row 체크
         checkSeatsInSequence(createBookingCommand.seats());
 

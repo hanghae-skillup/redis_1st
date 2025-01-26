@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.format.DateTimeFormatter;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1")
@@ -24,7 +26,12 @@ public class BookingController {
     @PostMapping("/booking")
     public ResponseEntity<Booking> createBooking(@Valid @RequestBody CreateBookingRequest createBookingRequest)
             throws InterruptedException {
-        var booking = createBookingUseCase.createBooking(createBookingRequest.toCreateBookingCommand());
+        var lockKey = String.format("BOOKING:%d:%d:%d:%s",
+                createBookingRequest.movieId(),
+                createBookingRequest.showtimeId(),
+                createBookingRequest.theaterId(),
+                createBookingRequest.bookingDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        var booking = createBookingUseCase.createBooking(lockKey, createBookingRequest.toCreateBookingCommand());
         sendMessageUseCase.sendMessage(String.format("BookingId : %d, UserId : %d", booking.id(), booking.userId()));
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

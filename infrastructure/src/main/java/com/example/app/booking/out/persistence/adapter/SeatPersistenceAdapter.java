@@ -48,7 +48,7 @@ public class SeatPersistenceAdapter implements LoadSeatPort, UpdateSeatPort {
 
     @Override
     public List<Seat> loadAllSeats(SearchSeatCommand searchSeatCommand) {
-        return seatRepository.findAllByWithLock(toPredicate(searchSeatCommand))
+        return seatRepository.findAllBy(toPredicate(searchSeatCommand))
                 .stream()
                 .map(seatMapper::seatEnityToSeat)
                 .toList();

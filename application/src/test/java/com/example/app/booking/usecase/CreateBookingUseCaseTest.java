@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -23,7 +22,6 @@ import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -83,15 +81,11 @@ public class CreateBookingUseCaseTest {
         ExecutorService executor = Executors.newFixedThreadPool(threadCount); // pool 생성
         CountDownLatch latch = new CountDownLatch(threadCount); // 쓰레드 작업 카운트
 
-        AtomicInteger exceptionCount = new AtomicInteger(0);
-
         for (int i = 0; i < threadCount; i++) {
             final int taskId = i;
             executor.execute(() -> {
                 try {
-                    createBookingUseCase.createBooking(users.get(taskId));
-                } catch (final ObjectOptimisticLockingFailureException e) {
-                    exceptionCount.incrementAndGet();
+                    createBookingUseCase.createBooking("BOOKING:2:5:1:2025-03-01", users.get(taskId));
                 } finally {
                     latch.countDown();
                 }
@@ -110,7 +104,6 @@ public class CreateBookingUseCaseTest {
 
         var bookings = bookingPersistenceAdapter.loadAllBookings(command);
 
-        assertEquals(2, exceptionCount.get(), "낙관적 락 예외 2번");
         assertEquals(1, bookings.size(), "예약은 하나만 성공");
     }
 }
