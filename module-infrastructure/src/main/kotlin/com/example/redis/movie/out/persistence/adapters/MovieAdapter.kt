@@ -6,12 +6,10 @@ import com.example.redis.movie.ReservationReceipt
 import com.example.redis.movie.out.mapper.MoviePersistenceMapper
 import com.example.redis.movie.out.MoviePort
 import com.example.redis.movie.out.persistence.jpa.*
+import com.example.redis.reserve.out.persistence.jpa.ReservationRepository
 import com.example.redis.theater.out.mapper.TheaterPersistenceMapper
-import com.example.redis.theater.out.persistence.adapters.TheaterAdapter
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException
 import org.springframework.stereotype.Service
-import javax.swing.text.html.Option
-import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities.Private
 
 @Service
 class MovieAdapter(

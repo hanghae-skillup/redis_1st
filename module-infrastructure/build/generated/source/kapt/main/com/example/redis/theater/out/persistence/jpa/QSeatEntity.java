@@ -34,7 +34,7 @@ public class QSeatEntity extends EntityPathBase<SeatEntity> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final ListPath<com.example.redis.movie.out.persistence.jpa.ReservationEntity, com.example.redis.movie.out.persistence.jpa.QReservationEntity> reservations = this.<com.example.redis.movie.out.persistence.jpa.ReservationEntity, com.example.redis.movie.out.persistence.jpa.QReservationEntity>createList("reservations", com.example.redis.movie.out.persistence.jpa.ReservationEntity.class, com.example.redis.movie.out.persistence.jpa.QReservationEntity.class, PathInits.DIRECT2);
+    public final ListPath<com.example.redis.reserve.out.persistence.jpa.ReservationEntity, com.example.redis.reserve.out.persistence.jpa.QReservationEntity> reservations = this.<com.example.redis.reserve.out.persistence.jpa.ReservationEntity, com.example.redis.reserve.out.persistence.jpa.QReservationEntity>createList("reservations", com.example.redis.reserve.out.persistence.jpa.ReservationEntity.class, com.example.redis.reserve.out.persistence.jpa.QReservationEntity.class, PathInits.DIRECT2);
 
     public final StringPath row = createString("row");
 

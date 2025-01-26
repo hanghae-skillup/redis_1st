@@ -1,10 +1,10 @@
-package com.example.redis.movie.out.persistence.jpa
+package com.example.redis.reserve.out.persistence.jpa
 
 import com.example.redis.cmmn.BaseEntity
 import com.example.redis.movie.Reservation
+import com.example.redis.movie.out.persistence.jpa.ScreeningEntity
 import com.example.redis.theater.out.persistence.jpa.SeatEntity
 import jakarta.persistence.*
-import java.util.UUID
 
 @Table(
     name = "reserve",
@@ -36,7 +36,7 @@ class ReservationEntity(
     @JoinColumn(name = "seat_id")
     val seat: SeatEntity,
 
-): BaseEntity() {
+    ): BaseEntity() {
 
     companion object {
         fun fromDomain(reservation: Reservation, screening: ScreeningEntity, seat: SeatEntity): ReservationEntity {

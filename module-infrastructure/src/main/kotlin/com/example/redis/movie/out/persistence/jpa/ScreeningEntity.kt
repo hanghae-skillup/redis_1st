@@ -1,6 +1,7 @@
 package com.example.redis.movie.out.persistence.jpa
 
 import com.example.redis.cmmn.BaseEntity
+import com.example.redis.reserve.out.persistence.jpa.ReservationEntity
 import com.example.redis.theater.out.persistence.jpa.TheaterEntity
 import jakarta.persistence.*
 import java.time.LocalDateTime

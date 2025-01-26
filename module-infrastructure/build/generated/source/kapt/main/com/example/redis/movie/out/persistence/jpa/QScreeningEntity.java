@@ -36,7 +36,7 @@ public class QScreeningEntity extends EntityPathBase<ScreeningEntity> {
 
     public final QMovieEntity movie;
 
-    public final ListPath<ReservationEntity, QReservationEntity> reservations = this.<ReservationEntity, QReservationEntity>createList("reservations", ReservationEntity.class, QReservationEntity.class, PathInits.DIRECT2);
+    public final ListPath<com.example.redis.reserve.out.persistence.jpa.ReservationEntity, com.example.redis.reserve.out.persistence.jpa.QReservationEntity> reservations = this.<com.example.redis.reserve.out.persistence.jpa.ReservationEntity, com.example.redis.reserve.out.persistence.jpa.QReservationEntity>createList("reservations", com.example.redis.reserve.out.persistence.jpa.ReservationEntity.class, com.example.redis.reserve.out.persistence.jpa.QReservationEntity.class, PathInits.DIRECT2);
 
     public final DateTimePath<java.time.LocalDateTime> startTime = createDateTime("startTime", java.time.LocalDateTime.class);
 

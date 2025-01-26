@@ -1,15 +1,10 @@
 package com.example.redis.movie.out.mapper
 
 import com.example.redis.movie.Movie
-import com.example.redis.movie.Reservation
 import com.example.redis.movie.out.persistence.jpa.MovieEntity
 import com.example.redis.movie.Screening
-import com.example.redis.movie.out.persistence.jpa.ReservationEntity
 import com.example.redis.movie.out.persistence.jpa.ScreeningEntity
-import com.example.redis.theater.Theater
 import com.example.redis.theater.out.mapper.TheaterPersistenceMapper.Companion.toTheaterDomain
-import com.example.redis.theater.out.persistence.jpa.TheaterEntity
-import java.util.UUID
 
 class MoviePersistenceMapper {
     companion object {

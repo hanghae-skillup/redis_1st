@@ -1,6 +1,4 @@
-package com.example.redis.movie.out.persistence.jpa
-
-import com.example.redis.theater.out.persistence.jpa.SeatEntity
+package com.example.redis.reserve.out.persistence.jpa
 
 interface ReservationRepositoryCustom {
 
