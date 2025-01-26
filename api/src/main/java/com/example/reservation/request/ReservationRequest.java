@@ -6,18 +6,18 @@ import java.util.List;
 
 @Getter
 public class ReservationRequest {
-    private Long userId;
+    private Long memberId;
     private Long screeningId;
     private List<Long> seatIds;
 
-    public ReservationRequest(Long userId, Long screeningId, List<Long> seatIds) {
-        this.userId = userId;
+    public ReservationRequest(Long memberId, Long screeningId, List<Long> seatIds) {
+        this.memberId = memberId;
         this.screeningId = screeningId;
         this.seatIds = seatIds;
     }
 
     private void validate() {
-        if (this.userId == null) {
+        if (this.memberId == null) {
             throw new IllegalArgumentException("영화 예매시 로그인이 필요합니다.");
         }
         if (this.screeningId == null) {
@@ -31,7 +31,7 @@ public class ReservationRequest {
     public ReservationServiceRequest toServiceRequest() {
         this.validate();
         return ReservationServiceRequest.builder()
-                .userId(userId)
+                .memberId(memberId)
                 .screeningId(screeningId)
                 .seatIds(seatIds)
                 .build();

@@ -1,8 +1,8 @@
 SET NAMES utf8mb4;
 SET CHARACTER_SET_SERVER = 'utf8mb4';
 
--- User 테이블 생성
-CREATE TABLE user
+-- Member 테이블 생성
+CREATE TABLE member
 (
     created_at datetime(6)  null,
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -59,7 +59,7 @@ CREATE TABLE reservation
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     screening_id INT UNSIGNED NOT NULL,
     updated_at   datetime(6)  null,
-    user_id      INT UNSIGNED NOT NULL
+    member_id      INT UNSIGNED NOT NULL
 );
 -- ReservedSeat 테이블 생성
 CREATE TABLE reserved_seat

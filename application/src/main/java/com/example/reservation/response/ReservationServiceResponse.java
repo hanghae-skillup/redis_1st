@@ -8,14 +8,14 @@ import lombok.Getter;
 public class ReservationServiceResponse {
 
     private Long reservationId;
-    private Long userId;
+    private Long memberId;
     private Long screeningId;
     private int seatCount;
 
     @Builder
-    public ReservationServiceResponse(Long reservationId, Long userId, Long screeningId, int seatCount) {
+    public ReservationServiceResponse(Long reservationId, Long memberId, Long screeningId, int seatCount) {
         this.reservationId = reservationId;
-        this.userId = userId;
+        this.memberId = memberId;
         this.screeningId = screeningId;
         this.seatCount = seatCount;
     }
@@ -24,7 +24,7 @@ public class ReservationServiceResponse {
         return ReservationServiceResponse.builder()
                 .reservationId(reservation.getId())
                 .screeningId(reservation.getScreening().getId())
-                .userId(reservation.getUser().getId())
+                .memberId(reservation.getMember().getId())
                 .seatCount(reservation.getReservedSeats().size())
                 .build();
     }

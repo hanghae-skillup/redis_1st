@@ -1,16 +1,16 @@
 package com.example.reservation;
 
+import com.example.entity.member.Member;
 import com.example.entity.movie.Screening;
 import com.example.entity.movie.Seat;
 import com.example.entity.movie.Seats;
 import com.example.entity.reservation.Reservation;
 import com.example.entity.reservation.ReservedSeat;
-import com.example.entity.user.User;
 import com.example.repository.movie.ScreeningRepository;
 import com.example.repository.movie.SeatRepository;
 import com.example.repository.reservation.ReservationRepository;
 import com.example.repository.reservation.ReservedSeatRepository;
-import com.example.repository.user.UserRepository;
+import com.example.repository.member.MemberRepository;
 import com.example.reservation.request.ReservationServiceRequest;
 import com.example.reservation.response.ReservationServiceResponse;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import java.util.List;
 public class ReservationService {
 
     private final SeatRepository seatRepository;
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
     private final ScreeningRepository screeningRepository;
     private final ReservationRepository reservationRepository;
     private final ReservedSeatRepository reservedSeatRepository;
@@ -32,7 +32,7 @@ public class ReservationService {
     @Transactional
     public ReservationServiceResponse reserve(ReservationServiceRequest request) {
         // 1. 유저 정보 검증
-        User user = userRepository.findById(request.getUserId())
+        Member member = memberRepository.findById(request.getMemberId())
                 .orElseThrow(() -> new IllegalArgumentException("회원 정보가 없습니다."));
         // 2. 상영 정보 검증
         Screening screening = screeningRepository.findById(request.getScreeningId())
@@ -44,7 +44,7 @@ public class ReservationService {
         }
         // 내가 예약한 좌석 검증
 
-        List<ReservedSeat> allByUserId = reservedSeatRepository.findAllByUserId(user, screening);
+        List<ReservedSeat> allByUserId = reservedSeatRepository.findAllByMemberId(member, screening);
         if (seats.size() + allByUserId.size() > 5) {
             throw new IllegalArgumentException("하나의 사영시간에 5좌석이상 예약할 수 없습니다");
         }
@@ -57,7 +57,7 @@ public class ReservationService {
         }
 
         Reservation reservation = Reservation.builder()
-                .user(user)
+                .member(member)
                 .screening(screening)
                 .build();
 

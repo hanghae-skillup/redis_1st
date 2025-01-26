@@ -8,13 +8,13 @@ import java.util.List;
 @Getter
 public class ReservationServiceRequest {
 
-    private final Long userId;
+    private final Long memberId;
     private final Long screeningId;
     private final List<Long> seatIds;
 
     @Builder
-    public ReservationServiceRequest(Long userId, Long screeningId, List<Long> seatIds) {
-        this.userId = userId;
+    public ReservationServiceRequest(Long memberId, Long screeningId, List<Long> seatIds) {
+        this.memberId = memberId;
         this.screeningId = screeningId;
         this.seatIds = seatIds;
     }

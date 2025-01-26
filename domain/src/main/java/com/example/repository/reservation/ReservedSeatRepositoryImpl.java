@@ -3,7 +3,7 @@ package com.example.repository.reservation;
 import com.example.entity.movie.Screening;
 import com.example.entity.movie.Seat;
 import com.example.entity.reservation.ReservedSeat;
-import com.example.entity.user.User;
+import com.example.entity.member.Member;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 
@@ -27,9 +27,9 @@ public class ReservedSeatRepositoryImpl implements ReservedSeatRepositoryCustom 
     }
 
     @Override
-    public List<ReservedSeat> findAllByUserId(User user, Screening screening) {
+    public List<ReservedSeat> findAllByMemberId(Member member, Screening screening) {
         return queryFactory.selectFrom(reservedSeat)
-                .where(reservedSeat.reservation.user.eq(user), reservedSeat.reservation.screening.eq(screening))
+                .where(reservedSeat.reservation.member.eq(member), reservedSeat.reservation.screening.eq(screening))
                 .fetch();
     }
 }

@@ -3,6 +3,6 @@ Content-Type: application/json
 
 {
   "screeningId": 12,
-  "userId": 2,
+  "memberId": 2,
   "seatIds": [72, 73, 74]
 }

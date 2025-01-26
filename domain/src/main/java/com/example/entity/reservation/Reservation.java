@@ -1,9 +1,9 @@
 package com.example.entity.reservation;
 
 import com.example.entity.BaseEntity;
+import com.example.entity.member.Member;
 import com.example.entity.movie.Screening;
 import com.example.entity.movie.Seats;
-import com.example.entity.user.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,8 +26,8 @@ public class Reservation extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "screening_id")
@@ -37,8 +37,8 @@ public class Reservation extends BaseEntity {
     private List<ReservedSeat> reservedSeats = new ArrayList<>();
 
     @Builder
-    public Reservation(User user, Screening screening) {
-        this.user = user;
+    public Reservation(Member member, Screening screening) {
+        this.member = member;
         this.screening = screening;
     }
 

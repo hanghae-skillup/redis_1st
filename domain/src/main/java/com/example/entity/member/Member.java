@@ -1,4 +1,4 @@
-package com.example.entity.user;
+package com.example.entity.member;
 
 import com.example.entity.BaseEntity;
 import jakarta.persistence.Column;
@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,7 +15,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends BaseEntity {
+public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(columnDefinition = "INT UNSIGNED")
@@ -24,7 +25,8 @@ public class User extends BaseEntity {
     private String password;
     private String email;
 
-    public User(String username, String password, String email) {
+    @Builder
+    public Member(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
