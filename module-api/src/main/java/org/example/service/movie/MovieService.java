@@ -21,7 +21,11 @@ public class MovieService {
     private final FindMovieService findMovieService;
 
     public List<PlayingMoviesResponseDto> getPlayingMovies(MoviesFilterRequestDto moviesFilterRequestDto) {
-        List<MovieScreeningInfo> movieScreeningInfos = findMovieService.getPlayingMovies(moviesFilterRequestDto).getMovieScreeningInfos();
+        List<MovieScreeningInfo> movieScreeningInfos =
+                findMovieService.getPlayingMovies(moviesFilterRequestDto).getMovieScreeningInfos()
+                .stream()
+                .filter(movieScreeningInfo -> movieScreeningInfo.getTitle().contains(moviesFilterRequestDto.getMovieTitle()))
+                .toList();
 
         Map<Long, PlayingMoviesResponseDto> movieInfoMap = new HashMap<>();
 

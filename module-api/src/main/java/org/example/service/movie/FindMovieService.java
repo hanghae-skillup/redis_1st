@@ -21,11 +21,8 @@ public class FindMovieService {
     @Cacheable(value = "playingMovies",
             key = "#moviesFilterRequestDto.genre + #moviesFilterRequestDto.playing")
     public FoundMovieScreeningInfoList getPlayingMovies(MoviesFilterRequestDto moviesFilterRequestDto) {
-        List<MovieScreeningInfo> movieScreeningInfos = movieJpaRepository.findScreeningInfos(moviesFilterRequestDto.getMovieTitle(), Genre.valueOf(moviesFilterRequestDto.getGenre()), moviesFilterRequestDto.isPlaying())
-                .stream()
-                .filter(movieScreeningInfo -> movieScreeningInfo.getTitle().contains(moviesFilterRequestDto.getMovieTitle()))
-                .toList();
-
+        List<MovieScreeningInfo> movieScreeningInfos
+                = movieJpaRepository.findScreeningInfos(moviesFilterRequestDto.getMovieTitle(), Genre.valueOf(moviesFilterRequestDto.getGenre()), moviesFilterRequestDto.isPlaying());
         return new FoundMovieScreeningInfoList(movieScreeningInfos);
     }
 }
