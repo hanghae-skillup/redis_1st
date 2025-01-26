@@ -24,7 +24,7 @@ class CacheMovieRepositoryImpl(
 
     @Cacheable(
         value = ["movies"],
-        key = "'movies:' + #status + ':' + #title + ':' + #genreId",
+        key = "'movies:' + #status + ':' + #genreId",
         unless = "#result.isEmpty()"
     )
     override fun findAllByStatusWithMovieAndTheater(currentTime: LocalDateTime, status: ScreeningStatus, title: String?, genreId: Long?): List<Movie> {

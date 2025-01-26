@@ -2,6 +2,8 @@ DROP TABLE IF EXISTS genre;
 DROP TABLE IF EXISTS movie;
 DROP TABLE IF EXISTS theater;
 DROP TABLE IF EXISTS screening;
+DROP TABLE IF EXISTS seat;
+DROP TABLE IF EXISTS reservation;
 
 CREATE TABLE IF NOT EXISTS genre (
     genre_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -49,9 +51,27 @@ CREATE TABLE IF NOT EXISTS screening (
     updated_at TIMESTAMP NOT NULL
     );
 
-SET cte_max_recursion_depth = 20000;
+CREATE TABLE IF NOT EXISTS seat (
+    seat_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    theater_id INT UNSIGNED NOT NULL,
+    row_val VARCHAR(10) NOT NULL,
+    col_val INT NOT NULL,
+    created_by VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_by VARCHAR(50) NOT NULL,
+    updated_at TIMESTAMP NOT NULL
+    );
 
--- ALTER TABLE movie
---     ADD INDEX idx_movie_title (title),
---     ADD INDEX idx_movie_genre_id (genre_id),
---     ADD INDEX idx_movie_release_date (release_date DESC);
+CREATE TABLE IF NOT EXISTS reservation (
+    reservation_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    seat_id INT UNSIGNED NOT NULL,
+    screening_id INT UNSIGNED NOT NULL,
+    user_id INT UNSIGNED NOT NULL,
+    reservation_time DATETIME NOT NULL,
+    created_by VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_by VARCHAR(50) NOT NULL,
+    updated_at TIMESTAMP NOT NULL
+    );
+
+SET cte_max_recursion_depth = 20000;

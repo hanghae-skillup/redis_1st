@@ -328,3 +328,29 @@ SELECT
     'system',
     CURRENT_TIMESTAMP
 FROM numbers;
+
+INSERT INTO seat (theater_id, row_val, col_val, created_by, created_at, updated_by, updated_at)
+SELECT t.theater_id AS theater_id,
+       r.letter AS row_val,
+       c.num    AS col_val,
+       'system',
+       CURRENT_TIMESTAMP,
+       'system',
+       CURRENT_TIMESTAMP
+FROM theater t
+         /* row(A~E) 생성 */
+         CROSS JOIN (
+    SELECT 'A' AS letter
+    UNION SELECT 'B'
+    UNION SELECT 'C'
+    UNION SELECT 'D'
+    UNION SELECT 'E'
+) r
+    /* col(1~5) 생성 */
+         CROSS JOIN (
+    SELECT 1 AS num
+    UNION SELECT 2
+    UNION SELECT 3
+    UNION SELECT 4
+    UNION SELECT 5
+) c;

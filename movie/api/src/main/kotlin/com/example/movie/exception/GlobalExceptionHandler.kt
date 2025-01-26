@@ -1,5 +1,6 @@
 package com.example.movie.exception
 
+import com.example.movie.domain.reservation.exception.ReservationException
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -14,5 +15,11 @@ class GlobalExceptionHandler {
             errors[error.field] = error.defaultMessage ?: "Invalid value"
         }
         return ResponseEntity.badRequest().body(errors)
+    }
+
+    @ExceptionHandler(ReservationException::class)
+    fun handleReservationException(e: ReservationException): ResponseEntity<Map<String, String>> {
+        return ResponseEntity.badRequest()
+            .body(mapOf("message" to e.message.toString()))
     }
 }

@@ -14,6 +14,18 @@ class TheaterEntity(
 
     val name: String,
 ) : BaseEntity() {
+    companion object {
+        fun from(theater: Theater)=  TheaterEntity(
+            id = theater.id,
+            name = theater.name,
+        ).apply {
+            createdBy = theater.createdBy
+            createdAt = theater.createdAt
+            updatedBy = theater.updatedBy
+            updatedAt = theater.updatedAt
+        }
+    }
+
     fun toDomain(): Theater {
         return Theater(
             id = id,

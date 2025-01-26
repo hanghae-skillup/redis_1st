@@ -88,3 +88,14 @@ INSERT INTO screening (movie_id, theater_id, screening_time, screening_end_time,
 VALUES (10, 3, DATEADD('DAY', 2, CURRENT_TIMESTAMP), DATEADD('DAY', 2, DATEADD('HOUR', 2, CURRENT_TIMESTAMP)), 'SCHEDULED', 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
 INSERT INTO screening (movie_id, theater_id, screening_time, screening_end_time, status, created_by, created_at, updated_by, updated_at)
 VALUES (10, 4, DATEADD('DAY', 2, DATEADD('HOUR', 3, CURRENT_TIMESTAMP)), DATEADD('DAY', 2, DATEADD('HOUR', 5, CURRENT_TIMESTAMP)), 'SCHEDULED', 'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP);
+
+INSERT INTO seat (theater_id, row_val, col_val, created_by, created_at, updated_by, updated_at)
+SELECT t.theater_id AS theater_id,
+       r.letter AS row_val,
+       c.num    AS col_val,
+       'system', CURRENT_TIMESTAMP, 'system', CURRENT_TIMESTAMP
+FROM theater t
+    /* row(A~E) 생성 */
+    CROSS JOIN (VALUES('A'),('B'),('C'),('D'),('E')) r(letter)
+    /* col(1~5) 생성 */
+    CROSS JOIN (VALUES(1),(2),(3),(4),(5)) c(num);

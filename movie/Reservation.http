@@ -1,0 +1,10 @@
+### 예약 요청 발송
+POST http://localhost:8080/api/v1/reservations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "userId": 1,
+  "screeningId": 1,
+  "seatIds": [1,2,3,4,5]
+}

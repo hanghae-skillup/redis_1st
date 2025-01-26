@@ -29,6 +29,22 @@ class ScreeningEntity(
     @Enumerated(EnumType.STRING)
     val status: ScreeningStatus,
 ) : BaseEntity() {
+    companion object {
+        fun from(screening: Screening) = ScreeningEntity(
+            id = screening.id,
+            movieId = screening.movieId,
+            theater = TheaterEntity.from(screening.theater),
+            screeningTime = screening.screeningTime,
+            screeningEndTime = screening.screeningEndTime,
+            status = screening.status,
+        ).apply {
+            createdBy = screening.createdBy
+            createdAt = screening.createdAt
+            updatedBy = screening.updatedBy
+            updatedAt = screening.updatedAt
+        }
+    }
+
     fun toDomain(): Screening {
         return Screening(
             id = id,
