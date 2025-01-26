@@ -1,6 +1,6 @@
 package com.movie.storage.movie.bulkInsert;
 
-import com.movie.common.enums.AxisX;
+import com.movie.common.enums.AxisY;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
@@ -11,8 +11,9 @@ public class BulkInsertReservation {
     private static final String URL = "jdbc:mysql://127.0.0.1:3306/movie2?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true";
     private static final String USER = "root";
     private static final String PASSWORD = "1234";
-    private static final String BASE_INSERT_RESERVATION_SQL = "insert into reservation (schedule_id, seat_id, user_id, reservedAt, created_by, created_at, modified_by, modified_at) values ";
-    private static final String BASE_INSERT_SEAT_SQL = "insert into seat (seat_number, axisX, axisY, created_by, created_at, modified_by, modified_at) values ";
+    private static final String BASE_INSERT_RESERVATION_SQL = "insert into reservation (schedule_id, seat_id, user_id, reserved_at, created_by, created_at, modified_by, modified_at) values ";
+
+    private static final String BASE_INSERT_SEAT_SQL = "insert into seat (seat_number, axisY, axisX, created_by, created_at, modified_by, modified_at) values ";
 
     private void clearReservationTable(Connection conn) {
         String deleteSql = "TRUNCATE TABLE reservation"; // 테이블의 모든 데이터를 삭제
@@ -88,20 +89,23 @@ public class BulkInsertReservation {
             int recordCount = 0;
             StringBuilder sqlBuilder = new StringBuilder(BASE_INSERT_SEAT_SQL);
 
-            String axisX = AxisX.A.name();
-            int axisY = 1;
+            AxisY[] axisYValues = AxisY.values(); // 열거형 값 배열
+            String axisY = axisYValues[0].name(); // 초기값
+            int axisX = 1;
 
             for (int i = 1; i <= totalSchedules; i++) {
-                if (i % 5 == 1 && i > 1) {
-                    axisY = 1;
+                if ((i - 1) % 5 == 0 && i > 1) {
+                    int index = (i - 1) / 5 % axisYValues.length;
+                    axisY = axisYValues[index].name();
+                    axisX = 1; // axisX 초기화
                 }
 
                 sqlBuilder.append(String.format(
-                        "(%s, %s, %d, 'admin', '2025-01-01', 'admin', '2025-01-01'),",
-                        "%s%d".formatted(axisX, axisY), axisX, axisY
+                        "('%s', '%s', %d, 1, '2025-01-01', 1, '2025-01-01'),",
+                        "%s%d".formatted(axisY, axisX), axisY, axisX
                 ));
 
-                axisY++;
+                axisX++;
                 recordCount++;
 
                 // 배치 처리

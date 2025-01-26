@@ -70,4 +70,14 @@ class BulkInsertTest {
 
     }
 
+    @Test
+    void bulkInsertSeat() {
+        // given
+
+        // when
+        bulkInsertReservation.bulkInsertSeat(25, 25);
+
+        // then
+    }
+
 }
