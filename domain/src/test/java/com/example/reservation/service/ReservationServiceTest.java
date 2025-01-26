@@ -9,7 +9,6 @@ import com.example.jpa.repository.reservation.ReservationRepository;
 import com.example.jpa.repository.user.UserRepository;
 import com.example.message.MessageService;
 import com.example.reservation.dto.ReservationRequest;
-import com.example.reservation.dto.ReservationResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +21,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Arrays;
 import java.util.Optional;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.when;
 
@@ -92,21 +90,14 @@ public class ReservationServiceTest {
 
     @Test
     @DisplayName("인접한 좌석(A1, A2)에 대해 성공한다.")
-    void testReserveSeat_SeatsAdjacent() {
+    void testReserveSeat_SeatsAdjacent() throws InterruptedException {
         /** 테스트 실패. 존재하지 않는 좌석이라고 뜸
          *  when으로 stub 해줬는데 왜?
          */
-
-        //given
         when(seatRepository.findByPositionAndScreeningId("A1", 1L)).thenReturn(Optional.of(new Seat()));
         when(seatRepository.findByPositionAndScreeningId("A2", 1L)).thenReturn(Optional.of(new Seat()));
 
         reservationRequest = new ReservationRequest(1L, 1L, Arrays.asList("A1", "A2"));
-
-        //when
-        ReservationResponse response = reservationService.reserveSeat(reservationRequest);
-
-        //then
-        assertNotNull(response);
+        reservationService.reserveSeat(reservationRequest);
     }
 }

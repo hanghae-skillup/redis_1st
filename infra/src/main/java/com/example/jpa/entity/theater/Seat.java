@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Getter;
-import org.springframework.lang.Nullable;
 
 @Entity
 @Getter
@@ -18,12 +17,6 @@ public class Seat extends BaseEntity {
 
     private Long theaterId;
 
-    @Nullable
-    private Long reservationId;
-
     private String position;
 
-    public void reserve(Long reservationId) {
-        this.reservationId = reservationId;
-    }
 }

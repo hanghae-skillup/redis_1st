@@ -10,12 +10,14 @@ import com.example.jpa.repository.reservation.ReservationRepository;
 import com.example.jpa.repository.user.UserRepository;
 import com.example.message.MessageService;
 import com.example.reservation.dto.ReservationRequest;
-import com.example.reservation.dto.ReservationResponse;
 import lombok.RequiredArgsConstructor;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Transactional
@@ -36,17 +38,19 @@ public class ReservationService {
 
     private static final Integer MAX_RESERVATION_PER_PERSON = 5;
 
-    private ScreeningRepository screeningRepository;
+    private final ScreeningRepository screeningRepository;
 
-    private ReservationRepository reservationRepository;
+    private final ReservationRepository reservationRepository;
 
-    private SeatRepository seatRepository;
+    private final SeatRepository seatRepository;
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private MessageService messageService;
+    private final MessageService messageService;
 
-    public ReservationResponse reserveSeat(ReservationRequest reservationRequest) throws InterruptedException {
+    private final RedissonClient redissonClient;
+
+    public void reserveSeat(ReservationRequest reservationRequest) throws InterruptedException {
         User findUser = userRepository.findById(reservationRequest.userId()).orElseThrow(() ->
                 new IllegalArgumentException(USER_NOT_FOUND));
 
@@ -65,23 +69,34 @@ public class ReservationService {
             throw new IllegalStateException(RESERVATION_MUST_BE_UNDER_MAX);
         }
 
-        Reservation reservation = new Reservation();
-        reservation.setUserId(findUser.getId());
-        reservationRepository.save(reservation);
+        String lockKey = reservationRequest.screeningId().toString();
+        RLock lock = redissonClient.getLock(lockKey);
 
-        for (String position : reservationRequest.seats()) {
-            Seat findSeat = seatRepository.findByPositionAndScreeningId(position, screening.getId()).orElseThrow(() ->
-                    new IllegalArgumentException(SEAT_NOT_FOUND));
-            if (findSeat.getReservationId()!=null) throw new IllegalArgumentException(SEAT_ALREADY_BE_MADE_RESERVATION);
-            findSeat.reserve(reservation.getId());
-            seatRepository.save(findSeat);
+        try {
+            boolean available = lock.tryLock(15,1, TimeUnit.SECONDS);
+
+            if (!available) throw new IllegalStateException("좌석 예약에 실패했습니다. 다시 시도해주세요.");
+
+            for (String position : reservationRequest.seats()) {
+                Seat findSeat = seatRepository.findByPositionAndScreeningId(position, screening.getId()).orElseThrow(() ->
+                        new IllegalArgumentException(SEAT_NOT_FOUND));
+
+                if (reservationRepository.existsBySeatIdAndScreeningId(findSeat.getId(), screening.getId()))
+                    throw new IllegalArgumentException(SEAT_ALREADY_BE_MADE_RESERVATION);
+
+                Reservation reservation = new Reservation();
+                reservation.reserve(findUser.getId(), findSeat.getId(), screening.getId());
+                reservationRepository.save(reservation);
+
+            }
+
+        } catch (InterruptedException e) {
+            throw  new RuntimeException(e);
+        } finally {
+            lock.unlock();
         }
 
-        messageService.send(findUser.getId(), reservation.getId());
-
-        return ReservationResponse.builder()
-                .reservationId(reservation.getId())
-                .build();
+        messageService.send();
     }
 
     private boolean areSeatsAdjacent(List<String> seats) {

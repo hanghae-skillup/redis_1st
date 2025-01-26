@@ -4,11 +4,13 @@ import com.example.jpa.entity.movie.Genre;
 import com.example.jpa.entity.movie.Grade;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
 public class MoviesDetailDto {
     private Long movieId;
     private String movieName;

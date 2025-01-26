@@ -21,7 +21,7 @@ public class MovieService {
     private final DtoConverter dtoConverter;
 
     public List<MoviesDetailResponse> getMovies(LocalDateTime now, Boolean isNowShowing, Genre genre, String search) {
-        List<MoviesDetailDto> cachedMovies = movieCacheService.getMoviesByGenre(genre);
+        List<MoviesDetailDto> cachedMovies = movieCacheService.getMoviesByGenre(genre.toString());
         List<MoviesDetailResponse> moviesDetailResponses = dtoConverter.moviesNowScreening(cachedMovies);
         return filterByStartAtAndTitle(now, isNowShowing, search, moviesDetailResponses);
     }

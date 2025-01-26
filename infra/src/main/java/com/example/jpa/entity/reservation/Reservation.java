@@ -1,10 +1,7 @@
 package com.example.jpa.entity.reservation;
 
 import com.example.jpa.entity.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 @Entity
@@ -17,7 +14,13 @@ public class Reservation extends BaseEntity {
 
     private Long userId;
 
-    public void setUserId(Long userId) {
+    private Long seatId;
+
+    private Long screeningId;
+
+    public void reserve(Long userId, Long seatId, Long screeningId) {
         this.userId = userId;
+        this.seatId = seatId;
+        this.screeningId = screeningId;
     }
 }
