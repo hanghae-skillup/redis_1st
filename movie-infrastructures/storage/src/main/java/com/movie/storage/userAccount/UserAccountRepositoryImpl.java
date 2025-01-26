@@ -1,7 +1,7 @@
 package com.movie.storage.userAccount;
 
-import com.movie.domain.exception.ApplicationException;
-import com.movie.domain.exception.ErrorCode;
+import com.movie.common.exception.ApplicationException;
+import com.movie.common.exception.ErrorCode;
 import com.movie.domain.userAccount.UserAccount;
 import com.movie.domain.userAccount.UserAccountRepository;
 import com.movie.storage.mapper.ModelMapper;

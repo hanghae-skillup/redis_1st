@@ -1,8 +1,8 @@
 package com.movie.domain.movie.domain;
 
 import com.movie.common.enums.AxisY;
-import com.movie.domain.exception.ApplicationException;
-import com.movie.domain.exception.ErrorCode;
+import com.movie.common.exception.ApplicationException;
+import com.movie.common.exception.ErrorCode;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -63,26 +63,6 @@ public class Seat {
 
         // X축(행)과 Y축(열) 기준으로 정렬
         mutableSeats.sort(Comparator.comparing(Seat::getAxisY).thenComparing(Seat::getAxisX));
-
-
-        // 1. 좌석을 X축(행)과 Y축(열) 기준으로 정렬
-//        seats.sort(Comparator.comparing(Seat::getAxisY).thenComparing(Seat::getAxisX));
-//        try {
-//            seats.sort((seat1, seat2) -> {
-//                // 먼저 AxisY를 비교
-//                int axisYComparison = seat1.getAxisY().compareTo(seat2.getAxisY());
-//
-//                // AxisY가 같으면 AxisX를 비교
-//                if (axisYComparison == 0) {
-//                    return Integer.compare(seat1.getAxisX(), seat2.getAxisX());
-//                }
-//
-//                return axisYComparison;
-//            });
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
 
         // 2. 포인터로 전체 리스트 순회
         AxisY currentRow = mutableSeats.getFirst().getAxisY();  // 첫 번째 좌석의 행

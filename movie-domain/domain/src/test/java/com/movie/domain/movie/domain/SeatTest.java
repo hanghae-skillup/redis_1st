@@ -1,7 +1,7 @@
 package com.movie.domain.movie.domain;
 
 import com.movie.common.enums.AxisY;
-import com.movie.domain.exception.ApplicationException;
+import com.movie.common.exception.ApplicationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

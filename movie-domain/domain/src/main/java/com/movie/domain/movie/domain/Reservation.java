@@ -1,7 +1,7 @@
 package com.movie.domain.movie.domain;
 
-import com.movie.domain.exception.ApplicationException;
-import com.movie.domain.exception.ErrorCode;
+import com.movie.common.exception.ApplicationException;
+import com.movie.common.exception.ErrorCode;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
