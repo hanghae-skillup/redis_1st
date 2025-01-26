@@ -46,6 +46,7 @@ object MovieDtoMapper {
             theater = toTheater(screening),
             screeningTime = screening.screeningTime,
             screeningEndTime = screening.screeningEndTime,
+            remainingSeatCount = -1,
             status = screening.status,
             createdBy = "system",
             createdAt = LocalDateTime.now(),

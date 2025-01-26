@@ -5,6 +5,11 @@ import java.time.LocalDateTime
 interface BaseModel {
     val createdBy: String
     val createdAt: LocalDateTime
-    val updatedBy: String
-    val updatedAt: LocalDateTime
+    var updatedBy: String
+    var updatedAt: LocalDateTime
+
+    fun update(updatedBy: String, updateAt: LocalDateTime) {
+        this.updatedBy = updatedBy
+        this.updatedAt = updateAt
+    }
 }

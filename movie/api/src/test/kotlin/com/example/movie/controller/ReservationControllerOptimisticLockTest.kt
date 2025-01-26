@@ -20,7 +20,7 @@ import java.util.concurrent.Future
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("local")
-class ReservationControllerPessimisticLockTest(
+class ReservationControllerOptimisticLockTest(
     @Autowired val mockMvc: MockMvc,
     @Autowired val objectMapper: ObjectMapper
 ) {

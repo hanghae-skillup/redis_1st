@@ -26,4 +26,9 @@ abstract class BaseEntity {
 
     @LastModifiedDate
     lateinit var updatedAt: LocalDateTime
+
+    fun update(updatedBy: String, updateAt: LocalDateTime) {
+        this.updatedBy = updatedBy
+        this.updatedAt = updatedAt
+    }
 }

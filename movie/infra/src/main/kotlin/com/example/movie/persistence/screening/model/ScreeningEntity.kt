@@ -3,7 +3,6 @@ package com.example.movie.persistence.screening.model
 import com.example.movie.domain.screening.model.Screening
 import com.example.movie.domain.screening.model.ScreeningStatus
 import com.example.movie.persistence.common.BaseEntity
-import com.example.movie.persistence.movie.model.MovieEntity
 import com.example.movie.persistence.theater.entity.TheaterEntity
 import jakarta.persistence.*
 import java.time.LocalDateTime
@@ -27,7 +26,13 @@ class ScreeningEntity(
     val screeningEndTime: LocalDateTime,
 
     @Enumerated(EnumType.STRING)
-    val status: ScreeningStatus,
+    var status: ScreeningStatus,
+
+    @Column(name = "remaining_seat_count")
+    var remainingSeatCount: Int,
+
+    @Version
+    var version: Long = 0,
 ) : BaseEntity() {
     companion object {
         fun from(screening: Screening) = ScreeningEntity(
@@ -37,6 +42,8 @@ class ScreeningEntity(
             screeningTime = screening.screeningTime,
             screeningEndTime = screening.screeningEndTime,
             status = screening.status,
+            remainingSeatCount = screening.remainingSeatCount,
+            version = 0,
         ).apply {
             createdBy = screening.createdBy
             createdAt = screening.createdAt
@@ -53,10 +60,16 @@ class ScreeningEntity(
             screeningTime = screeningTime,
             screeningEndTime = screeningEndTime,
             status = status,
+            remainingSeatCount = remainingSeatCount,
             createdBy = createdBy,
             createdAt = createdAt,
             updatedBy = updatedBy,
-            updatedAt = updatedAt
+            updatedAt = updatedAt,
         )
+    }
+
+    fun updateFromDomain(screening: Screening) {
+        super.update(screening.updatedBy, screening.updatedAt)
+        this.remainingSeatCount = screening.remainingSeatCount
     }
 }

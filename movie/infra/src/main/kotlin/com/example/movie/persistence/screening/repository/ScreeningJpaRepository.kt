@@ -13,4 +13,8 @@ interface ScreeningJpaRepository : JpaRepository<ScreeningEntity, Long> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT s FROM ScreeningEntity s WHERE s.id = :id")
     fun findByIdWithLock(@Param("id") id: Long): ScreeningEntity?
+
+    @Lock(LockModeType.OPTIMISTIC)
+    @Query("SELECT s FROM ScreeningEntity s WHERE s.id = :id")
+    fun findByIdWithOptimisticLock(@Param("id") id: Long): ScreeningEntity?
 }
