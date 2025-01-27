@@ -1,0 +1,35 @@
+POST http://localhost:8080/api/v1/movies/reserve
+Content-Type: application/json
+
+{
+    "user_id": 1,
+    "movie_id": 1,
+    "screening_id": 69,
+    "seats:": [
+        {
+            "seat_id": 296,
+            "seat_row": "A",
+            "seat_col": "1"
+        },
+        {
+            "seat_id": 291,
+            "seat_row": "A",
+            "seat_col": "2"
+        },
+        {
+            "seat_id": 286,
+            "seat_row": "A",
+            "seat_col": "3"
+        },
+        {
+            "seat_id": 281,
+            "seat_row": "A",
+            "seat_col": "4"
+        },
+        {
+            "seat_id": 276,
+            "seat_row": "A",
+            "seat_col": "5"
+        }
+    ]
+}
