@@ -30,7 +30,8 @@ public class BookingController {
                 createBookingRequest.movieId(),
                 createBookingRequest.showtimeId(),
                 createBookingRequest.theaterId(),
-                createBookingRequest.bookingDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                createBookingRequest.bookingDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+                createBookingRequest.seats().getFirst().charAt(0));
         var booking = createBookingUseCase.createBooking(lockKey, createBookingRequest.toCreateBookingCommand());
         sendMessageUseCase.sendMessage(String.format("BookingId : %d, UserId : %d", booking.id(), booking.userId()));
         return ResponseEntity.status(HttpStatus.CREATED).build();

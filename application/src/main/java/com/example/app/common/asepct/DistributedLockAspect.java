@@ -1,7 +1,9 @@
 package com.example.app.common.asepct;
 
 import com.example.app.common.annotation.DistributedLock;
+import com.example.app.common.exception.LockException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Aspect
 @Component
 @RequiredArgsConstructor
@@ -34,23 +37,22 @@ public class DistributedLockAspect {
         long waitTime = distributedLock.waitTime();
         TimeUnit timeUnit = distributedLock.timeUnit();
 
-        // 락
         RLock rLock = redissonClient.getLock(lockKey);
 
-        boolean lockAcquired = false;
-
         try {
-            // 락을 획득하려 시도
-            lockAcquired = rLock.tryLock(waitTime, leaseTime, timeUnit);
+            boolean lockAcquired = rLock.tryLock(waitTime, leaseTime, timeUnit);
 
             if (!lockAcquired) {
-                throw new IllegalStateException("락을 획득할 수 없습니다.");
+                log.error("락을 획득 실패");
+                throw new LockException();
             }
 
             return redisLockTransaction.proceed(joinPoint);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         } finally {
-            if (lockAcquired) {
-                rLock.unlock();  // 메소드 실행 후 락 해제
+            if (rLock.isLocked() && rLock.isHeldByCurrentThread()) {
+                rLock.unlock();
             }
         }
     }

@@ -38,28 +38,32 @@ public class CreateBookingService implements CreateBookingUseCase {
     @Override
     @Transactional
     public Booking createBooking(String lockKey, CreateBookingCommand createBookingCommand) {
+        // 유저 확인
+        checkValidUser(createBookingCommand.userId());
+
+        // 연속된 row 체크
+        checkSeatsInSequence(createBookingCommand.seats());
+
+        // 기존 예약 조회
+        var existingBookingIds = loadBookingPort.loadAllBookings(createBookingCommand.toSearchBookingCommand())
+                .stream()
+                .map(Booking::id)
+                .toList();
+
+        // 기존 예약의 자리 조회
+        var existingSeats = loadSeatPort.loadAllSeatsByBookingIds(existingBookingIds);
+
+        // 요청한 자리 + 이미 예약한 자리 = 5개 넘는지 체크
+        checkLimitMaxSeats(createBookingCommand.seats().size() + existingSeats.size());
+
+        // booking 생성
+        var booking = createBookingPort.saveBooking(createBookingCommand);
+
         return distributedLockService.executeWithLockAndReturn(() -> {
-            // 연속된 row 체크
-            checkSeatsInSequence(createBookingCommand.seats());
+            var requestSeats = loadSeatPort.loadAllSeats(createBookingCommand.toSearchSeatCommand());
 
             // 요청한 자리 예약 가능 여부 체크
-            var requestSeats = loadSeatPort.loadAllSeats(createBookingCommand.toSearchSeatCommand());
             checkSeatsAvailable(requestSeats);
-
-            // 기존 예약 조회
-            var existingBookingIds = loadBookingPort.loadAllBookings(createBookingCommand.toSearchBookingCommand())
-                    .stream()
-                    .map(Booking::id)
-                    .toList();
-
-            // 기존 예약의 자리 조회
-            var existingSeats = loadSeatPort.loadAllSeatsByBookingIds(existingBookingIds);
-
-            // 요청한 자리 + 이미 예약한 자리 = 5개 넘는지 체크
-            checkLimitMaxSeats(requestSeats.size() + existingSeats.size());
-
-            // booking 생성
-            var booking = createBookingPort.saveBooking(createBookingCommand);
 
             // 요청한 자리들 업데이트
             var requestSeatIds = requestSeats.stream().map(Seat::id).toList();
@@ -69,7 +73,7 @@ public class CreateBookingService implements CreateBookingUseCase {
         }, lockKey, 1L, 2L);
     }
 
-    private void checkLimitMaxSeats(Integer totalSeat) {
+    private void checkLimitMaxSeats(final int totalSeat) {
         if (totalSeat > MAX_SEATS) {
             throw new APIException(OVER_MAX_LIMIT_SEATS);
         }
@@ -90,5 +94,17 @@ public class CreateBookingService implements CreateBookingUseCase {
                 throw new APIException(SEAT_ROW_NOT_IN_SEQUENCE);
             }
         }
+    }
+
+    private void checkValidUser(final long userId) {
+        log.info(">>>>>> Checking userId : {}", userId);
+        /* pseudo code
+        * try {
+        *   var user = userApi.getUser(userId);
+        *   if (user == null) { throw new APIException(NOT_VALID_USER); }
+        * } catch (Exception e) {
+        *   throw new APIException(SERVICE_NETWORK_ERROR);
+        * }
+        * */
     }
 }

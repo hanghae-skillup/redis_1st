@@ -25,6 +25,11 @@ public class ErrorAdviceController {
         return new ResponseEntity<>(new ErrorMessage(ex.getHttpStatus().name(), ex.getMessage()), ex.getHttpStatus());
     }
 
+    @ExceptionHandler(LockException.class)
+    public ResponseEntity<ErrorMessage> handleLockException(LockException ex) {
+        return new ResponseEntity<>(new ErrorMessage(ex.getHttpStatus().name(), ex.getMessage()), ex.getHttpStatus());
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorMessage> handleRuntimeException(RuntimeException ex) {
         return new ResponseEntity<>(
