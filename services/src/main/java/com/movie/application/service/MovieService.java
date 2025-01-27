@@ -34,7 +34,6 @@ public class MovieService {
         List<Schedule> schedules = scheduleRepository.findAll();
 
         Map<Long, List<Schedule>> schedulesByMovieId = schedules.stream()
-                .filter(schedule -> schedule.getStartAt().isAfter(LocalDateTime.now()))
                 .collect(Collectors.groupingBy(Schedule::getMovieId));
 
         return movies.stream()
