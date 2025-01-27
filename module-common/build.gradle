@@ -15,7 +15,7 @@ dependencies {
     api 'org.redisson:redisson-spring-boot-starter:3.21.1'
     api 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     api "com.fasterxml.jackson.core:jackson-databind"
-
+    api 'org.springframework.boot:spring-boot-starter-aop'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

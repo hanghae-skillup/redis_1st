@@ -6,10 +6,11 @@ import hellojpa.dto.TheaterScheduleDto;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public interface ScreeningRepositoryCustom {
 
-    List<ScreeningDto> findCurrentScreenings(LocalDate todayDate, SearchCondition searchCondition);
+    List<ScreeningDto> findCurrentScreeningsMovieInfo(LocalDate todayDate, SearchCondition searchCondition);
 
-    List<TheaterScheduleDto> findTheaterScheduleDtoByMovieTitle(String title);
+    List<TheaterScheduleDto> findTheaterScheduleDtoByMovieTitles(List<String> titles);
 }

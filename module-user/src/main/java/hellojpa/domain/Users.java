@@ -5,18 +5,19 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Getter
-public class Theater extends BaseEntity {
+public class Users extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "theater_id")
+    @Column(name = "user_id")
     private Long id;
 
-    @Column(nullable = false, length = 20)
-    private String name; // 상영관 이름
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private int age;
+
 }

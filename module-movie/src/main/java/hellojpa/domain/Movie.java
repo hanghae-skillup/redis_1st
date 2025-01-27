@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class Movie extends BaseEntity {
 
     @Id

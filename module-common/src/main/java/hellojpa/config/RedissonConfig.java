@@ -37,9 +37,8 @@ public class RedissonConfig {
     public RedissonSpringCacheManager cacheManager(RedissonClient redissonClient) {
         Map<String, CacheConfig> configMap = new HashMap<>();
 
-        // 캐시 이름별 TTL 및 Idle Time 설정
-        configMap.put("screenings", new org.redisson.spring.cache.CacheConfig(600000, 120000)); // 10분 TTL, 2분 Idle
-        configMap.put("default", new org.redisson.spring.cache.CacheConfig(600000, 120000));
+        //  테스트하기 위해 TTL 10분으로 설정
+        configMap.put("screenings", new org.redisson.spring.cache.CacheConfig(600000, 120000)); // 테스트 끝난 뒤 TTL 86400000(24시간)으로 변경
 
         return new RedissonSpringCacheManager(redissonClient, configMap);
     }

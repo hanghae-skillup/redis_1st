@@ -8,10 +8,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.TimePath;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import hellojpa.domain.QMovie;
-import hellojpa.domain.QScreening;
-import hellojpa.domain.QTheater;
-import hellojpa.domain.Screening;
+import hellojpa.domain.*;
 import hellojpa.dto.ScreeningDto;
 import hellojpa.dto.SearchCondition;
 import hellojpa.dto.TheaterScheduleDto;
@@ -33,7 +30,7 @@ public class ScreeningRepositoryImpl implements ScreeningRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<ScreeningDto> findCurrentScreenings(LocalDate todayDate, SearchCondition searchCondition) {
+    public List<ScreeningDto> findCurrentScreeningsMovieInfo(LocalDate todayDate, SearchCondition searchCondition) {
 
         // 오늘 날짜를 기준으로 개봉한 영화만 조회
         BooleanExpression condition = movie.releaseDate.loe(todayDate);
@@ -45,18 +42,19 @@ public class ScreeningRepositoryImpl implements ScreeningRepositoryCustom {
         }
 
         if (searchCondition.getGenre() != null && !searchCondition.getGenre().isEmpty()) {
-            condition = condition.and(movie.genre.stringValue().eq(searchCondition.getGenre()));
+            Genre genre = Genre.valueOf(searchCondition.getGenre());
+            condition = condition.and(movie.genre.eq(genre));
         }
 
         return queryFactory
                 .select(Projections.constructor(
                         ScreeningDto.class,
                         movie.title,
-                        movie.rating.stringValue(),
+                        movie.rating,
                         movie.releaseDate,
                         movie.thumbnail,
                         movie.runningTime,
-                        movie.genre.stringValue()
+                        movie.genre
                 ))
                 .from(movie)
                 .where(condition)
@@ -66,10 +64,11 @@ public class ScreeningRepositoryImpl implements ScreeningRepositoryCustom {
 
     // 영화에 해당하는 상영관과 상영시간 조회
     @Override
-    public List<TheaterScheduleDto> findTheaterScheduleDtoByMovieTitle(String title) {
+    public List<TheaterScheduleDto> findTheaterScheduleDtoByMovieTitles(List<String> titles) {
         return queryFactory
                 .select(Projections.constructor(
                         TheaterScheduleDto.class,
+                        screening.movie.title,
                         theater.name,
                         Projections.list(
                                 Projections.constructor(
@@ -82,7 +81,7 @@ public class ScreeningRepositoryImpl implements ScreeningRepositoryCustom {
                 .from(screening)
                 .join(screening.theater, theater)
                 .join(screening.movie, movie)
-                .where(screening.movie.title.eq(title))
+                .where(screening.movie.title.in(titles))
                 .orderBy(screening.startTime.asc())
                 .fetch();
     }

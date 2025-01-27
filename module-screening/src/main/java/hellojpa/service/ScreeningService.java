@@ -21,41 +21,43 @@ public class ScreeningService {
 
     private final ScreeningRepository screeningRepository;
 
-    @Cacheable(value = "screenings", key = "#searchCondition.title == null ? 'EMPTY' : #searchCondition.title " +
-            "+ (#searchCondition.genre == null ? 'EMPTY' : #searchCondition.genre)")
+    /*@Cacheable(value = "currentScreenings", key = "#todayDate + '-' + " +
+            "(#searchCondition.title != null ? #searchCondition.title : 'all') + '-' + " +
+            "(#searchCondition.genre != null ? #searchCondition.genre : 'all')")*/
     public List<ScreeningDto> findCurrentScreenings(LocalDate todayDate, SearchCondition searchCondition) {
 
-        List<ScreeningDto> screeningDtos = screeningRepository.findCurrentScreenings(todayDate, searchCondition);
+        // 영화 기본 정보 조회
+        List<ScreeningDto> screeningDtos = screeningRepository.findCurrentScreeningsMovieInfo(todayDate, searchCondition);
 
-        // screeningDtos에 상영관과 시간 스케줄을 추가
-        addTheaterScheduleDtoToScreenings(screeningDtos);
+        // 영화 제목 리스트 추출
+        List<String> titles = screeningDtos.stream()
+                .map(ScreeningDto::getTitle)
+                .collect(Collectors.toList());
 
-        return screeningDtos;
-    }
+        // 상영관, 상영 시간 정보 조회
+        List<TheaterScheduleDto> theaterScheduleDtos = screeningRepository.findTheaterScheduleDtoByMovieTitles(titles);
 
-    private void addTheaterScheduleDtoToScreenings(List<ScreeningDto> screeningDtos) {
+        // 영화 제목 기준 그룹화
+        Map<String, List<TheaterScheduleDto>> theaterScheduleMap = theaterScheduleDtos.stream()
+                .collect(Collectors.groupingBy(TheaterScheduleDto::getTitle));
 
         for (ScreeningDto screeningDto : screeningDtos) {
-            // 상영관 스케줄 조회
-            List<TheaterScheduleDto> theaterScheduleDtos =
-                    screeningRepository.findTheaterScheduleDtoByMovieTitle(screeningDto.getTitle());
+            // 해당 영화의 상영관 목록 가져오기
+            List<TheaterScheduleDto> schedules = theaterScheduleMap.getOrDefault(screeningDto.getTitle(), Collections.emptyList());
 
-            // 상영관마다 상영 스케줄 삽입
-            Map<String, List<TimeScheduleDto>> theaterSchedulesMap = new HashMap<>();
-            for (TheaterScheduleDto theaterScheduleDto : theaterScheduleDtos) {
-                String theaterName = theaterScheduleDto.getName();
-                theaterSchedulesMap.putIfAbsent(theaterName, new ArrayList<>());
-                theaterSchedulesMap.get(theaterName).addAll(theaterScheduleDto.getTimeScheduleDtoList());
-            }
-
-            // theaterSchedulesMap -> finalTheaterScheduleDtos
-            List<TheaterScheduleDto> finalTheaterScheduleDtos = new ArrayList<>();
-            for (Map.Entry<String, List<TimeScheduleDto>> entry : theaterSchedulesMap.entrySet()) {
-                finalTheaterScheduleDtos.add(new TheaterScheduleDto(entry.getKey(), entry.getValue()));
-            }
+            // 상영관을 이름으로 그룹화하여 상영 시간 조회
+            Map<String, List<TimeScheduleDto>> groupedSchedules = schedules.stream()
+                    .collect(Collectors.groupingBy(TheaterScheduleDto::getName,
+                            Collectors.flatMapping(theaterSchedule -> theaterSchedule.getTimeScheduleDtoList().stream(), Collectors.toList())));
 
             screeningDto.getTheaterSheduleDtoList().clear();
-            screeningDto.getTheaterSheduleDtoList().addAll(finalTheaterScheduleDtos);
+
+            for (Map.Entry<String, List<TimeScheduleDto>> entry : groupedSchedules.entrySet()) {
+                TheaterScheduleDto combinedTheaterSchedule = new TheaterScheduleDto(screeningDto.getTitle(), entry.getKey(), entry.getValue());
+                screeningDto.getTheaterSheduleDtoList().add(combinedTheaterSchedule);
+            }
         }
+
+        return screeningDtos;
     }
 }

@@ -13,14 +13,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class TheaterScheduleDto {
 
+    private String title; // 영화 제목
     private String name; // 상영관 이름
     private List<TimeScheduleDto> timeScheduleDtoList;
-
-    public static TheaterScheduleDto of(Theater theater, List<TimeScheduleDto> timeSchedule){
-        String theaterName = theater.getName();
-
-        return new TheaterScheduleDto(
-                theaterName, timeSchedule
-        );
-    }
 }

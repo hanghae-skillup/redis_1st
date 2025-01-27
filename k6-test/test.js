@@ -11,7 +11,7 @@ export let options = {
 };
 
 export default function () {
-  const res = http.get('http://localhost:8080/screening/movies'); // API 엔드포인트
+  const res = http.get('http://localhost:8080/screening/movies?title=Movie1&genre=HORROR'); // API 엔드포인트
   check(res, {
     'status is 200': (r) => r.status === 200,
     'response time < 200ms': (r) => r.timings.duration < 200,

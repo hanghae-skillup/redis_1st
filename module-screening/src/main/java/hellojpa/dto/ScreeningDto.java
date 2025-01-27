@@ -1,7 +1,9 @@
 package hellojpa.dto;
 
+import hellojpa.domain.Genre;
 import hellojpa.domain.Movie;
 
+import hellojpa.domain.VideoRating;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,12 +27,12 @@ public class ScreeningDto {
     private String genre;
     private List<TheaterScheduleDto> theaterSheduleDtoList = new ArrayList<>();
 
-    public ScreeningDto(String title, String rating, LocalDate releaseDate, String thumbnail, int runningTime, String genre) {
+    public ScreeningDto(String title, VideoRating rating, LocalDate releaseDate, String thumbnail, int runningTime, Genre genre) {
         this.title = title;
-        this.rating = rating;
+        this.rating = rating.toString();
         this.releaseDate = releaseDate;
         this.thumbnail = thumbnail;
         this.runningTime = runningTime;
-        this.genre = genre;
+        this.genre = genre.toString();
     }
 }

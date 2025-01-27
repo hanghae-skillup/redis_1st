@@ -1,5 +1,6 @@
 package hellojpa.exception;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,5 +17,12 @@ public class GlobalExceptionHandler {
         FieldError fieldError = ex.getBindingResult().getFieldError();
         String errorMessage = (fieldError != null) ? fieldError.getDefaultMessage() : "Invalid input";
         return ResponseEntity.badRequest().body(errorMessage);
+    }
+
+    // SeatReservationException 처리
+    @ExceptionHandler(SeatReservationException.class)
+    public ResponseEntity<String> handleSeatReservationException(SeatReservationException ex) {
+        // 예외 메시지를 반환
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }

@@ -1,0 +1,18 @@
+bootJar.enabled = false
+jar.enabled = true
+
+dependencies {
+    // 모듈 의존성
+    implementation project(':module-common')
+    implementation project(':module-user')
+    implementation project(':module-screening')
+    implementation project(':module-theater')
+    implementation project(':module-movie')
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+}

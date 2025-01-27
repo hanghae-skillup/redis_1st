@@ -4,4 +4,5 @@ include 'module-theater'
 include 'module-screening'
 include 'module-common'
 include 'module-api'
-
+include 'module-user'
+include 'module-reservation'
