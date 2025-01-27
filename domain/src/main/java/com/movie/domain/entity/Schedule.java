@@ -17,11 +17,11 @@ public class Schedule extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_id")
+    @JoinColumn(name = "movie_id", nullable = false)
     private Movie movie;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "theater_id")
+    @JoinColumn(name = "theater_id", nullable = false)
     private Theater theater;
 
     private LocalDateTime startAt;
@@ -45,5 +45,13 @@ public class Schedule extends BaseEntity {
 
     public void updateMovie(Movie movie) {
         this.movie = movie;
+    }
+
+    public Long getMovieId() {
+        return movie.getId();
+    }
+
+    public Long getTheaterId() {
+        return theater.getId();
     }
 }

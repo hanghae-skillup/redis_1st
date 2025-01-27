@@ -35,3 +35,12 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# Querydsl QClass
+**/src/main/generated/
+**/generated/
+**/src/**/Q*.java
+
+# Logs
+logs
+*.log
