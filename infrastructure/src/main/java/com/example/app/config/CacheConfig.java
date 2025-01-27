@@ -1,4 +1,4 @@
-package com.example.app.movie.config;
+package com.example.app.config;
 
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;

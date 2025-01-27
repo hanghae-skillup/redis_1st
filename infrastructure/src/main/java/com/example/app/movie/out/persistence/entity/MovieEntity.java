@@ -1,6 +1,6 @@
 package com.example.app.movie.out.persistence.entity;
 
-import com.example.app.movie.common.BaseJpaEntity;
+import com.example.app.common.BaseEntity;
 import com.example.app.movie.type.MovieGenre;
 import com.example.app.movie.type.MovieRating;
 import com.example.app.movie.type.MovieStatus;
@@ -18,11 +18,11 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MovieEntity extends BaseJpaEntity {
+public class MovieEntity extends BaseEntity {
 
     @Id
     @Column(name = "movie_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title;

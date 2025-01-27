@@ -11,8 +11,11 @@ curl -X GET http://localhost:8080/api/v1/movies
 
 ## Multi Module
 
-### 1. movie-api
+### 1-1. movie-api
 > 영화 도메인 presentation 담당합니다.
+
+### 1-2. booking-api
+> 예약 도메인 presentation 담당합니다.
 
 ### 2. application
 > Use Case 생성을 담당합니다.
@@ -24,12 +27,12 @@ curl -X GET http://localhost:8080/api/v1/movies
 > 도메인 로직을 포함합니다.
 
 ## Architecture
-> 클린 아키텍처를 최대한 따라했습니다.
+> 클린 아키텍처를 지향합니다.
 
-![arc](etc/readme/arc2.png)
+![arc](etc/readme/arc3.png)
 
 ## Table Design
-![erd_db](etc/readme/erd.png)
+![erd_db](etc/readme/erd2.png)
 
 ## 성능 테스트
 ### 캐싱할 데이터
@@ -54,5 +57,14 @@ curl -X GET http://localhost:8080/api/v1/movies
 ]
 ```
 
+### 분산락
+> Lease Time 길게 잡을수록 한 스레드가 lock을 오래 잡고 있어, 동시성 성능 테스트할때 fail 요청률이 90% 이상 나왔습니다.
+> 
+> Wait Time 경우 좌석 예매 특성상 오래 기다린다고 예약이 되는건 아니라 Lease Time보다 낮게 잡았습니다.
+- Lease Time - 2초 
+- Wait Time - 1초
+
 ### 보고서
-[성능 테스트 보고서](https://gusty-football-62b.notion.site/17f81b29f03680718163fe0b7798383e)
+- [캐싱 성능 테스트 보고서](https://gusty-football-62b.notion.site/17f81b29f03680718163fe0b7798383e)
+- [분산락 테스트 보고서](https://gusty-football-62b.notion.site/18781b29f03680049de7db34240a6733)
+

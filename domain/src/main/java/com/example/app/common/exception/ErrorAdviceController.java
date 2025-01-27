@@ -1,4 +1,4 @@
-package com.example.app.movie.common;
+package com.example.app.common.exception;
 
 import com.example.app.common.dto.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +18,16 @@ public class ErrorAdviceController {
     public ResponseEntity<ErrorMessage> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         var message = Objects.requireNonNull(ex.getBindingResult().getFieldError()).getDefaultMessage();
         return new ResponseEntity<>(new ErrorMessage(HttpStatus.BAD_REQUEST.name(), message), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(APIException.class)
+    public ResponseEntity<ErrorMessage> handleAPIException(APIException ex) {
+        return new ResponseEntity<>(new ErrorMessage(ex.getHttpStatus().name(), ex.getMessage()), ex.getHttpStatus());
+    }
+
+    @ExceptionHandler(LockException.class)
+    public ResponseEntity<ErrorMessage> handleLockException(LockException ex) {
+        return new ResponseEntity<>(new ErrorMessage(ex.getHttpStatus().name(), ex.getMessage()), ex.getHttpStatus());
     }
 
     @ExceptionHandler(RuntimeException.class)

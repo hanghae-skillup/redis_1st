@@ -1,7 +1,7 @@
 package com.example.app.movie.out.persistence.adapter;
 
 import com.example.app.movie.domain.Movie;
-import com.example.app.movie.dto.MovieSearchCommand;
+import com.example.app.movie.dto.SearchMovieCommand;
 import com.example.app.movie.out.persistence.mapper.MovieMapper;
 import com.example.app.movie.out.persistence.repository.MovieRepository;
 import com.example.app.movie.port.LoadMoviePort;
@@ -23,19 +23,19 @@ public class MoviePersistenceAdapter implements LoadMoviePort {
     private final MovieMapper movieMapper;
 
     @Override
-    public List<Movie> loadAllMovies(MovieSearchCommand movieSearchCommand) {
-        return movieRepository.findAllBy(toPredicate(movieSearchCommand))
+    public List<Movie> loadAllMovies(SearchMovieCommand searchMovieCommand) {
+        return movieRepository.findAllBy(toPredicate(searchMovieCommand))
                 .stream()
                 .map(movieMapper::movieEntityToMovie)
                 .toList();
     }
 
-    private Predicate toPredicate(MovieSearchCommand movieSearchCommand) {
+    private Predicate toPredicate(SearchMovieCommand searchMovieCommand) {
         return ExpressionUtils.allOf(
-                nonNull(movieSearchCommand.title()) ?
-                        movieEntity.title.containsIgnoreCase(movieSearchCommand.title()) : null,
-                nonNull(movieSearchCommand.genre()) ?
-                        movieEntity.genre.eq(movieSearchCommand.genre()) : null
+                nonNull(searchMovieCommand.title()) ?
+                        movieEntity.title.containsIgnoreCase(searchMovieCommand.title()) : null,
+                nonNull(searchMovieCommand.genre()) ?
+                        movieEntity.genre.eq(searchMovieCommand.genre()) : null
         );
     }
 }
