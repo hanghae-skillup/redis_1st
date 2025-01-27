@@ -9,6 +9,8 @@ import com.movie.domain.repository.ReservationRepository;
 import com.movie.domain.repository.ScheduleRepository;
 import com.movie.domain.repository.SeatRepository;
 import com.movie.domain.repository.UserRepository;
+import com.movie.exception.BusinessException;
+import com.movie.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,17 +32,17 @@ public class ReservationService {
     @DistributedLock(key = "'reservation:' + #scheduleId + ':' + #seatId")
     public String reserve(Long userId, Long scheduleId, Long seatId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
         
         Schedule schedule = scheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> new IllegalArgumentException("Schedule not found"));
+                .orElseThrow(() -> new BusinessException(ErrorCode.SCHEDULE_NOT_FOUND));
         
         Seat seat = seatRepository.findById(seatId)
-                .orElseThrow(() -> new IllegalArgumentException("Seat not found"));
+                .orElseThrow(() -> new BusinessException(ErrorCode.SEAT_NOT_FOUND));
 
         // 이미 예약된 좌석인지 확인
         if (reservationRepository.existsByScheduleAndSeat(schedule, seat)) {
-            throw new IllegalStateException("Seat is already reserved");
+            throw new BusinessException(ErrorCode.SEAT_ALREADY_RESERVED);
         }
 
         // 예약 번호 생성
@@ -66,27 +68,27 @@ public class ReservationService {
     @Transactional(readOnly = true)
     public List<Reservation> getUserReservations(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
         return reservationRepository.findByUser(user);
     }
 
     @Transactional(readOnly = true)
     public Reservation getReservation(String reservationNumber) {
         return reservationRepository.findByReservationNumber(reservationNumber)
-                .orElseThrow(() -> new IllegalArgumentException("Reservation not found"));
+                .orElseThrow(() -> new BusinessException(ErrorCode.RESERVATION_NOT_FOUND));
     }
 
     @Transactional
     public void cancelReservation(String reservationNumber) {
         Reservation reservation = reservationRepository.findByReservationNumber(reservationNumber)
-                .orElseThrow(() -> new IllegalArgumentException("Reservation not found"));
+                .orElseThrow(() -> new BusinessException(ErrorCode.RESERVATION_NOT_FOUND));
         reservationRepository.delete(reservation);
     }
 
     @Transactional(readOnly = true)
     public List<Seat> getAvailableSeats(Long scheduleId) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> new IllegalArgumentException("Schedule not found"));
+                .orElseThrow(() -> new BusinessException(ErrorCode.SCHEDULE_NOT_FOUND));
         return seatRepository.findAvailableSeats(schedule);
     }
 
