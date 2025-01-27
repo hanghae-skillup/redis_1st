@@ -12,7 +12,7 @@ import module.entity.Ticket;
 
 public interface TicketRepository extends JpaRepository<Ticket,Long> {
 
-	@Lock(LockModeType.PESSIMISTIC_READ)
+	@Lock(LockModeType.OPTIMISTIC)
 	List<Ticket> findAllByTicketIdIn(List<Long> ticketIdList);
 
 	@Query(value = "select t, s1, s2, s3 "

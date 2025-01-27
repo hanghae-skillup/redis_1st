@@ -57,7 +57,7 @@ public class TicketConcurrentTest {
 		// when
 		CountDownLatch latch = new CountDownLatch(1000);
 
-		IntStream.range(0, 1000).forEach(i -> {
+		IntStream.range(1, 1001).forEach(i -> {
 			String username = "vuser" + i;
 			TicketDTO ticketDTO = ticketList.get(i % ticketList.size());
 			List<TicketDTO> ticketDTOList = List.of(ticketDTO);

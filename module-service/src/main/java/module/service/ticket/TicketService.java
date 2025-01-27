@@ -87,7 +87,6 @@ public class TicketService {
 		// 예외처리 [ 존재하지 않는 티켓 ]
 		if (ticketList.size() != ticketDtoList.size())
 			throw new InvalidTicketException();
-		log.info("ticketId check pass");
 
 		// 예외처리 [ 판매중이 아닌 티켓 ]
 		ticketList.forEach(ticket->{
@@ -105,7 +104,6 @@ public class TicketService {
 		if (!optionalUser.isPresent()) {
 			throw new UserNotFoundException();
 		}
-		log.info("username check pass");
 
 		// 예외처리 [ 티켓 구매 5건 초과 ]
 		User user = optionalUser.get();
@@ -113,7 +111,6 @@ public class TicketService {
 		Integer userBoughtCnt = salesRepository.countAllByUserAndShowing(user, showing);
 		if (userBoughtCnt + ticketList.size() > 5 || ticketList.size() > 5)
 			throw new TooManyReservationException();
-		log.info("user's sales ticket check pass");
 
 		/**
 		 // 영화가 이미 시작했을 경우
@@ -129,14 +126,12 @@ public class TicketService {
 			.collect(Collectors.groupingBy(Seats::getSeatRow)).size();
 		if (numberOfSeatRow > 1)
 			throw new InvalidSeatConditionException();
-		log.info("request ticket row seat check pass");
 
 		// 예외처리 [ 부적절한 연령 ]
 		Movie movie = showing.getMovie();
 		int userAge = Period.between(user.getBirth(), LocalDate.now()).getYears();
 		if (userAge < movie.getRating().getAge())
 			throw new InvalidAgeForMovieException();
-		log.info("movie rating check pass");
 
 		// 최종연산 [ 결제 완료 처리 ]
 		for (Ticket ticket : ticketList) {

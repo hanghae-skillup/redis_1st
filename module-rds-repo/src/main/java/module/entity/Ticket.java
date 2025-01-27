@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,6 +42,9 @@ public class Ticket extends BaseEntity{
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private TicketStatus ticketStatus;
+
+	@Version
+	private Integer version;
 
 	public void setTicketStatus(TicketStatus ticketStatus) {
 		this.ticketStatus = ticketStatus;
