@@ -15,17 +15,14 @@ public class Reservation extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "schedule_id")
-    private Schedule schedule;
+    @Column(name = "schedule_id", nullable = false)
+    private Long scheduleId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seat_id")
-    private Seat seat;
+    @Column(name = "seat_id", nullable = false)
+    private Long seatId;
 
     @Column(nullable = false)
     private String reservationNumber;
@@ -41,10 +38,10 @@ public class Reservation extends BaseEntity {
     private Long version;
 
     @Builder
-    public Reservation(User user, Schedule schedule, Seat seat, String reservationNumber) {
-        this.user = user;
-        this.schedule = schedule;
-        this.seat = seat;
+    public Reservation(Long userId, Long scheduleId, Long seatId, String reservationNumber) {
+        this.userId = userId;
+        this.scheduleId = scheduleId;
+        this.seatId = seatId;
         this.reservationNumber = reservationNumber;
         this.status = ReservationStatus.RESERVED;
         this.reservedAt = LocalDateTime.now();
@@ -56,17 +53,5 @@ public class Reservation extends BaseEntity {
 
     public void expire() {
         this.status = ReservationStatus.EXPIRED;
-    }
-
-    public Long getUserId() {
-        return user != null ? user.getId() : null;
-    }
-
-    public Long getScheduleId() {
-        return schedule != null ? schedule.getId() : null;
-    }
-
-    public Long getSeatId() {
-        return seat != null ? seat.getId() : null;
     }
 } 

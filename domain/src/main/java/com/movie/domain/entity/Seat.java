@@ -17,9 +17,8 @@ public class Seat extends BaseEntity {
     @Column(nullable = false)
     private String seatNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "theater_id")
-    private Theater theater;
+    @Column(name = "theater_id", nullable = false)
+    private Long theaterId;
 
     @Column(name = "row_number", nullable = false)
     private Integer row;
@@ -27,14 +26,10 @@ public class Seat extends BaseEntity {
     @Column(name = "column_number", nullable = false)
     private Integer column;
 
-    public Seat(String seatNumber, Theater theater, Integer row, Integer column) {
+    public Seat(String seatNumber, Long theaterId, Integer row, Integer column) {
         this.seatNumber = seatNumber;
-        this.theater = theater;
+        this.theaterId = theaterId;
         this.row = row;
         this.column = column;
-    }
-
-    public Long getTheaterId() {
-        return theater != null ? theater.getId() : null;
     }
 } 
