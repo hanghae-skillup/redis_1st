@@ -15,12 +15,10 @@ public class Seat extends BaseEntity {
     @Column(nullable = false)
     private String seatNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "theater_id")
-    private Theater theater;
+    private Long theaterId;
 
-    public Seat(String seatNumber, Theater theater) {
+    public Seat(String seatNumber, Long theaterId) {
         this.seatNumber = seatNumber;
-        this.theater = theater;
+        this.theaterId = theaterId;
     }
 } 

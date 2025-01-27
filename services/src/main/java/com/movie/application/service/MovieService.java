@@ -4,7 +4,6 @@ import com.movie.application.dto.MovieResponseDto;
 import com.movie.domain.dto.MovieProjection;
 import com.movie.domain.dto.MovieSearchCondition;
 import com.movie.domain.entity.Schedule;
-import com.movie.domain.entity.Theater;
 import com.movie.domain.repository.MovieRepository;
 import com.movie.domain.repository.ScheduleRepository;
 import com.movie.domain.repository.TheaterRepository;
@@ -32,7 +31,7 @@ public class MovieService {
     @Cacheable(value = "movies", key = "#condition.title + '_' + #condition.genre")
     public List<MovieResponseDto> getNowShowingMovies(MovieSearchCondition condition) {
         List<MovieProjection> movies = movieQueryRepository.search(condition);
-        List<Schedule> schedules = scheduleRepository.findAllFetchMovieTheater();
+        List<Schedule> schedules = scheduleRepository.findAll();
 
         Map<Long, List<Schedule>> schedulesByMovieId = schedules.stream()
                 .filter(schedule -> schedule.getStartAt().isAfter(LocalDateTime.now()))

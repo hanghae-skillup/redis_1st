@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -17,8 +16,6 @@ import com.querydsl.core.types.dsl.PathInits;
 public class QSeat extends EntityPathBase<Seat> {
 
     private static final long serialVersionUID = 652971633L;
-
-    private static final PathInits INITS = PathInits.DIRECT2;
 
     public static final QSeat seat = new QSeat("seat");
 
@@ -34,7 +31,7 @@ public class QSeat extends EntityPathBase<Seat> {
 
     public final StringPath seatNumber = createString("seatNumber");
 
-    public final QTheater theater;
+    public final NumberPath<Long> theaterId = createNumber("theaterId", Long.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
@@ -43,24 +40,15 @@ public class QSeat extends EntityPathBase<Seat> {
     public final StringPath updatedBy = _super.updatedBy;
 
     public QSeat(String variable) {
-        this(Seat.class, forVariable(variable), INITS);
+        super(Seat.class, forVariable(variable));
     }
 
     public QSeat(Path<? extends Seat> path) {
-        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
+        super(path.getType(), path.getMetadata());
     }
 
     public QSeat(PathMetadata metadata) {
-        this(metadata, PathInits.getFor(metadata, INITS));
-    }
-
-    public QSeat(PathMetadata metadata, PathInits inits) {
-        this(Seat.class, metadata, inits);
-    }
-
-    public QSeat(Class<? extends Seat> type, PathMetadata metadata, PathInits inits) {
-        super(type, metadata, inits);
-        this.theater = inits.isInitialized("theater") ? new QTheater(forProperty("theater")) : null;
+        super(Seat.class, metadata);
     }
 
 }

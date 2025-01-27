@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -17,8 +16,6 @@ import com.querydsl.core.types.dsl.PathInits;
 public class QSchedule extends EntityPathBase<Schedule> {
 
     private static final long serialVersionUID = 841891075L;
-
-    private static final PathInits INITS = PathInits.DIRECT2;
 
     public static final QSchedule schedule = new QSchedule("schedule");
 
@@ -34,11 +31,11 @@ public class QSchedule extends EntityPathBase<Schedule> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final QMovie movie;
+    public final NumberPath<Long> movieId = createNumber("movieId", Long.class);
 
     public final DateTimePath<java.time.LocalDateTime> startAt = createDateTime("startAt", java.time.LocalDateTime.class);
 
-    public final QTheater theater;
+    public final NumberPath<Long> theaterId = createNumber("theaterId", Long.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
@@ -47,25 +44,15 @@ public class QSchedule extends EntityPathBase<Schedule> {
     public final StringPath updatedBy = _super.updatedBy;
 
     public QSchedule(String variable) {
-        this(Schedule.class, forVariable(variable), INITS);
+        super(Schedule.class, forVariable(variable));
     }
 
     public QSchedule(Path<? extends Schedule> path) {
-        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
+        super(path.getType(), path.getMetadata());
     }
 
     public QSchedule(PathMetadata metadata) {
-        this(metadata, PathInits.getFor(metadata, INITS));
-    }
-
-    public QSchedule(PathMetadata metadata, PathInits inits) {
-        this(Schedule.class, metadata, inits);
-    }
-
-    public QSchedule(Class<? extends Schedule> type, PathMetadata metadata, PathInits inits) {
-        super(type, metadata, inits);
-        this.movie = inits.isInitialized("movie") ? new QMovie(forProperty("movie")) : null;
-        this.theater = inits.isInitialized("theater") ? new QTheater(forProperty("theater")) : null;
+        super(Schedule.class, metadata);
     }
 
 }
