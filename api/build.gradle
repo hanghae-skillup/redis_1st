@@ -42,6 +42,10 @@ dependencies {
     
     // Swagger/OpenAPI
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+    
+    // Actuator
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 }
 
 def querydslDir = "$buildDir/generated/querydsl"

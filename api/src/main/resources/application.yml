@@ -37,3 +37,24 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: movie-api
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+      sla:
+        http.server.requests: 50ms, 100ms, 200ms, 500ms
+  prometheus:
+    metrics:
+      export:
+        enabled: true
