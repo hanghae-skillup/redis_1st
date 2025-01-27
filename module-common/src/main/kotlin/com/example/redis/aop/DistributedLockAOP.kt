@@ -17,7 +17,7 @@ class DistributedLockAOP(
     val redissonClient: RedissonClient
 ) {
 
-    @Around("@annotation(lock)")
+    @Around("@annotation(DistributedLock)")
     fun around(joinPoint: ProceedingJoinPoint, lock: DistributedLock): Any? {
         val methodSignature = joinPoint.signature as MethodSignature
         val methodArgs = joinPoint.args
