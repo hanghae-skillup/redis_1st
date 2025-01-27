@@ -1,5 +1,6 @@
 package com.movie.application.service;
 
+import com.movie.aop.DistributedLock;
 import com.movie.domain.entity.Reservation;
 import com.movie.domain.entity.Schedule;
 import com.movie.domain.entity.Seat;
@@ -26,6 +27,7 @@ public class ReservationService {
     private final SeatRepository seatRepository;
 
     @Transactional
+    @DistributedLock(key = "'reservation:' + #scheduleId + ':' + #seatId")
     public String reserve(Long userId, Long scheduleId, Long seatId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
