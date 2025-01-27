@@ -13,7 +13,7 @@ public class ReservationController {
 
     private final ReservationService reservationService;
 
-    @PostMapping("/reservation")
+    @PostMapping("/v1/reservation")
     public ReservationServiceResponse reserve(@RequestBody ReservationRequest request) {
         return reservationService.reserve(request.toServiceRequest());
     }

@@ -16,7 +16,7 @@ public class MovieController {
 
     private final MovieService movieService;
 
-    @GetMapping("/movies")
+    @GetMapping("/v1/movies")
     public List<MovieResponse> getMovies(MovieSearchRequest request) {
         return movieService.getMovies(request.toServiceRequest());
     }
