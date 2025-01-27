@@ -24,4 +24,6 @@ public interface SalesRepository extends JpaRepository<Sales, Long> {
 		+ "where s.user = :user "
 		+ "order by s.ticket.showing.showStTime ")
 	List<Ticket> findAllByUserOOrderByShowingStTime(User user);
+
+	List<Sales> findAllByTicketIn(List<Ticket> ticketList);
 }

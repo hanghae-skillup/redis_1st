@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import dto.ticket.TicketDTO;
 import dto.ticket.TicketResponse;
@@ -78,6 +79,7 @@ public class TicketService {
 		return ticketList;
 	}
 
+	@Transactional
 	public String reservation(Long showingId, String username, List<TicketDTO> ticketDtoList) {
 		List<Ticket> ticketList = ticketRepository.findAllByTicketIdIn(
 			ticketDtoList.stream().map(TicketDTO::getTicketId).toList());
