@@ -57,4 +57,24 @@ public class MovieService {
                         .build())
                 .collect(Collectors.toList());
     }
+
+    public List<MovieResponseDto> getNowShowingMovies() {
+        return scheduleRepository.findByStartAtGreaterThan(LocalDateTime.now()).stream()
+                .map(schedule -> MovieResponseDto.builder()
+                        .id(schedule.getMovie().getId())
+                        .title(schedule.getMovie().getTitle())
+                        .thumbnail(schedule.getMovie().getThumbnailUrl())
+                        .runningTime(schedule.getMovie().getRunningTime())
+                        .genre(schedule.getMovie().getGenre())
+                        .schedules(List.of(MovieResponseDto.ScheduleInfo.builder()
+                                .id(schedule.getId())
+                                .startAt(schedule.getStartAt())
+                                .theater(MovieResponseDto.TheaterInfo.builder()
+                                        .id(schedule.getTheater().getId())
+                                        .name(schedule.getTheater().getName())
+                                        .build())
+                                .build()))
+                        .build())
+                .collect(Collectors.toList());
+    }
 }

@@ -85,7 +85,7 @@ public class ReservationService {
             boolean isContinuous = existingReservations.stream()
                     .map(reservation -> seatRepository.findById(reservation.getSeatId())
                             .orElseThrow(() -> new IllegalArgumentException("Seat not found")))
-                    .anyMatch(existingSeat -> isSeatContinuous(existingSeat, newSeat));
+                    .anyMatch(existingSeat -> isAdjacent(existingSeat, newSeat));
                         
             if (!isContinuous) {
                 throw new IllegalStateException("Seats must be continuous");
@@ -93,10 +93,9 @@ public class ReservationService {
         }
     }
 
-    private boolean isSeatContinuous(Seat seat1, Seat seat2) {
-        // 같은 열에서 연속된 좌석인지 확인
-        if (seat1.getRow().equals(seat2.getRow())) {
-            return Math.abs(seat1.getColumn() - seat2.getColumn()) == 1;
+    private boolean isAdjacent(Seat seat1, Seat seat2) {
+        if (seat1.getSeatRow().equals(seat2.getSeatRow())) {
+            return Math.abs(seat1.getSeatColumn() - seat2.getSeatColumn()) == 1;
         }
         return false;
     }

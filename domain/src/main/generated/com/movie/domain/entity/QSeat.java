@@ -21,8 +21,6 @@ public class QSeat extends EntityPathBase<Seat> {
 
     public final QBaseEntity _super = new QBaseEntity(this);
 
-    public final NumberPath<Integer> column = createNumber("column", Integer.class);
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
@@ -31,9 +29,11 @@ public class QSeat extends EntityPathBase<Seat> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final NumberPath<Integer> row = createNumber("row", Integer.class);
+    public final NumberPath<Integer> seatColumn = createNumber("seatColumn", Integer.class);
 
     public final StringPath seatNumber = createString("seatNumber");
+
+    public final NumberPath<Integer> seatRow = createNumber("seatRow", Integer.class);
 
     public final NumberPath<Long> theaterId = createNumber("theaterId", Long.class);
 

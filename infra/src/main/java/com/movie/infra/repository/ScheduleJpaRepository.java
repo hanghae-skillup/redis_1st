@@ -2,21 +2,18 @@ package com.movie.infra.repository;
 
 import com.movie.domain.entity.Schedule;
 import com.movie.domain.repository.ScheduleRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
 public interface ScheduleJpaRepository extends JpaRepository<Schedule, Long>, ScheduleRepository {
     @Override
     default List<Schedule> findAll() {
-        return findAllAfterCurrentTime();
+        return findByStartAtGreaterThan(LocalDateTime.now());
     }
 
-    List<Schedule> findAllAfterCurrentTime();
-
-    @Override
-    Schedule save(Schedule schedule);
+    List<Schedule> findByStartAtGreaterThan(LocalDateTime currentTime);
 }
