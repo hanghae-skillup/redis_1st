@@ -4,8 +4,10 @@ import com.movie.application.dto.MovieResponseDto;
 import com.movie.domain.dto.MovieProjection;
 import com.movie.domain.dto.MovieSearchCondition;
 import com.movie.domain.entity.Schedule;
+import com.movie.domain.entity.Theater;
 import com.movie.domain.repository.MovieRepository;
 import com.movie.domain.repository.ScheduleRepository;
+import com.movie.domain.repository.TheaterRepository;
 import com.movie.infra.repository.MovieQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -24,6 +26,7 @@ public class MovieService {
 
     private final MovieRepository movieRepository;
     private final ScheduleRepository scheduleRepository;
+    private final TheaterRepository theaterRepository;
     private final MovieQueryRepository movieQueryRepository;
 
     @Cacheable(value = "movies", key = "#condition.title + '_' + #condition.genre")
@@ -33,7 +36,7 @@ public class MovieService {
 
         Map<Long, List<Schedule>> schedulesByMovieId = schedules.stream()
                 .filter(schedule -> schedule.getStartAt().isAfter(LocalDateTime.now()))
-                .collect(Collectors.groupingBy(schedule -> schedule.getMovie().getId()));
+                .collect(Collectors.groupingBy(Schedule::getMovieId));
 
         return movies.stream()
                 .map(movie -> MovieResponseDto.builder()
@@ -47,8 +50,9 @@ public class MovieService {
                                         .id(schedule.getId())
                                         .startAt(schedule.getStartAt())
                                         .theater(MovieResponseDto.TheaterInfo.builder()
-                                                .id(schedule.getTheater().getId())
-                                                .name(schedule.getTheater().getName())
+                                                .id(schedule.getTheaterId())
+                                                .name(theaterRepository.findNameById(schedule.getTheaterId())
+                                                        .orElse("Unknown Theater"))
                                                 .build())
                                         .build())
                                 .collect(Collectors.toList()))

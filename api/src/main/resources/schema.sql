@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS seat (
     created_at DATETIME NOT NULL,
     updated_by VARCHAR(50) NOT NULL,
     updated_at DATETIME NOT NULL,
-    FOREIGN KEY (theater_id) REFERENCES theater(id)
+    INDEX idx_seat_theater (theater_id)
 );
 
 CREATE TABLE IF NOT EXISTS schedule (
@@ -45,8 +45,6 @@ CREATE TABLE IF NOT EXISTS schedule (
     created_at DATETIME NOT NULL,
     updated_by VARCHAR(50) NOT NULL,
     updated_at DATETIME NOT NULL,
-    FOREIGN KEY (movie_id) REFERENCES movie(id),
-    FOREIGN KEY (theater_id) REFERENCES theater(id),
     INDEX idx_schedule_start_at (start_at),
     INDEX idx_schedule_movie_theater (movie_id, theater_id)
 ); 
