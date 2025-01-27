@@ -12,6 +12,8 @@ import com.movie.domain.repository.UserRepository;
 import com.movie.exception.BusinessException;
 import com.movie.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +32,7 @@ public class ReservationService {
 
     @Transactional
     @DistributedLock(key = "'reservation:' + #scheduleId + ':' + #seatId")
+    @CacheEvict(value = {"reservations", "availableSeats"}, allEntries = true)
     public String reserve(Long userId, Long scheduleId, Long seatId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
@@ -66,6 +69,7 @@ public class ReservationService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "reservations", key = "'user:' + #userId")
     public List<Reservation> getUserReservations(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
@@ -73,12 +77,14 @@ public class ReservationService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "reservations", key = "'number:' + #reservationNumber")
     public Reservation getReservation(String reservationNumber) {
         return reservationRepository.findByReservationNumber(reservationNumber)
                 .orElseThrow(() -> new BusinessException(ErrorCode.RESERVATION_NOT_FOUND));
     }
 
     @Transactional
+    @CacheEvict(value = {"reservations", "availableSeats"}, allEntries = true)
     public void cancelReservation(String reservationNumber) {
         Reservation reservation = reservationRepository.findByReservationNumber(reservationNumber)
                 .orElseThrow(() -> new BusinessException(ErrorCode.RESERVATION_NOT_FOUND));
@@ -86,6 +92,7 @@ public class ReservationService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "availableSeats", key = "'schedule:' + #scheduleId")
     public List<Seat> getAvailableSeats(Long scheduleId) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.SCHEDULE_NOT_FOUND));
