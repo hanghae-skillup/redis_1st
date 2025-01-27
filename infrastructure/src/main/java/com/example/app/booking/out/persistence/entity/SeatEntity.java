@@ -43,6 +43,9 @@ public class SeatEntity extends BaseEntity {
 
     private boolean reserved;
 
+    @Version
+    private Long version;
+
     public void occupySeat(Long bookingId) {
         this.reserved = true;
         this.bookingId = bookingId;

@@ -66,6 +66,7 @@ CREATE TABLE `my`.`tb_seat` (
     `booking_date` DATE NOT NULL,
     `theaterSeat` VARCHAR(3) NOT NULL,
     `reserved` TINYINT(1) NOT NULL DEFAULT 1,
+    `version` INT UNSIGNED NOT NULL,
     `updated_at` DATETIME NOT NULL,
     `created_at` DATETIME NOT NULL,
 PRIMARY KEY (`seat_id`)
