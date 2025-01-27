@@ -13,6 +13,9 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private String name;
+
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -20,16 +23,17 @@ public class User extends BaseEntity {
     private String password;
 
     @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
     private String phone;
 
     @Builder
-    public User(String email, String password, String name, String phone) {
+    public User(String name, String email, String password, String phone) {
+        this.name = name;
         this.email = email;
         this.password = password;
-        this.name = name;
         this.phone = phone;
+    }
+
+    public void updateProfile(String name) {
+        this.name = name;
     }
 } 

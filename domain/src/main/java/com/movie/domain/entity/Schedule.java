@@ -16,14 +16,20 @@ public class Schedule extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long movieId;
-    private Long theaterId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "movie_id")
+    private Movie movie;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "theater_id")
+    private Theater theater;
+
     private LocalDateTime startAt;
     private LocalDateTime endAt;
 
-    public Schedule(Long movieId, Long theaterId, LocalDateTime startAt, LocalDateTime endAt) {
-        this.movieId = movieId;
-        this.theaterId = theaterId;
+    public Schedule(Movie movie, Theater theater, LocalDateTime startAt, LocalDateTime endAt) {
+        this.movie = movie;
+        this.theater = theater;
         this.startAt = startAt;
         this.endAt = endAt;
     }
@@ -33,11 +39,19 @@ public class Schedule extends BaseEntity {
         this.endAt = endAt;
     }
 
-    public void updateTheaterId(Long theaterId) {
-        this.theaterId = theaterId;
+    public void updateTheater(Theater theater) {
+        this.theater = theater;
     }
 
-    public void updateMovieId(Long movieId) {
-        this.movieId = movieId;
+    public void updateMovie(Movie movie) {
+        this.movie = movie;
+    }
+
+    public Long getMovieId() {
+        return movie != null ? movie.getId() : null;
+    }
+
+    public Long getTheaterId() {
+        return theater != null ? theater.getId() : null;
     }
 }
