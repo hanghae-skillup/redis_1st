@@ -32,9 +32,9 @@ public class TicketController {
 		return ResponseEntity.ok(ticketService.getAllTicket(showingId));
 	}
 
-	@GetMapping(value = "/reserved/userId")
+	@GetMapping(value = "/reserved")
 	public ResponseEntity<List<TicketResponse>> getUserTicket(
-		@Pattern(regexp = "^[a-zA-Z0-9]+$\n", message = "사용자 아이디는 영문및 숫자로 이루어져 있습니다.")
+		@Pattern(regexp = "^[a-zA-Z0-9]+$", message = "사용자 아이디는 영문 및 숫자로 이루어져 있습니다.")
 		@NotNull @RequestParam String username
 	){
 		return ResponseEntity.ok(ticketService.getUserTicket(username));
