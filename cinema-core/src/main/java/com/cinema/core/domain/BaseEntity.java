@@ -15,14 +15,17 @@ import java.time.LocalDateTime;
 public abstract class BaseEntity implements Serializable {
     private static final long serialVersionUID = 5734923467115214772L;
 
+    @Column(name = "created_by")
     private String createdBy;
 
     @CreatedDate
-    @Column(nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    private String updatedAt;
+    @Column(name = "updated_by")
+    private String updatedBy;
 
     @LastModifiedDate
-    private LocalDateTime updatedBy;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 }

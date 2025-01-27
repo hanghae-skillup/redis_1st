@@ -21,9 +21,11 @@ public class Ticket extends BaseEntity implements Serializable {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "seat_id")
-    private Long seatId;
+    @Column(name = "screening_id")
+    private Long screeningId;
 
-    @Column(name = "time_id")
-    private Long timeId;
+    // FIXME : Optimistic Lock
+    @Version
+    @Column(name = "version", nullable = false)
+    private Long version;
 }
