@@ -13,9 +13,6 @@ spring:
     redis:
       host: localhost
       port: 6379
-  jackson:
-    serialization:
-      fail-on-empty-beans: false
 
   jpa:
     hibernate:

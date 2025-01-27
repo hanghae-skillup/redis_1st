@@ -18,7 +18,7 @@ public class CacheConfig {
     /**
      * Redis 기본 캐시 설정을 정의하는 메서드
      * - 모든 Redis 캐시에 적용될 기본 설정을 정의
-     * - TTL(캐시 유효 시간): 60초로 설정
+     * - TTL(캐시 유효 시간): 영화 정보는 자주 변경되지 않으므로 20분으로 설정
      * - NULL 값 캐싱 방지
      * - Key는 문자열(String), Value는 JSON으로 직렬화
      */

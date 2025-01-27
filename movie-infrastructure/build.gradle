@@ -22,5 +22,5 @@ dependencies {
     // Redis
     implementation 'org.springframework.boot:spring-boot-starter-cache'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310' // LocalDate -> Json 직렬화 지원
+    implementation 'org.redisson:redisson-spring-boot-starter:3.22.0'
 }
