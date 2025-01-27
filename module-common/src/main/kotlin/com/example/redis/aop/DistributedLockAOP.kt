@@ -26,10 +26,11 @@ class DistributedLockAOP(
         val dynamicKey = generateDynamicKey(lockKey, methodArgs)
         val waitTime = lock.waitTime
         val leaseTime = lock.leaseTime
+        val timeUnit = lock.timeUnit
 
         val rLock = redissonClient.getLock(dynamicKey)
 
-        if(rLock.tryLock(waitTime, leaseTime, TimeUnit.SECONDS)) {
+        if(rLock.tryLock(waitTime, leaseTime, timeUnit)) {
             try {
                 return joinPoint.proceed()
             } finally {
