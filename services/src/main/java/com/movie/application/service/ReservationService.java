@@ -1,7 +1,15 @@
 package com.movie.application.service;
 
-import com.movie.domain.entity.*;
-import com.movie.domain.repository.*;
+import com.movie.domain.aop.DistributedLock;
+import com.movie.domain.entity.Reservation;
+import com.movie.domain.entity.ReservationStatus;
+import com.movie.domain.entity.Schedule;
+import com.movie.domain.entity.Seat;
+import com.movie.domain.entity.User;
+import com.movie.domain.repository.ReservationRepository;
+import com.movie.domain.repository.ScheduleRepository;
+import com.movie.domain.repository.SeatRepository;
+import com.movie.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ReservationService {
 
@@ -20,7 +28,9 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final MessageService messageService;
 
-    public Reservation reserve(Long userId, Long scheduleId, Long seatId) {
+    @Transactional
+    @DistributedLock(key = "'reservation:' + #scheduleId + ':' + #seatId")
+    public String reserve(Long userId, Long scheduleId, Long seatId) {
         // Check if entities exist
         userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
@@ -49,7 +59,7 @@ public class ReservationService {
         // FCM 메시지 발송 (Mock)
         messageService.sendReservationComplete(reservation);
 
-        return reservation;
+        return reservationNumber;
     }
 
     private void validateSeatAvailability(Long scheduleId, Long seatId) {
