@@ -81,7 +81,6 @@ public class ReservationValidate {
     }
 
     private Seats getSeats(List<Long> seatsIds) {
-        return new Seats(seatRepository.findAllById(seatsIds));
+        return new Seats(seatRepository.findAllByIdsWithLock(seatsIds));
     }
-
 }
