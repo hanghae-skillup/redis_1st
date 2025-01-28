@@ -30,6 +30,7 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
 
+//하위 모듈 의존성 설정
 subprojects {
 	apply(plugin = "java")
 	apply(plugin = "io.spring.dependency-management")
@@ -42,6 +43,7 @@ subprojects {
 		compileOnly("org.projectlombok:lombok")
 		testImplementation(platform("org.junit:junit-bom:5.10.0"))
 		testImplementation("org.junit.jupiter:junit-jupiter")
+		implementation("org.springframework.boot:spring-boot-starter-validation")
 	}
 }
 

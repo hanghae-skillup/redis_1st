@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ScreeningScheduleRepositoryPort {
     List<ScreeningSchedule> findAll();
+    ScreeningSchedule findById(Long id);
 }

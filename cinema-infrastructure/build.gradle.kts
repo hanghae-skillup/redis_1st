@@ -26,6 +26,8 @@ dependencies {
     annotationProcessor("com.querydsl:querydsl-apt:5.0.0:jakarta") //querydsl
     annotationProcessor("jakarta.annotation:jakarta.annotation-api") //querydsl
     annotationProcessor("jakarta.persistence:jakarta.persistence-api") //querydsl
+
+    implementation("org.redisson:redisson-spring-boot-starter:3.43.0") //redisson
 }
 
 tasks.test {

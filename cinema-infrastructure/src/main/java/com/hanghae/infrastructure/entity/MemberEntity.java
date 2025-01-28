@@ -8,35 +8,29 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.time.LocalDate;
 
 @Entity
 @Getter
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name= "upload_file")
-public class UploadFileEntity extends BaseEntity {
+@Table(name= "member")
+public class MemberEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "file_id")
+    @Column(name = "member_id")
     private Long id;
 
-    @Column
-    private String filePath; // 파일 경로
-
-    @Column
-    private String fileName; // 파일 이름
-
-    @Column
-    private String originFileName; // 원본 파일 이름
+    @Column(nullable = false)
+    private LocalDate birthDate; // 생년월일
 
     @Builder
-    public UploadFileEntity(Long id, String filePath, String fileName, String originFileName, Long createdBy, Long updatedBy) {
+    public MemberEntity(Long id, LocalDate birthDate, Long createdBy, Long updatedBy) {
         this.id = id;
-        this.filePath = filePath;
-        this.fileName = fileName;
-        this.originFileName = originFileName;
+        this.birthDate = birthDate;
         this.setCreatedBy(createdBy);
         this.setUpdatedBy(updatedBy);
     }
+
 }
