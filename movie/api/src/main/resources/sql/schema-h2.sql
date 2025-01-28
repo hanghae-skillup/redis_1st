@@ -45,10 +45,12 @@ CREATE TABLE IF NOT EXISTS screening (
     screening_time TIMESTAMP NOT NULL,
     screening_end_time TIMESTAMP NOT NULL,
     status VARCHAR(20) NOT NULL,
+    remaining_seat_count INT DEFAULT 25,
     created_by VARCHAR(50) NOT NULL,
     created_at TIMESTAMP NOT NULL,
     updated_by VARCHAR(50) NOT NULL,
-    updated_at TIMESTAMP NOT NULL
+    updated_at TIMESTAMP NOT NULL,
+    version BIGINT DEFAULT 0
     );
 
 

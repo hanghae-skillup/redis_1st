@@ -84,6 +84,7 @@ class MovieControllerTest {
             screeningTime = screeningTime,
             screeningEndTime = screeningTime.plusMinutes(120),
             status = ScreeningStatus.SCHEDULED,
+            remainingSeatCount = 25,
             createdBy = "test",
             createdAt = currentTime,
             updatedBy = "test",

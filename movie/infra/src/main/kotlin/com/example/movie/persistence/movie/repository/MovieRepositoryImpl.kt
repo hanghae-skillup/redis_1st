@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 
 @Repository
-@Profile("test", "local", "local-index")
+@Profile("test", "local", "local-index", "local-redisson")
 class MovieRepositoryImpl(
     private val movieJpaRepository: MovieJpaRepository,
 ) : MovieRepository {

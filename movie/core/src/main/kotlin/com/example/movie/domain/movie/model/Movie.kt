@@ -17,6 +17,6 @@ class Movie(
     val screenings: List<Screening>,
     override val createdBy: String,
     override val createdAt: LocalDateTime,
-    override val updatedBy: String,
-    override val updatedAt: LocalDateTime
+    override var updatedBy: String,
+    override var updatedAt: LocalDateTime
 ) : BaseModel

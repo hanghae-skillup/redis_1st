@@ -5,6 +5,7 @@ import com.example.movie.domain.movie.repository.MovieRepository
 import com.example.movie.domain.reservation.exception.ReservationException
 import com.example.movie.domain.reservation.model.Reservation
 import com.example.movie.domain.reservation.repository.ReservationRepository
+import com.example.movie.domain.screening.model.Screening
 import com.example.movie.domain.screening.repository.ScreeningRepository
 import com.example.movie.domain.seat.model.Seat
 import com.example.movie.domain.seat.repository.SeatRepository
@@ -12,6 +13,7 @@ import com.example.movie.message.MessagePublisher
 import com.example.movie.message.ReservationCompleteMessage
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 
 @Service
 class ReservationService(
@@ -21,9 +23,9 @@ class ReservationService(
     private val movieRepository: MovieRepository,
     private val timeHandler: TimeHandler,
     private val messagePublisher: MessagePublisher
-) : ReservationUseCase {
+) {
     @Transactional
-    override fun reserve(userId: Long, screeningId: Long, requestSeatIds:List<Long>) : List<Reservation> {
+    fun reserve(userId: Long, screeningId: Long, requestSeatIds:List<Long>) : List<Reservation> {
         val currentTime = timeHandler.getCurrentTime()
 
         val screening = screeningRepository.findById(screeningId)
@@ -48,19 +50,11 @@ class ReservationService(
             throw ReservationException("이미 예약된 좌석입니다")
         }
 
-        val reservations = seats.map { seat ->
-            Reservation(
-                seat = seat,
-                screening = screening,
-                userId = userId,
-                reservationTime = currentTime,
-                createdBy = userId.toString(),
-                createdAt = currentTime,
-                updatedBy = userId.toString(),
-                updatedAt = currentTime
-            )
-        }
+        screening.reserveSeats(reservedSeats, currentTime)
 
+        screeningRepository.save(screening)
+
+        val reservations = createReservation(seats, screening, userId, currentTime)
         val saveResults = reservationRepository.saveAll(reservations)
 
         messagePublisher.sendReservationCompleteMessage(
@@ -72,6 +66,24 @@ class ReservationService(
             )
         )
         return saveResults
+    }
+
+    private fun createReservation(
+        seats: List<Seat>,
+        screening: Screening,
+        userId: Long,
+        currentTime: LocalDateTime
+    ) = seats.map { seat ->
+        Reservation(
+            seat = seat,
+            screening = screening,
+            userId = userId,
+            reservationTime = currentTime,
+            createdBy = userId.toString(),
+            createdAt = currentTime,
+            updatedBy = userId.toString(),
+            updatedAt = currentTime
+        )
     }
 
     private fun validateSeats(seats: List<Seat>) {

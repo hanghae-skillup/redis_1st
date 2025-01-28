@@ -46,6 +46,39 @@ spring:
 spring:
   config:
     activate:
+      on-profile: local-redisson
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  sql:
+    init:
+      mode: always
+      schema-locations:
+        - classpath:sql/schema-h2.sql
+      data-locations:
+        - classpath:sql/data-h2.sql
+      platform: h2
+      encoding: utf-8
+  data:
+    redis:
+      host: localhost
+      port: 6379
+---
+spring:
+  config:
+    activate:
       on-profile: local-index
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
