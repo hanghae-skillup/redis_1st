@@ -3,7 +3,6 @@ package com.example.reservation.validator;
 import com.example.entity.member.Member;
 import com.example.entity.movie.Screening;
 import com.example.entity.movie.Seats;
-import com.example.entity.reservation.Reservation;
 import com.example.entity.reservation.ReservedSeat;
 import com.example.repository.member.MemberRepository;
 import com.example.repository.movie.ScreeningRepository;
@@ -24,7 +23,7 @@ public class ReservationValidate {
     private final SeatRepository seatRepository;
     private final ReservedSeatRepository reservedSeatRepository;
 
-    public Reservation validate(ReservationServiceRequest request) {
+    public ReservationValidationResult validate(ReservationServiceRequest request) {
 
         if (request.isMemberIdNull()) {
             throw new IllegalArgumentException("영화 예매시 로그인이 필요합니다.");
@@ -52,19 +51,11 @@ public class ReservationValidate {
             throw new IllegalArgumentException("이미 예매된 좌석입니다.");
         }
 
-        Reservation reservation = Reservation.builder()
+        return ReservationValidationResult.builder()
                 .member(member)
                 .screening(screening)
+                .seats(seats)
                 .build();
-
-        reservation.reservation(seats);
-
-        List<ReservedSeat> reservedSeats = seats.getSeats().stream()
-                .map(seat -> new ReservedSeat(reservation, seat))
-                .toList();
-        reservation.addReservedSeat(reservedSeats);
-
-        return reservation;
     }
 
     private List<ReservedSeat> getReservedSeats(Member member, Screening screening) {
