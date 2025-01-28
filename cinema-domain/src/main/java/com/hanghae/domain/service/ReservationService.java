@@ -27,17 +27,6 @@ public class ReservationService {
         }
     }
 
-    /* 좌석 범위 검증 */
-    public void validateSeatLimit(ScreenSeatLayout screenSeatLayout, List<ScreenSeat> selectedSeats) {
-        for (ScreenSeat seat : selectedSeats) {
-            if (seat.getSeatNumber() > screenSeatLayout.getMaxSeatNumber()) {
-                throw new IllegalArgumentException(
-                        String.format("선택한 좌석 %s은(는) 예매 가능한 좌석 범위를 초과합니다. (최대 %s 좌석까지 가능)",
-                                seat.name(), screenSeatLayout.getSeatRow() + String.format("%02d", screenSeatLayout.getMaxSeatNumber())));
-            }
-        }
-    }
-
     /* 예매 정보 생성 */
     public List<TicketReservation> createTicketReservations(ScreeningSchedule screeningSchedule, Member member, ScreenSeat screenSeat, ScreenSeatLayout screenSeatLayout, int seatCount) {
         //선택좌석부터 연결된 좌석 조회
@@ -50,5 +39,16 @@ public class ReservationService {
         return selectedSeats.stream()
                 .map(seat -> TicketReservation.create(screeningSchedule, member, seat))
                 .collect(Collectors.toList());
+    }
+
+    /* 좌석 범위 검증 */
+    public void validateSeatLimit(ScreenSeatLayout screenSeatLayout, List<ScreenSeat> selectedSeats) {
+        for (ScreenSeat seat : selectedSeats) {
+            if (seat.getSeatNumber() > screenSeatLayout.getMaxSeatNumber()) {
+                throw new IllegalArgumentException(
+                        String.format("선택한 좌석 %s은(는) 예매 가능한 좌석 범위를 초과합니다. (최대 %s 좌석까지 가능)",
+                                seat.name(), screenSeatLayout.getSeatRow() + String.format("%02d", screenSeatLayout.getMaxSeatNumber())));
+            }
+        }
     }
 }
