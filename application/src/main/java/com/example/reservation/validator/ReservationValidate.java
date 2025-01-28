@@ -25,6 +25,14 @@ public class ReservationValidate {
     private final ReservedSeatRepository reservedSeatRepository;
 
     public Reservation validate(ReservationServiceRequest request) {
+
+        if (request.isMemberIdNull()) {
+            throw new IllegalArgumentException("영화 예매시 로그인이 필요합니다.");
+        }
+        if (request.isScreeningIdNull()) {
+            throw new IllegalArgumentException("예매할 상영시간을 선택해주세요.");
+        }
+
         Member member = getMember(request.getMemberId());
         Screening screening = getScreening(request.getScreeningId());
         Seats seats = getSeats(request.getSeatIds());

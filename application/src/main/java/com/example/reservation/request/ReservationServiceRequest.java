@@ -18,4 +18,12 @@ public class ReservationServiceRequest {
         this.screeningId = screeningId;
         this.seatIds = seatIds;
     }
+
+    public boolean isMemberIdNull() {
+        return memberId == null;
+    }
+
+    public boolean isScreeningIdNull() {
+        return screeningId == null;
+    }
 }
