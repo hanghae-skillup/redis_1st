@@ -2,6 +2,7 @@ package com.example.reservation;
 
 import com.example.entity.reservation.Reservation;
 import com.example.entity.reservation.ReservedSeat;
+import com.example.message.MessageService;
 import com.example.repository.reservation.ReservationRepository;
 import com.example.reservation.request.ReservationServiceRequest;
 import com.example.reservation.response.ReservationServiceResponse;
@@ -17,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReservationService {
 
+    private final MessageService messageService;
     private final ReservationValidate reservationValidate;
     private final ReservationRepository reservationRepository;
 
@@ -28,6 +30,8 @@ public class ReservationService {
         Reservation reservation = createReservation(validationResult);
 
         reservationRepository.save(reservation);
+
+        messageService.send();
 
         return ReservationServiceResponse.of(reservation);
     }
