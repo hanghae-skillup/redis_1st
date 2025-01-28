@@ -11,6 +11,7 @@ import com.hanghae.domain.model.ScreeningSchedule;
 import com.hanghae.domain.model.TicketReservation;
 import com.hanghae.domain.model.enums.ScreenSeat;
 import com.hanghae.domain.service.ReservationService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,7 @@ public class MovieReservationServiceImpl implements MovieReservationService {
     private final RedissonLockPort redissonLockPort; // Redisson 분산락 사용
 
     @Override
+    @Transactional
     public ApiResponse<Void> saveMovieReservation(MovieReservationRequestDto requestDto) {
         Long scheduleId = requestDto.scheduleId();
         Long memberId = requestDto.memberId();
