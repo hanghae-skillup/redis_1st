@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: infrastructure
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/redis_hanghae
+    username: user
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+
+
