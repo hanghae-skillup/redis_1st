@@ -7,88 +7,101 @@ import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.stream.Collectors;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 @Component
 @RequiredArgsConstructor
 public class RedissonLockAdapter implements RedissonLockPort {
     private final RedissonClient redissonClient;
 
+    private String getLockKey(Long scheduleId, ScreenSeat seat) {
+        return "reservation:lock:" + scheduleId + ":" + seat;
+    }
+
+    /**
+     * 하나의 좌석에 대한 락을 실행 및 해제
+     */
     @Override
-    public boolean tryLockSeat(Long scheduleId, ScreenSeat seat) {
-        String lockKey = "reservation:lock:" + scheduleId + ":" + seat;
+    public <T> T executeWithSeatLock(Long scheduleId, ScreenSeat seat, Supplier<T> action) {
+        String lockKey = getLockKey(scheduleId, seat);
         RLock lock = redissonClient.getLock(lockKey);
 
         try {
-            return lock.tryLock(1, 300, TimeUnit.SECONDS); // 점유하기 위해 1초 대기, 획득한 락 5분 후 자동 해제
+            if (lock.tryLock(1, 300, TimeUnit.SECONDS)) { // 1초 대기 후 락 획득, 5분 자동 해제
+                try {
+                    return action.get();
+                } finally {
+                    releaseLock(lock);
+                }
+            } else {
+                throw new IllegalStateException("좌석에 대한 락을 획득할 수 없습니다: " + seat);
+            }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            return false;
+            throw new RuntimeException("좌석 락 획득 중 인터럽트 발생", e);
         }
     }
 
+    /**
+     * 여러개의 좌석에 대한 락을 실행 및 해제
+     */
     @Override
-    public void unlockSeat(Long scheduleId, ScreenSeat seat) {
-        String lockKey = "reservation:lock:" + scheduleId + ":" + seat;
-        RLock lock = redissonClient.getLock(lockKey);
+    public <T> T executeWithSeatsLocks(Long scheduleId, List<ScreenSeat> seats, Supplier<T> action) {
+        List<RLock> locks = seats.stream()
+                .map(seat -> redissonClient.getLock(getLockKey(scheduleId, seat)))
+                .collect(Collectors.toList());
+
+        try {
+            if (tryAcquireLocks(locks)) {
+                try {
+                    return action.get();
+                } finally {
+                    releaseLocks(locks);
+                }
+            } else {
+                throw new IllegalStateException("현재 좌석을 다른 사용자가 예매 처리 중입니다." + seats);
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("여러 좌석 락 획득 중 인터럽트 발생", e);
+        }
+    }
+
+    /**
+     * 여러 락을 획득하는 메서드
+     */
+    private boolean tryAcquireLocks(List<RLock> locks) throws InterruptedException {
+        for (RLock lock : locks) {
+            if (!lock.tryLock(1, 300, TimeUnit.SECONDS)) {
+                releaseLocks(locks);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 단일 락 해제
+     */
+    private void releaseLock(RLock lock) {
         if (lock.isHeldByCurrentThread()) {
-            lock.unlock();
-        }
-    }
-
-    /* 여러 좌석에 대해 락 획득 */
-    @Override
-    public boolean tryLockSeats(Long scheduleId, List<ScreenSeat> seats) {
-        List<RLock> acquiredLocks = new ArrayList<>();
-        try {
-            for (ScreenSeat seat : seats) {
-                String lockKey = "reservation:lock:" + scheduleId + ":" + seat;
-                RLock lock = redissonClient.getLock(lockKey);
-                boolean locked = lock.tryLock(1, 300, TimeUnit.SECONDS); // 점유하기 위해 1초 대기, 획득한 락 5분 후 자동 해제
-                if (!locked) {
-                    //락 획득 실패 시 이미 획득한 락들을 해제
-                    releaseLocks(acquiredLocks);
-                    return false;
-                }
-                acquiredLocks.add(lock);
-            }
-            return true;
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            // 예외 발생 시 이미 획득한 락들을 해제
-            releaseLocks(acquiredLocks);
-            return false;
-        }
-    }
-
-    /* 여러 좌석의 락 해제 */
-    @Override
-    public void unlockSeats(Long scheduleId, List<ScreenSeat> seats) {
-        for (ScreenSeat seat : seats) {
-            String lockKey = "reservation:lock:" + scheduleId + ":" + seat;
-            RLock lock = redissonClient.getLock(lockKey);
-            if (lock.isHeldByCurrentThread()) {
-                try {
-                    lock.unlock();
-                } catch (IllegalMonitorStateException e) {
-                    // 이미 해제된 락을 다시 해제하려 하면 예외가 발생할 수 있으므로 무시
-                }
+            try {
+                lock.unlock();
+            } catch (IllegalMonitorStateException e) {
+                // 이미 해제된 경우 무시
             }
         }
     }
 
-    /* 다수 락 해제 */
-    private void releaseLocks(List<RLock> acquiredLocks) {
-        for (RLock lock : acquiredLocks) {
-            if (lock.isHeldByCurrentThread()) {
-                try {
-                    lock.unlock();
-                } catch (IllegalMonitorStateException e) {
-                    // 이미 해제된 락이 있으면 무시
-                }
-            }
+    /**
+     * 여러개의 락 해제
+     */
+    private void releaseLocks(List<RLock> locks) {
+        for (RLock lock : locks) {
+            releaseLock(lock);
         }
     }
 }
