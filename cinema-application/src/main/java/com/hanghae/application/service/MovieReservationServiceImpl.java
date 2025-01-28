@@ -2,6 +2,7 @@ package com.hanghae.application.service;
 
 import com.hanghae.application.dto.ApiResponse;
 import com.hanghae.application.dto.MovieReservationRequestDto;
+import com.hanghae.application.enums.HttpStatusCode;
 import com.hanghae.application.port.in.MovieReservationService;
 import com.hanghae.application.port.out.*;
 import com.hanghae.domain.model.Member;
@@ -23,6 +24,7 @@ public class MovieReservationServiceImpl implements MovieReservationService {
     private final ScreeningScheduleRepositoryPort screeningScheduleRepositoryPort;
     private final ScreenSeatLayoutRepositoryPort screenSeatLayoutRepositoryPort;
     private final MemberRepositoryPort memberRepositoryPort;
+    private final MessagePort messagePort;
     private final ReservationService reservationService;
     private final RedissonLockPort redissonLockPort; // Redisson 분산락 사용
 
@@ -40,7 +42,7 @@ public class MovieReservationServiceImpl implements MovieReservationService {
         // 여러 좌석에 대해 Redisson 락 획득
         boolean allLocked = redissonLockPort.tryLockSeats(scheduleId, selectedSeats);
         if (!allLocked) {
-            return ApiResponse.of("현재 좌석을 다른 사용자가 예매 처리 중입니다.", 409);
+            return ApiResponse.of("현재 좌석을 다른 사용자가 예매 처리 중입니다.", HttpStatusCode.CONFLICT.getCode());
         }
 
         try {
@@ -66,8 +68,11 @@ public class MovieReservationServiceImpl implements MovieReservationService {
 
             // 예매 내역 저장
             ticketReservationRepositoryPort.saveMovieReservations(ticketReservations);
+            
+            //완료 메시지 전송 (비동기)
+            messagePort.sendMessage("영화 예매가 완료 되었습니다.");
 
-            return ApiResponse.of("예매가 완료 되었습니다.", 201);
+            return ApiResponse.of("예매가 완료 되었습니다.", HttpStatusCode.CREATED.getCode());
         } finally {
             // 락 해제
             redissonLockPort.unlockSeats(scheduleId, selectedSeats);

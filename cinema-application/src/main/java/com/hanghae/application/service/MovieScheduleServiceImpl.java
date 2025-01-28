@@ -4,6 +4,7 @@ import com.hanghae.application.dto.ApiResponse;
 import com.hanghae.application.dto.MovieScheduleRequestDto;
 import com.hanghae.application.dto.MovieScheduleResponseDto;
 import com.hanghae.application.dto.ShowingMovieScheduleResponseDto;
+import com.hanghae.application.enums.HttpStatusCode;
 import com.hanghae.application.port.in.MovieScheduleService;
 import com.hanghae.application.port.out.MovieRepositoryPort;
 import com.hanghae.application.port.out.ScreeningScheduleRepositoryPort;
@@ -31,7 +32,7 @@ public class MovieScheduleServiceImpl implements MovieScheduleService {
         List<ScreeningSchedule> schedules = screeningScheduleRepositoryPort.findAll();
         List<MovieScheduleResponseDto> responseDtos = schedules.stream().map(this::convertToDto).collect(Collectors.toList());
 
-        return ApiResponse.of("Success", 200, responseDtos);
+        return ApiResponse.of("Success", HttpStatusCode.OK.getCode(), responseDtos);
     }
 
     @Override
@@ -72,13 +73,13 @@ public class MovieScheduleServiceImpl implements MovieScheduleService {
                     .build());
         }
 
-        return ApiResponse.of("Success", 200, new ArrayList<>(movieMap.values()));
+        return ApiResponse.of("Success", HttpStatusCode.OK.getCode(), new ArrayList<>(movieMap.values()));
     }
 
     @Override
     public ApiResponse<Void> evictShowingMovieCache() {
         movieRepositoryPort.evictShowingMovieCache();
-        return ApiResponse.of("Success", 204);
+        return ApiResponse.of("Success", HttpStatusCode.NO_CONTENT.getCode());
     }
 
     private MovieScheduleResponseDto convertToDto(ScreeningSchedule schedule) {
