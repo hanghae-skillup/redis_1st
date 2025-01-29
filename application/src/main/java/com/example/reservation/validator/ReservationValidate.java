@@ -40,6 +40,14 @@ public class ReservationValidate {
         Screening screening = getScreening(request.getScreeningId());
         Seats seats = getSeats(request.getSeatIds());
 
+        if (!seats.isContinuousSeat()) {
+            throw new IllegalArgumentException("좌석 예매는 연속적인 좌석만 예매 가능합니다.");
+        }
+
+        if (seats.isSizeExceedingLimit()) {
+            throw new IllegalArgumentException("5개 이상의 좌석은 예약할 수 없습니다.");
+        }
+
         if (seats.isSeatMatch(request.getSeatIds())) {
             throw new IllegalArgumentException("좌석 정보가 일치하지 않습니다.");
         }

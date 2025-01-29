@@ -3,7 +3,6 @@ package com.example.entity.reservation;
 import com.example.entity.BaseEntity;
 import com.example.entity.member.Member;
 import com.example.entity.movie.Screening;
-import com.example.entity.movie.Seats;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,15 +39,6 @@ public class Reservation extends BaseEntity {
     public Reservation(Member member, Screening screening) {
         this.member = member;
         this.screening = screening;
-    }
-
-    public void reservation(Seats seats) {
-        if (seats.isSizeExceedingLimit()) {
-            throw new IllegalArgumentException("5개 이상의 좌성은 예약할 수 없습니다.");
-        }
-        if (!seats.isContinuousSeat()) {
-            throw new IllegalArgumentException("좌석 예매는 연속적인 좌석만 예매 가능합니다.");
-        }
     }
 
     public void addReservedSeat(List<ReservedSeat> reservedSeats) {

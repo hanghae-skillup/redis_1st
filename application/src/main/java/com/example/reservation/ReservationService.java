@@ -42,8 +42,6 @@ public class ReservationService {
                 .screening(validationResult.getScreening())
                 .build();
 
-        reservation.reservation(validationResult.getSeats());
-
         List<ReservedSeat> reservedSeats = validationResult.getSeats().getSeats().stream()
                 .map(seat -> new ReservedSeat(reservation, seat))
                 .toList();
