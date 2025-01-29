@@ -1,6 +1,5 @@
 package org.example.service;
 
-import jakarta.persistence.OptimisticLockException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.domain.reservation.Reservation;
@@ -10,20 +9,19 @@ import org.example.domain.seat.Row;
 import org.example.domain.seat.Seat;
 import org.example.dto.SeatsDto;
 import org.example.dto.request.ReservationRequestDto;
-import org.example.dto.request.ReservationSeatDto;
 import org.example.exception.SeatException;
 import org.example.repository.ReservationJpaRepository;
 import org.example.repository.ReservationSeatRepository;
 import org.example.repository.ScreenScheduleJpaRepository;
 import org.example.repository.SeatJpaRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.example.baseresponse.BaseResponseStatus.*;
+import static org.example.baseresponse.BaseResponseStatus.ALREADY_RESERVED_SEAT_ERROR;
+import static org.example.baseresponse.BaseResponseStatus.UNAVAILABLE_SEAT_ERROR;
 
 @Slf4j
 @Service
