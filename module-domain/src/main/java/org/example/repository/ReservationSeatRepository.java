@@ -26,7 +26,7 @@ public interface ReservationSeatRepository extends JpaRepository<ReservationSeat
             "where r.screenScheduleId=:screenScheduleId")
     List<Long> findReservedSeatByScreenScheduleId(@Param("screenScheduleId") Long screenScheduleId);
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
+//    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select rs from ReservationSeat rs join Reservation r on rs.reservationId=r.id " +
             "where r.screenScheduleId=:screenScheduleId and rs.seatId = :seatId")
     Optional<ReservationSeat> findReservedSeatBySeatId(@Param("screenScheduleId") Long screenScheduleId, @Param("seatId") Long seatId);
