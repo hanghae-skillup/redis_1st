@@ -2,6 +2,7 @@ package com.example.app.booking.presentation.controller;
 
 import com.example.app.booking.domain.Booking;
 import com.example.app.booking.presentation.dto.request.CreateBookingRequest;
+import com.example.app.booking.presentation.service.RateLimitService;
 import com.example.app.booking.usecase.CreateBookingUseCase;
 import com.example.app.booking.usecase.SendMessageUseCase;
 import jakarta.validation.Valid;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,10 +24,13 @@ public class BookingController {
 
     private final CreateBookingUseCase createBookingUseCase;
     private final SendMessageUseCase sendMessageUseCase;
+    private final RateLimitService rateLimitService;
 
     @PostMapping("/booking")
     public ResponseEntity<Booking> createBooking(@Valid @RequestBody CreateBookingRequest createBookingRequest)
-            throws InterruptedException {
+            throws InterruptedException, ExecutionException {
+        rateLimitService.checkAccessLimit(createBookingRequest);
+
         var lockKey = String.format("BOOKING:%d:%d:%d:%s",
                 createBookingRequest.movieId(),
                 createBookingRequest.showtimeId(),
@@ -33,7 +38,9 @@ public class BookingController {
                 createBookingRequest.bookingDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
                 createBookingRequest.seats().getFirst().charAt(0));
         var booking = createBookingUseCase.createBooking(lockKey, createBookingRequest.toCreateBookingCommand());
+
         sendMessageUseCase.sendMessage(String.format("BookingId : %d, UserId : %d", booking.id(), booking.userId()));
+
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
