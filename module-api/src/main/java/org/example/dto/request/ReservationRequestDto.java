@@ -8,5 +8,5 @@ import java.util.List;
 public record ReservationRequestDto(
         @NotNull Long usersId,
         @NotNull Long screenScheduleId,
-        @NotNull @Valid List<ReservationSeat> reservationSeats
+        @NotNull @Valid List<ReservationSeatDto> reservationSeats
 ) {}

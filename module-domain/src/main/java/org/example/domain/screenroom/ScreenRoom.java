@@ -1,4 +1,4 @@
-package org.example.domain.screenRoom;
+package org.example.domain.screenroom;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

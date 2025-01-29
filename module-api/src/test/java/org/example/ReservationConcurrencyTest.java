@@ -1,9 +1,11 @@
 package org.example;
 
 import org.assertj.core.api.Assertions;
+import org.example.dto.SeatsDto;
 import org.example.dto.request.ReservationRequestDto;
-import org.example.dto.request.ReservationSeat;
+import org.example.dto.request.ReservationSeatDto;
 import org.example.repository.ReservationJpaRepository;
+import org.example.repository.ReservationSeatRepository;
 import org.example.service.ReservationService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,7 @@ public class ReservationConcurrencyTest {
     private ReservationService reservationService;
 
     @Autowired
-    private ReservationJpaRepository reservationJpaRepository;
+    private ReservationSeatRepository reservationSeatRepository;
 
     @Test
     void testConcurrentReservation() throws InterruptedException {
@@ -31,11 +33,11 @@ public class ReservationConcurrencyTest {
         ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
         CountDownLatch latch = new CountDownLatch(numberOfThreads);
 
-        List<ReservationSeat> reservationSeats = new ArrayList<>();
-        reservationSeats.add(new ReservationSeat("ROW_A", "COL_1"));
+        List<ReservationSeatDto> reservationSeatDtos = new ArrayList<>();
+        reservationSeatDtos.add(new ReservationSeatDto("ROW_A", "COL_1"));
 
         for (long i = 0; i < numberOfThreads; i++) {
-            ReservationRequestDto reservationRequestDto = new ReservationRequestDto(i, 2L, reservationSeats);
+            ReservationRequestDto reservationRequestDto = new ReservationRequestDto(i, 2L, reservationSeatDtos);
             executorService.execute(() -> {
                 try {
                     reservationService.reserveMovie(reservationRequestDto);
@@ -50,7 +52,7 @@ public class ReservationConcurrencyTest {
         latch.await();
         executorService.shutdown();
 
-        List<Long> reservedSeatByUserId = reservationJpaRepository.findReservedSeatByScreenScheduleId(2L);
-        Assertions.assertThat(reservedSeatByUserId.size()).isEqualTo(1);
+        List<Long> reservedSeats = reservationSeatRepository.findReservedSeatByScreenScheduleId(2L);
+        Assertions.assertThat(reservedSeats.size()).isEqualTo(1);
     }
 }

@@ -1,7 +1,7 @@
-package org.example.common.exception;
+package org.example.exception;
 
 import lombok.Getter;
-import org.example.common.response.ResponseStatus;
+import org.example.baseresponse.ResponseStatus;
 
 @Getter
 public class BaseException extends RuntimeException {

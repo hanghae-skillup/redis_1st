@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface SeatJpaRepository extends JpaRepository<Seat, Long> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select s from Seat s where s.screenRoomId=:screenRoomId and s.row=:row and s.col=:col " +
-            "and not exists (select 1 from Reservation r where r.seatId = s.id)")
+            "and not exists (select 1 from ReservationSeat rs where rs.seatId = s.id)")
     Optional<Seat> findSeats(@Param("screenRoomId")Long screenRoomId,
                               @Param("row") Row row,
                               @Param("col") Col col);

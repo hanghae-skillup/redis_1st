@@ -1,6 +1,6 @@
-package org.example.common.exception;
+package org.example.exception;
 
-import org.example.common.response.ResponseStatus;
+import org.example.baseresponse.ResponseStatus;
 
 public class SeatException extends BaseException {
     public SeatException(ResponseStatus exceptionStatus) {

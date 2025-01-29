@@ -7,7 +7,7 @@ import org.example.domain.seat.Row;
 
 @Getter
 @AllArgsConstructor
-public class ReservedSeats {
+public class SeatsDto {
     private Row row;
     private Col col;
 }

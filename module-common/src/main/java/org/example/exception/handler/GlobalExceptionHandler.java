@@ -1,4 +1,4 @@
-package org.example.common.handler;
+package org.example.exception.handler;
 
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;

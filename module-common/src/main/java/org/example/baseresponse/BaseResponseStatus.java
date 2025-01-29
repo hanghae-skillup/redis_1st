@@ -1,4 +1,4 @@
-package org.example.common.response;
+package org.example.baseresponse;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
