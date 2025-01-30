@@ -1,6 +1,6 @@
 package com.example.repository.movie;
 
-import com.example.entity.Genre;
+import com.example.entity.movie.Genre;
 import com.example.repository.movie.dto.MovieDto;
 import com.example.repository.movie.dto.QMovieDto;
 import com.example.repository.movie.dto.QScreeningInfoDto;
@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.example.entity.QMovie.movie;
-import static com.example.entity.QScreening.screening;
-import static com.example.entity.QTheater.theater;
+import static com.example.entity.movie.QMovie.movie;
+import static com.example.entity.movie.QScreening.screening;
+import static com.example.entity.movie.QTheater.theater;
 
 @Slf4j
 public class MovieRepositoryImpl implements MovieRepositoryCustom {
@@ -47,7 +47,7 @@ public class MovieRepositoryImpl implements MovieRepositoryCustom {
     }
 
     private Map<Long, List<ScreeningInfoDto>> findScreeningInfoMap(List<Long> movieIds) {
-        return queryFactory.select(new QScreeningInfoDto(screening.movie.id, theater.name, screening.startedAt, screening.endedAt))
+        return queryFactory.select(new QScreeningInfoDto(screening.movie.id, screening.id, theater.name, screening.startedAt, screening.endedAt))
                 .from(screening)
                 .join(screening.theater, theater)
                 .where(screening.movie.id.in(movieIds))

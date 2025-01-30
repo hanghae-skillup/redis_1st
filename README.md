@@ -51,13 +51,14 @@
 
 ## 테이블 설계
 - **도메인**
-  ![](https://velog.velcdn.com/images/kimbro97/post/060397e0-2ff7-4997-93d7-5e7c9c5da022/image.png)
+  ![](https://velog.velcdn.com/images/kimbro97/post/6616ffba-5209-4271-a13e-3ed64f004d9f/image.png)
 - **테이블**
-  ![](https://velog.velcdn.com/images/kimbro97/post/f3028e77-5355-476c-86e6-98c9c01b1aca/image.png)
+  ![](https://velog.velcdn.com/images/kimbro97/post/81847ff9-3562-45de-8c5d-5fee238f3530/image.png)
 
-Movie(영화)와 Theater(극장)은 M:N 관계이므로 MovieTheater로 일대다 다대일 관계로 설계하였습니다.
 Movie(영화)와 Screening(상영)은 1:N 관계이므로 일대다 관계로 설계하였습니다.
 Theater(극장)과 Seat(좌석)은 1:N 관계이므로 일대다 관계로 설계하였습니다.
+Member(유저)와 Reservation(예매)은 1:N 관계로 설계했습니다.
+Reservation(예매)과 Seat(좌석)는 M:N 관계이므로 ReservedSeat 중간테이블로 일대다 다대일 관계로 설계했습니다.
 
 ## 성능측정
 

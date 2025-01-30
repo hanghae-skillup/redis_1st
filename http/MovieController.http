@@ -1,1 +1,2 @@
-GET http://localhost:8080/movies?title=하&genre=action
+GET http://localhost:8080/v1/movies?title=명량
+
