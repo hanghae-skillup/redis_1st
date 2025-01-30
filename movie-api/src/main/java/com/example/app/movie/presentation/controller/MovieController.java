@@ -4,6 +4,7 @@ import com.example.app.common.annotation.ClientIp;
 import com.example.app.movie.presentation.dto.request.MovieSearchRequest;
 import com.example.app.movie.presentation.dto.response.MovieResponse;
 import com.example.app.movie.presentation.service.RateLimitService;
+import com.example.app.movie.presentation.service.RedisRateLimitService;
 import com.example.app.movie.usecase.SearchMovieUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +23,14 @@ public class MovieController {
 
     private final SearchMovieUseCase searchMovieUseCase;
     private final RateLimitService rateLimitService;
+    private final RedisRateLimitService redisRateLimitService;
 
     @GetMapping("/movies")
     public ResponseEntity<List<MovieResponse>> searchMovies(
             @Valid MovieSearchRequest movieSearchRequest,
-            @ClientIp String clientIp) throws ExecutionException {
+            @ClientIp String clientIp) {
 
-        rateLimitService.checkAccessLimit(clientIp);
+        redisRateLimitService.checkAccessLimit(clientIp);
 
         var data = searchMovieUseCase.searchMovies(movieSearchRequest.toMovieSearchCommand())
                 .stream()

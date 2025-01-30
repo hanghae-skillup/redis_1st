@@ -19,5 +19,5 @@ Content-Type: application/json
   "showtimeId": 5,
   "theaterId": 1,
   "bookingDate": "2025-03-01",
-  "seats": ["A3", "A4"]
+  "seats": ["B1", "B2"]
 }
