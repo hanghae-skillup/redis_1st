@@ -1,4 +1,4 @@
-package com.example.app.movie.config;
+package com.example.app.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;

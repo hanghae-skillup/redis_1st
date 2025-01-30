@@ -4,7 +4,7 @@ import com.example.app.movie.type.MovieGenre;
 import lombok.Builder;
 
 @Builder
-public record MovieSearchCommand(
+public record SearchMovieCommand(
         String title,
         MovieGenre genre
 ) {

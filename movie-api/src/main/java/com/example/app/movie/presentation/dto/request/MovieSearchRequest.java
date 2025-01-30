@@ -1,7 +1,7 @@
 package com.example.app.movie.presentation.dto.request;
 
 import com.example.app.common.annotation.ValidEnum;
-import com.example.app.movie.dto.MovieSearchCommand;
+import com.example.app.movie.dto.SearchMovieCommand;
 import com.example.app.movie.type.MovieGenre;
 import org.hibernate.validator.constraints.Length;
 
@@ -13,8 +13,8 @@ public record MovieSearchRequest(
         @ValidEnum(enumClass = MovieGenre.class)
         String genre
 ){
-        public MovieSearchCommand toMovieSearchCommand() {
-                return MovieSearchCommand.builder()
+        public SearchMovieCommand toMovieSearchCommand() {
+                return SearchMovieCommand.builder()
                         .title(this.title)
                         .genre(nonNull(this.genre) ? MovieGenre.valueOf(this.genre) : null)
                         .build();

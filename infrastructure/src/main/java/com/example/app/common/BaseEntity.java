@@ -1,4 +1,4 @@
-package com.example.app.movie.common;
+package com.example.app.common;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
@@ -13,13 +13,13 @@ import java.time.LocalDateTime;
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class BaseJpaEntity {
+public abstract class BaseEntity {
 
     @LastModifiedDate
-    @Column(insertable = false)
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 
     @CreatedDate
-    @Column(updatable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 }
