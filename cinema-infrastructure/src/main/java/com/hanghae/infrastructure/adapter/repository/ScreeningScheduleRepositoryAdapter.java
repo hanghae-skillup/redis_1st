@@ -1,12 +1,8 @@
-package com.hanghae.infrastructure.adapter;
+package com.hanghae.infrastructure.adapter.repository;
 
-import com.hanghae.application.port.out.ScreeningScheduleRepositoryPort;
-import com.hanghae.domain.model.Movie;
-import com.hanghae.domain.model.Screen;
+import com.hanghae.application.port.out.repository.ScreeningScheduleRepositoryPort;
 import com.hanghae.domain.model.ScreeningSchedule;
-import com.hanghae.infrastructure.entity.ScreeningScheduleEntity;
 import com.hanghae.infrastructure.mapper.ScreeningScheduleMapper;
-import com.hanghae.infrastructure.mapper.UploadFileMapper;
 import com.hanghae.infrastructure.repository.ScreeningScheduleRepositoryJpa;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

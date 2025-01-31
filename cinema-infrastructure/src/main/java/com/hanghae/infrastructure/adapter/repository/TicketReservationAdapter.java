@@ -1,7 +1,6 @@
-package com.hanghae.infrastructure.adapter;
+package com.hanghae.infrastructure.adapter.repository;
 
-import com.hanghae.application.port.out.TicketReservationRepositoryPort;
-import com.hanghae.domain.model.ScreenSeatLayout;
+import com.hanghae.application.port.out.repository.TicketReservationRepositoryPort;
 import com.hanghae.domain.model.TicketReservation;
 import com.hanghae.domain.model.enums.ScreenSeat;
 import com.hanghae.infrastructure.entity.TicketReservationEntity;

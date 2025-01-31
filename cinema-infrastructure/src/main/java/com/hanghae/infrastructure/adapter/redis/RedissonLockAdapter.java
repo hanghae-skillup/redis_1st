@@ -1,6 +1,6 @@
-package com.hanghae.infrastructure.adapter;
+package com.hanghae.infrastructure.adapter.redis;
 
-import com.hanghae.application.port.out.RedissonLockPort;
+import com.hanghae.application.port.out.redis.RedissonLockPort;
 import com.hanghae.domain.model.enums.ScreenSeat;
 import lombok.RequiredArgsConstructor;
 import org.redisson.api.RLock;

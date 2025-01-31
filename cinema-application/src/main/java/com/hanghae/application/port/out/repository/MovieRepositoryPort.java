@@ -1,4 +1,4 @@
-package com.hanghae.application.port.out;
+package com.hanghae.application.port.out.repository;
 
 import com.hanghae.application.dto.MovieScheduleRequestDto;
 import com.hanghae.application.projection.MovieScheduleProjection;

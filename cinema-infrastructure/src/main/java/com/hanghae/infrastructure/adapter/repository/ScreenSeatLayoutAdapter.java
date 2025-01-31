@@ -1,15 +1,12 @@
-package com.hanghae.infrastructure.adapter;
+package com.hanghae.infrastructure.adapter.repository;
 
-import com.hanghae.application.port.out.ScreenSeatLayoutRepositoryPort;
+import com.hanghae.application.port.out.repository.ScreenSeatLayoutRepositoryPort;
 import com.hanghae.domain.model.ScreenSeatLayout;
 import com.hanghae.infrastructure.entity.ScreenSeatLayoutEntity;
 import com.hanghae.infrastructure.mapper.ScreenSeatLayoutMapper;
 import com.hanghae.infrastructure.repository.ScreenSeatLayoutRepositoryJpa;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor

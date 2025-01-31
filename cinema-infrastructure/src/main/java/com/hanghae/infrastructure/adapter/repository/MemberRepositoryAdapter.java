@@ -1,6 +1,6 @@
-package com.hanghae.infrastructure.adapter;
+package com.hanghae.infrastructure.adapter.repository;
 
-import com.hanghae.application.port.out.MemberRepositoryPort;
+import com.hanghae.application.port.out.repository.MemberRepositoryPort;
 import com.hanghae.domain.model.Member;
 import com.hanghae.infrastructure.mapper.MemberMapper;
 import com.hanghae.infrastructure.repository.MemberRepositoryJpa;

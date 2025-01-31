@@ -13,7 +13,6 @@ import java.util.List;
 @RequestMapping("/api")
 public class MovieController {
     private final MovieScheduleService movieScheduleService;
-    private final MovieReservationService movieReservationService;
 
     //영화 상영 시간표 조회
     @GetMapping("/v1/movie-schedules")
@@ -25,13 +24,6 @@ public class MovieController {
     @GetMapping("/v2/movie-schedules")
     public ApiResponse<List<ShowingMovieScheduleResponseDto>> getShowingMovieSchedules(@ModelAttribute MovieScheduleRequestDto requestDto) {
         return movieScheduleService.getShowingMovieSchedules(requestDto);
-    }
-
-    //영화 예약
-    // TODO :: 좌석선택API와 영화예약API 분리
-    @PostMapping("/v1/movie-reservation")
-    public ApiResponse<Void> saveMovieReservation(@RequestBody MovieReservationRequestDto requestDto) {
-        return movieReservationService.saveMovieReservation(requestDto);
     }
 
     //redis 캐시삭제 (테스트용)

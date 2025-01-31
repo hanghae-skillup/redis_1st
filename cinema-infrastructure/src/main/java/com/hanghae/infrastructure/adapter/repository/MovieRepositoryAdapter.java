@@ -1,7 +1,7 @@
-package com.hanghae.infrastructure.adapter;
+package com.hanghae.infrastructure.adapter.repository;
 
 import com.hanghae.application.dto.MovieScheduleRequestDto;
-import com.hanghae.application.port.out.MovieRepositoryPort;
+import com.hanghae.application.port.out.repository.MovieRepositoryPort;
 import com.hanghae.application.projection.MovieScheduleProjection;
 import com.hanghae.infrastructure.config.RedisCacheName;
 import com.hanghae.infrastructure.entity.*;

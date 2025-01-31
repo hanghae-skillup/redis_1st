@@ -1,6 +1,6 @@
-package com.hanghae.infrastructure.adapter;
+package com.hanghae.infrastructure.adapter.message;
 
-import com.hanghae.application.port.out.MessagePort;
+import com.hanghae.application.port.out.message.MessagePort;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;

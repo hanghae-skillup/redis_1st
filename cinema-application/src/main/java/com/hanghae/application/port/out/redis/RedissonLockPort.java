@@ -1,4 +1,4 @@
-package com.hanghae.application.port.out;
+package com.hanghae.application.port.out.redis;
 
 import com.hanghae.domain.model.enums.ScreenSeat;
 
