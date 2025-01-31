@@ -25,11 +25,14 @@ public class ReservationService {
         return reservationRepository.getReservations(reservationData);
     }
 
-    /** 독립적으로 transactional 선언 시 lock이 동작하지 않음 */
     @Transactional
-    public void validReserved(Long scheduleId, List<Long> seatIds, List<Seat> seats) {
+    public void reserveSeats(Long scheduleId, List<Long> seatIds, List<Seat> seats, Long userId) {
         ReservationCommand.Get get = ReservationCommand.Get.of(scheduleId, seatIds);
         List<Reservation> reservations = getReservations(get);
         Reservation.isAlreadyReserved(reservations, seats);
+
+        ReservationCommand.Reserve reserve =
+                ReservationCommand.Reserve.of(scheduleId, seatIds, userId);
+        makeReservation(reserve);
     }
 }
