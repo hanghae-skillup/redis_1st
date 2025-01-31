@@ -1,4 +1,4 @@
-package org.example.domain;
+package org.example.domain.screenSchedule;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -9,6 +9,10 @@ import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "ScreenSchedule", indexes = {
+        @Index(name = "movieId_idx", columnList = "movieId"),
+        @Index(name = "screenRoomId_idx", columnList = "screenRoomId"),
+})
 public class ScreenSchedule extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

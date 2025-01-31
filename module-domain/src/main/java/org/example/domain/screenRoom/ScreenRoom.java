@@ -1,18 +1,18 @@
-package org.example.domain;
+package org.example.domain.screenRoom;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.entity.BaseEntity;
 
 @Entity
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TestDomain {
+public class ScreenRoom extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "screen_room_id", nullable = false)
     private Long id;
+
+    @Column(nullable = false)
     private String name;
-    private String email;
 }
