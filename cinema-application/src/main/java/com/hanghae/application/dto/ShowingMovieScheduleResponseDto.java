@@ -3,7 +3,6 @@ package com.hanghae.application.dto;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

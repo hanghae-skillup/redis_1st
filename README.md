@@ -1,11 +1,27 @@
 # hanghae-cinema
-항해99 레디스
 
 > spring boot 3.4.1  
 > java 21  
 > Mysql  
+> Redis  
   
+### 규칙
+* `infrastruct` 계층에서의 결과값은 `domain model` 혹은 `Projection(필요한 속성만 조회)` 객체 로 리턴한다.  
+* `domain model`에서 `Dto`로 변환은 `application` 계층에서 한다.  
+* `Dto`는 상태가 변하지 않는 경우 `recode`로 작성한다.(`RequestDto`는 거의 대부분)  
+* `QueryDSL`로 조회한 결과를 받기는 객체는 `class`로 작성한다.  
+* `Dto`, `Projection`는 `application`계층에 위치한다.    
+* `Projection`은 `Dto`로 변환될 수 있다.    
+
+### tryLock 시간 설정
+영화예매시 이미 좌석에 락이 걸려있다면 예매된 것과 다를게 없다고 보고 1초만 대기 후 실패처리 하도록 하였습니다.  
+락 해제의 경우 영화 예매중 문제가 생기더라도 다른 사람이 해당 좌석을 바로 갖지 못하도록 5분으로 처리 하였습니다.
+```
+boolean locked = lock.tryLock(1, 300, TimeUnit.SECONDS); // 점유하기 위해 1초 대기, 획득한 락 5분 후 자동 해제
+```
+    
 ---
+
 ### 캐시한 데이터
 * 영화별 상영시간표 조회 결과에 대한 `Projections`를 캐시데이터로 저장하였습니다.  
 ---
@@ -471,13 +487,16 @@ constant_load ✓ [======================================] 000/100 VUs  10m0s  1
 
 >1. cinema-adapter  
 >     * 외부로부터의 요청을 받는 역할을 합니다.
->     * 요청을 받아  `cinema-application`에 입력 포트를 호출 합니다.
+>     * 요청을 받아 `application 계층`에 입력 포트를 호출 합니다.  
+>     * `Controller`가 해당 계층에 위치합니다.
 >
 >2. cinema-application  
 >     * 입력/출력 포트에 대한 인터페이스를 정의하고 입력 포트에 비즈니스 로직을 구현 합니다.
->     * 입력 포트는 Adapter에서 호출됩니다.
->     * 출력 포트는 인터페이스만 정의하여 외부 시스템(DB등)과의 의존성을 최소화 합니다.
->     * domain service 로직은 application 모듈 port(in)에서 호출합니다. 
+>     * 입력 포트(`port-in`)는 `adapter 계층`에서 호출됩니다.
+>     * 입력 포트(`port-in`) 인터페이스의 구현은 `application 계층`에서 합니다. 
+>     * 출력 포트(`port-out`)는 인터페이스만 정의하여 외부 시스템(DB등)과의 의존성을 최소화 합니다.
+>     * 출력 포트(`port-out`) 인터페이스의 구현은 `infrastructure 계층`에서 합니다.
+>     * `domain service` 로직은 `application 계층`의 `port(in)`에서 호출합니다. 
 >
 >3. cinema-domain  
 >     * 외부에 의존하지 않는 독립적이고 핵심적인 비즈니스 모델 및 서비스 로직이 위치합니다.
@@ -491,6 +510,13 @@ constant_load ✓ [======================================] 000/100 VUs  10m0s  1
   
 도메인과 jpa엔티티를 나누었고 mapper클래스로 변환하도록 하였습니다.   
   
+데이터 흐름
+```
+컨트롤러(adapter)  →  입력포트(application-port-in)  →  출력포트(application-port-out)  →  DB접근(infrastructure-repository)  
+                                  ↓                      ↳ 출력포트의 구현체는 
+                     도메인모델 or Servier(domain)           infrastructure계층 Adapter에 구현 
+```
+   
 ### 테이블 디자인
 
 아래와 같이 7개 테이블로 구성하였습니다.
@@ -501,14 +527,23 @@ constant_load ✓ [======================================] 000/100 VUs  10m0s  1
 > `상영관좌석`  
 > `회원`  
 > `업로드파일`  
-
+    
+`영화`테이블의 `영상물등급`, `영화장르` 컬럼에 적재되는 하는 코드값은 `java`에 `enum`을 사용해 처리합니다.        
+좌석테이블(`screen_seat`)의 경우 상영관의 수가 많아 질수록 과도하게 데이터가 늘어날 것 같아 좌석행 별 최대 갯수만 저장하게끔 테이블의 구조를 변경하였습니다.
+좌석 상세는 `enum`으로 관리합니다.        
+  
 * ERD
     * `docs/cinema_erd.png`
 * 테이블 생성 쿼리
-    * `docs/cineam_create.sql`
+    * `docs/sql/cineam_create.sql`
 * 초기 데이터
-    * `docs/init_insert.sql`
+    * `docs/sql/init_insert.sql`
+* 더미 데이터
+    * `docs/sql/dummy/movie_dummy.sql` 
+    * `docs/sql/dummy/screen_dummy.sql` 
+    * `docs/sql/dummy/screening_schedule_dummy.sql` 
 * HTTP 테스트
-    * `docs/cinema_test.http` 
-
-`영화`테이블의 `영상물등급`, `영화장르` 컬럼에 적재되는 하는 코드값은 `java`에 `enum`을 사용해 처리  
+    * `docs/http/cinema_test.http`   
+* K6 테스트 파일
+    * `docs/k6/k6_test.js` 
+ 

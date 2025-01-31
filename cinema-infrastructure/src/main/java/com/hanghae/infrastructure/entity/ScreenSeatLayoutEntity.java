@@ -7,38 +7,35 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import java.time.LocalDateTime;
-
 
 @Entity
 @Getter
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name= "screening_schedule")
-public class ScreeningScheduleEntity extends BaseEntity {
+@Table(name= "screen_seat_layout")
+public class ScreenSeatLayoutEntity extends BaseEntity {
     @Id
-    @Column(name = "schedule_id")
+    @Column(name = "seat_layout_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_id")
-    private MovieEntity movieEntity;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "screen_id")
-    private ScreenEntity screenEntity;
+    private ScreenEntity screenEntity; //상영관
 
-    @Column
-    private LocalDateTime showStartAt; // 상영 시작 시간
+    @Column(nullable = false)
+    private String seatRow; //좌석 행 (알파벳)
+
+    @Column(nullable = false)
+    private Long maxSeatNumber; //최대 좌석 번호
 
     @Builder
-    public ScreeningScheduleEntity(Long id, MovieEntity movieEntity, ScreenEntity screenEntity, LocalDateTime showStartAt, Long createdBy, Long updatedBy) {
+    public ScreenSeatLayoutEntity(Long id, ScreenEntity screenEntity, String seatRow, Long maxSeatNumber, Long createdBy, Long updatedBy) {
         this.id = id;
-        this.movieEntity = movieEntity;
         this.screenEntity = screenEntity;
-        this.showStartAt = showStartAt;
+        this.seatRow = seatRow;
+        this.maxSeatNumber = maxSeatNumber;
         this.setCreatedBy(createdBy);
         this.setUpdatedBy(updatedBy);
     }

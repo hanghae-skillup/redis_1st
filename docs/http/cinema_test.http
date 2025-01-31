@@ -6,5 +6,16 @@ GET http://{{local}}/api/v1/movie-schedules HTTP/1.1
 ### 영화별 상영 시간표 조회
 GET http://{{local}}/api/v2/movie-schedules?genre=ACTION&title=공 HTTP/1.1
 
+### 영화 예매
+POST http://{{local}}/api/v1/movie-reservation
+Content-Type: application/json
+
+{
+    "scheduleId": 1,
+    "memberId": 1,
+    "screenSeat": "A02",
+    "seatCount": 2
+}
+
 ### redis 캐시 삭제 (테스트)
 GET http://{{local}}/api/test/evict-cache HTTP/1.1

@@ -13,6 +13,7 @@ repositories {
 
 dependencies {
     implementation(project(":cinema-domain")) // 도메인 계층 의존성
+    implementation("com.fasterxml.jackson.core:jackson-annotations:2.16.0") // Java, JSON 변환 라이브러리 
 }
 
 tasks.test {
