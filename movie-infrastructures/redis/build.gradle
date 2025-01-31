@@ -3,10 +3,10 @@ jar.enabled = true
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.redisson:redisson-spring-boot-starter:3.17.7'
 
     implementation project(':movie-domain:common')
-    implementation project(':movie-domain:domain')
 }

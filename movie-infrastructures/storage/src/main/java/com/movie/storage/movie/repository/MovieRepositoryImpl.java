@@ -1,7 +1,8 @@
 package com.movie.storage.movie.repository;
 
 import com.movie.domain.movie.MovieRepository;
-import com.movie.domain.movie.domain.Movie;
+import com.movie.domain.movie.dto.command.MovieCommand;
+import com.movie.domain.movie.dto.info.MovieInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +15,7 @@ public class MovieRepositoryImpl implements MovieRepository {
     private final MovieJpaRepository movieJpaRepository;
 
     @Override
-    public List<Movie> getMovies() {
+    public List<MovieInfo.Get> getMoviesBySearch(MovieCommand.Search search) {
         return List.of();
     }
 }

@@ -11,6 +11,8 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,7 +55,14 @@ public class ScheduleJpaQuerySupport extends QuerydslRepositorySupport {
                                 scheduleEntity.startTime, scheduleEntity.endTime
                         ))
                 )));
-        return result.values().stream().toList();
+
+        Map<Long, SchedulePayload.Get> uniqueMovies = new LinkedHashMap<>();
+        result.values().forEach(schedule -> {
+            Long movieId = schedule.getMovie().getId();
+            uniqueMovies.putIfAbsent(movieId, schedule);
+        });
+
+        return new ArrayList<>(uniqueMovies.values());
     }
 
     public List<SchedulePayload.Get> getSchedules(Long theaterId) {
@@ -88,7 +97,7 @@ public class ScheduleJpaQuerySupport extends QuerydslRepositorySupport {
 
     public BooleanExpression getMovieNameCondition(ScheduleStatement.Search search) {
         if (!StringUtils.hasText(search.title())) return null;
-        return movieEntity.title.contains(search.title());
+        return movieEntity.title.startsWith(search.title());
     }
 
     public BooleanExpression getMovieGenreCondition(ScheduleStatement.Search search) {

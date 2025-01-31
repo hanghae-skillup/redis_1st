@@ -4,7 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(classes = {BulkInsertSchedule.class, BulkInsertMovie.class, BulkInsertScreen.class})
+@SpringBootTest(classes = {
+        BulkInsertSchedule.class, BulkInsertMovie.class,
+        BulkInsertScreen.class, BulkInsertReservation.class
+})
 class BulkInsertTest {
 
     @Autowired
@@ -15,6 +18,9 @@ class BulkInsertTest {
 
     @Autowired
     private BulkInsertMovie bulkInsertMovie;
+
+    @Autowired
+    private BulkInsertReservation bulkInsertReservation;
 
 
     @Test
@@ -53,6 +59,23 @@ class BulkInsertTest {
 
         // when
         bulkInsertSchedule.bulkInsertSchedules(100_000, 1_000);
+
+        // then
+    }
+
+    @Test
+    void bulkInsertReservation() {
+
+        bulkInsertReservation.bulkInsertReservation(25, 25);
+
+    }
+
+    @Test
+    void bulkInsertSeat() {
+        // given
+
+        // when
+        bulkInsertReservation.bulkInsertSeat(25, 25);
 
         // then
     }

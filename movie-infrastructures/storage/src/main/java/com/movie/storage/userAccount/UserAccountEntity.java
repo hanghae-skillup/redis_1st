@@ -19,4 +19,7 @@ public class UserAccountEntity extends BaseEntity {
     @Column(columnDefinition = "VARCHAR(50) NOT NULL COMMENT '이름'")
     private String name;
 
+    @Column(columnDefinition = "VARCHAR(12) NOT NULL COMMENT '토큰'")
+    private String token;
+
 }

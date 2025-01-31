@@ -1,5 +1,6 @@
 package com.movie.storage.movie.entity;
 
+import com.movie.common.enums.AxisY;
 import com.movie.storage.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -18,10 +19,15 @@ public class SeatEntity extends BaseEntity {
     @Column(columnDefinition = "BIGINT UNSIGNED")
     private Long id;
 
-    private Long screenId;
-
     @Column(columnDefinition = "VARCHAR(10) NOT NULL COMMENT '좌석번호'")
     private String seatNumber;
+
+    @Column(columnDefinition = "INT NOT NULL COMMENT 'X 좌표'")
+    private Integer axisX;
+
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(1) NOT NULL COMMENT 'Y 좌표'")
+    private AxisY axisY;
 
     @Override
     public boolean equals(Object o) {
