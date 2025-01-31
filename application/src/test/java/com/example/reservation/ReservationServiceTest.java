@@ -146,7 +146,7 @@ class ReservationServiceTest {
         seatRepository.saveAll(seats);
         screeningRepository.save(screening);
         reservationService.reserve(new ReservationServiceRequest(member.getId(), screening.getId(), List.of(seats.get(0).getId(), seats.get(1).getId())));
-        assertThatThrownBy(() -> { reservationService.reserve(new ReservationServiceRequest(member.getId(), screening.getId(), List.of(seats.get(2).getId(), seats.get(3).getId(),seats.get(4).getId(), seats.get(5).getId()))); })
+        assertThatThrownBy(() -> { reservationService.reserve(new ReservationServiceRequest(member.getId(), screening.getId(), List.of(seats.get(5).getId(), seats.get(6).getId(), seats.get(7).getId(), seats.get(8).getId()))); })
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("하나의 상영시간에 5좌석이상 예매할 수 없습니다");
     }

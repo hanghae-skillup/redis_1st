@@ -1,5 +1,6 @@
 package com.example.reservation;
 
+import com.example.aop.DistributedLock;
 import com.example.entity.reservation.Reservation;
 import com.example.entity.reservation.ReservedSeat;
 import com.example.message.MessageService;
@@ -23,6 +24,7 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
 
     @Transactional
+    @DistributedLock(key = "reservation:screening:{#request.screeningId}:seat:{#request.seatIds}", leaseTime = 10, waitTime = 5)
     public ReservationServiceResponse reserve(ReservationServiceRequest request) {
 
         ReservationValidationResult validationResult = reservationValidate.validate(request);
@@ -50,6 +52,4 @@ public class ReservationService {
 
         return reservation;
     }
-
-
 }
