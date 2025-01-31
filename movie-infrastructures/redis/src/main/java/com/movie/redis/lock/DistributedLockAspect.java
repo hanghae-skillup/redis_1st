@@ -34,7 +34,6 @@ public class DistributedLockAspect {
 
         String lockName = distributedLock.lockName();
         String generatedLockName = generateLockKey(lockName, args);
-
         RLock rLock = redissonClient.getLock(generatedLockName);
 
         log.info("redisson 락 획득 - 락 이름 : {}", generatedLockName);
@@ -52,7 +51,7 @@ public class DistributedLockAspect {
         } catch (Exception e) {
             throw e;
         } finally {
-            if (rLock.isHeldByCurrentThread()) {
+            if (rLock.isLocked() && rLock.isHeldByCurrentThread()) {
                 try {
                     rLock.unlock();
                     log.info("redisson 락 해제 - 락 이름 : {}", generatedLockName);
@@ -66,7 +65,7 @@ public class DistributedLockAspect {
     private String generateLockKey(String lockName, Object[] args) {
         if (args.length > 0) {
             Object firstArg = args[0];
-            return lockName + ":" + firstArg.toString();
+            return "%s:%s:%s".formatted(lockName, System.currentTimeMillis(), firstArg.toString());
         }
         return lockName;
     }

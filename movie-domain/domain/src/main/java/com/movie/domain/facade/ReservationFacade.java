@@ -34,7 +34,6 @@ public class ReservationFacade {
         UserAccount userAccount = userAccountService.getUserAccountByToken(getReserveData.token());
 
         // 자리가 선점되있는지 확인
-//        reservationService.validReserved(getReserveData.scheduleId(), getReserveData.seatIds(), seats);
         ReservationCommand.Get get = ReservationCommand.Get.of(getReserveData.scheduleId(), getReserveData.seatIds());
         List<Reservation> reservations = reservationService.getReservations(get);
         Reservation.isAlreadyReserved(reservations, seats);
