@@ -23,8 +23,6 @@ import java.util.List;
 public class ScreeningController {
 
     private final ScreeningService screeningService;
-
-
     @GetMapping("/screenings/search")
     public ResponseEntity<DataResponse<List<ScreeningResponseDto>>> getScreenings(
 
@@ -44,16 +42,4 @@ public class ScreeningController {
 
         return ResponseEntity.ok(response);
     }
-
-//    @GetMapping("/screenings")
-//    public ResponseEntity<DataResponse<List<ScreeningResponseDto>>> getScreenings() {
-//
-//        List<Screening> screeningList = screeningService.getScreengings();
-//
-//        List<ScreeningResponseDto> screeningData = ScreeningDtoMapper.toScreeningResponseDto(screeningList);
-//
-//        DataResponse<List<ScreeningResponseDto>> response = DataResponse.response(true, screeningData);
-//
-//        return ResponseEntity.ok(response);
-//    } // 테스트를 위한 이전 api
 }

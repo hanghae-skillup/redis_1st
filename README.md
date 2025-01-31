@@ -32,5 +32,9 @@ Layerd Architecture는 기본적으로  api -> application -> domain -> infra의
 
 
 ### 성능 테스트 보고서 
-- https://www.notion.so/17f3ae348c6980ffa6ace55763c86dbc?pvs=4
+- 2주차 - https://www.notion.so/17f3ae348c6980ffa6ace55763c86dbc?pvs=4
+- 3주차 - 
 
+###
+leaseTime : 2초 -> (평균 실행 시간이 측정 결과 619ms 이고 예상치 못한 지연 및 데이터 증가를 고려하여 평균 실행시간의 2~3배로 설정)
+waitTime  : 2초 ->  좌석 선택의 경우 빠른 피드백이 중요하므로 사용자 경험을 고려하여 2초로 설정

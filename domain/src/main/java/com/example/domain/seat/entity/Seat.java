@@ -1,6 +1,7 @@
 package com.example.domain.seat.entity;
 
-import com.example.domain.screening.entity.Screening;
+import com.example.domain.BaseEntity;
+import com.example.domain.theater.entity.Theater;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,16 +11,35 @@ import lombok.*;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Seat {
+public class Seat extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private Integer seatNumber;
+    private String seatCol;
 
-    @ManyToOne
-    @JoinColumn(name = "screening_id", nullable = false)
-    private Screening screening;
+    @Column(nullable = false)
+    private String seatRow;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "theater_id", nullable = false)
+    private Theater theater;
+
+    @Version // Optimistic Lock 버전 필드
+    private Integer version;
+
+    public void updateStatus(Status status) {
+        this.status = status;
+    }
+
+
+    public enum Status{
+        AVAILABLE, RESERVED,OCCUPIED, OUT_OF_ORDER
+    }
 }

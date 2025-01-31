@@ -14,7 +14,10 @@ public enum ErrorCode {
     INVALID_TYPE_VALUE(400, "C0005", " Invalid type value"),
     HANDLE_ACCESS_DENIED(403, "C0006", "Access denied"),
     INVALID_TOKEN(403, "C0007", "Invalid token"),
-    DATABASE_ERROR(500, "C0008", "Database error");
+    DATABASE_ERROR(500, "C0008", "Database error"),
+    LOCK_ACQUISITION_FAILED(409, "L0001", "Failed to acquire lock"),
+    LOCK_RELEASE_FAILED(500, "L0002", "Failed to release lock"),
+    LOCK_TIMEOUT(408, "L0003", "Lock acquisition timed out");
 
 
     private final int status;
