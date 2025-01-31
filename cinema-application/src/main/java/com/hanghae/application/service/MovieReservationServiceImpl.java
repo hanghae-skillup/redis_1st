@@ -69,10 +69,10 @@ public class MovieReservationServiceImpl implements MovieReservationService {
                 //완료 메시지 전송 (비동기)
                 messagePort.sendMessage("영화 예매가 완료 되었습니다.");
 
-                return ApiResponse.of("예매가 완료 되었습니다.", HttpStatusCode.CREATED.getCode());
+                return ApiResponse.of("예매가 완료 되었습니다.", HttpStatusCode.CREATED);
             });
         } catch (IllegalStateException e) {
-            return ApiResponse.of("현재 좌석을 다른 사용자가 예매 처리 중입니다.", HttpStatusCode.CONFLICT.getCode());
+            return ApiResponse.of("현재 좌석을 다른 사용자가 예매 처리 중입니다.", HttpStatusCode.CONFLICT);
         }
     }
 }

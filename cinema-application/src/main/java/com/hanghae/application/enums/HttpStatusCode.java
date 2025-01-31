@@ -1,10 +1,12 @@
 package com.hanghae.application.enums;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
+@JsonFormat(shape = JsonFormat.Shape.OBJECT) // 객체 형태로 변환 (응답받는 곳에서 코드값, 메시지 같이 보여짐)
 public enum HttpStatusCode {
     // 2xx: 성공
     OK(200, "OK"),

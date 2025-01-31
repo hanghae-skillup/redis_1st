@@ -32,7 +32,7 @@ public class MovieScheduleServiceImpl implements MovieScheduleService {
         List<ScreeningSchedule> schedules = screeningScheduleRepositoryPort.findAll();
         List<MovieScheduleResponseDto> responseDtos = schedules.stream().map(this::convertToDto).collect(Collectors.toList());
 
-        return ApiResponse.of("Success", HttpStatusCode.OK.getCode(), responseDtos);
+        return ApiResponse.of("Success", HttpStatusCode.OK, responseDtos);
     }
 
     @Override
@@ -73,13 +73,13 @@ public class MovieScheduleServiceImpl implements MovieScheduleService {
                     .build());
         }
 
-        return ApiResponse.of("Success", HttpStatusCode.OK.getCode(), new ArrayList<>(movieMap.values()));
+        return ApiResponse.of("Success", HttpStatusCode.OK, new ArrayList<>(movieMap.values()));
     }
 
     @Override
     public ApiResponse<Void> evictShowingMovieCache() {
         movieRepositoryPort.evictShowingMovieCache();
-        return ApiResponse.of("Success", HttpStatusCode.NO_CONTENT.getCode());
+        return ApiResponse.of("Success", HttpStatusCode.NO_CONTENT);
     }
 
     private MovieScheduleResponseDto convertToDto(ScreeningSchedule schedule) {
