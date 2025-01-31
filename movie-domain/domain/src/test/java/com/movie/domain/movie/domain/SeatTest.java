@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SeatTest {
 
-    @DisplayName("")
+    @DisplayName("좌석 5개 이상 예약 시도 시, 예외를 발생시킨다.")
     @Test
     void givenOver5Seat_whenVerifySeatSize_thenThrowException() {
         // given
@@ -30,7 +30,7 @@ class SeatTest {
     }
 
 
-    @DisplayName("")
+    @DisplayName("연속적인 자리 예약을 시도 시, 예외를 발생시키지 않는다.")
     @Test
     void givenNotConsecutiveSeats_whenVerifyIfConsecutive_thenDoNotThrowException() {
         // given

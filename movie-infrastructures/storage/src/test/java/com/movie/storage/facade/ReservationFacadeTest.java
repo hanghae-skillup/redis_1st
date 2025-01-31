@@ -1,6 +1,7 @@
 package com.movie.storage.facade;
 
 import com.movie.domain.facade.ReservationManager;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,8 +18,9 @@ class ReservationFacadeTest {
     @Autowired
     private ReservationManager reservationManager;
 
+    @DisplayName("AOP 분산락을 적용하여, 예약 기능에 동시성 발생 유무를 확인")
     @Test
-    void shouldHandleConcurrentReservationsProperly() throws InterruptedException {
+    void shouldHandleConcurrentReservationsByAOPDistributedLock() throws InterruptedException {
         // given
         int threadCount = 100;
         ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
