@@ -78,6 +78,9 @@ public class MovieReservationServiceImpl implements MovieReservationService {
                 // 예매 내역 저장
                 ticketReservationRepositoryPort.saveMovieReservations(ticketReservations);
 
+                // 예매 성공 후 Redis 제한 설정
+                redisRateLimitPort.setReservationLimit(scheduleId, memberId);
+
                 //완료 메시지 전송 (비동기)
                 messagePort.sendMessage("영화 예매가 완료 되었습니다.");
 

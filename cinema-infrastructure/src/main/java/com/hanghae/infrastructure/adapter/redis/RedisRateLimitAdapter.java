@@ -50,9 +50,10 @@ public class RedisRateLimitAdapter implements RedisRateLimitPort {
 
     /**
      * 같은 시간대의 영화는 유저당 5분에 1번씩만 예매 가능
+     * (체크와 동시에 키생성)
      */
     @Override
-    public boolean canReserve(Long scheduleId, Long memberId) {
+    public boolean tryReserveWithLimit(Long scheduleId, Long memberId) {
         String luaScriptPath = "lua/reservationRateLimit.lua";
         int reservationCooldownSecound = 300; // 예약 제한 시간 (초)
         String key = "reservation_limit:" + scheduleId + ":" + memberId; // 레디스 키
@@ -81,5 +82,28 @@ public class RedisRateLimitAdapter implements RedisRateLimitPort {
 
         return Boolean.TRUE.equals(isSet); // 값이 설정되었다면 예약 가능
         */
+    }
+
+    /**
+     * 5분 제한 여부 확인 (제한된 경우 false 반환)
+     */
+    @Override
+    public boolean canReserve(Long scheduleId, Long memberId) {
+        String key = getReservationKey(scheduleId, memberId);
+        return Boolean.FALSE.equals(redisTemplate.hasKey(key)); // 키가 없으면 예약 가능
+    }
+
+    /**
+     * 예매 성공 후 5분 제한 설정
+     */
+    @Override
+    public void setReservationLimit(Long scheduleId, Long memberId) {
+        String key = getReservationKey(scheduleId, memberId);
+        int reservationCooldownSecound = 300; // 예약 제한 시간 (초)
+        redisTemplate.opsForValue().set(key, "1", Duration.ofSeconds(reservationCooldownSecound));
+    }
+
+    private String getReservationKey(Long scheduleId, Long memberId) {
+        return "reservation_limit:" + scheduleId + ":" + memberId;
     }
 }
