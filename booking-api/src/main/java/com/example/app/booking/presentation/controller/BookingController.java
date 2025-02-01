@@ -31,8 +31,6 @@ public class BookingController {
     @PostMapping("/booking")
     public ResponseEntity<Booking> createBooking(@Valid @RequestBody CreateBookingRequest createBookingRequest)
             throws InterruptedException {
-        redisRateLimitService.checkAccessLimit(createBookingRequest);
-
         var lockKey = String.format("BOOKING:%d:%d:%d:%s",
                 createBookingRequest.movieId(),
                 createBookingRequest.showtimeId(),
@@ -40,8 +38,8 @@ public class BookingController {
                 createBookingRequest.bookingDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
                 createBookingRequest.seats().getFirst().charAt(0));
         var booking = createBookingUseCase.createBooking(lockKey, createBookingRequest.toCreateBookingCommand());
-
         sendMessageUseCase.sendMessage(String.format("BookingId : %d, UserId : %d", booking.id(), booking.userId()));
+        redisRateLimitService.checkAccessLimit(createBookingRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
