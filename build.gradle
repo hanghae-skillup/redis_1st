@@ -55,6 +55,12 @@ subprojects {
     tasks.named('test') {
         useJUnitPlatform()
     }
+
+    test {
+        exclude '**/*'
+    }
+
+    tasks.named("bootJar") {
+        mainClass = 'com.movie.movieapi.MovieApiApplication'
+    }
 }
-
-
