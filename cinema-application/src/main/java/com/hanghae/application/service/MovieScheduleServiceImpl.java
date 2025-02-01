@@ -6,6 +6,7 @@ import com.hanghae.application.dto.MovieScheduleResponseDto;
 import com.hanghae.application.dto.ShowingMovieScheduleResponseDto;
 import com.hanghae.application.enums.HttpStatusCode;
 import com.hanghae.application.port.in.MovieScheduleService;
+import com.hanghae.application.port.out.redis.RedisRateLimitPort;
 import com.hanghae.application.port.out.repository.MovieRepositoryPort;
 import com.hanghae.application.port.out.repository.ScreeningScheduleRepositoryPort;
 import com.hanghae.application.projection.MovieScheduleProjection;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 public class MovieScheduleServiceImpl implements MovieScheduleService {
     private final ScreeningScheduleRepositoryPort screeningScheduleRepositoryPort;
     private final MovieRepositoryPort movieRepositoryPort;
+    private final RedisRateLimitPort redisRateLimitPort;
 
     @Override
     @Transactional
@@ -37,7 +39,12 @@ public class MovieScheduleServiceImpl implements MovieScheduleService {
 
     @Override
     @Transactional
-    public ApiResponse<List<ShowingMovieScheduleResponseDto>> getShowingMovieSchedules(MovieScheduleRequestDto requestDto) {
+    public ApiResponse<List<ShowingMovieScheduleResponseDto>> getShowingMovieSchedules(MovieScheduleRequestDto requestDto, String ip) {
+        //1분에 50회 이상 조회시 조회 제한
+        if (!redisRateLimitPort.isAllowed(ip)) {
+            return ApiResponse.of("너무 많은 요청으로 조회가 차단되었습니다. ", HttpStatusCode.TOO_MANY_REQUESTS);
+        }
+
         List<MovieScheduleProjection> projections = movieRepositoryPort.findShowingMovieSchedules(requestDto);
 
         Map<Long, ShowingMovieScheduleResponseDto> movieMap = new LinkedHashMap<>();

@@ -471,7 +471,12 @@ constant_load ✓ [======================================] 000/100 VUs  10m0s  1
     * 로그 확인 : $docker-compose logs -f // `-f`옵션을 주면 실시간
     * 특정 서비스 시작 : $docker-compose start <서비스 이름>
     * 특정 서비스 종료 : $docker-compose stop <서비스 이름>
-  
+    * redis 접속 : docker exec -it redis_cinema redis-cli // redis_cinema = 컨테이너명
+      * redis 비밀번호 있는 경우 위 명령어 후 : AUTH 비밀번호
+      * 현재 존재하는 키 전체보기 : KEYS *
+      * 특정키 조회 : KEYS rate_limit:0:0:0:0:0:0:0:1
+      * 특정 패턴 조회 : KEYS rate_limit:*
+      * 모든키 삭제 : FLUSHALL
     
 --------------------------------------------------------------
 ### 적용 아키텍처
