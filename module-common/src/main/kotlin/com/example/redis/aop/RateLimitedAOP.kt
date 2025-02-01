@@ -16,11 +16,12 @@ class RateLimitedAOP(
     private val request: HttpServletRequest
 ) {
 
-    @Around("@annotation(ratedLimitedAOP)")
+    @Around("@annotation(rateLimited)")
     fun limitRequest(joinPoint: ProceedingJoinPoint, rateLimited: RateLimited): Any {
         val ip = request.remoteAddr
-        val api = joinPoint.signature.toShortString()
+        val api = request.requestURI
         val rate = rateLimited.value
+
 
         return if (rateLimitedManager.tryAcquire(api, ip, rate)) {
             joinPoint.proceed()

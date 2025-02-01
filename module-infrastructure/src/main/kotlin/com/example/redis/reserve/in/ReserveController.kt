@@ -1,5 +1,6 @@
 package com.example.redis.reserve.`in`
 
+import com.example.redis.annotations.RateLimited
 import com.example.redis.movie.`in`.mapper.MovieControllerMapper
 import com.example.redis.reserve.`in`.dto.MovieReserveRequestDto
 import jakarta.validation.Valid
@@ -19,6 +20,7 @@ class ReserveController(
     private val reserveFacade: ReserveFacade
 ) {
 
+    @RateLimited(50)
     @PostMapping("/{movieId}/reserve")
     fun reserve(@PathVariable movieId: Long, @Valid @RequestBody body: MovieReserveRequestDto): ResponseEntity<Unit> {
         val groupId = this.reserveFacade.reserve(movieId, MovieControllerMapper.toReservationDomain(body))

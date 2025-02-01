@@ -25,7 +25,7 @@ class MovieController(
     private val movieUseCase: MovieUseCase,
 ) {
 
-    @RateLimited(50.0)
+    @RateLimited(10)
     @GetMapping
     fun gets(@ModelAttribute movieSearchRequestQuery: MovieSearchRequestQueryDto): ResponseEntity<MutableList<MovieResponseDto>> {
         val movies = this.movieUseCase.gets(movieSearchRequestQuery.title, movieSearchRequestQuery.genre)

@@ -17,8 +17,8 @@ class MoviePersistenceMapper {
                 releaseDate = entity.releaseDate,
                 thumbnailImagePath = entity.thumbnailImagePath,
                 filmRatings = entity.filmRatings.name,
-                movieGenre = entity.movieGenre.stream().map { it.name }.toList(),
-                screenings = entity.screening.stream().map { toScreeningDomain(it) }.toList(),
+                movieGenre = entity.movieGenre.stream().map { it.name }.toList().toMutableList(),
+                screenings = entity.screening.stream().map { toScreeningDomain(it) }.toList().toMutableList(),
                 createAt = entity.createAt,
                 updateAt = entity.updateAt
             )
