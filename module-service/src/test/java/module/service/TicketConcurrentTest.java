@@ -57,7 +57,7 @@ public class TicketConcurrentTest {
 		// when
 		CountDownLatch latch = new CountDownLatch(1000);
 
-		IntStream.range(1, 1001).forEach(i -> {
+		IntStream.range(1, 1001).parallel().forEach(i -> {
 			String username = "vuser" + i;
 			TicketDTO ticketDTO = ticketList.get(i % ticketList.size());
 			List<TicketDTO> ticketDTOList = List.of(ticketDTO);
@@ -77,8 +77,10 @@ public class TicketConcurrentTest {
 		// 해당 티켓들의 sales 갯수 reserved ticket의 갯수와 동일
 		List<Ticket> resultTicketList = ticketRepository.findAllByShowing(showing);
 		resultTicketList.forEach(ticket -> System.out.println(ticket.getTicketStatus()));
+
 		boolean isAllReserved = resultTicketList.stream().anyMatch(ticket -> ticket.getTicketStatus() != TicketStatus.RESERVED);
 		Assertions.assertThat(isAllReserved).isFalse();
+
 		List<Sales> salesResultList = salesRepository.findAllByTicketIn(resultTicketList);
 		Assertions.assertThat(salesResultList.size()).isEqualTo(resultTicketList.size());
 	}
