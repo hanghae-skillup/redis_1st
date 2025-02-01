@@ -28,6 +28,7 @@ import module.entity.Seats;
 import module.entity.Showing;
 import module.entity.Ticket;
 import module.entity.User;
+import module.lock.DistributedLock;
 import module.repository.sales.SalesRepository;
 import module.repository.seats.SeatsRepository;
 import module.repository.showing.ShowingRepository;
@@ -59,8 +60,6 @@ public class TicketService {
 			.stream().map(ticket -> modelMapper.map(ticket, TicketResponse.class))
 			.toList();
 
-		log.info("{}",ticketList);
-
 		return ticketList;
 	}
 
@@ -80,6 +79,10 @@ public class TicketService {
 	}
 
 	@Transactional
+	@DistributedLock(
+		keyPrefix = "TICKET",
+		key = "#ticketDtoList.?[ticketId != null].![ticketId].toArray()"
+	)
 	public String reservation(Long showingId, String username, List<TicketDTO> ticketDtoList) {
 		List<Ticket> ticketList = ticketRepository.findAllByTicketIdIn(
 			ticketDtoList.stream().map(TicketDTO::getTicketId).toList());
@@ -95,9 +98,9 @@ public class TicketService {
 			}
 		});
 
-		// 비즈니스 [ 예매중 처리 ]
-		ticketList.stream()
-			.forEach(ticket -> ticket.setTicketStatus(TicketStatus.ON_RESERVING));
+		// // 비즈니스 [ 예매중 처리 ]
+		// ticketList.stream()
+		// 	.forEach(ticket -> ticket.setTicketStatus(TicketStatus.ON_RESERVING));
 
 		// 예외처리 [ 존재하지 않는 사용자 ]
 		Optional<User> optionalUser = userRepository.findByUsername(username);
@@ -144,4 +147,5 @@ public class TicketService {
 
 		return "success";
 	}
+
 }
