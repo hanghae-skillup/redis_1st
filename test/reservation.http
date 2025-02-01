@@ -1,0 +1,37 @@
+### 좌석 예약 요청 (성공 케이스)
+POST http://localhost:8080/api/v1/reservations
+Content-Type: application/json
+
+{
+  "screeningId": 1,
+  "memberId": 1,
+  "seatIds": [4, 13]
+}
+
+### 좌석 예약 요청 (잘못된 요청 - seatIds 없음)
+POST http://localhost:8080/api/v1/reservations
+Content-Type: application/json
+
+{
+  "screeningId": 1,
+  "memberId": 101,
+  "seatIds": []
+}
+
+### 좌석 예약 요청 (잘못된 요청 - screeningId 없음)
+POST http://localhost:8080/api/v1/reservations
+Content-Type: application/json
+
+{
+  "memberId": 101,
+  "seatIds": [1, 2, 3]
+}
+
+### 좌석 예약 요청 (잘못된 요청 - memberId 없음)
+POST http://localhost:8080/api/v1/reservations
+Content-Type: application/json
+
+{
+  "screeningId": 1,
+  "seatIds": [1, 2, 3]
+}
