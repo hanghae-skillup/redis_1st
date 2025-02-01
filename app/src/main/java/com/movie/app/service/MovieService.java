@@ -33,7 +33,7 @@ public class MovieService {
         return movieRepository.findByGenre(genre);
     }
 
-    @Cacheable(value = "Movies", key = "all", cacheManager = "contentCacheManager")
+    @Cacheable(value = "Movies", key = "'all'", cacheManager = "contentCacheManager")
     public List<Movie> getMoviesAll() {
         return movieRepository.findAll();
     }
