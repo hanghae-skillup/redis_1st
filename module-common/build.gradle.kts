@@ -7,6 +7,7 @@ dependencies {
     implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
     implementation("org.redisson:redisson-spring-boot-starter:3.23.5")
     implementation("org.springframework.boot:spring-boot-starter-cache")
+    implementation("com.google.guava:guava:33.3.1-jre")
     kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
     implementation(project(":module-domain"))
 

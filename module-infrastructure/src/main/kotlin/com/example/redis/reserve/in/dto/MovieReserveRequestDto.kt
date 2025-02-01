@@ -1,4 +1,4 @@
-package com.example.redis.movie.`in`.dto
+package com.example.redis.reserve.`in`.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.Valid
@@ -21,6 +21,6 @@ class MovieReserveRequestDto(
     @JsonProperty(value = "seats")
     @field:Valid
     @field:Size(min = 1, max = 5, message = "The seat must have one to five.")
-    val seats: List<@Valid SeatRequestDto>
+    val seats: List<@Valid MovieReserveSeatRequestDto>
 ) {
 }

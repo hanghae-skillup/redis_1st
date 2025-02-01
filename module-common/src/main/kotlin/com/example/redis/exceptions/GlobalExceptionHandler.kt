@@ -13,6 +13,22 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 @RestControllerAdvice
 class GlobalExceptionHandler {
 
+    @ExceptionHandler(RateLimitedException::class)
+    fun handleRateLimitedException(ex: RateLimitedException): ResponseEntity<ApiResponse<Unit>> {
+        val response = ApiResponse<Unit>(
+            status = HttpStatus.TOO_MANY_REQUESTS,
+            message = "",
+            errors = mutableListOf(
+                ErrorResponse(
+                    field = ex.api,
+                    value = ex.ip,
+                    reason = ex.message ?: ""
+                )
+            ),
+        )
+        return ResponseEntity(response, HttpStatus.TOO_MANY_REQUESTS)
+    }
+
     @ExceptionHandler(IllegalStateException::class)
     fun handleIllegalStateException(ex: IllegalStateException): ResponseEntity<ApiResponse<Unit>> {
         val response = ApiResponse<Unit>(

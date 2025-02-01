@@ -25,7 +25,7 @@ class ReserveFacade(
         val seatRows = reservation.seats.map { it.seatRow }.distinct().joinToString("")
         val lockKey = "$screeningId:$seatRows"
         val waitTime = 1L
-        val leaseTime = 10L
+        val leaseTime = 5L
 
         return distributedLockManager.executeWithLock(lockKey, waitTime, leaseTime, TimeUnit.SECONDS) {
             val reservationReceipt = movieService.reserve(movieId, reservation)

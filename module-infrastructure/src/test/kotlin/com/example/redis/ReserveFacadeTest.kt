@@ -1,23 +1,17 @@
 package com.example.redis
 
 import com.example.redis.movie.Reservation
-import com.example.redis.movie.`in`.dto.MovieReserveRequestDto
-import com.example.redis.movie.`in`.dto.SeatRequestDto
 import com.example.redis.reserve.`in`.ReserveFacade
 import com.example.redis.theater.Seat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.web.servlet.MockMvc
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.CyclicBarrier
 import java.util.concurrent.Executors
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
-import kotlin.test.assertNotNull
 
 @SpringBootTest
 @Transactional
