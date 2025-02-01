@@ -11,6 +11,10 @@ repositories {
     mavenCentral()
 }
 
+bootJar {
+    enabled = false // 실행 가능한 JAR 비활성화
+}
+
 dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
 
