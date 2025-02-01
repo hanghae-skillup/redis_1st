@@ -7,7 +7,7 @@ spring:
   jpa:
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
@@ -20,8 +20,9 @@ spring:
     init:
       data-locations: classpath:data.sql
       platform: mysql
-      mode: always
+      mode: never
 
 logging:
   level:
     org.springframework.cache: trace
+

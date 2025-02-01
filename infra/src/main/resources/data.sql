@@ -3,6 +3,8 @@ SET SESSION cte_max_recursion_depth = 1000000;
 DELETE FROM screening;
 DELETE FROM movie;
 DELETE FROM theater;
+DELETE FROM user;
+DELETE FROM reservation;
 
 -- 상영관 데이터 삽입
 INSERT INTO theater (id, name, create_at, modify_at)

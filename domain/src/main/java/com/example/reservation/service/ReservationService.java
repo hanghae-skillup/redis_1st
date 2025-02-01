@@ -14,13 +14,13 @@ import lombok.RequiredArgsConstructor;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Service
-@Transactional
+@Transactional(isolation = Isolation.READ_COMMITTED)
 @RequiredArgsConstructor
 public class ReservationService {
 
@@ -50,6 +50,7 @@ public class ReservationService {
 
     private final RedissonClient redissonClient;
 
+
     public void reserveSeat(ReservationRequest reservationRequest) throws InterruptedException {
         User findUser = userRepository.findById(reservationRequest.userId()).orElseThrow(() ->
                 new IllegalArgumentException(USER_NOT_FOUND));
@@ -69,31 +70,16 @@ public class ReservationService {
             throw new IllegalStateException(RESERVATION_MUST_BE_UNDER_MAX);
         }
 
-        String lockKey = reservationRequest.screeningId().toString();
-        RLock lock = redissonClient.getLock(lockKey);
+        for (String position : reservationRequest.seats()) {
+            Seat findSeat = seatRepository.findByPositionAndScreeningId(position, screening.getId()).orElseThrow(() ->
+                    new IllegalArgumentException(SEAT_NOT_FOUND));
 
-        try {
-            boolean available = lock.tryLock(15,1, TimeUnit.SECONDS);
+            if (reservationRepository.existsBySeatIdAndScreeningId(findSeat.getId(), screening.getId()))
+                throw new IllegalArgumentException(SEAT_ALREADY_BE_MADE_RESERVATION);
 
-            if (!available) throw new IllegalStateException("좌석 예약에 실패했습니다. 다시 시도해주세요.");
-
-            for (String position : reservationRequest.seats()) {
-                Seat findSeat = seatRepository.findByPositionAndScreeningId(position, screening.getId()).orElseThrow(() ->
-                        new IllegalArgumentException(SEAT_NOT_FOUND));
-
-                if (reservationRepository.existsBySeatIdAndScreeningId(findSeat.getId(), screening.getId()))
-                    throw new IllegalArgumentException(SEAT_ALREADY_BE_MADE_RESERVATION);
-
-                Reservation reservation = new Reservation();
-                reservation.reserve(findUser.getId(), findSeat.getId(), screening.getId());
-                reservationRepository.save(reservation);
-
-            }
-
-        } catch (InterruptedException e) {
-            throw  new RuntimeException(e);
-        } finally {
-            lock.unlock();
+            Reservation reservation = new Reservation();
+            reservation.reserve(findUser.getId(), findSeat.getId(), screening.getId());
+            reservationRepository.save(reservation);
         }
 
         messageService.send();
