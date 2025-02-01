@@ -2,6 +2,7 @@ package com.example.reservation;
 
 import com.example.reservation.request.ReservationRequest;
 import com.example.reservation.response.ReservationServiceResponse;
+import com.example.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +15,7 @@ public class ReservationController {
     private final ReservationService reservationService;
 
     @PostMapping("/v1/reservation")
-    public ReservationServiceResponse reserve(@RequestBody ReservationRequest request) {
-        return reservationService.reserve(request.toServiceRequest());
+    public ApiResponse<ReservationServiceResponse> reserve(@RequestBody ReservationRequest request) {
+        return ApiResponse.created("영화예매 성공", reservationService.reserve(request.toServiceRequest()));
     }
 }

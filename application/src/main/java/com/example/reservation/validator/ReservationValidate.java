@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static com.example.exception.BusinessError.*;
+
 @Component
 @RequiredArgsConstructor
 public class ReservationValidate {
@@ -28,40 +30,33 @@ public class ReservationValidate {
 
     public ReservationValidationResult validate(ReservationServiceRequest request) {
 
-        if (request.isMemberIdNull()) {
-            throw new IllegalArgumentException("영화 예매시 로그인이 필요합니다.");
-        }
-        if (request.isScreeningIdNull()) {
-            throw new IllegalArgumentException("예매할 상영시간을 선택해주세요.");
-        }
-
         Member member = getMember(request.getMemberId());
         Screening screening = getScreening(request.getScreeningId());
         Seats seats = getSeats(request.getSeatIds());
 
         if (!seats.isContinuousSeat()) {
-            throw new IllegalArgumentException("좌석 예매는 연속적인 좌석만 예매 가능합니다.");
+            throw RESERVATION_SEAT_CONTINUOUS_ERROR.exception();
         }
 
         if (seats.isSizeExceedingLimit()) {
-            throw new IllegalArgumentException("5개 이상의 좌석은 예약할 수 없습니다.");
+            throw RESERVATION_SEAT_MAX_SIZE_ERROR.exception();
         }
 
         if (seats.isSeatMatch(request.getSeatIds())) {
-            throw new IllegalArgumentException("좌석 정보가 일치하지 않습니다.");
+            throw RESERVATION_SEAT_NOT_MATCH_ERROR.exception();
         }
 
         List<ReservedSeat> prevReservedSeats = getReservedSeats(member, screening);
 
         if (seats.isTotalSeatCountExceeding(prevReservedSeats)) {
-            throw new IllegalArgumentException("하나의 상영시간에 5좌석이상 예매할 수 없습니다");
+            throw RESERVATION_SEAT_TOTAL_COUNT_ERROR.exception();
         }
 
 //        validateAndReserveSeatsInRedis(screening.getId(), request.getSeatIds());
 
         List<ReservedSeat> existingReservations = reservedSeatRepository.findByScreeningAndSeats(screening, seats.getSeats());
         if (!existingReservations.isEmpty()) {
-            throw new IllegalArgumentException("이미 예매된 좌석입니다.");
+            throw RESERVATION_EXIST_ERROR.exception();
         }
 
         return ReservationValidationResult.builder()
@@ -76,12 +71,12 @@ public class ReservationValidate {
     }
 
     private Member getMember(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("회원 정보가 없습니다."));
+        return memberRepository.findById(memberId).orElseThrow(USER_NOT_FOUND_ERROR::exception);
     }
 
     private Screening getScreening(Long screeningId) {
         return screeningRepository.findById(screeningId)
-                .orElseThrow(() -> new IllegalArgumentException("상영 정보가 없습니다."));
+                .orElseThrow(SCREENING_NOT_FOUND_ERROR::exception);
     }
 
     private Seats getSeats(List<Long> seatsIds) {
