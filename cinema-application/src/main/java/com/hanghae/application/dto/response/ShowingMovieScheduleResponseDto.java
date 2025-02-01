@@ -1,4 +1,4 @@
-package com.hanghae.application.dto;
+package com.hanghae.application.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;

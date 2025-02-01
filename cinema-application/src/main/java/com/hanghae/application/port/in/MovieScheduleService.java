@@ -1,9 +1,9 @@
 package com.hanghae.application.port.in;
 
 import com.hanghae.application.dto.ApiResponse;
-import com.hanghae.application.dto.MovieScheduleRequestDto;
-import com.hanghae.application.dto.MovieScheduleResponseDto;
-import com.hanghae.application.dto.ShowingMovieScheduleResponseDto;
+import com.hanghae.application.dto.request.MovieScheduleRequestDto;
+import com.hanghae.application.dto.response.MovieScheduleResponseDto;
+import com.hanghae.application.dto.response.ShowingMovieScheduleResponseDto;
 
 import java.util.List;
 

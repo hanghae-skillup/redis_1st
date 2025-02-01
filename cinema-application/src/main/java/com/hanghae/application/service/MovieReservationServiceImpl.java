@@ -1,7 +1,7 @@
 package com.hanghae.application.service;
 
 import com.hanghae.application.dto.ApiResponse;
-import com.hanghae.application.dto.MovieReservationRequestDto;
+import com.hanghae.application.dto.request.MovieReservationRequestDto;
 import com.hanghae.application.enums.HttpStatusCode;
 import com.hanghae.application.port.in.MovieReservationService;
 import com.hanghae.application.port.out.message.MessagePort;

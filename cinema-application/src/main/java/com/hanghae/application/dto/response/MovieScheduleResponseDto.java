@@ -1,4 +1,4 @@
-package com.hanghae.application.dto;
+package com.hanghae.application.dto.response;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

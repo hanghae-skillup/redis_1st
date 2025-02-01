@@ -1,7 +1,7 @@
 package com.hanghae.adapter.web;
 
 import com.hanghae.application.dto.ApiResponse;
-import com.hanghae.application.dto.MovieReservationRequestDto;
+import com.hanghae.application.dto.request.MovieReservationRequestDto;
 import com.hanghae.application.port.in.MovieReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,6 +1,9 @@
 package com.hanghae.adapter.web;
 
 import com.hanghae.application.dto.*;
+import com.hanghae.application.dto.request.MovieScheduleRequestDto;
+import com.hanghae.application.dto.response.MovieScheduleResponseDto;
+import com.hanghae.application.dto.response.ShowingMovieScheduleResponseDto;
 import com.hanghae.application.port.in.MovieScheduleService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

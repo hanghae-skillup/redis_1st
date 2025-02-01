@@ -1,4 +1,4 @@
-package com.hanghae.application.dto;
+package com.hanghae.application.dto.request;
 
 import com.hanghae.domain.model.enums.ScreenSeat;
 
