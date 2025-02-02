@@ -16,8 +16,10 @@ import dto.ticket.TicketResponse;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import module.service.ticket.TicketService;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/ticket")
@@ -47,7 +49,6 @@ public class TicketController {
 		Long showingId = request.getShowingId();
 		String username = request.getUsername();
 		List<TicketDTO> ticketList = request.getTicketList();
-
-		return ResponseEntity.ok(ticketService.reservation(showingId,username,ticketList));
+		return ResponseEntity.ok(ticketService.reservationWithFunctional(showingId, username, ticketList));
 	}
 }

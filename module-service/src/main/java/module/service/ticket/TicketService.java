@@ -28,7 +28,8 @@ import module.entity.Seats;
 import module.entity.Showing;
 import module.entity.Ticket;
 import module.entity.User;
-import module.lock.DistributedLock;
+import module.lock.aop.DistributedLock;
+import module.lock.functional.FunctionalDistributedLock;
 import module.repository.sales.SalesRepository;
 import module.repository.seats.SeatsRepository;
 import module.repository.showing.ShowingRepository;
@@ -42,10 +43,12 @@ public class TicketService {
 
 	private final ModelMapper modelMapper;
 	private final ShowingRepository showingRepository;
+	private final FunctionalDistributedLock functionalDistributedLock;
 	private final UserRepository userRepository;
 	private final TicketRepository ticketRepository;
 	private final SalesRepository salesRepository;
 	private final SeatsRepository seatsRepository;
+
 
 	public List<TicketResponse> getAllTicket(Long showingId) {
 		// 존재하는 상영정보인지 확인
@@ -78,12 +81,40 @@ public class TicketService {
 		return ticketList;
 	}
 
-	@Transactional
 	@DistributedLock(
 		keyPrefix = "TICKET",
 		key = "#ticketDtoList.?[ticketId != null].![ticketId].toArray()"
 	)
-	public String reservation(Long showingId, String username, List<TicketDTO> ticketDtoList) {
+	public String reservationWithAOP(Long showingId, String username, List<TicketDTO> ticketDtoList) {
+		// 예외처리 [ 존재하지 않는 사용자 ]
+		Optional<User> optionalUser = userRepository.findByUsername(username);
+		if (optionalUser.isEmpty()) {
+			throw new UserNotFoundException();
+		}
+		User user = optionalUser.get();
+		validateAndReserve(showingId, user, ticketDtoList);
+
+		return "success";
+	}
+
+	public String reservationWithFunctional(Long showingId, String username, List<TicketDTO> ticketDtoList) {
+		List<Long> keys = ticketDtoList.stream().map(TicketDTO::getTicketId).toList();
+
+		functionalDistributedLock.executeLock("TICKET:", keys, () -> {
+			// 예외처리 [ 존재하지 않는 사용자 ]
+			Optional<User> optionalUser = userRepository.findByUsername(username);
+			if (optionalUser.isEmpty()) {
+				throw new UserNotFoundException();
+			}
+
+			User user = optionalUser.get();
+			validateAndReserve(showingId, user, ticketDtoList);
+		});
+
+		return "success";
+	}
+
+	public void validateAndReserve(Long showingId, User user, List<TicketDTO> ticketDtoList) {
 		List<Ticket> ticketList = ticketRepository.findAllByTicketIdIn(
 			ticketDtoList.stream().map(TicketDTO::getTicketId).toList());
 
@@ -98,29 +129,11 @@ public class TicketService {
 			}
 		});
 
-		// // 비즈니스 [ 예매중 처리 ]
-		// ticketList.stream()
-		// 	.forEach(ticket -> ticket.setTicketStatus(TicketStatus.ON_RESERVING));
-
-		// 예외처리 [ 존재하지 않는 사용자 ]
-		Optional<User> optionalUser = userRepository.findByUsername(username);
-		if (!optionalUser.isPresent()) {
-			throw new UserNotFoundException();
-		}
-
 		// 예외처리 [ 티켓 구매 5건 초과 ]
-		User user = optionalUser.get();
 		Showing showing = showingRepository.findById(showingId).get();
 		Integer userBoughtCnt = salesRepository.countAllByUserAndShowing(user, showing);
 		if (userBoughtCnt + ticketList.size() > 5 || ticketList.size() > 5)
 			throw new TooManyReservationException();
-
-		/**
-		 // 영화가 이미 시작했을 경우
-		 if(showing.getShowStTime().isAfter(LocalDateTime.now())){
-		 throw new RuntimeException();
-		 }
-		 * */
 
 		// 예외처리 [ 서로다른 행의 좌석 ]
 		List<Seats> seatsInTicketList = seatsRepository.findAllBySeatsInTicketIdList(
@@ -144,8 +157,6 @@ public class TicketService {
 				.createBy("system").build();
 			salesRepository.save(sales);
 		}
-
-		return "success";
 	}
 
 }
