@@ -6,8 +6,20 @@
 > Redis  
   
 ### Junit5 테스트 환경
-* DB : H2
-* Redis : Testcontainers
+* DB : H2  
+* Redis : Testcontainers  
+  
+### jacoco 보고서
+![jacoco_test_report.png](docs%2Fimg%2Fjacoco_test_report.png)
+  
+### JaCoCo
+* `build.gradle.kts` 파일 `plugins`에 `id("jacoco")` 추가 후 `gradle`을 다시 빌드해야 한다.  
+* 그 뒤 하단에 `jacoco`, `tasks.jacocoTestCoverageVerification`, `tasks.jacocoTestReport`를 작성  
+  * 빌드를 다시하지 않으면 빨간줄이 뜬다.  
+* 테스트 실행 및 보고서 생성 : `./gradlew clean test jacocoTestReport --console verbose`   
+* 테스트 실행 및 보고서 생성(커버리지 충족 확인) : `./gradlew clean test jacocoTestReport jacocoTestCoverageVerification --console verbose`
+* `build.gradle.kts`파일에 보고서 저장경로를 설정하여 `/build/reports/jacoco/index.html` 해당파일을 확인하면 된다.
+  * `html.outputLocation.set(layout.buildDirectory.dir("reports/jacoco")) //저장경로 설정`
   
 ### 규칙
 * `infrastruct` 계층에서의 결과값은 `domain model` 혹은 `Projection(필요한 속성만 조회)` 객체 로 리턴한다.  

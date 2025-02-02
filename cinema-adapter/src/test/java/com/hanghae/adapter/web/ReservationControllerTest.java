@@ -4,12 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hanghae.adapter.TestDataFactory;
 import com.hanghae.application.dto.request.MovieReservationRequestDto;
 import com.hanghae.application.port.in.MovieReservationService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -40,6 +39,7 @@ class ReservationControllerTest {
      * 컨테이너의 시작과 종료를 저희가 직접 호출 하지 않고 테스트의 생명주기와 같이 돌 수 있도록 해줄
      *
      * 테스트 컨테이너 사용시 도커가 실행중어야 한다. (도커 데스크탑 실행)
+     * @Container를 사용하면 TestContainers가 자동으로 컨테이너를 실행
      */
     @Container
     private static final GenericContainer<?> redisContainer =
@@ -49,11 +49,9 @@ class ReservationControllerTest {
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
-        redisContainer.start();
         registry.add("spring.data.redis.host", redisContainer::getHost);
         registry.add("spring.data.redis.port", () -> redisContainer.getMappedPort(6379));
         registry.add("spring.data.redis.password", () -> REDIS_PASSWORD); // 비밀번호 적용
-        // 비밀번호 적용
     }
 
     @Autowired
@@ -65,11 +63,15 @@ class ReservationControllerTest {
     @Autowired
     private MovieReservationService movieReservationService;
 
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
+
     private MovieReservationRequestDto requestDto;
 
     @BeforeEach
     void setUp() {
         requestDto = TestDataFactory.createMovieReservationRequestDto();
+        redisTemplate.getConnectionFactory().getConnection().flushDb(); // Redis 데이터 초기화
     }
 
     @Test
