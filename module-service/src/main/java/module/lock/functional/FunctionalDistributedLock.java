@@ -17,8 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 public class FunctionalDistributedLock {
 
 	private static final String REDISSON_LOCK_PREFIX = "LOCK:";
-	private static final Long LOCK_WAIT_TIME = 5L;
-	private static final Long LOCK_LEASE_TIME = 3L;
+	private static final Long LOCK_WAIT_TIME = 1L;
+	private static final Long LOCK_LEASE_TIME = 2L;
 
 	private final RedissonClient redissonClient;
 	private final FunctionalForTransaction functionalForTransaction;

@@ -28,11 +28,11 @@ public @interface DistributedLock {
 	/**
 	 * 락을 기다리는 시간 (default - 5s)
 	 */
-	long waitTime() default 5L;
+	long waitTime() default 1L;
 
 	/**
 	 * 락 임대 시간 (default - 3s)
 	 */
-	long leaseTime() default 3L;
+	long leaseTime() default 2L;
 
 }
