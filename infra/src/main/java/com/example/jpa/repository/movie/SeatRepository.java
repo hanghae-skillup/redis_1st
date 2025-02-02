@@ -11,7 +11,6 @@ import java.util.Optional;
 
 public interface SeatRepository extends JpaRepository<Seat,Long> {
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT s FROM Seat s " +
             "JOIN Theater t ON s.theaterId = t.id " +
             "JOIN Screening sc ON sc.theaterId = t.id " +

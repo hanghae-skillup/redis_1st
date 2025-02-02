@@ -10,9 +10,14 @@ import com.example.jpa.repository.reservation.ReservationRepository;
 import com.example.jpa.repository.user.UserRepository;
 import com.example.message.MessageService;
 import com.example.reservation.dto.ReservationRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.data.redis.connection.ReturnType;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional(isolation = Isolation.READ_COMMITTED)
+@Transactional
 @RequiredArgsConstructor
 public class ReservationService {
 
@@ -50,6 +55,7 @@ public class ReservationService {
 
     private final RedissonClient redissonClient;
 
+    private final RedisTemplate<String, String> redisTemplate;
 
     public void reserveSeat(ReservationRequest reservationRequest) throws InterruptedException {
         User findUser = userRepository.findById(reservationRequest.userId()).orElseThrow(() ->
@@ -104,5 +110,103 @@ public class ReservationService {
 
         return currentRow == nextRow && nextSeat == currentSeat + 1;
     }
+
+    public void reserveSeatWithLua(ReservationRequest reservationRequest) throws JsonProcessingException, InterruptedException {
+        User findUser = userRepository.findById(reservationRequest.userId())
+                .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND));
+
+        Screening screening = screeningRepository.findById(reservationRequest.screeningId())
+                .orElseThrow(() -> new IllegalArgumentException(SCREENING_NOT_FOUND));
+
+        if (reservationRequest.seats().size() > MAX_RESERVATION_PER_PERSON) {
+            throw new IllegalArgumentException(RESERVATION_MUST_BE_UNDER_MAX);
+        }
+
+        if (!areSeatsAdjacent(reservationRequest.seats())) {
+            throw new IllegalArgumentException(SEATS_MUST_BE_ADJACENT);
+        }
+
+        if (reservationRepository.getReservationCount(findUser.getId(), screening.getId())
+                + reservationRequest.seats().size() > MAX_RESERVATION_PER_PERSON) {
+            throw new IllegalStateException(RESERVATION_MUST_BE_UNDER_MAX);
+        }
+
+        // 버전 키 생성 (상영 ID 기반)
+        String versionKey = "screening_version:" + screening.getId();
+
+        // 현재 버전 조회
+        String currentVersionStr = redisTemplate.opsForValue().get(versionKey);
+        int currentVersion = currentVersionStr == null ? 1 : Integer.parseInt(currentVersionStr);
+
+        // Lua 스크립트 정의
+        String luaScript = "local key = KEYS[1]\n" +
+                "local expectedVersion = tonumber(ARGV[1])\n" +
+                "local userId = ARGV[2]\n" +
+                "local screeningId = ARGV[3]\n" +
+                "local seats = cjson.decode(ARGV[4])\n" +
+                "local expirationTime = tonumber(ARGV[5])\n" +
+                "\n" +
+                "local currentVersion = redis.call('GET', key)\n" +
+                "if not currentVersion then\n" +
+                "    currentVersion = 1\n" +
+                "    redis.call('SET', key, currentVersion)\n" +
+                "else\n" +
+                "    currentVersion = tonumber(currentVersion)\n" +
+                "end\n" +
+                "\n" +
+                "if currentVersion ~= expectedVersion then\n" +
+                "    return 0\n" +
+                "end\n" +
+                "\n" +
+                "for i, seatPosition in ipairs(seats) do\n" +
+                "    local seatKey = 'seat:' .. screeningId .. ':' .. seatPosition\n" +
+                "    if redis.call('EXISTS', seatKey) == 1 then\n" +
+                "        return {err = 'SEAT_ALREADY_BE_MADE_RESERVATION: ' .. seatPosition}\n" +
+                "    end\n" +
+                "end\n" +
+                "\n" +
+                "redis.call('INCR', key)\n" +
+                "redis.call('EXPIRE', key, expirationTime)\n" +
+                "\n" +
+                "for i, seatPosition in ipairs(seats) do\n" +
+                "    local seatKey = 'seat:' .. screeningId .. ':' .. seatPosition\n" +
+                "    redis.call('SET', seatKey, userId)\n" +
+                "end\n" +
+                "\n" +
+                "return 1";
+
+        // Lua 스크립트 실행
+        String seatsJson = new ObjectMapper().writeValueAsString(reservationRequest.seats());
+        Long result = redisTemplate.execute(
+                (RedisCallback<Long>) connection -> (Long) connection.eval(
+                        luaScript.getBytes(),
+                        ReturnType.INTEGER,
+                        1,  // KEYS 개수
+                        versionKey.getBytes(),
+                        String.valueOf(currentVersion).getBytes(),
+                        findUser.getId().toString().getBytes(),
+                        screening.getId().toString().getBytes(),
+                        seatsJson.getBytes(),
+                        String.valueOf(3600).getBytes()  // 만료 시간: 1시간
+                )
+        );
+
+        if (result == null || result == 0) {
+            throw new IllegalStateException("Version mismatch or seat already reserved.");
+        }
+
+        // 좌석 예약이 성공했을 때 DB 저장
+        for (String position : reservationRequest.seats()) {
+            Seat findSeat = seatRepository.findByPositionAndScreeningId(position, screening.getId())
+                    .orElseThrow(() -> new IllegalArgumentException(SEAT_NOT_FOUND));
+
+            Reservation reservation = new Reservation();
+            reservation.reserve(findUser.getId(), findSeat.getId(), screening.getId());
+            reservationRepository.save(reservation);
+        }
+
+        messageService.send();
+    }
+
 
 }
