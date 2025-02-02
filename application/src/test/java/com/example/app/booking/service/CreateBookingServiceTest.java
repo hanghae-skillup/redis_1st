@@ -39,12 +39,12 @@ public class CreateBookingServiceTest {
     private SeatPersistenceAdapter seatPersistenceAdapter;
 
     @InjectMocks
-    private CreateBookingService createBookingService;
+    private CreateBookingService sut;
 
     @Test
     public void 예약_테스트() {
         var key = FixtureMonkey.create().giveMeOne(String.class);
-
+        var continuousSeats = Set.of(TheaterSeat.A3, TheaterSeat.A4, TheaterSeat.A5);
         var bookingCommand = FixtureMonkey.create()
                 .giveMeBuilder(CreateBookingCommand.class)
                 .instantiate(constructor()
@@ -53,8 +53,8 @@ public class CreateBookingServiceTest {
                         .parameter(long.class)
                         .parameter(long.class)
                         .parameter(LocalDate.class)
-                        .parameter(Set.class))
-                .set("seats", Set.of(TheaterSeat.A3, TheaterSeat.A4, TheaterSeat.A5))
+                        .parameter(Set.class, "seats"))
+                .set("seats", continuousSeats)
                 .sample();
 
         var booking = FixtureMonkey.create()
@@ -65,7 +65,7 @@ public class CreateBookingServiceTest {
                         .parameter(long.class)
                         .parameter(long.class)
                         .parameter(long.class)
-                        .parameter(int.class)
+                        .parameter(int.class, "totalSeats")
                         .parameter(LocalDate.class))
                 .set("totalSeats", 3)
                 .sample();
@@ -73,7 +73,7 @@ public class CreateBookingServiceTest {
         when(distributedLockService.executeWithLockAndReturn(any(Supplier.class), any(String.class), any(Long.class), any(Long.class)))
                 .thenReturn(booking);
 
-        var result = createBookingService.createBooking(key, bookingCommand);
+        var result = sut.createBooking(key, bookingCommand);
 
         assertEquals(booking, result);
     }
@@ -81,7 +81,7 @@ public class CreateBookingServiceTest {
     @Test
     public void 예약_불가_테스트() {
         var key = FixtureMonkey.create().giveMeOne(String.class);
-
+        var discontinuousSeats = Set.of(TheaterSeat.B1, TheaterSeat.C1, TheaterSeat.D1);
         var bookingCommand = FixtureMonkey.create()
                 .giveMeBuilder(CreateBookingCommand.class)
                 .instantiate(constructor()
@@ -90,11 +90,11 @@ public class CreateBookingServiceTest {
                         .parameter(long.class)
                         .parameter(long.class)
                         .parameter(LocalDate.class)
-                        .parameter(Set.class))
-                .set("seats", Set.of(TheaterSeat.B1, TheaterSeat.C1, TheaterSeat.D1))
+                        .parameter(Set.class, "seats"))
+                .set("seats", discontinuousSeats)
                 .sample();
 
-        var exception = assertThrows(APIException.class, () -> createBookingService.createBooking(key, bookingCommand));
+        var exception = assertThrows(APIException.class, () -> sut.createBooking(key, bookingCommand));
         assertEquals(exception.getMessage(), SEAT_ROW_NOT_IN_SEQUENCE.getMessage());
     }
 }

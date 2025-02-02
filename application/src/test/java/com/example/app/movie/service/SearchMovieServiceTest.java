@@ -29,6 +29,8 @@ import static org.mockito.Mockito.*;
 @TestPropertySource(properties = "spring.config.location = classpath:application-test.yml")
 public class SearchMovieServiceTest {
 
+    private final int TOTAL_MOVIES = 10;
+
     @Mock
     private MoviePersistenceAdapter moviePersistenceAdapter;
 
@@ -58,12 +60,12 @@ public class SearchMovieServiceTest {
                         .parameter(LocalDate.class)
                         .parameter(new TypeReference<List<Showtime>>(){})
                         .parameter(new TypeReference<List<Theater>>(){}))
-                .sampleList(10);
+                .sampleList(TOTAL_MOVIES);
 
         when(moviePersistenceAdapter.loadAllMovies(any(SearchMovieCommand.class))).thenReturn(movies);
 
         var result = searchMovieService.searchMovies(searchCommand);
 
-        assertEquals(10, result.size());
+        assertEquals(TOTAL_MOVIES, result.size());
     }
 }
