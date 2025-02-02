@@ -7,6 +7,7 @@ plugins {
     kotlin("kapt") version "1.3.61" apply false // annotation processing을 위한 kapt
     `java-test-fixtures`
     idea
+    jacoco
 }
 
 java {
@@ -33,6 +34,7 @@ subprojects {
     apply(plugin = "kotlin-kapt")
     apply(plugin = "idea")
     apply(plugin = "java-test-fixtures")
+    apply(plugin = "jacoco")
 
     kotlin {
         jvmToolchain(21)
@@ -59,5 +61,30 @@ subprojects {
                 languageVersion.set(JavaLanguageVersion.of(21)) // 원하는 Java 버전 설정
             }
         )
+        finalizedBy(tasks.jacocoTestReport)
     }
+
+    tasks.jacocoTestReport {
+        dependsOn(tasks.test)
+        reports {
+            html.required.set(true)
+            xml.required.set(true)
+            csv.required.set(false)
+        }
+    }
+
+    tasks.jacocoTestCoverageVerification {
+        dependsOn(tasks.jacocoTestReport)
+        violationRules {
+            rule {
+                limit {
+                    minimum = "0.60".toBigDecimal()
+                }
+            }
+        }
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.5"
 }
