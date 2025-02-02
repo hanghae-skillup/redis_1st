@@ -1,4 +1,4 @@
-package module.lock;
+package module.lock.aop;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -13,19 +13,21 @@ import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
 
+import exception.common.TryLockFailedException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Aspect
 @Component
 @RequiredArgsConstructor
-@Slf4j
 public class DistributedLockAop {
 
 	private static final String REDISSON_LOCK_PREFIX = "LOCK:";
 	private final RedissonClient redissonClient;
+	private final AopForTransaction aopForTransaction;
 
-	@Around("@annotation(module.lock.DistributedLock)")
+	@Around("@annotation(module.lock.aop.DistributedLock)")
 	public Object lock(final ProceedingJoinPoint joinPoint) throws Throwable {
 		MethodSignature signature = (MethodSignature) joinPoint.getSignature();
 		Method method = signature.getMethod();
@@ -48,34 +50,46 @@ public class DistributedLockAop {
 
 		// key 배열만큼 락 생성
 		List<RLock> lockList = Arrays.stream(keysArr)
+			.sorted() // 교착상태 방지 ex: A : 1,2 / B : 2,1
 			.map(key -> redissonClient.getLock(REDISSON_LOCK_PREFIX + keyPrefix + key))
 			.toList();
 
 		try{
-			// 배열 내 모든 락 점유 시도
-			// 하나라도 점유 실패 시 false 저장
-			boolean allAvailable = lockList.parallelStream()
-				.map(lock -> {
-					try {
-						return lock.tryLock(distributedLock.waitTime(), distributedLock.leaseTime(), distributedLock.timeUnit());
-					} catch (InterruptedException e) {
-						throw new RuntimeException(e);
+			// 락 점유 하나라도 점유 실패 시 TryLockFailedException
+			boolean allAvailable = true;
+			for (RLock lock : lockList) {
+				try{
+					if(!lock.tryLock(distributedLock.waitTime(), distributedLock.leaseTime(),distributedLock.timeUnit())){
+						allAvailable = false;
+						break;
 					}
-				}).noneMatch(available->!available);
-
-			if(!allAvailable){
-				return false;
+				} catch (InterruptedException e){
+					allAvailable = false;
+					break;
+				}
 			}
 
-			return joinPoint.proceed();
-		} finally {
+			// 배열내 모든 락이 점유 실패
+			if(!allAvailable){
+				// 순차적으로 락을 해제하도록 변경
+				for (RLock lock : lockList) {
+					if (lock.isHeldByCurrentThread()) {
+						lock.unlock();
+					}
+				}
+				throw new TryLockFailedException();
+			}
 
+			return aopForTransaction.proceed(joinPoint);
+		} finally {
 			// 메소드 종료 후 모든 락 점유 해제
 			lockList.forEach(lock -> {
-				try{
-					lock.unlock();
-				} catch (IllegalMonitorStateException e){
-					log.info("Already unlocked lock : {}", lock.getName());
+				if (lock.isHeldByCurrentThread()) {
+					try {
+						lock.unlock();
+					} catch (IllegalMonitorStateException e) {
+						log.warn("Lock was already released: {}", lock.getName());
+					}
 				}
 			});
 		}

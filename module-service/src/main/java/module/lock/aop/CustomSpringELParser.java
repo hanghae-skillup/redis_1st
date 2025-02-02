@@ -1,4 +1,4 @@
-package module.lock;
+package module.lock.aop;
 
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
