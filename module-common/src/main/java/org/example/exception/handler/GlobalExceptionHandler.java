@@ -44,6 +44,7 @@ public class GlobalExceptionHandler {
                 .body(errors);
     }
 
+    @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
     @ExceptionHandler(RateLimitExceededException.class)
     public BaseErrorResponse handleRateLimitExceeded(RateLimitExceededException ex) {
         return new BaseErrorResponse(ex.getExceptionStatus());

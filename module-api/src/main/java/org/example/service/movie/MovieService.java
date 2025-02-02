@@ -25,9 +25,9 @@ public class MovieService {
     public final RateLimiter rateLimiter;
 
     public List<PlayingMoviesResponseDto> getPlayingMovies(MoviesFilterRequestDto moviesFilterRequestDto) {
-        if (!rateLimiter.tryAcquire()) {
-            throw new RateLimitExceededException(TOO_MANY_REQUEST_ERROR);
-        }
+//        if (!rateLimiter.tryAcquire()) {
+//            throw new RateLimitExceededException(TOO_MANY_REQUEST_ERROR);
+//        }
 
         List<MovieScreeningInfo> movieScreeningInfos =
                 findMovieService.getPlayingMovies(moviesFilterRequestDto).getMovieScreeningInfos()

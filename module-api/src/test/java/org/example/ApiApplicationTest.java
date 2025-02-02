@@ -1,19 +1,14 @@
 package org.example;
 
-import com.google.common.util.concurrent.RateLimiter;
-import org.example.repository.MovieJpaRepository;
-import org.example.service.movie.FindMovieService;
-import org.example.service.movie.MovieService;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.http.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -22,37 +17,94 @@ class ApiApplicationTest {
     private int port;
 
     @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private MovieService movieService;
-
-    @Autowired
-    private FindMovieService findMovieService;
-
-    @Autowired
-    private RateLimiter rateLimiter;
-
-    @Autowired
-    private MovieJpaRepository movieJpaRepository;
-
-    @Autowired
     private TestRestTemplate restTemplate;
 
+    private static final String TEST_IP = "127.0.0.1";
+
     @Test
-    void testRateLimiter_BlocksExcessRequests() throws Exception {
+    void testGuavaRateLimiter_BlocksExcessRequests() throws Exception {
         String url = "http://localhost:" + port + "/movies/playing";
 
         // 첫 번째 요청
         ResponseEntity<String> response1 = restTemplate.getForEntity(url, String.class);
-        Assertions.assertEquals(HttpStatus.OK, response1.getStatusCode());
+        assertEquals(HttpStatus.OK, response1.getStatusCode());
 
         // 두 번째 요청
         ResponseEntity<String> response2 = restTemplate.getForEntity(url, String.class);
-        Assertions.assertEquals(HttpStatus.OK, response2.getStatusCode());
+        assertEquals(HttpStatus.OK, response2.getStatusCode());
 
         // 세 번째 요청
         ResponseEntity<String> response3 = restTemplate.getForEntity(url, String.class);
-        Assertions.assertEquals(HttpStatus.TOO_MANY_REQUESTS, response3.getStatusCode());
+        assertEquals(HttpStatus.TOO_MANY_REQUESTS, response3.getStatusCode());
+    }
+
+    @Test
+    void testRedisRateLimit_UnderLimit() {
+        String url = "http://localhost:" + port + "/movies/playing";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("X-Forwarded-For", TEST_IP);
+
+        for (int i = 0; i < 50; i++) {
+            ResponseEntity<String> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    new HttpEntity<>(headers),
+                    String.class
+            );
+            assertEquals(HttpStatus.OK, response.getStatusCode());
+        }
+    }
+
+    @Test
+    void testRateLimit_ExceedLimit() {
+        String url = "http://localhost:" + port + "/movies/playing";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("X-Forwarded-For", TEST_IP);
+
+        // 49번 요청 실행
+        for (int i = 0; i < 50; i++) {
+            restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    new HttpEntity<>(headers),
+                    String.class
+            );
+        }
+
+        // 50번째 요청은 차단되어야 함
+        ResponseEntity<String> blockedResponse = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                String.class
+        );
+        assertEquals(HttpStatus.TOO_MANY_REQUESTS, blockedResponse.getStatusCode());
+    }
+
+    @Test
+    void testRateLimit_Unblock() throws InterruptedException {
+        String url = "http://localhost:" + port + "/movies/playing";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("X-Forwarded-For", TEST_IP);
+
+        // 제한 초과
+        for (int i = 0; i < 50; i++) {
+            restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    new HttpEntity<>(headers),
+                    String.class
+            );
+        }
+
+        // 테스트를 위해 block이 해제되는 시간을 1분 후로 설정
+        Thread.sleep(60 * 1000);
+        ResponseEntity<String> responseAfterOneMin = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                String.class
+        );
+        assertEquals(HttpStatus.OK, responseAfterOneMin.getStatusCode());
     }
 }
