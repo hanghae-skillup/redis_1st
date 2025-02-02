@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.4.1'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id "jacoco"
 }
 
 group = 'com.movie'
@@ -29,6 +30,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.redisson:redisson-spring-boot-starter:3.43.0'
+	implementation 'com.google.guava:guava:33.4.0-jre'
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 	runtimeOnly 'com.mysql:mysql-connector-j'
@@ -39,4 +43,85 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+	finalizedBy 'jacocoTestReport'
+}
+
+// jacoco 정보
+jacoco {
+	toolVersion = "0.8.11"
+	layout.buildDirectory.dir("reports/jacoco")
+}
+
+// jacoco Report 생성
+jacocoTestReport {
+	dependsOn test // test 종속성 추가
+
+	reports {
+		xml.required = true
+		csv.required = false
+		html.required = true
+	}
+
+	def QDomainList = []
+	for (qPattern in '**/QA'..'**/QZ') { // QClass 대응
+		QDomainList.add(qPattern + '*')
+	}
+
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: [
+					'**/dto/**',
+					'**/event/**',
+					'**/*InitData*',
+					'**/*Application*',
+					'**/exception/**',
+					'**/service/alarm/**',
+					'**/aop/**',
+					'**/config/**',
+					'**/MemberRole*'
+			] + QDomainList)
+		}))
+	}
+
+	finalizedBy 'jacocoTestCoverageVerification' // jacocoTestReport 태스크가 끝난 후 실행
+}
+
+// jacoco Test 유효성 확인
+jacocoTestCoverageVerification {
+	def QDomainList = []
+	for (qPattern in '*.QA'..'*.QZ') { // QClass 대응
+		QDomainList.add(qPattern + '*')
+	}
+
+	violationRules {
+		rule {
+			enabled = true // 규칙 활성화 여부
+			element = 'CLASS' // 커버리지를 체크할 단위 설정
+
+			// 코드 커버리지를 측정할 때 사용되는 지표
+			limit {
+				counter = 'LINE'
+				value = 'COVEREDRATIO'
+				minimum = 0.30
+			}
+
+			limit {
+				counter = 'BRANCH'
+				value = 'COVEREDRATIO'
+				minimum = 0.30
+			}
+
+			excludes = [
+				'**.dto.**',
+				'**.event.**',
+				'**.*InitData*',
+				'**.*Application*',
+				'**.exception.**',
+				'**.service.alarm.**',
+				'**.aop.**',
+				'**.config.**',
+				'**.MemberRole*'
+			] + QDomainList
+		}
+	}
 }
