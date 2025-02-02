@@ -1,13 +1,13 @@
 package com.cinema.application.dto;
 
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 
 @Getter
-@Setter
+@AllArgsConstructor
 public class TicketRequestDTO {
     @NotNull
     private Long screeningId;

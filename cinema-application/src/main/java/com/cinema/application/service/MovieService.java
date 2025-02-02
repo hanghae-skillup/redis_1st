@@ -2,14 +2,11 @@ package com.cinema.application.service;
 
 import com.cinema.application.dto.MovieRequestDTO;
 import com.cinema.application.dto.MovieResponseDTO;
-import com.cinema.application.dto.TicketRequestDTO;
 import com.cinema.common.enums.GenreCode;
 import com.cinema.common.enums.GradeCode;
-import com.cinema.core.domain.Ticket;
 import com.cinema.infra.dto.MovieScreeningData;
 import com.cinema.infra.dto.ScreeningData;
 import com.cinema.infra.repository.MovieRepository;
-import com.cinema.infra.repository.SeatRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -23,12 +20,11 @@ import java.util.stream.Collectors;
 @Service
 public class MovieService {
     private final MovieRepository movieRepository;
-    private final SeatRepository seatRepository;
 
     /**
      * 영화별 상영시간표 조회
      * */
-    // TODO : 캐시 전략 변경해볼 것!
+    // TODO : 캐시 전략 변경해볼 것! (전체 데이터 캐싱 후 필터링하는 방식?)
     @Cacheable(
             value = "movieScreenings",
             key = "(#title ?: '').concat('_').concat(#genreCd ?: '')",
