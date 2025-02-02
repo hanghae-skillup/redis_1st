@@ -1,6 +1,7 @@
+
 ## GettingStart
 ### Docker-Compose 구성
-```yaml
+```yam
 version: "3.7"
 services:
   db:
