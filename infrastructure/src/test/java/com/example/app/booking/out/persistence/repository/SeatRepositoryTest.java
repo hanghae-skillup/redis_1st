@@ -6,6 +6,7 @@ import com.example.app.movie.type.TheaterSeat;
 import com.navercorp.fixturemonkey.FixtureMonkey;
 import com.navercorp.fixturemonkey.api.introspector.ConstructorPropertiesArbitraryIntrospector;
 import com.navercorp.fixturemonkey.jakarta.validation.plugin.JakartaValidationPlugin;
+import com.querydsl.core.types.ExpressionUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 
+import static com.example.app.booking.out.persistence.entity.QSeatEntity.seatEntity;
 import static com.navercorp.fixturemonkey.api.instantiator.Instantiator.constructor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -36,7 +39,7 @@ public class SeatRepositoryTest {
 
     @Test
     public void save_findAllBy_테스트() {
-        var seat = fixtureMonkey.giveMeBuilder(SeatEntity.class)
+        var seats = new HashSet<>(fixtureMonkey.giveMeBuilder(SeatEntity.class)
                 .instantiate(constructor()
                         .parameter(long.class)
                         .parameter(long.class)
@@ -45,15 +48,18 @@ public class SeatRepositoryTest {
                         .parameter(long.class)
                         .parameter(LocalDate.class)
                         .parameter(TheaterSeat.class)
-                        .parameter(boolean.class)
-                        .parameter(long.class))
-                .sample();
+                        .parameter(boolean.class, "reserved")
+                        .parameter(long.class, "version"))
+                .set("reserved", true)
+                .set("version", 1L)
+                .sampleList(10));
 
-        // FIXME: saveAll(SeatEntities)하면 @Version 때문에 update 되는 경우도 생김. 낙관적 락 때문에 목록 조회 테스트 불가.
-        seatRepository.save(seat);
+        seatRepository.saveAll(seats);
 
-        var result = seatRepository.findAllBy(null);
+        var predicate = ExpressionUtils.allOf(seatEntity.reserved.isTrue());
 
-        assertEquals(1, result.size());
+        var result = seatRepository.findAllBy(predicate);
+
+        assertEquals(10, result.size());
     }
 }
