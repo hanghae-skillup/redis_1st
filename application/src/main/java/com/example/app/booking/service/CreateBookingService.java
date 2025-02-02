@@ -70,7 +70,7 @@ public class CreateBookingService implements CreateBookingUseCase {
             updateSeatPort.updateAllSeats(requestSeatIds, booking.id());
 
             return booking;
-        }, lockKey, 1L, 2L);
+        }, lockKey, 1L, 3L);
     }
 
     private void checkLimitMaxSeats(final int totalSeat) {

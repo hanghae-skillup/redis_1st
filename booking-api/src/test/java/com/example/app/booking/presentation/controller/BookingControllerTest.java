@@ -74,7 +74,7 @@ public class BookingControllerTest {
                 try {
                     bookingController.createBooking(bookingRequests.get(taskId));
                     successCount.incrementAndGet();
-                } catch (LockException e) {
+                } catch (LockException | APIException e) {
                     exceptionCount.incrementAndGet();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
