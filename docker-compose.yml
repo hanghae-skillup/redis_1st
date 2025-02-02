@@ -1,0 +1,33 @@
+services:
+  hanghaeho-redis:
+    image: redis
+    restart: always
+    ports:
+      - "6300:6379"
+  hanghaeho-mysql:
+    image: mysql:8
+    restart: always
+    ports:
+      - "3300:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: Tlmm3PjdJ*
+
+    volumes:
+      - ./mysql.conf:/etc/mysql/conf.d  # conf 파일이 위치한 디렉토리를 마운트
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    command:
+#      - --skip-character-set-client-handshake
+#      - --character-set-server=utf8mb4
+#      - --collation-server=utf8mb4_unicode_ci
+  hanghaeho-application:
+    restart: always
+    build:
+      context: .  # Dockerfile이 있는 디렉토리
+      dockerfile: Dockerfile  # 사용할 Dockerfile 지정 (옵션)
+    ports:
+      - "8000:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+    depends_on:
+      - hanghaeho-mysql
+      - hanghaeho-redis

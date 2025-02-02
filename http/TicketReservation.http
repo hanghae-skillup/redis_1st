@@ -1,0 +1,19 @@
+POST http://localhost:8080/api/v1/ticket/reservation
+Content-Type: application/json
+
+{
+  "username": "dbdb1114",
+  "showingId": 9176,
+  "ticketList": [
+    {
+      "ticketId" : 35426
+    },
+    {
+      "ticketId" : 35427
+    },
+    {
+      "ticketId" : 35428
+    }
+  ]
+}
+
