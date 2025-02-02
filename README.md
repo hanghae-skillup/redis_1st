@@ -68,3 +68,8 @@ curl -X GET http://localhost:8080/api/v1/movies
 - [캐싱 성능 테스트 보고서](https://gusty-football-62b.notion.site/17f81b29f03680718163fe0b7798383e)
 - [분산락 테스트 보고서](https://gusty-football-62b.notion.site/18781b29f03680049de7db34240a6733)
 
+### jacoco 리포트
+
+| movie-api                  | booking-api | application                | infrastructure             | domain                      |
+|----------------------------| ----------- |----------------------------|----------------------------|-----------------------------|
+ | ![j_m](etc/readme/j_m.png) | ![j_b](etc/readme/j_b.png) | ![j_a](etc/readme/j_a.png) | ![j_i](etc/readme/j_i.png) | 로직이란게 없고 객체만 있어. 일단 스킵했습니다. |
