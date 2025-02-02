@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component
 @Component
 @Aspect
 class RateLimitedAspect(
-    @Qualifier("redisLuaRateLimiter") private val rateLimiter: RateLimiter,
+    @Qualifier("redissonRateLimiter") private val rateLimiter: RateLimiter,
     private val request: HttpServletRequest
 ) {
 
