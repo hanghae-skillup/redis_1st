@@ -43,8 +43,8 @@ public class Ticket extends BaseEntity{
 	@Enumerated(EnumType.STRING)
 	private TicketStatus ticketStatus;
 
-	@Version
-	private Integer version;
+	// @Version
+	// private Integer version;
 
 	public void setTicketStatus(TicketStatus ticketStatus) {
 		this.ticketStatus = ticketStatus;
