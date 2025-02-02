@@ -21,6 +21,9 @@ dependencies {
     testFixturesImplementation(project(":cinema-application")) // testFixtures에서 application 객체 사용 위함
     // testFixturesImplementation로 의존성 추가한 계층은 /src/testFixtures 하위 경로에서만 사용 가능 하다.
     // 양쪽 계층에 테스트 픽스처 활성화 설정(id("java-test-fixtures"))이 되어 있어야 한다.
+
+    testImplementation ("org.testcontainers:testcontainers:1.19.3") //테스트 컨테이너
+    testImplementation ("org.testcontainers:junit-jupiter:1.19.3")
 }
 
 tasks.test {

@@ -5,6 +5,10 @@
 > Mysql  
 > Redis  
   
+### Junit5 테스트 환경
+* DB : H2
+* Redis : Testcontainers
+  
 ### 규칙
 * `infrastruct` 계층에서의 결과값은 `domain model` 혹은 `Projection(필요한 속성만 조회)` 객체 로 리턴한다.  
 * `domain model`에서 `Dto`로 변환은 `application` 계층에서 한다.  

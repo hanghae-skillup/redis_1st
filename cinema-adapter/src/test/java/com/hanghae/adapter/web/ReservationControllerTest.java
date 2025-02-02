@@ -12,9 +12,15 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -24,9 +30,31 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @ActiveProfiles("test") // application-test.properties 사용
 @AutoConfigureMockMvc
+@Testcontainers // TestContainers 사용
 @Transactional
 @Sql(scripts = "/sql/reservationTest.sql") // SQL 파일 실행
 class ReservationControllerTest {
+    private static final String REDIS_PASSWORD = "redisPassword"; // 운영과 동일하게 설정
+    /**
+     * @Container 어노테이션은 Testcontainers가 해당 필드에 Docker 컨테이너를 실행하도록 지시
+     * 컨테이너의 시작과 종료를 저희가 직접 호출 하지 않고 테스트의 생명주기와 같이 돌 수 있도록 해줄
+     *
+     * 테스트 컨테이너 사용시 도커가 실행중어야 한다. (도커 데스크탑 실행)
+     */
+    @Container
+    private static final GenericContainer<?> redisContainer =
+            new GenericContainer<>(DockerImageName.parse("redis:7.4.2-alpine"))
+                    .withExposedPorts(6379) // TestContainers에서는 내부적으로 6379 사용
+                    .withCommand("redis-server --requirepass " + REDIS_PASSWORD); // 비밀번호 설정
+
+    @DynamicPropertySource
+    static void configureProperties(DynamicPropertyRegistry registry) {
+        redisContainer.start();
+        registry.add("spring.data.redis.host", redisContainer::getHost);
+        registry.add("spring.data.redis.port", () -> redisContainer.getMappedPort(6379));
+        registry.add("spring.data.redis.password", () -> REDIS_PASSWORD); // 비밀번호 적용
+        // 비밀번호 적용
+    }
 
     @Autowired
     private MockMvc mockMvc;
