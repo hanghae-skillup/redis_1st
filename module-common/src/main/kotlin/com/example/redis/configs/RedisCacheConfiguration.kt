@@ -64,4 +64,6 @@ class RedisCacheConfiguration(
             }
         return GenericJackson2JsonRedisSerializer(objectMapper)
     }
+
+
 }

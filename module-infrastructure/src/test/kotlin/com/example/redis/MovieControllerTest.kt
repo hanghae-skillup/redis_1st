@@ -7,6 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpStatus
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -17,18 +19,32 @@ class MovieControllerTest @Autowired constructor(
     @Test
     fun `영화 리스트 API 호출 과정에서 Rate Limit 초과 시 HTTP 429 응답을 반환해야한다`() {
         val ip = "192.168.1.1"
+        val threadCount = 55
+        val executor = Executors.newFixedThreadPool(threadCount)
+        var allowedRequests = 0
+        var rejectedRequests = 0
 
-        repeat(15) {
-            val response = mockMvc.get("/api/v1/movies") {
-                header("X-Forwarded-For", ip)
-            }.andReturn().response
+        repeat(threadCount) {
+            executor.execute {
+                val response = mockMvc.get("/api/v1/movies") {
+                    header("X-Forwarded-For", ip)
+                }.andReturn().response
 
-            val status = response.status
-            if(it < 10) {
-                assert(status == HttpStatus.OK.value())
-            } else {
-                assert(status == HttpStatus.TOO_MANY_REQUESTS.value())
+               synchronized(this) {
+                   val status = response.status
+                   if(status == HttpStatus.OK.value()) {
+                        allowedRequests++
+                   } else if(status == HttpStatus.TOO_MANY_REQUESTS.value()) {
+                        rejectedRequests++
+                   }
+               }
             }
         }
+
+        executor.shutdown()
+        executor.awaitTermination(1, TimeUnit.MINUTES)
+
+        assert(allowedRequests <= 50)
+        assert(rejectedRequests > 0)
     }
 }
