@@ -7,6 +7,7 @@ import com.hanghae.application.dto.response.ShowingMovieScheduleResponseDto;
 import com.hanghae.application.port.in.MovieScheduleService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,24 +20,33 @@ public class MovieController {
 
     //영화 상영 시간표 조회
     @GetMapping("/v1/movie-schedules")
-    public ApiResponse<List<MovieScheduleResponseDto>> getMovieSchedules() {
-        return movieScheduleService.getMovieSchedules();
+    public ResponseEntity<ApiResponse<List<MovieScheduleResponseDto>>> getMovieSchedules() {
+        ApiResponse<List<MovieScheduleResponseDto>> response = movieScheduleService.getMovieSchedules();
+
+        //응답코드 일치시켜서 리턴
+        return ResponseEntity.status(response.status().getCode()).body(response);
     }
 
     //영화별 상영 시간표 조회 (grouping)
     @GetMapping("/v2/movie-schedules")
-    public ApiResponse<List<ShowingMovieScheduleResponseDto>> getShowingMovieSchedules(@ModelAttribute MovieScheduleRequestDto requestDto, HttpServletRequest request) {
+    public ResponseEntity<ApiResponse<List<ShowingMovieScheduleResponseDto>>> getShowingMovieSchedules(@ModelAttribute MovieScheduleRequestDto requestDto, HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-For");
         if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getRemoteAddr();
         }
 
-        return movieScheduleService.getShowingMovieSchedules(requestDto, ip);
+        ApiResponse<List<ShowingMovieScheduleResponseDto>> response = movieScheduleService.getShowingMovieSchedules(requestDto, ip);
+
+        //응답코드 일치시켜서 리턴
+        return ResponseEntity.status(response.status().getCode()).body(response);
     }
 
     //redis 캐시삭제 (테스트용)
     @GetMapping("/test/evict-cache")
-    public ApiResponse<Void> evictCache() {
-        return movieScheduleService.evictShowingMovieCache();
+    public ResponseEntity<ApiResponse<Void>> evictCache() {
+        ApiResponse<Void> response = movieScheduleService.evictShowingMovieCache();
+
+        //응답코드 일치시켜서 리턴
+        return ResponseEntity.status(response.status().getCode()).body(response);
     }
 }

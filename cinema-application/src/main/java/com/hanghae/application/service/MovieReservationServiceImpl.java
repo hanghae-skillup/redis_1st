@@ -45,7 +45,7 @@ public class MovieReservationServiceImpl implements MovieReservationService {
 
         //동 시간대의 영화를 5분에 1번씩 예매 제한
         if (!redisRateLimitPort.canReserve(scheduleId, memberId)) {
-            return ApiResponse.of("동일 시간대 영화 예매은 5분 후 가능합니다.", HttpStatusCode.TOO_MANY_REQUESTS);
+            return ApiResponse.of("동일 시간대 영화 예매는 5분 후 가능합니다.", HttpStatusCode.TOO_MANY_REQUESTS);
         }
 
         // 예매할 좌석 목록 가져오기
