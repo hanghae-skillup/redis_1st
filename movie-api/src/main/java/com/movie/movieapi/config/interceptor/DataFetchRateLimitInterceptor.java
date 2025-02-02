@@ -24,7 +24,6 @@ public class DataFetchRateLimitInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
         String ip = getClientIp(request);
-        System.out.println("ip = " + ip);
         long currentTime = System.currentTimeMillis();
 
         // 만료된 IP 정보 제거
@@ -57,7 +56,7 @@ public class DataFetchRateLimitInterceptor implements HandlerInterceptor {
         }
 
         public boolean tryAcquire() {
-            return rateLimiter.tryAcquire();
+            return rateLimiter.tryAcquire(1, 20, TimeUnit.MILLISECONDS);
         }
 
         public void block(long currentTime) {

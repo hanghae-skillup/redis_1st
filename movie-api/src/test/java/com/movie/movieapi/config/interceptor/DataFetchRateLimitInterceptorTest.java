@@ -43,7 +43,7 @@ class DataFetchRateLimitInterceptorTest {
                                 .param("theaterId", "1")
                                 .header("X-Forwarded-For", ip) // 임의로 IP를 헤더에 설정
                 ));
-                Thread.sleep(500);
+//                Thread.sleep(1000);
             } catch (Exception e) {
                 // 예외가 발생하면 계속해서 실패 메시지 출력 (예: rate limit 초과 시)
                 System.out.println("Request " + (i + 1) + " failed due to: " + e.getMessage());
@@ -53,7 +53,6 @@ class DataFetchRateLimitInterceptorTest {
         // 각 요청에 대해 응답 상태를 검사
         for (ResultActions resultActions : resultActionsList) {
             resultActions
-                    .andDo(print())
                     .andExpect(status().isOk());  // 제한 내에서의 요청은 정상적으로 응답
         }
 
@@ -64,7 +63,7 @@ class DataFetchRateLimitInterceptorTest {
                                 .header("X-Forwarded-For", ip)
                 )
                 .andDo(print())
-                .andExpect(status().isTooManyRequests()); // 요청이 초과되었으므로 429 Too Many Requests 응답
+                .andExpect(status().isTooManyRequests());       // 요청이 초과되었으므로 429 Too Many Requests 응답
     }
 
     @Test
@@ -90,7 +89,7 @@ class DataFetchRateLimitInterceptorTest {
                 try {
                     mockMvc.perform(get("/api/schedules")
                                     .param("theaterId", "1")
-                                    .header("X-Forwarded-For", ip))  // 임의로 IP를 헤더에 설정
+                                    .header("X-Forwarded-For", ip))             // 임의로 IP를 헤더에 설정
                             .andDo(print())
                             .andExpect(status().isOk());
                 } catch (Exception e) {
@@ -101,6 +100,6 @@ class DataFetchRateLimitInterceptorTest {
             });
         }
 
-        latch.await();  // 모든 요청이 완료될 때까지 기다림
+        latch.await();
     }
 }
