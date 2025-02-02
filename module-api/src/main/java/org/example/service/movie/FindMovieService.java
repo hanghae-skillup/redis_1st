@@ -19,10 +19,16 @@ public class FindMovieService {
     private final MovieJpaRepository movieJpaRepository;
 
     @Cacheable(value = "playingMovies",
-            key = "#moviesFilterRequestDto.genre + #moviesFilterRequestDto.playing")
+            key = "(#moviesFilterRequestDto.genre != null ? #moviesFilterRequestDto.genre : 'ALL') " +
+                    "+ (#moviesFilterRequestDto.playing != null ? #moviesFilterRequestDto.playing : false)")
     public FoundMovieScreeningInfoList getPlayingMovies(MoviesFilterRequestDto moviesFilterRequestDto) {
+        Genre genre = null;
+        if (moviesFilterRequestDto.getGenre() != null) {
+            genre = Genre.valueOf(moviesFilterRequestDto.getGenre());
+        }
+
         List<MovieScreeningInfo> movieScreeningInfos
-                = movieJpaRepository.findScreeningInfos(moviesFilterRequestDto.getMovieTitle(), Genre.valueOf(moviesFilterRequestDto.getGenre()), moviesFilterRequestDto.isPlaying());
+                = movieJpaRepository.findScreeningInfos(moviesFilterRequestDto.getMovieTitle(), genre, moviesFilterRequestDto.isPlaying());
         return new FoundMovieScreeningInfoList(movieScreeningInfos);
     }
 }

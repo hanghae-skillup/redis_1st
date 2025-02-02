@@ -2,6 +2,7 @@ package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.baseresponse.BaseResponse;
 import org.example.dto.request.MoviesFilterRequestDto;
 import org.example.dto.response.PlayingMoviesResponseDto;
 import org.example.service.movie.MovieService;
@@ -20,8 +21,8 @@ public class MovieController {
     private final MovieService movieService;
 
     @GetMapping("/movies/playing")
-    public ResponseEntity<List<PlayingMoviesResponseDto>> getPlayingMovies(@ModelAttribute @Validated MoviesFilterRequestDto moviesFilterRequestDto) {
+    public BaseResponse<List<PlayingMoviesResponseDto>> getPlayingMovies(@ModelAttribute @Validated MoviesFilterRequestDto moviesFilterRequestDto) {
         List<PlayingMoviesResponseDto> playingMovies = movieService.getPlayingMovies(moviesFilterRequestDto);
-        return ResponseEntity.ok(playingMovies);
+        return new BaseResponse<>(playingMovies);
     }
 }
