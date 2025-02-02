@@ -1,31 +1,42 @@
 package com.example.app.booking.out.persistence.repository;
 
 import com.example.app.booking.out.persistence.entity.SeatEntity;
-import com.example.app.config.EmbeddedRedisConfig;
+import com.example.app.config.QuerydslConfig;
 import com.example.app.movie.type.TheaterSeat;
 import com.navercorp.fixturemonkey.FixtureMonkey;
-import com.querydsl.core.types.Predicate;
+import com.navercorp.fixturemonkey.api.introspector.ConstructorPropertiesArbitraryIntrospector;
+import com.navercorp.fixturemonkey.jakarta.validation.plugin.JakartaValidationPlugin;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
 import java.time.LocalDate;
 
 import static com.navercorp.fixturemonkey.api.instantiator.Instantiator.constructor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = EmbeddedRedisConfig.class)
-@TestPropertySource(properties = "spring.config.location = classpath:application-test.yml")
+@DataJpaTest
+@Import({QuerydslConfig.class})
 public class SeatRepositoryTest {
 
-    @Test
-    public void findAllBy_테스트() {
-        var predicate = FixtureMonkey.create().giveMeOne(Predicate.class);
+    @Autowired
+    private SeatRepository seatRepository;
 
-        var seats = FixtureMonkey.create()
-                .giveMeBuilder(SeatEntity.class)
+    private FixtureMonkey fixtureMonkey;
+
+    @BeforeEach
+    void setUp() {
+        fixtureMonkey = FixtureMonkey.builder()
+                .objectIntrospector(ConstructorPropertiesArbitraryIntrospector.INSTANCE)
+                .plugin(new JakartaValidationPlugin())
+                .build();
+    }
+
+    @Test
+    public void save_findAllBy_테스트() {
+        var seat = fixtureMonkey.giveMeBuilder(SeatEntity.class)
                 .instantiate(constructor()
                         .parameter(long.class)
                         .parameter(long.class)
@@ -36,13 +47,13 @@ public class SeatRepositoryTest {
                         .parameter(TheaterSeat.class)
                         .parameter(boolean.class)
                         .parameter(long.class))
-                .sampleList(10);
+                .sample();
 
-        var seatRepository = mock(SeatRepository.class);
-        when(seatRepository.findAllBy(predicate)).thenReturn(seats);
+        // FIXME: saveAll(SeatEntities)하면 @Version 때문에 update 되는 경우도 생김. 낙관적 락 때문에 목록 조회 테스트 불가.
+        seatRepository.save(seat);
 
-        var result = seatRepository.findAllBy(predicate);
+        var result = seatRepository.findAllBy(null);
 
-        assertEquals(result.size(), 10);
+        assertEquals(1, result.size());
     }
 }

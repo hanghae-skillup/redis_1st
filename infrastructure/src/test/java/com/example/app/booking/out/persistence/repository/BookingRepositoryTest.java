@@ -1,44 +1,73 @@
 package com.example.app.booking.out.persistence.repository;
 
 import com.example.app.booking.out.persistence.entity.BookingEntity;
-import com.example.app.config.EmbeddedRedisConfig;
+import com.example.app.config.QuerydslConfig;
 import com.navercorp.fixturemonkey.FixtureMonkey;
-import com.querydsl.core.types.Predicate;
+import com.navercorp.fixturemonkey.api.introspector.ConstructorPropertiesArbitraryIntrospector;
+import com.navercorp.fixturemonkey.jakarta.validation.plugin.JakartaValidationPlugin;
+import com.querydsl.core.types.ExpressionUtils;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
 import java.time.LocalDate;
+import java.util.stream.Stream;
 
+import static com.example.app.booking.out.persistence.entity.QBookingEntity.bookingEntity;
 import static com.navercorp.fixturemonkey.api.instantiator.Instantiator.constructor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
 
-@SpringBootTest(classes = EmbeddedRedisConfig.class)
-@TestPropertySource(properties = "spring.config.location = classpath:application-test.yml")
+@DataJpaTest
+@Import({QuerydslConfig.class})
 public class BookingRepositoryTest {
 
-    @Test
-    public void findAllBy_테스트() {
-        var predicate = FixtureMonkey.create().giveMeOne(Predicate.class);
+    @Autowired
+    private BookingRepository bookingRepository;
 
-        var movies = FixtureMonkey.create()
-                .giveMeBuilder(BookingEntity.class)
+    private FixtureMonkey fixtureMonkey;
+
+    @BeforeEach
+    void setUp() {
+        fixtureMonkey = FixtureMonkey.builder()
+                .objectIntrospector(ConstructorPropertiesArbitraryIntrospector.INSTANCE)
+                .plugin(new JakartaValidationPlugin())
+                .build();
+    }
+
+    @Test
+    public void save_findAllBy_테스트() {
+        var booking1 = fixtureMonkey.giveMeBuilder(BookingEntity.class)
                 .instantiate(constructor()
                         .parameter(long.class)
                         .parameter(long.class)
-                        .parameter(long.class)
+                        .parameter(long.class, "movieId")
                         .parameter(long.class)
                         .parameter(LocalDate.class)
                         .parameter(long.class)
                         .parameter(int.class))
-                .sampleList(10);
+                .set("movieId", 1L)
+                .sampleList(3);
 
-        var bookingRepository = mock(BookingRepository.class);
-        when(bookingRepository.findAllBy(predicate)).thenReturn(movies);
+        var booking2 = fixtureMonkey.giveMeBuilder(BookingEntity.class)
+                    .instantiate(constructor()
+                            .parameter(long.class)
+                            .parameter(long.class)
+                            .parameter(long.class, "movieId")
+                            .parameter(long.class)
+                            .parameter(LocalDate.class)
+                            .parameter(long.class)
+                            .parameter(int.class))
+                    .set("movieId", 2L)
+                    .sampleList(4);
+
+        bookingRepository.saveAll(Stream.concat(booking1.stream(), booking2.stream()).toList());
+
+        var predicate = ExpressionUtils.allOf(bookingEntity.movieId.eq(1L));
 
         var result = bookingRepository.findAllBy(predicate);
 
-        assertEquals(result.size(), 10);
+        assertEquals(3, result.size());
     }
 }
