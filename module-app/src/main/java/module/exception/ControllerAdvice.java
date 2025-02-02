@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
+import exception.common.TryLockFailedException;
 import exception.showing.ShowingNotFoundException;
 import exception.ticket.InvalidAgeForMovieException;
 import exception.ticket.InvalidSeatConditionException;
@@ -72,6 +73,13 @@ public class ControllerAdvice {
 	@ExceptionHandler(ShowingNotFoundException.class)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	protected ResponseEntity<String> showingNotFoundException(ShowingNotFoundException e){
+		return ResponseEntity.status(HttpStatus.NO_CONTENT)
+			.body(e.getMessage());
+	}
+
+	@ExceptionHandler(TryLockFailedException.class)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	protected ResponseEntity<String> tryLockFailedException(TryLockFailedException e){
 		return ResponseEntity.status(HttpStatus.NO_CONTENT)
 			.body(e.getMessage());
 	}
