@@ -24,7 +24,7 @@ spring:
       on-profile: local
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/movie2?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://127.0.0.1:3306/movie?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
     username: root
     password: 1234
   jpa:
@@ -34,3 +34,5 @@ spring:
     properties:
       hibernate.format_sql: true
       hibernate.default_batch_fetch_size: 1000
+#    defer-datasource-initialization: true
+#  sql.init.mode: always
