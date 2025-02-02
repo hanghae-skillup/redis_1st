@@ -15,7 +15,7 @@ class RedisLuaRateLimiter(
             
             local current_count = redis.call("GET", key)
             
-            if current_count and tonumber(current_count) > limit then
+            if current_count and tonumber(current_count) >= limit then
                 return 0 -- Rate limit 초과
             end
             

@@ -5,6 +5,7 @@ plugins {
     id("org.springframework.boot") version "3.4.1" apply false
     id("io.spring.dependency-management") version "1.1.7" apply false
     kotlin("kapt") version "1.3.61" apply false // annotation processing을 위한 kapt
+    `java-test-fixtures`
     idea
 }
 
@@ -31,6 +32,7 @@ subprojects {
     apply(plugin = "kotlin-jpa")
     apply(plugin = "kotlin-kapt")
     apply(plugin = "idea")
+    apply(plugin = "java-test-fixtures")
 
     kotlin {
         jvmToolchain(21)
@@ -54,7 +56,7 @@ subprojects {
         useJUnitPlatform()
         javaLauncher.set(
             javaToolchains.launcherFor {
-                languageVersion.set(JavaLanguageVersion.of(17)) // 원하는 Java 버전 설정
+                languageVersion.set(JavaLanguageVersion.of(21)) // 원하는 Java 버전 설정
             }
         )
     }

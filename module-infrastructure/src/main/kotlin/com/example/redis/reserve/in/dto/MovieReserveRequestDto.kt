@@ -21,6 +21,6 @@ class MovieReserveRequestDto(
     @JsonProperty(value = "seats")
     @field:Valid
     @field:Size(min = 1, max = 5, message = "The seat must have one to five.")
-    val seats: List<@Valid MovieReserveSeatRequestDto>
+    val seats: MutableList<@Valid MovieReserveSeatRequestDto>
 ) {
 }
