@@ -43,9 +43,9 @@ class DataFetchRateLimitInterceptorTest {
                                 .param("theaterId", "1")
                                 .header("X-Forwarded-For", ip) // 임의로 IP를 헤더에 설정
                 ));
-//                Thread.sleep(1000);
+                Thread.sleep(1000);
             } catch (Exception e) {
-                // 예외가 발생하면 계속해서 실패 메시지 출력 (예: rate limit 초과 시)
+                // 예외가 발생하면 계속해서 실패 메시지 출력
                 System.out.println("Request " + (i + 1) + " failed due to: " + e.getMessage());
             }
         }
@@ -63,7 +63,7 @@ class DataFetchRateLimitInterceptorTest {
                                 .header("X-Forwarded-For", ip)
                 )
                 .andDo(print())
-                .andExpect(status().isTooManyRequests());       // 요청이 초과되었으므로 429 Too Many Requests 응답
+                .andExpect(status().isTooManyRequests());       // 요청이 초과되어 429 Too Many Requests 응답
     }
 
     @Test

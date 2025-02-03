@@ -3,6 +3,8 @@ package com.movie.movieapi.config.interceptor;
 import com.google.common.util.concurrent.RateLimiter;
 import com.movie.common.exception.ApplicationException;
 import com.movie.common.exception.ErrorCode;
+import com.movie.domain.common.RateLimitRedisRepository;
+import com.movie.movieapi.config.WebUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -17,72 +19,36 @@ import java.util.concurrent.TimeUnit;
 @Component
 @RequiredArgsConstructor
 public class DataFetchRateLimitInterceptor implements HandlerInterceptor {
-    private static final double REQUEST_LIMIT = 50.0;
-    private static final int BLOCK_DURATION_HOURS = 1;
-    private static final Map<String, AccessInfo> ipAccessMap = new ConcurrentHashMap<>();
+
+    private static final double REQUESTS_PER_SECOND = 2.0;
+    private final RateLimitRedisRepository rateLimitRedisRepository;
+
+    // Guava RateLimiter (IP별 제한)
+    private static final Map<String, RateLimiter> ipRateLimiters = new ConcurrentHashMap<>();
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
-        String ip = getClientIp(request);
-        long currentTime = System.currentTimeMillis();
+        String ip = WebUtils.getClientIp(request);
 
-        // 만료된 IP 정보 제거
-        ipAccessMap.entrySet().removeIf(entry -> entry.getValue().isExpired(currentTime));
-
-        // 요청한 IP의 AccessInfo 객체 조회
-        AccessInfo accessInfo = ipAccessMap.computeIfAbsent(ip, k -> new AccessInfo());
-
-        // 차단된 IP 라면 예외 발생
-        if (accessInfo.isBlocked(currentTime)) {
+        // Redis에서 차단된 IP 인지 확인
+        if (rateLimitRedisRepository.isIpBlocked(ip)) {
             throw new ApplicationException(ErrorCode.TOO_MANY_REQUESTS, "IP is blocked : IP - %s".formatted(ip));
         }
 
-        // 해당하는 IP의 요청 초과횟수 확인
-        if (!accessInfo.tryAcquire()) {
-            accessInfo.block(currentTime);
+        // 요청 제한 (1초에 2번 이상 초과시)
+        RateLimiter rateLimiter = ipRateLimiters.computeIfAbsent(ip, k -> RateLimiter.create(REQUESTS_PER_SECOND));
+        if (!rateLimiter.tryAcquire()) {
+            throw new ApplicationException(ErrorCode.TOO_MANY_REQUESTS, "Too many requests : IP - %s".formatted(ip));
+        }
+
+        // 3. Redis에서 요청 횟수 증가 및 초과 체크
+        if (rateLimitRedisRepository.isRequestLimitExceeded(ip)) {
+            rateLimitRedisRepository.blockIp(ip);
             throw new ApplicationException(ErrorCode.TOO_MANY_REQUESTS, "Request limit exceeded : IP - %s".formatted(ip));
         }
 
         return true;
     }
 
-    private static class AccessInfo {
-        private final RateLimiter rateLimiter;
-        private long blockUntil;
 
-        public AccessInfo() {
-            this.rateLimiter = RateLimiter.create(REQUEST_LIMIT); // 1분에 50번의 request 허용
-            this.blockUntil = 0;
-        }
-
-        public boolean tryAcquire() {
-            return rateLimiter.tryAcquire(1, 20, TimeUnit.MILLISECONDS);
-        }
-
-        public void block(long currentTime) {
-            this.blockUntil = currentTime + TimeUnit.HOURS.toMillis(BLOCK_DURATION_HOURS);
-        }
-
-        public boolean isBlocked(long currentTime) {
-            return currentTime < blockUntil;
-        }
-
-        public boolean isExpired(long currentTime) {
-            return blockUntil > 0 && currentTime > blockUntil;
-        }
-    }
-
-    public String getClientIp(HttpServletRequest request) {
-        String ip = request.getHeader("X-Forwarded-For");
-        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("Proxy-Client-IP");
-        }
-        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getRemoteAddr();
-        }
-        return ip;
-    }
 }
