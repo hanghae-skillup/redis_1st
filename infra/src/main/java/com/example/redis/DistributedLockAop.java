@@ -17,7 +17,7 @@ public class DistributedLockAop {
 
     private final RedissonClient redissonClient;
 
-    private final AopForTransaction aopForTransaction;
+    private final RedisLockTransaction redisLockTransaction;
 
     @Around("@annotation(com.example.redis.DistributedLock)")
     public Object lock(final ProceedingJoinPoint joinPoint) throws Throwable {
@@ -32,7 +32,7 @@ public class DistributedLockAop {
             if (!available) {
                 return false;
             }
-            return aopForTransaction.proceed(joinPoint);
+            return redisLockTransaction.proceed(joinPoint);
         } catch (InterruptedException e) {
             throw new InterruptedException();
         } finally {

@@ -9,19 +9,13 @@ import com.example.jpa.repository.movie.SeatRepository;
 import com.example.jpa.repository.reservation.ReservationRepository;
 import com.example.jpa.repository.user.UserRepository;
 import com.example.message.MessageService;
-import com.example.redis.DistributedLock;
+import com.example.redis.DistributedLockService;
 import com.example.reservation.dto.ReservationRequest;
 import lombok.RequiredArgsConstructor;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -51,9 +45,9 @@ public class ReservationService {
 
     private final MessageService messageService;
 
-    private final RedissonClient redissonClient;
+    private final DistributedLockService distributedLockService;
 
-    @DistributedLock(key = "'screening-id:' + #reservationRequest.screeningId()", waitTime = 6L)
+    @Transactional
     public void reserveSeat(ReservationRequest reservationRequest) throws InterruptedException {
         User findUser = userRepository.findById(reservationRequest.userId()).orElseThrow(() ->
                 new IllegalArgumentException(USER_NOT_FOUND));
@@ -73,29 +67,22 @@ public class ReservationService {
             throw new IllegalStateException(RESERVATION_MUST_BE_UNDER_MAX);
         }
 
-        for (String position : reservationRequest.seats()) {
-            Seat findSeat = seatRepository.findByPositionAndScreeningId(position, screening.getId()).orElseThrow(() ->
-                    new IllegalArgumentException(SEAT_NOT_FOUND));
+        distributedLockService.executeWithLockAndReturn(() -> {
+            for (String position : reservationRequest.seats()) {
+                Seat findSeat = seatRepository.findByPositionAndScreeningId(position, screening.getId()).orElseThrow(() ->
+                        new IllegalArgumentException(SEAT_NOT_FOUND));
 
-            if (reservationRepository.existsBySeatIdAndScreeningId(findSeat.getId(), screening.getId()))
-                throw new IllegalArgumentException(SEAT_ALREADY_BE_MADE_RESERVATION);
+                if (reservationRepository.existsBySeatIdAndScreeningId(findSeat.getId(), screening.getId())) {
+                    throw new IllegalArgumentException(SEAT_ALREADY_BE_MADE_RESERVATION);
+                }
 
-            Reservation reservation = new Reservation();
-            reservation.reserve(findUser.getId(), findSeat.getId(), screening.getId());
-            reservationRepository.save(reservation);
-            sendMessageAsync();
-        }
-    }
-
-    private void sendMessageAsync() {
-        CompletableFuture.runAsync(() -> {
-            try {
-                messageService.send();
-                System.out.println("메시지 전송 완료");
-            } catch (Exception e) {
-                System.err.println("메시지 전송 실패: " + e.getMessage());
+                Reservation reservation = new Reservation();
+                reservation.reserve(findUser.getId(), findSeat.getId(), screening.getId());
+                reservationRepository.save(reservation);
             }
-        });
+            return null;
+        }, reservationRequest.screeningId(), reservationRequest.seats(), 1L, 5L);
+        messageService.send();
     }
 
     private boolean areSeatsAdjacent(List<String> seats) {
