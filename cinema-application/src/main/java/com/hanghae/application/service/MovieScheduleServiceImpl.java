@@ -1,13 +1,14 @@
 package com.hanghae.application.service;
 
 import com.hanghae.application.dto.ApiResponse;
-import com.hanghae.application.dto.MovieScheduleRequestDto;
-import com.hanghae.application.dto.MovieScheduleResponseDto;
-import com.hanghae.application.dto.ShowingMovieScheduleResponseDto;
+import com.hanghae.application.dto.request.MovieScheduleRequestDto;
+import com.hanghae.application.dto.response.MovieScheduleResponseDto;
+import com.hanghae.application.dto.response.ShowingMovieScheduleResponseDto;
 import com.hanghae.application.enums.HttpStatusCode;
 import com.hanghae.application.port.in.MovieScheduleService;
-import com.hanghae.application.port.out.MovieRepositoryPort;
-import com.hanghae.application.port.out.ScreeningScheduleRepositoryPort;
+import com.hanghae.application.port.out.redis.RedisRateLimitPort;
+import com.hanghae.application.port.out.repository.MovieRepositoryPort;
+import com.hanghae.application.port.out.repository.ScreeningScheduleRepositoryPort;
 import com.hanghae.application.projection.MovieScheduleProjection;
 import com.hanghae.domain.model.Movie;
 import com.hanghae.domain.model.ScreeningSchedule;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 public class MovieScheduleServiceImpl implements MovieScheduleService {
     private final ScreeningScheduleRepositoryPort screeningScheduleRepositoryPort;
     private final MovieRepositoryPort movieRepositoryPort;
+    private final RedisRateLimitPort redisRateLimitPort;
 
     @Override
     @Transactional
@@ -32,12 +34,17 @@ public class MovieScheduleServiceImpl implements MovieScheduleService {
         List<ScreeningSchedule> schedules = screeningScheduleRepositoryPort.findAll();
         List<MovieScheduleResponseDto> responseDtos = schedules.stream().map(this::convertToDto).collect(Collectors.toList());
 
-        return ApiResponse.of("Success", HttpStatusCode.OK.getCode(), responseDtos);
+        return ApiResponse.of("Success", HttpStatusCode.OK, responseDtos);
     }
 
     @Override
     @Transactional
-    public ApiResponse<List<ShowingMovieScheduleResponseDto>> getShowingMovieSchedules(MovieScheduleRequestDto requestDto) {
+    public ApiResponse<List<ShowingMovieScheduleResponseDto>> getShowingMovieSchedules(MovieScheduleRequestDto requestDto, String ip) {
+        //1분에 50회 이상 조회시 조회 제한
+        if (!redisRateLimitPort.isAllowed(ip)) {
+            return ApiResponse.of("너무 많은 요청으로 조회가 차단되었습니다. ", HttpStatusCode.TOO_MANY_REQUESTS);
+        }
+
         List<MovieScheduleProjection> projections = movieRepositoryPort.findShowingMovieSchedules(requestDto);
 
         Map<Long, ShowingMovieScheduleResponseDto> movieMap = new LinkedHashMap<>();
@@ -73,13 +80,13 @@ public class MovieScheduleServiceImpl implements MovieScheduleService {
                     .build());
         }
 
-        return ApiResponse.of("Success", HttpStatusCode.OK.getCode(), new ArrayList<>(movieMap.values()));
+        return ApiResponse.of("Success", HttpStatusCode.OK, new ArrayList<>(movieMap.values()));
     }
 
     @Override
     public ApiResponse<Void> evictShowingMovieCache() {
         movieRepositoryPort.evictShowingMovieCache();
-        return ApiResponse.of("Success", HttpStatusCode.NO_CONTENT.getCode());
+        return ApiResponse.of("Success", HttpStatusCode.NO_CONTENT);
     }
 
     private MovieScheduleResponseDto convertToDto(ScreeningSchedule schedule) {

@@ -1,10 +1,16 @@
 package com.hanghae.application.service;
 
 import com.hanghae.application.dto.ApiResponse;
-import com.hanghae.application.dto.MovieReservationRequestDto;
+import com.hanghae.application.dto.request.MovieReservationRequestDto;
 import com.hanghae.application.enums.HttpStatusCode;
 import com.hanghae.application.port.in.MovieReservationService;
-import com.hanghae.application.port.out.*;
+import com.hanghae.application.port.out.message.MessagePort;
+import com.hanghae.application.port.out.redis.RedisRateLimitPort;
+import com.hanghae.application.port.out.redis.RedissonLockPort;
+import com.hanghae.application.port.out.repository.MemberRepositoryPort;
+import com.hanghae.application.port.out.repository.ScreenSeatLayoutRepositoryPort;
+import com.hanghae.application.port.out.repository.ScreeningScheduleRepositoryPort;
+import com.hanghae.application.port.out.repository.TicketReservationRepositoryPort;
 import com.hanghae.domain.model.Member;
 import com.hanghae.domain.model.ScreenSeatLayout;
 import com.hanghae.domain.model.ScreeningSchedule;
@@ -27,6 +33,7 @@ public class MovieReservationServiceImpl implements MovieReservationService {
     private final MessagePort messagePort;
     private final ReservationService reservationService;
     private final RedissonLockPort redissonLockPort; // Redisson 분산락 사용
+    private final RedisRateLimitPort redisRateLimitPort;
 
     @Override
     @Transactional
@@ -35,6 +42,11 @@ public class MovieReservationServiceImpl implements MovieReservationService {
         Long memberId = requestDto.memberId();
         int seatCount = requestDto.seatCount();
         ScreenSeat screenSeat = requestDto.screenSeat();
+
+        //동 시간대의 영화를 5분에 1번씩 예매 제한
+        if (!redisRateLimitPort.canReserve(scheduleId, memberId)) {
+            return ApiResponse.of("동일 시간대 영화 예매는 5분 후 가능합니다.", HttpStatusCode.TOO_MANY_REQUESTS);
+        }
 
         // 예매할 좌석 목록 가져오기
         List<ScreenSeat> selectedSeats = ScreenSeat.getSelectedConnectedSeats(screenSeat, seatCount);
@@ -66,13 +78,16 @@ public class MovieReservationServiceImpl implements MovieReservationService {
                 // 예매 내역 저장
                 ticketReservationRepositoryPort.saveMovieReservations(ticketReservations);
 
+                // 예매 성공 후 Redis 제한 설정
+                redisRateLimitPort.setReservationLimit(scheduleId, memberId);
+
                 //완료 메시지 전송 (비동기)
                 messagePort.sendMessage("영화 예매가 완료 되었습니다.");
 
-                return ApiResponse.of("예매가 완료 되었습니다.", HttpStatusCode.CREATED.getCode());
+                return ApiResponse.of("예매가 완료 되었습니다.", HttpStatusCode.CREATED);
             });
         } catch (IllegalStateException e) {
-            return ApiResponse.of("현재 좌석을 다른 사용자가 예매 처리 중입니다.", HttpStatusCode.CONFLICT.getCode());
+            return ApiResponse.of("현재 좌석을 다른 사용자가 예매 처리 중입니다.", HttpStatusCode.CONFLICT);
         }
     }
 }

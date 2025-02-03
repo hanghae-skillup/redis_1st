@@ -5,6 +5,29 @@
 > Mysql  
 > Redis  
   
+### Junit5 테스트 환경
+* DB : H2  
+* Redis : Testcontainers  
+  
+### jacoco 보고서  
+![jacoco_test_report.png](docs%2Fimg%2Fjacoco_test_report.png)  
+  
+### jacoco_report_aggregation 보고서  
+![jacoco_report_aggregation.png](docs%2Fimg%2Fjacoco_report_aggregation.png)
+  
+### JaCoCo
+* `build.gradle.kts` 파일 `plugins`에 `id("jacoco")` 추가 후 `gradle`을 다시 빌드해야 한다.  
+* 그 뒤 하단에 `jacoco`, `tasks.jacocoTestCoverageVerification`, `tasks.jacocoTestReport`를 작성  
+  * 빌드를 다시하지 않으면 빨간줄이 뜬다.  
+* 테스트 실행 및 보고서 생성 : `./gradlew clean test jacocoTestReport --console verbose`   
+* 테스트 실행 및 보고서 생성(커버리지 충족 확인) : `./gradlew clean test jacocoTestReport jacocoTestCoverageVerification --console verbose`
+* `build.gradle.kts`파일에 보고서 저장경로를 설정하여 `/build/reports/jacoco/index.html` 해당파일을 확인하면 된다.
+  * `html.outputLocation.set(layout.buildDirectory.dir("reports/jacoco")) //저장경로 설정`
+* jacoco-report-aggregation 플러그인을 사용해 멀티모듈의 보고서를 하나로 묶어서 생성 가능   
+* jacoco-report-aggregation 플러그인 사용시 명령어 : `./gradlew testCodeCoverageReport`  
+  * 저장 경로 : 위 플러그인 설정한 모듈 build 폴더
+  * `cinema-adapter/build/reports/jacoco/testCodeCoverageReport/html/index.html`
+  
 ### 규칙
 * `infrastruct` 계층에서의 결과값은 `domain model` 혹은 `Projection(필요한 속성만 조회)` 객체 로 리턴한다.  
 * `domain model`에서 `Dto`로 변환은 `application` 계층에서 한다.  
@@ -471,7 +494,12 @@ constant_load ✓ [======================================] 000/100 VUs  10m0s  1
     * 로그 확인 : $docker-compose logs -f // `-f`옵션을 주면 실시간
     * 특정 서비스 시작 : $docker-compose start <서비스 이름>
     * 특정 서비스 종료 : $docker-compose stop <서비스 이름>
-  
+    * redis 접속 : docker exec -it redis_cinema redis-cli // redis_cinema = 컨테이너명
+      * redis 비밀번호 있는 경우 위 명령어 후 : AUTH 비밀번호
+      * 현재 존재하는 키 전체보기 : KEYS *
+      * 특정키 조회 : KEYS rate_limit:0:0:0:0:0:0:0:1
+      * 특정 패턴 조회 : KEYS rate_limit:*
+      * 모든키 삭제 : FLUSHALL
     
 --------------------------------------------------------------
 ### 적용 아키텍처
