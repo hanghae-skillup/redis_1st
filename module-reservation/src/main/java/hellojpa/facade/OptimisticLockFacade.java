@@ -1,6 +1,6 @@
 package hellojpa.facade;
 
-import hellojpa.dto.ReservationDto;
+import hellojpa.dto.ReservationRequestDto;
 import hellojpa.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -11,10 +11,10 @@ public class OptimisticLockFacade {
 
     private final ReservationService reservationService;
 
-    public void reserveSeats(ReservationDto reservationDto) throws InterruptedException {
+    public void reserveSeats(ReservationRequestDto reservationRequestDto) throws InterruptedException {
         while(true){
             try {
-                reservationService.reserveSeats(reservationDto);
+                reservationService.reserveSeats(reservationRequestDto);
 
                 break;
             } catch (Exception e){

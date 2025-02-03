@@ -1,4 +1,4 @@
-package hellojpa;
+package hellojpa.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.stereotype.Component;

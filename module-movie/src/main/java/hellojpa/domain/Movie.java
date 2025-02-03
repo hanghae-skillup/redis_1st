@@ -1,8 +1,7 @@
 package hellojpa.domain;
 
-import hellojpa.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +10,7 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Movie extends BaseEntity {
 
     @Id
@@ -37,4 +37,13 @@ public class Movie extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @JoinColumn(nullable = false)
     private Genre genre; // 영화 장르
+
+    public Movie(String title, VideoRating rating, LocalDate releaseDate, String thumbnail, int runningTime, Genre genre) {
+        this.title = title;
+        this.rating = rating;
+        this.releaseDate = releaseDate;
+        this.thumbnail = thumbnail;
+        this.runningTime = runningTime;
+        this.genre = genre;
+    }
 }

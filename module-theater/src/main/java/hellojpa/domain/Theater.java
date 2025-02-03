@@ -1,15 +1,14 @@
 package hellojpa.domain;
 
-import hellojpa.BaseEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Theater extends BaseEntity {
 
     @Id
@@ -19,4 +18,8 @@ public class Theater extends BaseEntity {
 
     @Column(nullable = false, length = 20)
     private String name; // 상영관 이름
+
+    public Theater(String name) {
+        this.name = name;
+    }
 }

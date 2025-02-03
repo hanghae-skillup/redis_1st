@@ -1,13 +1,16 @@
 package hellojpa.domain;
 
-import hellojpa.BaseEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
 
 @Entity
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Screening extends BaseEntity {
 
     @Id
@@ -25,4 +28,10 @@ public class Screening extends BaseEntity {
 
     @Column(nullable = false)
     private LocalTime startTime; //시작 시간
+
+    public Screening(Movie movie, Theater theater, LocalTime startTime) {
+        this.movie = movie;
+        this.theater = theater;
+        this.startTime = startTime;
+    }
 }
