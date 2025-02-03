@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  redis_local:
+    container_name: redis_local
+    build:
+      dockerfile: Dockerfile
+      context: ./redis
+    image: futuremaker019/redis_local
+#    environment:
+#      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    ports:
+      - "6379:6379"
+  mysql_local:
+    container_name: mysql_local
+    build:
+      dockerfile: Dockerfile
+      context: ./database
+    image: futuremaker019/mysql_local
+    environment:
+      - MYSQL_DATABASE=movie
+      - MYSQL_ROOT_PASSWORD=1234
+    volumes:
+      - ./database/config:/etc/mysql/conf.d
+    ports:
+      - "3306:3306"
