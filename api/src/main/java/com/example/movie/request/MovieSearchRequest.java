@@ -3,6 +3,8 @@ package com.example.movie.request;
 import com.example.movie.dto.GenreDto;
 import lombok.Getter;
 
+import static com.example.exception.BusinessError.*;
+
 @Getter
 public class MovieSearchRequest {
     private String title;
@@ -15,10 +17,10 @@ public class MovieSearchRequest {
 
     private void validate() {
         if (this.title != null && this.title.length() > 225) {
-            throw new IllegalArgumentException("영화 제목은 225자 이하로 입력해주세요");
+            throw MOVIE_SEARCH_TITLE_ERROR.exception();
         }
         if (this.genre != null && !GenreDto.isValidGenre(this.genre)) {
-            throw new IllegalArgumentException("유효하지않은 장르입니다");
+            throw MOVIE_SEARCH_GENRE_ERROR.exception();
         }
     }
 

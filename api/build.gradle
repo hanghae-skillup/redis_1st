@@ -1,4 +1,4 @@
 dependencies {
     implementation project(':application')
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'com.google.guava:guava:33.4.0-jre'
 }
