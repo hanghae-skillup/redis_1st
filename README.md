@@ -9,8 +9,11 @@
 * DB : H2  
 * Redis : Testcontainers  
   
-### jacoco 보고서
-![jacoco_test_report.png](docs%2Fimg%2Fjacoco_test_report.png)
+### jacoco 보고서  
+![jacoco_test_report.png](docs%2Fimg%2Fjacoco_test_report.png)  
+  
+### jacoco_report_aggregation 보고서  
+![jacoco_report_aggregation.png](docs%2Fimg%2Fjacoco_report_aggregation.png)
   
 ### JaCoCo
 * `build.gradle.kts` 파일 `plugins`에 `id("jacoco")` 추가 후 `gradle`을 다시 빌드해야 한다.  
@@ -20,6 +23,10 @@
 * 테스트 실행 및 보고서 생성(커버리지 충족 확인) : `./gradlew clean test jacocoTestReport jacocoTestCoverageVerification --console verbose`
 * `build.gradle.kts`파일에 보고서 저장경로를 설정하여 `/build/reports/jacoco/index.html` 해당파일을 확인하면 된다.
   * `html.outputLocation.set(layout.buildDirectory.dir("reports/jacoco")) //저장경로 설정`
+* jacoco-report-aggregation 플러그인을 사용해 멀티모듈의 보고서를 하나로 묶어서 생성 가능   
+* jacoco-report-aggregation 플러그인 사용시 명령어 : `./gradlew testCodeCoverageReport`  
+  * 저장 경로 : 위 플러그인 설정한 모듈 build 폴더
+  * `cinema-adapter/build/reports/jacoco/testCodeCoverageReport/html/index.html`
   
 ### 규칙
 * `infrastruct` 계층에서의 결과값은 `domain model` 혹은 `Projection(필요한 속성만 조회)` 객체 로 리턴한다.  
