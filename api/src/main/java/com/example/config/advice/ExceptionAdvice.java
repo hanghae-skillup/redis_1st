@@ -10,7 +10,7 @@ public class ExceptionAdvice {
 
     @ExceptionHandler(BusinessException.class)
     public ApiResponse<Void> BusinessExceptionHandler(BusinessException e) {
-        return ApiResponse.businessException(e.getCode(), e.getMessage());
+        return ApiResponse.businessException(e.getHttpStatus(), e.getCode(), e.getMessage());
     }
 
 }

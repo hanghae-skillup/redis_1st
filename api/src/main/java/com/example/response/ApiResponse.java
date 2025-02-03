@@ -29,7 +29,7 @@ public class ApiResponse<T> {
         return new ApiResponse<>(HttpStatus.CREATED, DEFAULT_CREATE_CODE, message, data);
     }
 
-    public static ApiResponse<Void> businessException(int code, String message) {
-        return new ApiResponse<>(HttpStatus.BAD_REQUEST, code, message, null);
+    public static ApiResponse<Void> businessException(HttpStatus httpstatus, int code, String message) {
+        return new ApiResponse<>(httpstatus != null ? httpstatus : HttpStatus.BAD_REQUEST, code, message, null);
     }
 }

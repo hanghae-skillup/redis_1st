@@ -1,5 +1,6 @@
 package com.example.reservation;
 
+import com.example.aop.ReservationRateLimited;
 import com.example.reservation.request.ReservationRequest;
 import com.example.reservation.response.ReservationServiceResponse;
 import com.example.response.ApiResponse;
@@ -15,6 +16,7 @@ public class ReservationController {
     private final ReservationService reservationService;
 
     @PostMapping("/v1/reservation")
+    @ReservationRateLimited
     public ApiResponse<ReservationServiceResponse> reserve(@RequestBody ReservationRequest request) {
         return ApiResponse.created("영화예매 성공", reservationService.reserve(request.toServiceRequest()));
     }
