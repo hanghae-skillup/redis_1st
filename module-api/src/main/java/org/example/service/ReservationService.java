@@ -51,7 +51,7 @@ public class ReservationService {
 
         // 개별 좌석별 락 키 생성
         List<String> lockKeys = reservationRequestDto.reservationSeats().stream()
-                .map(seat -> "lock:seat:" + screenRoomId + ":" + seat.row() + ":" + seat.col())
+                .map(seat -> "lock:seat:" + reservationRequestDto.screenScheduleId() + ":" + seat.row() + ":" + seat.col())
                 .toList();
 
         // Redisson MultiLock 적용 (여러 개의 좌석을 동시에 보호)
