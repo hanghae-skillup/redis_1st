@@ -17,13 +17,16 @@ public class ReservationService {
 
     private final ReservationRepository reservationRepository;
     private final ReservationMessagePublisher reservationMessagePublisher;
+    private final ReservationRedisRepository reservationRedisRepository;
 
-    public void makeReservation(ReservationCommand.Reserve reserve) {
-        reservationRepository.makeReservation(reserve);
+    public List<Reservation> makeReservation(ReservationCommand.Reserve reserve) {
+        List<Reservation> reservations = reservationRepository.makeReservation(reserve);
 
         // 예약이 완료되면 message 전송
         ReservationMessage.Send send = ReservationMessage.Send.of("예약 완료");
         reservationMessagePublisher.sendMessage(send);
+
+        return reservations;
     }
 
     public List<Reservation> getReservations(ReservationCommand.Get reservationData) {
@@ -36,8 +39,14 @@ public class ReservationService {
         List<Reservation> reservations = getReservations(get);
         Reservation.isAlreadyReserved(reservations, seats);
 
-        ReservationCommand.Reserve reserve =
-                ReservationCommand.Reserve.of(scheduleId, seatIds, userId);
-        makeReservation(reserve);
+        ReservationCommand.Reserve reserve = ReservationCommand.Reserve.of(scheduleId, seatIds, userId);
+        List<Reservation> savedReservations = makeReservation(reserve);
+
+        /** 예약 정보 캐시처리 - reservedAt value로 저장 */
+        savedReservations.forEach(reservation -> {
+            ReservationCommand.CreateCache createCache
+                    = ReservationCommand.CreateCache.of(reservation.getScheduleId(), reservation.getUserId(), reservation.getReservedAt());
+            reservationRedisRepository.saveReservationDone(createCache);
+        });
     }
 }

@@ -9,6 +9,7 @@ import com.movie.storage.movie.entity.ReservationEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -24,11 +25,15 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     }
 
     @Override
-    public void makeReservation(ReservationCommand.Reserve reserve) {
-        List<ReservationEntity> reservations = reservationJpaQuerySupport.getReservationEntities(reserve.scheduleId(), reserve.seatIds());
-        reservations.forEach(reservation -> {
+    public List<Reservation> makeReservation(ReservationCommand.Reserve reserve) {
+        List<ReservationEntity> reservationEntities = reservationJpaQuerySupport.getReservationEntities(reserve.scheduleId(), reserve.seatIds());
+
+        List<Reservation> reservations = new ArrayList<>();
+        reservationEntities.forEach(reservation -> {
             reservation.makeReservation(reserve.userId());
+            reservations.add(ModelMapper.ReservationMapper.from(reservation));
         });
+        return reservations;
     }
 
 }
