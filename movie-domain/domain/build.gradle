@@ -15,5 +15,4 @@ dependencies {
 	implementation 'org.springframework:spring-tx'
 
 	implementation project(':movie-domain:common')
-	implementation project(':movie-infrastructures:redis')
 }

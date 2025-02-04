@@ -2,6 +2,7 @@ package com.movie.domain.movie;
 
 import com.movie.domain.movie.domain.Reservation;
 import com.movie.domain.movie.dto.command.ReservationCommand;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,8 +25,9 @@ class ReservationServiceTest {
     @Mock
     private ReservationRepository reservationRepository;
 
+    @DisplayName("스케줄 id와 좌석 ids 를 이용하여, 좌석에 따른 예약 정보 목록을 조회한다.")
     @Test
-    void test() {
+    void givenScheduleIdAndSeatIds_whenRequestingReservationsBySeatIds_thenReturnsReservations() {
         // given
         Long scheduleId = 1L;
         List<Long> seatIDs = List.of(1L, 2L, 3L);

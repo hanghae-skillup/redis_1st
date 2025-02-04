@@ -5,6 +5,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+    // rate limit - guava
+    implementation 'com.google.guava:guava:32.1.2-jre'
+
     implementation project(':movie-domain:domain')
     implementation project(':movie-domain:common')
     implementation project(':movie-infrastructures:storage')

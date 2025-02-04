@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movie.domain.movie.ScheduleService;
 import com.movie.domain.movie.dto.command.ScheduleCommand;
 import com.movie.common.response.Response;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -33,8 +34,9 @@ class ScheduleControllerTest {
     @MockitoBean
     ScheduleService scheduleService;
 
+    @DisplayName("영화 제목과 장르로 스케줄 목록을 요청하면, 검색된 스케줄 목록을 반환한다.")
     @Test
-    void given_when_then() throws Exception {
+    void givenScheduleTitleAndGenre_whenRequestingSchedules_thenReturnsSchedulesBySearch() throws Exception {
         // given
         ScheduleCommand.Search search = ScheduleCommand.Search.of("1", null);
         given(scheduleService.getSchedules(search)).willReturn(List.of());

@@ -10,7 +10,6 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {
         "com.movie.domain", "com.movie.storage",
         "com.movie.movieapi", "com.movie.redis",
-        "com.movie.application"
 })
 public class MovieApiApplication {
 

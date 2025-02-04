@@ -18,7 +18,7 @@ public class ReservationController {
     public Response<Void> makeReservation(
             @RequestBody ReservationDto.Reserve reserve, @RequestHeader(HttpHeaders.AUTHORIZATION) String token
     ) {
-        reservationFacade.makeReservation(reserve.toCommand(token));
+        reservationFacade.makeReservationsByFunctionalLock(reserve.toCommand(token));
         return Response.success();
     }
 

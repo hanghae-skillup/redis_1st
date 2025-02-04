@@ -11,7 +11,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.TransactionTimedOutException;
 
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
@@ -34,9 +33,10 @@ public class DistributedLockAspect {
         Object[] args = joinPoint.getArgs();
 
         String lockName = distributedLock.lockName();
-        RLock rLock = redissonClient.getLock(lockName);
+        String generatedLockName = generateLockKey(lockName, args);
+        RLock rLock = redissonClient.getLock(generatedLockName);
 
-        log.info("redisson 락 획득 - 락 이름 : {}", generateLockKey(lockName, args));
+        log.info("redisson 락 획득 - 락 이름 : {}", generatedLockName);
 
         long waitTime = distributedLock.waitTime();
         long leaseTime = distributedLock.leaseTime();
@@ -48,13 +48,16 @@ public class DistributedLockAspect {
                 throw new ApplicationException(ErrorCode.DISTRIBUTED_LOCK_NOT_AVAILABLE);
             }
             return joinPoint.proceed();
-        } catch (TransactionTimedOutException e) {
+        } catch (Exception e) {
             throw e;
         } finally {
-            try {
-                rLock.unlock();
-            } catch (IllegalMonitorStateException e) {
-                throw e;
+            if (rLock.isLocked() && rLock.isHeldByCurrentThread()) {
+                try {
+                    rLock.unlock();
+                    log.info("redisson 락 해제 - 락 이름 : {}", generatedLockName);
+                } catch (Exception e) {
+                    log.error("redisson 락 해제 중 예외 발생 - 락 이름 : {}", generatedLockName, e);
+                }
             }
         }
     }
@@ -62,7 +65,7 @@ public class DistributedLockAspect {
     private String generateLockKey(String lockName, Object[] args) {
         if (args.length > 0) {
             Object firstArg = args[0];
-            return lockName + ":" + firstArg.toString();
+            return "%s:%s:%s".formatted(lockName, System.currentTimeMillis(), firstArg.toString());
         }
         return lockName;
     }

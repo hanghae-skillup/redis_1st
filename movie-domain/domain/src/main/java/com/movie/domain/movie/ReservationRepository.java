@@ -9,6 +9,6 @@ public interface ReservationRepository {
 
     List<Reservation> getReservations(ReservationCommand.Get get);
 
-    void makeReservation(ReservationCommand.Reserve reserve);
+    List<Reservation> makeReservation(ReservationCommand.Reserve reserve);
 
 }

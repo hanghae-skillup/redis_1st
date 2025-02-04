@@ -1,6 +1,8 @@
 package com.movie.storage.facade;
 
-import com.movie.domain.facade.ReservationManager;
+import com.movie.domain.facade.ReservationFacade;
+import com.movie.domain.movie.dto.command.ReservationCommand;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,10 +17,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ReservationFacadeTest {
 
     @Autowired
-    private ReservationManager reservationManager;
+    private ReservationFacade reservationFacade;
 
+    @DisplayName("동시성이 발생되는 ")
     @Test
-    void shouldHandleConcurrentReservationsProperly() throws InterruptedException {
+    void test() throws InterruptedException {
         // given
         int threadCount = 100;
         ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
@@ -37,22 +40,22 @@ class ReservationFacadeTest {
         // when
         for (int i = 0; i < threadCount; i++) {
             executorService.submit(() -> {
-               try {
-                   String token = tokens.get(ThreadLocalRandom.current().nextInt(tokens.size()));
-                   reservationManager.makeReservationByDistributedLock(token,scheduleId,seatIds);
-                   count.getAndIncrement();
-               } catch (Exception e) {
-                   e.printStackTrace();
-               } finally {
-                   latch.countDown();
-               }
+                try {
+                    String token = tokens.get(ThreadLocalRandom.current().nextInt(tokens.size()));
+                    reservationFacade.makeReservationsByFunctionalLock(ReservationCommand.GetReserveData.of(scheduleId, seatIds, token));
+                    count.getAndIncrement();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    latch.countDown();
+                }
             });
         }
 
         executorService.shutdown();
         executorService.awaitTermination(1, TimeUnit.MINUTES);
 
-        // 자리예약은 한번만 성공하도록 함
+        // then  - 자리예약은 한번만 성공하도록 함
         assertThat(count.get()).isEqualTo(1);
     }
 
