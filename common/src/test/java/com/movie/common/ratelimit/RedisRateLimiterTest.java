@@ -15,7 +15,10 @@ import java.util.concurrent.TimeUnit;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -33,7 +36,7 @@ class RedisRateLimiterTest {
     @BeforeEach
     void setUp() {
         rateLimiter = new RedisRateLimiter(redissonClient);
-        when(redissonClient.getRateLimiter(any())).thenReturn(rRateLimiter);
+        when(redissonClient.getRateLimiter(anyString())).thenReturn(rRateLimiter);
     }
 
     @Test
@@ -47,7 +50,7 @@ class RedisRateLimiterTest {
 
         // Then
         assertThat(result).isTrue();
-        verify(redissonClient).getRateLimiter(key);
+        verify(redissonClient).getRateLimiter(eq(key));
         verify(rRateLimiter).tryAcquire();
     }
 
@@ -62,7 +65,7 @@ class RedisRateLimiterTest {
 
         // Then
         assertThat(result).isFalse();
-        verify(redissonClient).getRateLimiter(key);
+        verify(redissonClient).getRateLimiter(eq(key));
         verify(rRateLimiter).tryAcquire();
     }
 
@@ -70,14 +73,39 @@ class RedisRateLimiterTest {
     void setRate_Success() {
         // Given
         String key = "test-key";
-        when(rRateLimiter.trySetRate(any(), any(), any(), any())).thenReturn(true);
+        int permits = 50;
+        int interval = 1;
+        TimeUnit unit = TimeUnit.MINUTES;
+        RRateLimiter rateLimiter = mock(RRateLimiter.class);
+        when(redissonClient.getRateLimiter(key)).thenReturn(rateLimiter);
+        when(rateLimiter.trySetRate(RateType.OVERALL, permits, interval, RateIntervalUnit.MINUTES)).thenReturn(true);
 
         // When
-        rateLimiter.setRate(key, 50, 1, TimeUnit.MINUTES);
+        this.rateLimiter.setRate(key, permits, interval, unit);
 
         // Then
         verify(redissonClient).getRateLimiter(key);
-        verify(rRateLimiter).trySetRate(eq(RateType.OVERALL), eq(50), eq(1), eq(RateIntervalUnit.MINUTES));
+        verify(rateLimiter).trySetRate(RateType.OVERALL, permits, interval, RateIntervalUnit.MINUTES);
+    }
+
+    @Test
+    void setRate_Failure() {
+        // Given
+        String key = "test-key";
+        int permits = 50;
+        int interval = 1;
+        TimeUnit unit = TimeUnit.MINUTES;
+        RRateLimiter rateLimiter = mock(RRateLimiter.class);
+        when(redissonClient.getRateLimiter(key)).thenReturn(rateLimiter);
+        when(rateLimiter.trySetRate(RateType.OVERALL, permits, interval, RateIntervalUnit.MINUTES)).thenReturn(false);
+
+        // When & Then
+        assertThatThrownBy(() -> this.rateLimiter.setRate(key, permits, interval, unit))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("Failed to set rate limit for key: " + key);
+
+        verify(redissonClient).getRateLimiter(key);
+        verify(rateLimiter).trySetRate(RateType.OVERALL, permits, interval, RateIntervalUnit.MINUTES);
     }
 
     @Test

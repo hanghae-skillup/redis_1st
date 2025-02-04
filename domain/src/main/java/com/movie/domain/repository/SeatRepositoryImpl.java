@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.movie.domain.entity.QSeat.seat;
 import static com.movie.domain.entity.QReservation.reservation;
+import static com.movie.domain.entity.QSeat.seat;
 
 @Repository
 @RequiredArgsConstructor
@@ -18,15 +18,11 @@ public class SeatRepositoryImpl implements SeatRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<Seat> findAvailableSeats(Schedule schedule) {
-        return queryFactory
-                .selectFrom(seat)
-                .where(seat.theaterId.eq(schedule.getTheaterId())
-                        .and(seat.id.notIn(
-                                queryFactory.select(reservation.seatId)
-                                        .from(reservation)
-                                        .where(reservation.scheduleId.eq(schedule.getId()))
-                        )))
+    public List<Seat> findReservedSeats(Schedule schedule) {
+        return queryFactory.select(seat)
+                .from(seat)
+                .join(reservation).on(seat.in(reservation.seats))
+                .where(reservation.schedule.eq(schedule))
                 .fetch();
     }
 } 

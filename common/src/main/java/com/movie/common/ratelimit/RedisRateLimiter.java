@@ -25,7 +25,10 @@ public class RedisRateLimiter implements RateLimiter {
     public void setRate(String key, int permits, int interval, TimeUnit unit) {
         RRateLimiter rateLimiter = redissonClient.getRateLimiter(key);
         RateIntervalUnit intervalUnit = convertTimeUnit(unit);
-        rateLimiter.trySetRate(RateType.OVERALL, permits, interval, intervalUnit);
+        boolean success = rateLimiter.trySetRate(RateType.OVERALL, permits, interval, intervalUnit);
+        if (!success) {
+            throw new IllegalStateException("Failed to set rate limit for key: " + key);
+        }
     }
 
     private RateIntervalUnit convertTimeUnit(TimeUnit unit) {

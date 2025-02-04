@@ -1,13 +1,11 @@
 package com.movie.api.controller;
 
-import com.movie.application.dto.MovieResponseDto;
-import com.movie.application.service.MovieService;
-import com.movie.domain.dto.MovieSearchCondition;
-import jakarta.validation.Valid;
+import com.movie.api.response.ApiResponse;
+import com.movie.domain.entity.Movie;
+import com.movie.domain.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,8 +17,13 @@ public class MovieController {
 
     private final MovieService movieService;
 
-    @GetMapping("/now-showing")
-    public List<MovieResponseDto> getNowShowingMovies(@ModelAttribute @Valid MovieSearchCondition condition) {
-        return movieService.getNowShowingMovies(condition);
+    @GetMapping("/current")
+    public ApiResponse<List<Movie>> getCurrentMovies() {
+        return ApiResponse.success(movieService.getCurrentMovies());
+    }
+
+    @GetMapping("/upcoming")
+    public ApiResponse<List<Movie>> getUpcomingMovies() {
+        return ApiResponse.success(movieService.getUpcomingMovies());
     }
 }

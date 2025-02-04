@@ -1,11 +1,11 @@
 package com.movie.domain.service;
 
-import com.movie.common.exception.EntityNotFoundException;
-import com.movie.common.service.RateLimitService;
 import com.movie.domain.entity.Reservation;
 import com.movie.domain.entity.Schedule;
 import com.movie.domain.entity.Seat;
 import com.movie.domain.entity.User;
+import com.movie.domain.exception.BusinessException;
+import com.movie.domain.exception.ErrorCode;
 import com.movie.domain.repository.ReservationRepository;
 import com.movie.domain.repository.ScheduleRepository;
 import com.movie.domain.repository.SeatRepository;
@@ -25,24 +25,28 @@ public class ReservationService {
     private final UserRepository userRepository;
     private final ScheduleRepository scheduleRepository;
     private final SeatRepository seatRepository;
-    private final RateLimitService rateLimitService;
 
     @Transactional
     public Reservation reserve(Long userId, Long scheduleId, List<Long> seatIds) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User"));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+        
         Schedule schedule = scheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> new EntityNotFoundException("Schedule"));
-
-        // Rate limit check for user and schedule combination
-        rateLimitService.checkUserReservationRateLimit(userId, schedule.getStartTime().toString());
-
+                .orElseThrow(() -> new BusinessException(ErrorCode.SCHEDULE_NOT_FOUND));
+        
         List<Seat> seats = seatRepository.findAllById(seatIds);
         if (seats.size() != seatIds.size()) {
-            throw new EntityNotFoundException("Seat");
+            throw new BusinessException(ErrorCode.SEAT_NOT_FOUND);
+        }
+
+        // Check if any of the seats are already reserved
+        List<Seat> reservedSeats = seatRepository.findReservedSeats(schedule);
+        if (seats.stream().anyMatch(reservedSeats::contains)) {
+            throw new BusinessException(ErrorCode.SEAT_ALREADY_RESERVED);
         }
 
         String reservationNumber = generateReservationNumber();
+        
         Reservation reservation = Reservation.builder()
                 .reservationNumber(reservationNumber)
                 .user(user)
@@ -51,6 +55,31 @@ public class ReservationService {
                 .build();
 
         return reservationRepository.save(reservation);
+    }
+
+    @Transactional(readOnly = true)
+    public Reservation getReservation(String reservationNumber) {
+        return reservationRepository.findByReservationNumber(reservationNumber)
+                .orElseThrow(() -> new BusinessException(ErrorCode.RESERVATION_NOT_FOUND));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Reservation> getUserReservations(Long userId) {
+        return reservationRepository.findByUserId(userId);
+    }
+
+    @Transactional
+    public void cancelReservation(String reservationNumber) {
+        Reservation reservation = getReservation(reservationNumber);
+        reservation.cancel();
+        reservationRepository.save(reservation);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Reservation> getAvailableSeats(Long scheduleId) {
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.SCHEDULE_NOT_FOUND));
+        return reservationRepository.findBySchedule(schedule);
     }
 
     private String generateReservationNumber() {

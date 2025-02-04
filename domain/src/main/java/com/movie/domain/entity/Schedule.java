@@ -14,8 +14,9 @@ public class Schedule extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "movie_id", nullable = false)
-    private Long movieId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "movie_id", nullable = false)
+    private Movie movie;
 
     @Column(name = "theater_id", nullable = false)
     private Long theaterId;
@@ -27,9 +28,9 @@ public class Schedule extends BaseEntity {
     private LocalDateTime endTime;
 
     @Builder
-    public Schedule(Long id, Long movieId, Long theaterId, LocalDateTime startTime, LocalDateTime endTime) {
+    public Schedule(Long id, Movie movie, Long theaterId, LocalDateTime startTime, LocalDateTime endTime) {
         this.id = id;
-        this.movieId = movieId;
+        this.movie = movie;
         this.theaterId = theaterId;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -45,11 +46,11 @@ public class Schedule extends BaseEntity {
     }
 
     public void updateMovie(Movie movie) {
-        this.movieId = movie.getId();
+        this.movie = movie;
     }
 
     public Long getMovieId() {
-        return movieId;
+        return movie.getId();
     }
 
     public Long getTheaterId() {
