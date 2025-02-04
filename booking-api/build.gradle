@@ -1,0 +1,36 @@
+dependencies {
+    implementation project(':domain')
+    implementation project(':infrastructure')
+    implementation project(':application')
+}
+
+bootJar {
+    enabled = true
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+
+    reports {
+        html.required = true
+    }
+}
+
+jacocoTestCoverageVerification {
+    dependsOn jacocoTestReport
+
+    violationRules {
+        rule {
+            element = 'PACKAGE'
+            includes = ['com.example.app.booking.presentation.controller.*']
+            limit {
+                maximum = 0.80
+            }
+        }
+    }
+}

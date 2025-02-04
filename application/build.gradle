@@ -1,0 +1,22 @@
+dependencies {
+    implementation project(':domain')
+
+    testImplementation project(':infrastructure')
+}
+
+bootJar {
+    enabled = false
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+
+    reports {
+        html.required = true
+    }
+}

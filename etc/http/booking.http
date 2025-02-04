@@ -1,0 +1,23 @@
+###
+POST http://localhost:8090/api/v1/booking
+Content-Type: application/json
+
+{ "userId": 1,
+  "movieId": 2,
+  "showtimeId": 5,
+  "theaterId": 1,
+  "bookingDate": "2025-03-01",
+  "seats": ["A1", "A2", "A3"]
+}
+
+###
+POST http://localhost:8090/api/v1/booking
+Content-Type: application/json
+
+{ "userId": 1,
+  "movieId": 2,
+  "showtimeId": 5,
+  "theaterId": 1,
+  "bookingDate": "2025-03-01",
+  "seats": ["B1", "B2"]
+}

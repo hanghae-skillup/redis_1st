@@ -1,0 +1,62 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.2'
+    id 'io.spring.dependency-management' version '1.1.6'
+    id 'jacoco'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+allprojects {
+    group = 'com.example'
+    version = '0.0.1-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+    }
+
+    jacoco {
+        toolVersion = '0.8.5'
+    }
+
+    tasks.withType(Test) {
+        jacoco {
+            enabled = true
+        }
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'jacoco'
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+
+        implementation 'org.springframework.boot:spring-boot-starter-cache'
+        implementation 'com.github.ben-manes.caffeine:caffeine'
+        implementation 'org.redisson:redisson-spring-boot-starter:3.41.0'
+
+        implementation 'com.google.guava:guava:33.4.0-jre'
+
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testImplementation 'com.navercorp.fixturemonkey:fixture-monkey-starter:1.1.8'
+        testImplementation 'com.github.codemonstur:embedded-redis:1.0.0' // MacOS Sonoma
+        // testImplementation 'it.ozimov:embedded-redis:0.7.2'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+        testRuntimeOnly 'com.h2database:h2'
+    }
+}

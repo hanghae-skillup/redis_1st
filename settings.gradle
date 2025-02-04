@@ -1,0 +1,2 @@
+rootProject.name = 'movie-application'
+include 'domain', 'infrastructure', 'application', 'movie-api', 'booking-api'
