@@ -23,17 +23,23 @@ public class User extends BaseEntity {
     private String password;
 
     @Column(nullable = false)
-    private String phone;
+    private String phoneNumber;
 
     @Builder
-    public User(String name, String email, String password, String phone) {
+    public User(Long id, String name, String email, String password, String phoneNumber) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.phone = phone;
+        this.phoneNumber = phoneNumber;
     }
 
-    public void updateProfile(String name) {
+    public void updateUserInfo(String name, String phoneNumber) {
         this.name = name;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
     }
 } 

@@ -2,6 +2,7 @@ package com.movie.api.controller;
 
 import com.movie.application.dto.MovieResponseDto;
 import com.movie.application.service.MovieService;
+import com.movie.common.response.ApiResponse;
 import com.movie.domain.dto.MovieSearchCondition;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class MovieController {
     private final MovieService movieService;
 
     @GetMapping("/now-showing")
-    public List<MovieResponseDto> getNowShowingMovies(@ModelAttribute @Valid MovieSearchCondition condition) {
-        return movieService.getNowShowingMovies(condition);
+    public ApiResponse<List<MovieResponseDto>> getNowShowingMovies(@ModelAttribute @Valid MovieSearchCondition condition) {
+        return ApiResponse.success(movieService.getNowShowingMovies(condition));
     }
 }

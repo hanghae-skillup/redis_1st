@@ -10,6 +10,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Profile;
 
 import java.lang.reflect.Method;
 
@@ -17,6 +18,7 @@ import java.lang.reflect.Method;
 @Component
 @RequiredArgsConstructor
 @Slf4j
+@Profile("!test")
 public class DistributedLockAop {
 
     private final RedissonClient redissonClient;

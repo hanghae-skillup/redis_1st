@@ -1,114 +1,128 @@
 package com.movie.api.controller;
 
-import com.movie.application.service.ReservationService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.movie.api.config.TestConfig;
+import com.movie.api.request.ReservationRequest;
 import com.movie.domain.entity.Reservation;
-import com.movie.domain.entity.Schedule;
-import com.movie.domain.entity.Seat;
-import com.movie.domain.entity.User;
-import org.junit.jupiter.api.DisplayName;
+import com.movie.domain.fixture.TestFixture;
+import com.movie.domain.service.ReservationService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.UUID;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ReservationController.class)
+@Import(TestConfig.class)
 class ReservationControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @MockBean
     private ReservationService reservationService;
 
     @Test
-    @DisplayName("예매 성공 테스트")
-    void reserveSuccess() throws Exception {
-        // given
-        String reservationNumber = UUID.randomUUID().toString().substring(0, 8);
-        given(reservationService.reserve(1L, 1L, 1L)).willReturn(reservationNumber);
+    void reserve() throws Exception {
+        // Given
+        ReservationRequest request = new ReservationRequest(1L, 1L, List.of(1L, 2L));
+        Reservation reservation = TestFixture.createReservation(
+                TestFixture.createUser(),
+                TestFixture.createSchedule(TestFixture.createMovie()),
+                List.of(TestFixture.createSeat(), TestFixture.createSeat())
+        );
 
-        // when & then
+        when(reservationService.reserve(eq(1L), eq(1L), eq(List.of(1L, 2L))))
+                .thenReturn(reservation);
+
+        // When & Then
         mockMvc.perform(post("/api/v1/reservations")
-                        .param("userId", "1")
-                        .param("scheduleId", "1")
-                        .param("seatId", "1")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").value(reservationNumber));
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data.reservationNumber").value(reservation.getReservationNumber()));
     }
 
     @Test
-    @DisplayName("예매 조회 성공 테스트")
-    void getReservationSuccess() throws Exception {
-        // given
-        Reservation reservation = createReservation();
-        given(reservationService.getReservation("TEST123")).willReturn(reservation);
+    void getReservation() throws Exception {
+        // Given
+        String reservationNumber = "TEST-123";
+        Reservation reservation = TestFixture.createReservation(
+                TestFixture.createUser(),
+                TestFixture.createSchedule(TestFixture.createMovie()),
+                List.of(TestFixture.createSeat())
+        );
 
-        // when & then
-        mockMvc.perform(get("/api/v1/reservations/TEST123")
-                        .contentType(MediaType.APPLICATION_JSON))
+        when(reservationService.getReservation(reservationNumber)).thenReturn(reservation);
+
+        // When & Then
+        mockMvc.perform(get("/api/v1/reservations/{reservationNumber}", reservationNumber))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.reservationNumber").value("TEST123"));
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data.reservationNumber").value(reservation.getReservationNumber()));
     }
 
     @Test
-    @DisplayName("사용자별 예매 목록 조회 성공 테스트")
-    void getUserReservationsSuccess() throws Exception {
-        // given
-        Reservation reservation = createReservation();
-        given(reservationService.getUserReservations(1L)).willReturn(Arrays.asList(reservation));
+    void getUserReservations() throws Exception {
+        // Given
+        Long userId = 1L;
+        Reservation reservation = TestFixture.createReservation(
+                TestFixture.createUser(),
+                TestFixture.createSchedule(TestFixture.createMovie()),
+                List.of(TestFixture.createSeat())
+        );
 
-        // when & then
-        mockMvc.perform(get("/api/v1/reservations/users/1")
-                        .contentType(MediaType.APPLICATION_JSON))
+        when(reservationService.getUserReservations(userId)).thenReturn(List.of(reservation));
+
+        // When & Then
+        mockMvc.perform(get("/api/v1/reservations/users/{userId}", userId))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].reservationNumber").value("TEST123"));
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data[0].reservationNumber").value(reservation.getReservationNumber()));
     }
 
     @Test
-    @DisplayName("예매 취소 성공 테스트")
-    void cancelReservationSuccess() throws Exception {
-        // when & then
-        mockMvc.perform(delete("/api/v1/reservations/TEST123")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+    void cancelReservation() throws Exception {
+        // Given
+        String reservationNumber = "TEST-123";
+
+        // When & Then
+        mockMvc.perform(delete("/api/v1/reservations/{reservationNumber}", reservationNumber))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true));
     }
 
-    private Reservation createReservation() {
-        User user = User.builder()
-                .id(1L)
-                .name("Test User")
-                .email("test@test.com")
-                .build();
+    @Test
+    void getAvailableSeats() throws Exception {
+        // Given
+        Long scheduleId = 1L;
+        Reservation reservation = TestFixture.createReservation(
+                TestFixture.createUser(),
+                TestFixture.createSchedule(TestFixture.createMovie()),
+                List.of(TestFixture.createSeat())
+        );
 
-        Schedule schedule = Schedule.builder()
-                .id(1L)
-                .startAt(LocalDateTime.now().plusDays(1))
-                .endAt(LocalDateTime.now().plusDays(1).plusHours(2))
-                .build();
+        when(reservationService.getAvailableSeats(scheduleId)).thenReturn(List.of(reservation));
 
-        Seat seat = Seat.builder()
-                .id(1L)
-                .seatNumber("A1")
-                .build();
-
-        return Reservation.builder()
-                .reservationNumber("TEST123")
-                .user(user)
-                .schedule(schedule)
-                .seat(seat)
-                .build();
+        // When & Then
+        mockMvc.perform(get("/api/v1/reservations/schedules/{scheduleId}/seats", scheduleId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data[0].reservationNumber").value(reservation.getReservationNumber()));
     }
 } 

@@ -1,11 +1,20 @@
 package com.movie.domain.repository;
 
 import com.movie.domain.entity.Movie;
-import java.util.List;
-import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-public interface MovieRepository {
-    Movie save(Movie movie);
-    Optional<Movie> findById(Long id);
-    List<Movie> findAll();
-}
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Repository
+public interface MovieRepository extends JpaRepository<Movie, Long> {
+
+    @Query("SELECT m FROM Movie m WHERE m.releaseDate <= :now ORDER BY m.releaseDate DESC")
+    List<Movie> findCurrentMovies(@Param("now") LocalDateTime now);
+
+    @Query("SELECT m FROM Movie m WHERE m.releaseDate > :now ORDER BY m.releaseDate ASC")
+    List<Movie> findUpcomingMovies(@Param("now") LocalDateTime now);
+} 

@@ -20,7 +20,7 @@ public class ScheduleQueryRepository {
 
         return queryFactory
                 .selectFrom(schedule)
-                .where(schedule.startAt.after(LocalDateTime.now()))
+                .where(schedule.startTime.after(LocalDateTime.now()))
                 .fetch();
     }
 } 
