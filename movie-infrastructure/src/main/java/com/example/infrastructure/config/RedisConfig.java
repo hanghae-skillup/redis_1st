@@ -1,4 +1,4 @@
-package com.example.infrastructure.db.config;
+package com.example.infrastructure.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

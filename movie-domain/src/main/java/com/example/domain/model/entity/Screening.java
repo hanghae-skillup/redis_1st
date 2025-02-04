@@ -1,6 +1,7 @@
 package com.example.domain.model.entity;
 
 import com.example.domain.model.base.AuditingFields;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,7 +9,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import java.time.LocalTime;
+import java.util.List;
 import lombok.Getter;
 
 @Getter
@@ -29,6 +32,9 @@ public class Screening extends AuditingFields {
     @ManyToOne
     @JoinColumn(nullable = false)
     private Theater theater;
+
+    @OneToMany(mappedBy = "screening", cascade = CascadeType.ALL)
+    private List<ScreeningSeat> screeningSeats;
 
 
     protected Screening() {}
