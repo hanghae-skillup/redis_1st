@@ -1,8 +1,6 @@
 package com.movie.api.interceptor;
 
-import com.google.common.cache.LoadingCache;
-import com.google.common.util.concurrent.RateLimiter;
-import com.movie.api.exception.RateLimitExceededException;
+import com.movie.api.service.RateLimitService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -13,17 +11,12 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @RequiredArgsConstructor
 public class RateLimitInterceptor implements HandlerInterceptor {
 
-    private final LoadingCache<String, RateLimiter> ipRateLimitCache;
+    private final RateLimitService rateLimitService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String ip = getClientIp(request);
-        RateLimiter rateLimiter = ipRateLimitCache.getUnchecked(ip);
-
-        if (!rateLimiter.tryAcquire()) {
-            throw new RateLimitExceededException("Too many requests from IP: " + ip);
-        }
-
+        rateLimitService.checkIpRateLimit(ip);
         return true;
     }
 

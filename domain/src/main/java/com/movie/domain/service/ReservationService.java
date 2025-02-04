@@ -1,8 +1,6 @@
 package com.movie.domain.service;
 
-import com.google.common.cache.LoadingCache;
-import com.google.common.util.concurrent.RateLimiter;
-import com.movie.api.exception.RateLimitExceededException;
+import com.movie.api.service.RateLimitService;
 import com.movie.domain.entity.Reservation;
 import com.movie.domain.entity.Schedule;
 import com.movie.domain.entity.Seat;
@@ -26,7 +24,7 @@ public class ReservationService {
     private final UserRepository userRepository;
     private final ScheduleRepository scheduleRepository;
     private final SeatRepository seatRepository;
-    private final LoadingCache<String, RateLimiter> userReservationRateLimitCache;
+    private final RateLimitService rateLimitService;
 
     @Transactional
     public Reservation reserve(Long userId, Long scheduleId, List<Long> seatIds) {
@@ -36,11 +34,7 @@ public class ReservationService {
                 .orElseThrow(() -> new IllegalArgumentException("Schedule not found"));
 
         // Rate limit check for user and schedule combination
-        String rateLimitKey = userId + ":" + schedule.getStartTime();
-        RateLimiter rateLimiter = userReservationRateLimitCache.getUnchecked(rateLimitKey);
-        if (!rateLimiter.tryAcquire()) {
-            throw new RateLimitExceededException("Too many reservation attempts for this schedule. Please wait 5 minutes.");
-        }
+        rateLimitService.checkUserReservationRateLimit(userId, schedule.getStartTime().toString());
 
         List<Seat> seats = seatRepository.findAllById(seatIds);
         if (seats.size() != seatIds.size()) {
