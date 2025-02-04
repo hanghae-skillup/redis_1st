@@ -30,6 +30,11 @@ public class ErrorAdviceController {
         return new ResponseEntity<>(new ErrorMessage(ex.getHttpStatus().name(), ex.getMessage()), ex.getHttpStatus());
     }
 
+    @ExceptionHandler(RateLimitException.class)
+    public ResponseEntity<ErrorMessage> handleRateLimitException(RateLimitException ex) {
+        return new ResponseEntity<>(new ErrorMessage(ex.getHttpStatus().name(), ex.getMessage()), ex.getHttpStatus());
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorMessage> handleRuntimeException(RuntimeException ex) {
         return new ResponseEntity<>(

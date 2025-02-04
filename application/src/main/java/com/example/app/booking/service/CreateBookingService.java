@@ -16,9 +16,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Set;
-
 import static com.example.app.booking.exception.BookingErrorMessage.*;
 
 @Slf4j
@@ -42,7 +39,7 @@ public class CreateBookingService implements CreateBookingUseCase {
         checkValidUser(createBookingCommand.userId());
 
         // 연속된 row 체크
-        checkSeatsInSequence(createBookingCommand.seats());
+        TheaterSeat.checkSeatsInSequence(createBookingCommand.seats());
 
         // 기존 예약 조회
         var existingBookingIds = loadBookingPort.loadAllBookings(createBookingCommand.toSearchBookingCommand())
@@ -63,36 +60,19 @@ public class CreateBookingService implements CreateBookingUseCase {
             var requestSeats = loadSeatPort.loadAllSeats(createBookingCommand.toSearchSeatCommand());
 
             // 요청한 자리 예약 가능 여부 체크
-            checkSeatsAvailable(requestSeats);
+            Seat.checkSeatsAvailable(requestSeats);
 
             // 요청한 자리들 업데이트
             var requestSeatIds = requestSeats.stream().map(Seat::id).toList();
             updateSeatPort.updateAllSeats(requestSeatIds, booking.id());
 
             return booking;
-        }, lockKey, 1L, 2L);
+        }, lockKey, 1L, 3L);
     }
 
     private void checkLimitMaxSeats(final int totalSeat) {
         if (totalSeat > MAX_SEATS) {
             throw new APIException(OVER_MAX_LIMIT_SEATS);
-        }
-    }
-
-    private void checkSeatsAvailable(List<Seat> seats) {
-        for (Seat seat : seats) {
-            if (seat.reserved()) {
-                throw new APIException(SEAT_ALREADY_OCCUPIED);
-            }
-        }
-    }
-
-    private void checkSeatsInSequence(Set<TheaterSeat> theaterSeats) {
-        String firstRow = TheaterSeat.getRow(theaterSeats.iterator().next());
-        for (TheaterSeat theaterSeat : theaterSeats) {
-            if (!TheaterSeat.getRow(theaterSeat).equals(firstRow)) {
-                throw new APIException(SEAT_ROW_NOT_IN_SEQUENCE);
-            }
         }
     }
 
