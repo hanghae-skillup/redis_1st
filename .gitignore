@@ -43,3 +43,7 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### 로컬에서만 사용 클래스
+CreateShowing.java
+ScheduleTest.java

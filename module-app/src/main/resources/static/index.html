@@ -88,13 +88,14 @@
 
 <script>
     async function fetchMovies() {
+        console.log(`${window.location.origin}/api/v1/showings/all`)
         const response = await fetch(`${window.location.origin}/api/v1/showings/all`);
         const data = await response.json();
 
         const movieGrid = document.getElementById('movie-grid');
         movieGrid.innerHTML = '';
 
-        data.data.forEach(item => {
+        data.forEach(item => {
             const { movie, showings } = item;
 
             const card = document.createElement('div');
@@ -102,9 +103,9 @@
 
             const showingsHTML = showings.map(showing => `
                     <tr>
-                        <td class="px-4 py-2 text-gray-400">${new Date(showing.stTime).toLocaleDateString()}</td>
-                        <td class="px-4 py-2 text-gray-400">${new Date(showing.stTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                        <td class="px-4 py-2 text-gray-400">${showing.screenDTO.name}</td>
+                        <td class="px-4 py-2 text-gray-400">${new Date(showing.showStTime).toLocaleDateString()}</td>
+                        <td class="px-4 py-2 text-gray-400">${new Date(showing.showStTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
+                        <td class="px-4 py-2 text-gray-400">${showing.screen.screenName}</td>
                     </tr>
                 `).join('');
 
@@ -120,10 +121,10 @@
                             <img src="${movie.rating.img}" alt="등급 이미지" class="w-8 h-8 mr-2">
                             <h3 class="text-lg font-bold">${movie.title}</h3>
                         </div>
-                        <p class="text-gray-400">${movie.rating.name}</p>
+                        <p class="text-gray-400">${movie.rating.ratingName}</p>
                         <p class="text-gray-400">개봉일: ${movie.openDay}</p>
                         <p class="text-gray-400">런닝타임: ${movie.runningTimeAsMinute}분</p>
-                        <p class="text-gray-400">장르: ${movie.genre.name}</p>
+                        <p class="text-gray-400">장르: ${movie.genre.genreName}</p>
                         <table class="mt-4 w-full">
                             <thead>
                                 <tr>

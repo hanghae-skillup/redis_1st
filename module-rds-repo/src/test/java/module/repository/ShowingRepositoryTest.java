@@ -31,13 +31,13 @@ class ShowingRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("1. 의존성 주입 테스트")
+	@DisplayName("의존성 주입 테스트")
 	public void injectionTest(){
 		assertNotNull(showingRepository);
 	}
 
 	@Test
-	@DisplayName("2. 모든영화의 상영정보인지 테스트")
+	@DisplayName("모든영화의 상영정보인지 테스트")
 	public void findAll(){
 		// given
 		List<MovieShowingResponse> movieShowingResponseList = showingRepository.getShowingByMovieTitleAndGenre(null, null);
@@ -50,7 +50,7 @@ class ShowingRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("3. genre필터링 테스트")
+	@DisplayName("genre필터링 테스트")
 	public void genreFiltering(){
 		//given
 		List<MovieShowingResponse> showingByMovieTitleAndGenre =
@@ -70,7 +70,7 @@ class ShowingRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("4. 영화제목 필터링 테스트")
+	@DisplayName("영화제목 필터링 테스트")
 	public void titleFiltering() {
 		//given
 		List<MovieShowingResponse> showingByMovieTitleAndGenre =
@@ -90,7 +90,7 @@ class ShowingRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("5. 영화제목 및 장르 아이디 필터링 테스트")
+	@DisplayName("영화제목 및 장르 아이디 필터링 테스트")
 	public void titleAndGenreFiltering(){
 		//given
 		List<MovieShowingResponse> showingByMovieTitleAndGenre =

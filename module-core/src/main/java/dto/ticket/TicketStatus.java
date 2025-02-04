@@ -1,7 +1,7 @@
-package module.entity;
+package dto.ticket;
 
 public enum TicketStatus {
-	ON_SALE, RESERVED, COMPLETED;
+	ON_SALE, ON_RESERVING, RESERVED;
 
 	public String getName() {
 		return this.name().toString();
