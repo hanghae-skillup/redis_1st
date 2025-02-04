@@ -9,12 +9,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(RateLimitExceededException.class)
-    @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
-    public ApiResponse<?> handleRateLimitExceededException(RateLimitExceededException e) {
+    @ExceptionHandler(BusinessException.class)
+    public ApiResponse<?> handleBusinessException(BusinessException e) {
+        return ApiResponse.error(e.getStatus(), e.getCode(), e.getMessage());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiResponse<?> handleIllegalArgumentException(IllegalArgumentException e) {
         return ApiResponse.error(
-                HttpStatus.TOO_MANY_REQUESTS,
-                "RATE_LIMIT_EXCEEDED",
+                HttpStatus.BAD_REQUEST,
+                "INVALID_ARGUMENT",
                 e.getMessage()
         );
     }

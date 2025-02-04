@@ -1,5 +1,6 @@
 package com.movie.domain.service;
 
+import com.movie.api.exception.EntityNotFoundException;
 import com.movie.api.service.RateLimitService;
 import com.movie.domain.entity.Reservation;
 import com.movie.domain.entity.Schedule;
@@ -29,16 +30,16 @@ public class ReservationService {
     @Transactional
     public Reservation reserve(Long userId, Long scheduleId, List<Long> seatIds) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new EntityNotFoundException("User"));
         Schedule schedule = scheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> new IllegalArgumentException("Schedule not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Schedule"));
 
         // Rate limit check for user and schedule combination
         rateLimitService.checkUserReservationRateLimit(userId, schedule.getStartTime().toString());
 
         List<Seat> seats = seatRepository.findAllById(seatIds);
         if (seats.size() != seatIds.size()) {
-            throw new IllegalArgumentException("Some seats not found");
+            throw new EntityNotFoundException("Seat");
         }
 
         String reservationNumber = generateReservationNumber();
