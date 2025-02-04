@@ -1,44 +1,32 @@
 package com.movie.api.response;
 
-import lombok.AccessLevel;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
-    private boolean success;
-    private T data;
-    private Error error;
-
-    private ApiResponse(boolean success, T data, Error error) {
-        this.success = success;
-        this.data = data;
-        this.error = error;
-    }
+    private final HttpStatus status;
+    private final String code;
+    private final String message;
+    private final T data;
 
     public static <T> ApiResponse<T> success(T data) {
-        return new ApiResponse<>(true, data, null);
+        return ApiResponse.<T>builder()
+                .status(HttpStatus.OK)
+                .code("SUCCESS")
+                .data(data)
+                .build();
     }
 
-    public static <T> ApiResponse<Page<T>> success(Page<T> page) {
-        return new ApiResponse<>(true, page, null);
-    }
-
-    public static ApiResponse<?> error(String code, String message) {
-        return new ApiResponse<>(false, null, new Error(code, message));
-    }
-
-    @Getter
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
-    public static class Error {
-        private String code;
-        private String message;
-
-        private Error(String code, String message) {
-            this.code = code;
-            this.message = message;
-        }
+    public static <T> ApiResponse<T> error(HttpStatus status, String code, String message) {
+        return ApiResponse.<T>builder()
+                .status(status)
+                .code(code)
+                .message(message)
+                .build();
     }
 } 
