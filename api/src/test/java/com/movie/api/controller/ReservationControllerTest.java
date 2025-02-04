@@ -3,16 +3,13 @@ package com.movie.api.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movie.api.exception.RateLimitExceededException;
 import com.movie.api.request.ReservationRequest;
+import com.movie.api.support.IntegrationTest;
 import com.movie.domain.entity.Reservation;
 import com.movie.domain.fixture.TestFixture;
 import com.movie.domain.service.ReservationService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
@@ -23,15 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-class ReservationControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+class ReservationControllerTest extends IntegrationTest {
 
     @MockBean
     private ReservationService reservationService;
