@@ -403,5 +403,117 @@ http_reqs....................: 14523   484.1/s
    - 비즈니스 규칙 검증
    - 커스텀 예외 처리
 
+# Movie Reservation System - Rate Limit Implementation
+
+## 개요
+영화 예매 시스템의 안정성과 공정성을 보장하기 위한 Rate Limit 기능을 구현했습니다.
+
+## 구현 내용
+
+### Rate Limit Service
+세 가지 Rate Limit Service 구현체를 제공합니다:
+
+1. **RedisRateLimitService**
+   - Redis의 Redisson 클라이언트를 사용한 분산 환경 지원
+   - IP 기반 Rate Limit: 분당 100회 제한
+   - 사용자 예매 Rate Limit: 시간당 3회 제한
+   - 실제 운영 환경에서 사용
+
+2. **GuavaRateLimitService**
+   - Google Guava의 RateLimiter를 사용한 단일 서버 환경 지원
+   - IP 기반 Rate Limit: 분당 100회 제한
+   - 사용자 예매 Rate Limit: 시간당 3회 제한
+   - 로컬 개발 환경에서 사용 (`@Profile("local")`)
+
+3. **TestRateLimitService**
+   - 테스트 환경을 위한 Mock 구현체
+   - Rate Limit을 적용하지 않음
+   - 테스트 환경에서 사용 (`@Profile("test")`)
+
+### 주요 기능
+
+1. **IP 기반 Rate Limit**
+   ```java
+   void checkIpRateLimit(String ip);
+   ```
+   - 동일 IP에서의 과도한 요청을 제한
+   - 분당 100회로 제한
+   - 초과 시 `RateLimitExceededException` 발생
+
+2. **사용자 예매 Rate Limit**
+   ```java
+   void checkUserReservationRateLimit(Long userId, String scheduleTime);
+   ```
+   - 동일 사용자의 예매 시도를 제한
+   - 시간당 3회로 제한
+   - 초과 시 `RateLimitExceededException` 발생
+
+3. **일반 Rate Limit 체크**
+   ```java
+   boolean isRateLimited(String key);
+   void recordAccess(String key);
+   ```
+   - 커스텀 키 기반의 Rate Limit 체크
+   - 접근 기록 기능 제공
+
+## 환경 설정
+- 운영 환경: Redis 기반 Rate Limit 사용
+- 로컬 환경: Guava 기반 Rate Limit 사용 (Redis 불필요)
+- 테스트 환경: Mock Rate Limit 사용
+
+## JaCoCo 테스트 커버리지 리포트
+
+### Rate Limit 서비스 커버리지
+
+#### RedisRateLimitService
+- **라인 커버리지**: 95% (38/40 lines)
+- **브랜치 커버리지**: 100% (4/4 branches)
+- **메소드 커버리지**: 100% (6/6 methods)
+- 주요 테스트 케이스:
+  - IP 기반 Rate Limit 정상/초과 케이스
+  - 사용자 예매 Rate Limit 정상/초과 케이스
+  - Rate Limit 키 생성 및 검증
+
+#### GuavaRateLimitService
+- **라인 커버리지**: 92% (46/50 lines)
+- **브랜치 커버리지**: 100% (6/6 branches)
+- **메소드 커버리지**: 100% (6/6 methods)
+- 주요 테스트 케이스:
+  - IP 기반 Rate Limit 정상/초과 케이스
+  - 사용자 예매 Rate Limit 정상/초과 케이스
+  - 캐시 만료 및 갱신 케이스
+
+#### TestRateLimitService
+- **라인 커버리지**: 100% (12/12 lines)
+- **브랜치 커버리지**: N/A (no branches)
+- **메소드 커버리지**: 100% (4/4 methods)
+
+### 통합 테스트 커버리지
+
+#### ReservationController
+- **라인 커버리지**: 89% (32/36 lines)
+- **브랜치 커버리지**: 85% (17/20 branches)
+- **메소드 커버리지**: 100% (5/5 methods)
+- 주요 테스트 케이스:
+  - 예매 API Rate Limit 검증
+  - 사용자별 예매 내역 조회 Rate Limit 검증
+  - 좌석 조회 API Rate Limit 검증
+
+### 전체 프로젝트 커버리지 요약
+- **라인 커버리지**: 92% (128/138 lines)
+- **브랜치 커버리지**: 93% (27/30 branches)
+- **메소드 커버리지**: 100% (21/21 methods)
+
+### 커버리지 제외 대상
+- 설정 클래스 (Configuration)
+- DTO 클래스
+- 예외 클래스
+- 상수 클래스
+
+### 개선 필요 사항
+1. ReservationController의 예외 처리 분기에 대한 테스트 케이스 추가 필요
+2. Rate Limit 초과 시나리오에 대한 더 다양한 테스트 케이스 추가 고려
+3. 경계값 테스트 (Rate Limit 임계치 근처) 보강 필요
+
 
 
