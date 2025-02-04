@@ -11,28 +11,27 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @RequiredArgsConstructor
-public class DataFetchRateLimitInterceptor implements HandlerInterceptor {
+public class DataFetchRateLimiterRedisInterceptor implements HandlerInterceptor {
 
-    private static final double REQUESTS_PER_SECOND = 2.0;
     private final RateLimiterHandler rateLimiterHandler;
 
     // Guava RateLimiter (IP별 제한)
     private static final Map<String, RateLimiter> ipRateLimiters = new ConcurrentHashMap<>();
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String ip = WebUtils.getClientIp(request);
+        String token = request.getHeader("Authorization");
+        String key = "%s:%s".formatted(ip, token);
 
-        // 요청 제한 (1초에 2번 이상 초과시)
-        RateLimiter rateLimiter = ipRateLimiters.computeIfAbsent(ip, k -> RateLimiter.create(REQUESTS_PER_SECOND));
-        if (!rateLimiter.tryAcquire()) {
-            throw new ApplicationException(ErrorCode.TOO_MANY_REQUESTS, "Too many requests : IP - %s".formatted(ip));
+        boolean isAcquire = rateLimiterHandler.tryAcquire(key);
+        if (!isAcquire) {
+            throw new ApplicationException(ErrorCode.TOO_MANY_REQUESTS, "");
         }
 
         // Redis에서 차단된 IP 인지 확인
@@ -48,6 +47,4 @@ public class DataFetchRateLimitInterceptor implements HandlerInterceptor {
 
         return true;
     }
-
-
 }
