@@ -9,10 +9,7 @@ CREATE TABLE IF NOT EXISTS movie (
     created_by VARCHAR(50) NOT NULL,
     created_at TIMESTAMP NOT NULL,
     updated_by VARCHAR(50) NOT NULL,
-    updated_at TIMESTAMP NOT NULL,
-    INDEX idx_movie_title (title),
-    INDEX idx_movie_genre (genre),
-    INDEX idx_movie_release_date (release_date)
+    updated_at TIMESTAMP NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS theater (
@@ -29,32 +26,19 @@ CREATE TABLE IF NOT EXISTS users (
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
+    phoneNumber VARCHAR(20),
     created_by VARCHAR(50) NOT NULL,
     created_at TIMESTAMP NOT NULL,
     updated_by VARCHAR(50) NOT NULL,
-    updated_at TIMESTAMP NOT NULL,
-    UNIQUE INDEX uk_users_email (email)
+    updated_at TIMESTAMP NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS seat (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    theater_id BIGINT NOT NULL,
-    seat_number VARCHAR(10) NOT NULL,
-    seat_row VARCHAR(10) NOT NULL,
-    seat_column INTEGER NOT NULL,
-    created_by VARCHAR(50) NOT NULL,
-    created_at TIMESTAMP NOT NULL,
-    updated_by VARCHAR(50) NOT NULL,
-    updated_at TIMESTAMP NOT NULL,
-    FOREIGN KEY (theater_id) REFERENCES theater(id)
-);
-
-CREATE TABLE IF NOT EXISTS schedule (
+CREATE TABLE IF NOT EXISTS schedules (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     movie_id BIGINT NOT NULL,
     theater_id BIGINT NOT NULL,
-    start_at TIMESTAMP NOT NULL,
-    end_at TIMESTAMP NOT NULL,
+    startTime TIMESTAMP NOT NULL,
+    endTime TIMESTAMP NOT NULL,
     created_by VARCHAR(50) NOT NULL,
     created_at TIMESTAMP NOT NULL,
     updated_by VARCHAR(50) NOT NULL,
@@ -63,9 +47,27 @@ CREATE TABLE IF NOT EXISTS schedule (
     FOREIGN KEY (theater_id) REFERENCES theater(id)
 );
 
+CREATE TABLE IF NOT EXISTS seats (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    theater_id BIGINT NOT NULL,
+    schedule_id BIGINT,
+    rowNumber VARCHAR(10) NOT NULL,
+    columnNumber INTEGER NOT NULL,
+    seatNumber VARCHAR(10) NOT NULL,
+    created_by VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_by VARCHAR(50) NOT NULL,
+    updated_at TIMESTAMP NOT NULL,
+    FOREIGN KEY (theater_id) REFERENCES theater(id),
+    FOREIGN KEY (schedule_id) REFERENCES schedules(id)
+);
+
 CREATE TABLE IF NOT EXISTS reservations (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    reservation_number VARCHAR(255) NOT NULL,
+    reservationNumber VARCHAR(255) NOT NULL,
+    reservedAt TIMESTAMP NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    version INTEGER NOT NULL DEFAULT 0,
     user_id BIGINT NOT NULL,
     schedule_id BIGINT NOT NULL,
     seat_id BIGINT NOT NULL,
@@ -73,8 +75,14 @@ CREATE TABLE IF NOT EXISTS reservations (
     created_at TIMESTAMP NOT NULL,
     updated_by VARCHAR(50) NOT NULL,
     updated_at TIMESTAMP NOT NULL,
-    UNIQUE INDEX uk_reservations_number (reservation_number),
     FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (schedule_id) REFERENCES schedule(id),
-    FOREIGN KEY (seat_id) REFERENCES seat(id)
-); 
+    FOREIGN KEY (schedule_id) REFERENCES schedules(id),
+    FOREIGN KEY (seat_id) REFERENCES seats(id)
+);
+
+-- 인덱스 생성
+CREATE INDEX IF NOT EXISTS idx_movie_title ON movie(title);
+CREATE INDEX IF NOT EXISTS idx_movie_genre ON movie(genre);
+CREATE INDEX IF NOT EXISTS idx_movie_release_date ON movie(release_date);
+CREATE UNIQUE INDEX IF NOT EXISTS uk_users_email ON users(email);
+CREATE UNIQUE INDEX IF NOT EXISTS uk_reservations_number ON reservations(reservationNumber); 

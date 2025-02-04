@@ -19,11 +19,11 @@ public class SeatRepositoryImpl implements SeatRepositoryCustom {
     public List<Seat> findAvailableSeats(Schedule schedule) {
         return queryFactory
                 .selectFrom(seat)
-                .where(seat.theater.eq(schedule.getTheater())
+                .where(seat.theaterId.eq(schedule.getTheaterId())
                         .and(seat.id.notIn(
-                                queryFactory.select(reservation.seat.id)
+                                queryFactory.select(reservation.seatId)
                                         .from(reservation)
-                                        .where(reservation.schedule.eq(schedule))
+                                        .where(reservation.scheduleId.eq(schedule.getId()))
                         )))
                 .fetch();
     }

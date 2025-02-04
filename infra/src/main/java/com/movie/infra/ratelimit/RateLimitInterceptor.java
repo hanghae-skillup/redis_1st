@@ -1,17 +1,19 @@
 package com.movie.infra.ratelimit;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.servlet.HandlerInterceptor;
+import com.movie.infra.common.response.ApiResponse;
+import com.movie.infra.common.response.ErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.context.annotation.Profile;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 @RequiredArgsConstructor
+@Profile("!test")
 public class RateLimitInterceptor implements HandlerInterceptor {
     
     private final RateLimitService rateLimitService;
@@ -23,12 +25,13 @@ public class RateLimitInterceptor implements HandlerInterceptor {
         String ip = request.getRemoteAddr();
         
         if (!rateLimitService.tryAcquire(ip)) {
-            response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
+            response.setStatus(ErrorCode.RATE_LIMIT_EXCEEDED.getStatus().value());
             response.setContentType("application/json");
             
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("code", 429);
-            errorResponse.put("message", "Too Many Requests - Rate limit exceeded");
+            ApiResponse<?> errorResponse = ApiResponse.error(
+                ErrorCode.RATE_LIMIT_EXCEEDED.getStatus().value(),
+                ErrorCode.RATE_LIMIT_EXCEEDED.getMessage()
+            );
             
             response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
             return false;

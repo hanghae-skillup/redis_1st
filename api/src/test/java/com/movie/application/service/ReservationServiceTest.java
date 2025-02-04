@@ -8,6 +8,8 @@ import com.movie.domain.repository.ReservationRepository;
 import com.movie.domain.repository.ScheduleRepository;
 import com.movie.domain.repository.SeatRepository;
 import com.movie.domain.repository.UserRepository;
+import com.movie.exception.BusinessException;
+import com.movie.exception.ErrorCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -27,6 +30,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
 class ReservationServiceTest {
 
     @Mock
@@ -51,17 +55,24 @@ class ReservationServiceTest {
                 .id(1L)
                 .name("Test User")
                 .email("test@test.com")
+                .password("password")
+                .phoneNumber("01012345678")
                 .build();
 
         schedule = Schedule.builder()
                 .id(1L)
-                .startAt(LocalDateTime.now().plusDays(1))
-                .endAt(LocalDateTime.now().plusDays(1).plusHours(2))
+                .movieId(1L)
+                .theaterId(1L)
+                .startTime(LocalDateTime.now().plusDays(1))
+                .endTime(LocalDateTime.now().plusDays(1).plusHours(2))
                 .build();
 
         seat = Seat.builder()
                 .id(1L)
+                .theaterId(1L)
                 .seatNumber("A1")
+                .rowNumber(1)
+                .columnNumber(1)
                 .build();
     }
 
@@ -72,7 +83,7 @@ class ReservationServiceTest {
         given(userRepository.findById(1L)).willReturn(Optional.of(user));
         given(scheduleRepository.findById(1L)).willReturn(Optional.of(schedule));
         given(seatRepository.findById(1L)).willReturn(Optional.of(seat));
-        given(reservationRepository.existsByScheduleAndSeat(schedule, seat)).willReturn(false);
+        given(reservationRepository.existsByScheduleIdAndSeatId(1L, 1L)).willReturn(false);
         given(reservationRepository.save(any(Reservation.class))).willAnswer(invocation -> invocation.getArgument(0));
 
         // when
@@ -90,12 +101,12 @@ class ReservationServiceTest {
         given(userRepository.findById(1L)).willReturn(Optional.of(user));
         given(scheduleRepository.findById(1L)).willReturn(Optional.of(schedule));
         given(seatRepository.findById(1L)).willReturn(Optional.of(seat));
-        given(reservationRepository.existsByScheduleAndSeat(schedule, seat)).willReturn(true);
+        given(reservationRepository.existsByScheduleIdAndSeatId(1L, 1L)).willReturn(true);
 
         // when & then
         assertThatThrownBy(() -> reservationService.reserve(1L, 1L, 1L))
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessage("Seat is already reserved");
+                .isInstanceOf(BusinessException.class)
+                .hasMessage(ErrorCode.SEAT_ALREADY_RESERVED.getMessage());
 
         verify(reservationRepository, never()).save(any(Reservation.class));
     }
@@ -108,8 +119,8 @@ class ReservationServiceTest {
 
         // when & then
         assertThatThrownBy(() -> reservationService.reserve(999L, 1L, 1L))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("User not found");
+                .isInstanceOf(BusinessException.class)
+                .hasMessage(ErrorCode.USER_NOT_FOUND.getMessage());
 
         verify(reservationRepository, never()).save(any(Reservation.class));
     }

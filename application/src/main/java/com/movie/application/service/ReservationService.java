@@ -1,7 +1,8 @@
 package com.movie.application.service;
 
-import com.movie.aop.DistributedLock;
+import com.movie.domain.aop.DistributedLock;
 import com.movie.domain.entity.Reservation;
+import com.movie.domain.entity.ReservationStatus;
 import com.movie.domain.entity.Schedule;
 import com.movie.domain.entity.Seat;
 import com.movie.domain.entity.User;
@@ -44,27 +45,22 @@ public class ReservationService {
                 .orElseThrow(() -> new BusinessException(ErrorCode.SEAT_NOT_FOUND));
 
         // 이미 예약된 좌석인지 확인
-        if (reservationRepository.existsByScheduleAndSeat(schedule, seat)) {
+        if (reservationRepository.existsByScheduleIdAndSeatId(scheduleId, seatId)) {
             throw new BusinessException(ErrorCode.SEAT_ALREADY_RESERVED);
         }
 
         // 예약 번호 생성
         String reservationNumber = generateReservationNumber();
-
+        
         // 예약 생성
         Reservation reservation = Reservation.builder()
+                .userId(userId)
+                .scheduleId(scheduleId)
+                .seatId(seatId)
                 .reservationNumber(reservationNumber)
-                .user(user)
-                .schedule(schedule)
-                .seat(seat)
-                .createdBy("SYSTEM")
-                .createdAt(LocalDateTime.now())
-                .updatedBy("SYSTEM")
-                .updatedAt(LocalDateTime.now())
                 .build();
-
-        reservationRepository.save(reservation);
         
+        reservationRepository.save(reservation);
         return reservationNumber;
     }
 
@@ -73,7 +69,7 @@ public class ReservationService {
     public List<Reservation> getUserReservations(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
-        return reservationRepository.findByUser(user);
+        return reservationRepository.findByUserId(userId);
     }
 
     @Transactional(readOnly = true)
@@ -100,6 +96,6 @@ public class ReservationService {
     }
 
     private String generateReservationNumber() {
-        return UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        return UUID.randomUUID().toString();
     }
 } 

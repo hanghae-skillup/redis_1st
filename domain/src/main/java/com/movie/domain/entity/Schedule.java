@@ -2,56 +2,57 @@ package com.movie.domain.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import lombok.Getter;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "schedule")
+@Table(name = "schedules")
 public class Schedule extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_id", nullable = false)
-    private Movie movie;
+    @Column(name = "movie_id", nullable = false)
+    private Long movieId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "theater_id", nullable = false)
-    private Theater theater;
+    @Column(name = "theater_id", nullable = false)
+    private Long theaterId;
 
-    private LocalDateTime startAt;
-    private LocalDateTime endAt;
+    @Column(nullable = false)
+    private LocalDateTime startTime;
 
-    public Schedule(Movie movie, Theater theater, LocalDateTime startAt, LocalDateTime endAt) {
-        this.movie = movie;
-        this.theater = theater;
-        this.startAt = startAt;
-        this.endAt = endAt;
+    @Column(nullable = false)
+    private LocalDateTime endTime;
+
+    @Builder
+    public Schedule(Long id, Long movieId, Long theaterId, LocalDateTime startTime, LocalDateTime endTime) {
+        this.id = id;
+        this.movieId = movieId;
+        this.theaterId = theaterId;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public void updateScheduleDateTime(LocalDateTime startAt, LocalDateTime endAt) {
-        this.startAt = startAt;
-        this.endAt = endAt;
+        this.startTime = startAt;
+        this.endTime = endAt;
     }
 
     public void updateTheater(Theater theater) {
-        this.theater = theater;
+        this.theaterId = theater.getId();
     }
 
     public void updateMovie(Movie movie) {
-        this.movie = movie;
+        this.movieId = movie.getId();
     }
 
     public Long getMovieId() {
-        return movie.getId();
+        return movieId;
     }
 
     public Long getTheaterId() {
-        return theater.getId();
+        return theaterId;
     }
 }

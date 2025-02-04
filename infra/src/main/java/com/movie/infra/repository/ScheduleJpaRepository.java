@@ -12,8 +12,8 @@ import java.util.List;
 public interface ScheduleJpaRepository extends JpaRepository<Schedule, Long>, ScheduleRepository {
     @Override
     default List<Schedule> findAll() {
-        return findByStartAtGreaterThan(LocalDateTime.now());
+        return findByStartTimeGreaterThan(LocalDateTime.now());
     }
 
-    List<Schedule> findByStartAtGreaterThan(LocalDateTime currentTime);
+    List<Schedule> findByStartTimeGreaterThan(LocalDateTime currentTime);
 }

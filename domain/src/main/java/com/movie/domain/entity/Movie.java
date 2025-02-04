@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.Builder;
 
 @Entity
 @Getter
@@ -22,17 +23,23 @@ public class Movie extends BaseEntity {
     private String title;
     private String grade;
     private String genre;
+    @Column(name = "running_time")
     private Integer runningTime;
+    @Column(name = "release_date")
     private LocalDate releaseDate;
+    @Column(name = "thumbnail_url")
     private String thumbnailUrl;
+    private String description;
 
-    public Movie(String title, String grade, String genre, Integer runningTime, LocalDate releaseDate, String thumbnailUrl) {
+    @Builder
+    public Movie(String title, String grade, String genre, Integer runningTime, LocalDate releaseDate, String thumbnailUrl, String description) {
         this.title = title;
         this.grade = grade;
         this.genre = genre;
         this.runningTime = runningTime;
         this.releaseDate = releaseDate;
         this.thumbnailUrl = thumbnailUrl;
+        this.description = description;
     }
 
     // 영화 정보 수정을 위한 비즈니스 메서드
