@@ -33,4 +33,9 @@ public class Screening {
 
         return new Screening(screeningId, screenStartTime, screenEndTime, movie, cinema);
     }
+
+    public boolean isLaterScreening() {
+        assert screenStartTime != null;
+        return screenStartTime.isAfter(LocalDateTime.now());
+    }
 }

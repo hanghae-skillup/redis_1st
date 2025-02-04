@@ -13,12 +13,19 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        jdbc:
+          batch_size: 100
+
 
   flyway:
     enabled: true
     baseline-on-migrate: true
     placeholder-replacement: false
     locations: classpath:db/migration
+
+  messages:
+    basename: i18n/messages
+
 
 logging:
   level:

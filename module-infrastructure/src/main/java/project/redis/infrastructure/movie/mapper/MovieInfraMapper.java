@@ -19,4 +19,16 @@ public class MovieInfraMapper {
         );
     }
 
+    public static MovieJpaEntity toEntity(Movie movie) {
+        return MovieJpaEntity.builder()
+                .id(movie.getMovieId())
+                .title(movie.getTitle())
+                .rating(movie.getRating())
+                .releaseDate(movie.getReleaseDate())
+                .thumbnailUrl(movie.getThumbnailUrl())
+                .runningMinTime(movie.getRunningMinTime())
+                .genre(GenreInfraMapper.toEntity(movie.getGenre()))
+                .build();
+    }
+
 }

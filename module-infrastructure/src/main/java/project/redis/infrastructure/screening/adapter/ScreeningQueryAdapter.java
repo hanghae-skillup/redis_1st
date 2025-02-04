@@ -4,6 +4,7 @@ import static project.redis.infrastructure.common.config.RedisConfig.REDIS_SCREE
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -70,5 +71,11 @@ public class ScreeningQueryAdapter implements ScreeningQueryPort {
         return screeningsByFilter.stream()
                 .map(ScreeningInfraMapper::toScreening)
                 .toList();
+    }
+
+    @Override
+    public Screening getScreening(UUID screeningId) {
+        ScreeningJpaEntity screeningEntity = screeningJpaRepository.findByIdOrThrow(screeningId);
+        return ScreeningInfraMapper.toScreening(screeningEntity);
     }
 }

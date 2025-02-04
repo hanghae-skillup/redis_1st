@@ -1,7 +1,6 @@
 package project.redis.presentation.cinema.controller;
 
 
-import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -39,12 +38,11 @@ public class CinemaController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createCinema(@RequestBody @Valid CinemaCreateRequest request) {
-        cinemaCommandUseCase.createCinema(
-                CinemaCreateCommandParam.builder()
-                        .CinemaName(request.getCinemaName())
-                        .build()
-        );
+    public ResponseEntity<Void> createCinema(@RequestBody CinemaCreateRequest request) {
+
+        CinemaCreateCommandParam command = new CinemaCreateCommandParam(request.getCinemaName());
+
+        cinemaCommandUseCase.createCinema(command);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

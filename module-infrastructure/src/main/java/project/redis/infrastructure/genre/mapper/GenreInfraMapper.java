@@ -11,4 +11,11 @@ public class GenreInfraMapper {
                 genre.getGenreName()
         );
     }
+
+    public static GenreJpaEntity toEntity(Genre genre) {
+        return GenreJpaEntity.builder()
+                .id(genre.getGenreId())
+                .genreName(genre.getGenreName())
+                .build();
+    }
 }

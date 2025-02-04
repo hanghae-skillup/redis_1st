@@ -13,4 +13,11 @@ public class CinemaInfraMapper {
         );
     }
 
+    public static CinemaJpaEntity toEntity(Cinema cinema) {
+        return CinemaJpaEntity.builder()
+                .id(cinema.getCinemaId())
+                .cinemaName(cinema.getCinemaName())
+                .build();
+    }
+
 }

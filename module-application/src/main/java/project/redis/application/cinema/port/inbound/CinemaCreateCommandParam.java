@@ -1,14 +1,23 @@
 package project.redis.application.cinema.port.inbound;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Value;
+import project.redis.common.SelfValidating;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class CinemaCreateCommandParam {
-    private String CinemaName;
+@Getter
+@Value
+@EqualsAndHashCode(callSuper = false)
+public class CinemaCreateCommandParam extends SelfValidating<CinemaCreateCommandParam> {
+
+    @NotNull(message = "COMMON.ERROR.NOT_NULL")
+    @NotBlank(message = "COMMON.ERROR.NOT_BLANK")
+    String cinemaName;
+
+    public CinemaCreateCommandParam(String cinemaName) {
+        this.cinemaName = cinemaName;
+        this.validate();
+    }
 }

@@ -29,9 +29,7 @@ class CinemaCommandServiceTest {
     @Test
     void testCreateCinema() {
         String cinemaName = "cinema";
-        CinemaCreateCommandParam param = CinemaCreateCommandParam.builder()
-                .CinemaName(cinemaName)
-                .build();
+        CinemaCreateCommandParam param = new CinemaCreateCommandParam(cinemaName);
 
         doNothing().when(cinemaCommandPort).createCinema(param.getCinemaName());
 
@@ -44,9 +42,7 @@ class CinemaCommandServiceTest {
     @Test
     void testCreateCinemaWithInvalidCinemaName() {
         String cinemaName = "cinema";
-        CinemaCreateCommandParam param = CinemaCreateCommandParam.builder()
-                .CinemaName(cinemaName)
-                .build();
+        CinemaCreateCommandParam param = new CinemaCreateCommandParam(cinemaName);
 
         doThrow(IllegalArgumentException.class)
                 .when(cinemaCommandPort).createCinema(param.getCinemaName());

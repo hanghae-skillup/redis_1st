@@ -18,4 +18,14 @@ public class ScreeningInfraMapper {
         );
     }
 
+    public static ScreeningJpaEntity toEntity(Screening screening) {
+        return ScreeningJpaEntity.builder()
+                .id(screening.getScreeningId())
+                .screeningEndTime(screening.getScreenEndTime())
+                .screeningStartTime(screening.getScreenStartTime())
+                .movie(MovieInfraMapper.toEntity(screening.getMovie()))
+                .cinema(CinemaInfraMapper.toEntity(screening.getCinema()))
+                .build();
+    }
+
 }

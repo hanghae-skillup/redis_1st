@@ -6,6 +6,7 @@ group = 'project.redis.domain'
 version = '0.0.1-SNAPSHOT'
 
 dependencies {
+    implementation project(':module-common')
 
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("org.junit.jupiter:junit-jupiter-params")
