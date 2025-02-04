@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 @Profile("test")
 public class TestRateLimitService implements RateLimitService {
     @Override
-    public boolean checkIpRateLimit(String ip) {
-        return true; // 테스트 환경에서는 항상 true 반환
+    public void checkIpRateLimit(String ip) {
+        // 테스트 환경에서는 rate limit을 적용하지 않음
     }
 
     @Override
     public void checkUserReservationRateLimit(Long userId, String scheduleTime) {
-        // 테스트 환경에서는 아무 동작도 하지 않음
+        // 테스트 환경에서는 rate limit을 적용하지 않음
     }
 } 

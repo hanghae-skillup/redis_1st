@@ -1,15 +1,13 @@
-package com.movie.infra.config;
+package com.movie.api.config;
 
-import com.movie.infra.ratelimit.RateLimitInterceptor;
+import com.movie.api.interceptor.RateLimitInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.context.annotation.Profile;
 
 @Configuration
 @RequiredArgsConstructor
-@Profile("!test")
 public class RateLimitConfig implements WebMvcConfigurer {
 
     private final RateLimitInterceptor rateLimitInterceptor;
@@ -17,7 +15,6 @@ public class RateLimitConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(rateLimitInterceptor)
-                .addPathPatterns("/api/movies/**")  // 조회 API 경로에만 적용
-                .excludePathPatterns("/api/reservations/**"); // 예약 API는 제외
+                .addPathPatterns("/api/v1/**");  // 모든 API에 적용
     }
 } 
