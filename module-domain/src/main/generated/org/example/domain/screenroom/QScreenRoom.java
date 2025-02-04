@@ -1,4 +1,4 @@
-package org.example.domain.reservation;
+package org.example.domain.screenroom;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -10,14 +10,14 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QReservation is a Querydsl query type for Reservation
+ * QScreenRoom is a Querydsl query type for ScreenRoom
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QReservation extends EntityPathBase<Reservation> {
+public class QScreenRoom extends EntityPathBase<ScreenRoom> {
 
-    private static final long serialVersionUID = -682898258L;
+    private static final long serialVersionUID = -110207566L;
 
-    public static final QReservation reservation = new QReservation("reservation");
+    public static final QScreenRoom screenRoom = new QScreenRoom("screenRoom");
 
     public final org.example.entity.QBaseEntity _super = new org.example.entity.QBaseEntity(this);
 
@@ -32,25 +32,21 @@ public class QReservation extends EntityPathBase<Reservation> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> lastModifiedDate = _super.lastModifiedDate;
 
-    public final DateTimePath<java.time.LocalDateTime> reserveTime = createDateTime("reserveTime", java.time.LocalDateTime.class);
-
-    public final NumberPath<Long> screenScheduleId = createNumber("screenScheduleId", Long.class);
+    public final StringPath name = createString("name");
 
     //inherited
     public final StringPath updatedBy = _super.updatedBy;
 
-    public final NumberPath<Long> usersId = createNumber("usersId", Long.class);
-
-    public QReservation(String variable) {
-        super(Reservation.class, forVariable(variable));
+    public QScreenRoom(String variable) {
+        super(ScreenRoom.class, forVariable(variable));
     }
 
-    public QReservation(Path<? extends Reservation> path) {
+    public QScreenRoom(Path<? extends ScreenRoom> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QReservation(PathMetadata metadata) {
-        super(Reservation.class, metadata);
+    public QScreenRoom(PathMetadata metadata) {
+        super(ScreenRoom.class, metadata);
     }
 
 }

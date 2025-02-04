@@ -1,4 +1,4 @@
-package org.example.domain.screenRoom;
+package org.example.domain.reservationseat;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -10,14 +10,14 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QScreenRoom is a Querydsl query type for ScreenRoom
+ * QReservationSeat is a Querydsl query type for ReservationSeat
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QScreenRoom extends EntityPathBase<ScreenRoom> {
+public class QReservationSeat extends EntityPathBase<ReservationSeat> {
 
-    private static final long serialVersionUID = -1107225198L;
+    private static final long serialVersionUID = 652325848L;
 
-    public static final QScreenRoom screenRoom = new QScreenRoom("screenRoom");
+    public static final QReservationSeat reservationSeat = new QReservationSeat("reservationSeat");
 
     public final org.example.entity.QBaseEntity _super = new org.example.entity.QBaseEntity(this);
 
@@ -32,21 +32,23 @@ public class QScreenRoom extends EntityPathBase<ScreenRoom> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> lastModifiedDate = _super.lastModifiedDate;
 
-    public final StringPath name = createString("name");
+    public final NumberPath<Long> reservationId = createNumber("reservationId", Long.class);
+
+    public final NumberPath<Long> seatId = createNumber("seatId", Long.class);
 
     //inherited
     public final StringPath updatedBy = _super.updatedBy;
 
-    public QScreenRoom(String variable) {
-        super(ScreenRoom.class, forVariable(variable));
+    public QReservationSeat(String variable) {
+        super(ReservationSeat.class, forVariable(variable));
     }
 
-    public QScreenRoom(Path<? extends ScreenRoom> path) {
+    public QReservationSeat(Path<? extends ReservationSeat> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QScreenRoom(PathMetadata metadata) {
-        super(ScreenRoom.class, metadata);
+    public QReservationSeat(PathMetadata metadata) {
+        super(ReservationSeat.class, metadata);
     }
 
 }

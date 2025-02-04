@@ -1,10 +1,13 @@
-package org.example.common.handler;
+package org.example.exception.handler;
 
 import jakarta.validation.ConstraintViolationException;
+import org.example.baseresponse.error.BaseErrorResponse;
+import org.example.exception.RateLimitExceededException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
@@ -39,5 +42,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(errors);
+    }
+
+    @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
+    @ExceptionHandler(RateLimitExceededException.class)
+    public BaseErrorResponse handleRateLimitExceeded(RateLimitExceededException ex) {
+        return new BaseErrorResponse(ex.getExceptionStatus());
     }
 }

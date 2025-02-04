@@ -1,5 +1,6 @@
 package org.example.service.movie;
 
+import com.google.common.util.concurrent.RateLimiter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dto.MovieScreeningInfo;
@@ -7,12 +8,12 @@ import org.example.dto.request.MoviesFilterRequestDto;
 import org.example.dto.response.PlayingMoviesResponseDto;
 import org.example.dto.response.ScreeningInfo;
 import org.example.dto.response.ScreeningTimeInfo;
+import org.example.exception.RateLimitExceededException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static org.example.baseresponse.BaseResponseStatus.TOO_MANY_REQUEST_ERROR;
 
 @Slf4j
 @Service
@@ -20,12 +21,21 @@ import java.util.Map;
 public class MovieService {
     private final FindMovieService findMovieService;
 
+    // 초당 2개의 요청을 허용
+    public final RateLimiter rateLimiter;
+
     public List<PlayingMoviesResponseDto> getPlayingMovies(MoviesFilterRequestDto moviesFilterRequestDto) {
+//        if (!rateLimiter.tryAcquire()) {
+//            throw new RateLimitExceededException(TOO_MANY_REQUEST_ERROR);
+//        }
+
         List<MovieScreeningInfo> movieScreeningInfos =
                 findMovieService.getPlayingMovies(moviesFilterRequestDto).getMovieScreeningInfos()
-                .stream()
-                .filter(movieScreeningInfo -> movieScreeningInfo.getTitle().contains(moviesFilterRequestDto.getMovieTitle()))
-                .toList();
+                        .stream()
+                        .filter(movieScreeningInfo ->
+                                Optional.ofNullable(movieScreeningInfo.getTitle()).orElse("")
+                                        .contains(Optional.ofNullable(moviesFilterRequestDto.getMovieTitle()).orElse("")))
+                        .toList();
 
         Map<Long, PlayingMoviesResponseDto> movieInfoMap = new HashMap<>();
 

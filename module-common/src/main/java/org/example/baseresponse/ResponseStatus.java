@@ -1,4 +1,4 @@
-package org.example.common.response;
+package org.example.baseresponse;
 
 public interface ResponseStatus {
     int getCode();

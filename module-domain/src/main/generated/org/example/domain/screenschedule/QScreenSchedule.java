@@ -1,4 +1,4 @@
-package org.example.domain.screenSchedule;
+package org.example.domain.screenschedule;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -15,7 +15,7 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QScreenSchedule extends EntityPathBase<ScreenSchedule> {
 
-    private static final long serialVersionUID = 943941266L;
+    private static final long serialVersionUID = 2121698994L;
 
     public static final QScreenSchedule screenSchedule = new QScreenSchedule("screenSchedule");
 

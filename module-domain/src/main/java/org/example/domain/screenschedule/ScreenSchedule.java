@@ -1,4 +1,4 @@
-package org.example.domain.screenSchedule;
+package org.example.domain.screenschedule;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

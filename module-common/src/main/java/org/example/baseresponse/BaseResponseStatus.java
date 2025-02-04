@@ -1,4 +1,4 @@
-package org.example.common.response;
+package org.example.baseresponse;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,8 +18,8 @@ public enum BaseResponseStatus implements ResponseStatus {
     MAX_SEATS_EXCEEDED_ERROR(5003, HttpStatus.BAD_REQUEST.value(), "최대 예약 가능한 좌석을 초과했습니다."),
     SEAT_ROW_DISCONTINUITY_ERROR(5004, HttpStatus.BAD_REQUEST.value(), "연속된 좌석만 예약할 수 있습니다. 행이 다릅니다."),
     SEAT_COLUMN_DISCONTINUITY_ERROR(5005, HttpStatus.BAD_REQUEST.value(), "연속된 좌석만 예약할 수 있습니다. 열이 연속되지 않았습니다."),
-    ALREADY_RESERVED_SEAT_ERROR(5006, HttpStatus.BAD_REQUEST.value(), "이미 예약된 좌석입니다.");
-
+    ALREADY_RESERVED_SEAT_ERROR(5006, HttpStatus.BAD_REQUEST.value(), "이미 예약된 좌석입니다."),
+    TOO_MANY_REQUEST_ERROR(5007, HttpStatus.TOO_MANY_REQUESTS.value(), "너무 많은 요청이 들어왔습니다. 나중에 다시 시도해주세요.");
 
     private final int code;
     private final int status;

@@ -67,6 +67,9 @@ subprojects { // 모든 하위 모듈들에 이 설정을 적용합니다.
 
 		// validation
 		implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+		// Guava Rate Limiter
+		implementation("com.google.guava:guava:31.1-jre")
 	}
 
 	test {

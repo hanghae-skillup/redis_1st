@@ -1,10 +1,10 @@
-package org.example.common.response;
+package org.example.baseresponse;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
 
-import static org.example.common.response.BaseResponseStatus.SUCCESS;
+import static org.example.baseresponse.BaseResponseStatus.SUCCESS;
 
 @Getter
 @JsonPropertyOrder({"code", "status", "message", "result"})

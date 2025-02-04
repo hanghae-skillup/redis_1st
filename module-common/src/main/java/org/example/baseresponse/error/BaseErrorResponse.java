@@ -1,9 +1,9 @@
-package org.example.common.error;
+package org.example.baseresponse.error;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.example.common.response.ResponseStatus;
+import org.example.baseresponse.ResponseStatus;
 
 @Getter
 @RequiredArgsConstructor
