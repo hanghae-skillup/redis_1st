@@ -81,8 +81,8 @@ CREATE TABLE IF NOT EXISTS reservations (
 );
 
 -- 인덱스 생성
-CREATE INDEX IF NOT EXISTS idx_movie_title ON movie(title);
-CREATE INDEX IF NOT EXISTS idx_movie_genre ON movie(genre);
-CREATE INDEX IF NOT EXISTS idx_movie_release_date ON movie(release_date);
-CREATE UNIQUE INDEX IF NOT EXISTS uk_users_email ON users(email);
-CREATE UNIQUE INDEX IF NOT EXISTS uk_reservations_number ON reservations(reservationNumber); 
+CREATE INDEX idx_movie_title ON movie(title);
+CREATE INDEX idx_movie_genre ON movie(genre);
+CREATE INDEX idx_movie_release_date ON movie(release_date);
+CREATE UNIQUE INDEX uk_users_email ON users(email);
+CREATE UNIQUE INDEX uk_reservations_number ON reservations(reservationNumber); 
