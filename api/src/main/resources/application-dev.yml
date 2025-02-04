@@ -1,0 +1,7 @@
+spring:
+
+  config:
+    import: classpath:infra-application-dev.yml
+
+server:
+  port: 8081

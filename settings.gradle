@@ -1,0 +1,6 @@
+rootProject.name = 'project-movie'
+
+include 'api'
+include 'domain'
+include 'application'
+include 'infrastructure'

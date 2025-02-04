@@ -1,0 +1,11 @@
+### 조회하는 날짜를 기준으로 상영 중인, title, genre 필터 기반 영화 조회
+GET http://localhost:8081/api/v1/movie
+
+### 현재 상영 중인 영화 중 제목에 5가 들어가는 영화 조회
+GET http://localhost:8081/api/v1/movie?title=5
+
+### 현재 상영 중인 영화 중 장가에 애니메이션인 영화 조회
+GET http://localhost:8081/api/v1/movie?genre=ANIMATION
+
+### 현재 상영 중인 영화 중 제목에 3 들어가고, 장르가 SF인 영화 조회
+GET http://localhost:8081/api/v1/movie?title=3&genre=SF

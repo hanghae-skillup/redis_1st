@@ -1,0 +1,4 @@
+spring:
+
+  config:
+    import: classpath:infra-application.yml
