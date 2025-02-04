@@ -6,6 +6,7 @@ plugins {
 
 dependencies {
     implementation project(':domain')
+    implementation project(':common')
     implementation project(':application')
     implementation project(':infra')
     
@@ -42,6 +43,8 @@ dependencies {
     
     // Add explicit logging implementation for tests
     testImplementation 'org.springframework.boot:spring-boot-starter-logging'
+    
+    implementation 'com.google.guava:guava:32.1.3-jre'
 }
 
 bootJar {

@@ -1,7 +1,7 @@
 package com.movie.api.service;
 
-import com.movie.api.exception.RateLimitExceededException;
 import com.movie.api.ratelimit.RateLimiter;
+import com.movie.common.exception.RateLimitExceededException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

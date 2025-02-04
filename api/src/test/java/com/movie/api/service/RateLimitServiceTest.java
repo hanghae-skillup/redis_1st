@@ -1,7 +1,7 @@
 package com.movie.api.service;
 
-import com.movie.api.exception.RateLimitExceededException;
 import com.movie.api.ratelimit.RateLimiter;
+import com.movie.common.exception.RateLimitExceededException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

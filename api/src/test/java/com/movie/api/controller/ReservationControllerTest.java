@@ -1,9 +1,9 @@
 package com.movie.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.movie.api.exception.RateLimitExceededException;
 import com.movie.api.request.ReservationRequest;
 import com.movie.api.support.IntegrationTest;
+import com.movie.common.exception.RateLimitExceededException;
 import com.movie.domain.entity.Reservation;
 import com.movie.domain.fixture.TestFixture;
 import com.movie.domain.service.ReservationService;

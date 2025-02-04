@@ -1,8 +1,8 @@
 package com.movie.api.controller;
 
-import com.movie.api.exception.RateLimitExceededException;
 import com.movie.api.service.RateLimitService;
 import com.movie.api.support.IntegrationTest;
+import com.movie.common.exception.RateLimitExceededException;
 import com.movie.domain.entity.Movie;
 import com.movie.domain.fixture.TestFixture;
 import com.movie.domain.service.MovieService;
