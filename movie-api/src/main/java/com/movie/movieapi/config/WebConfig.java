@@ -3,6 +3,7 @@ package com.movie.movieapi.config;
 import com.movie.movieapi.config.interceptor.DataFetchRateLimitInterceptor;
 import com.movie.movieapi.config.interceptor.DataFetchRateLimiterRedisInterceptor;
 import com.movie.movieapi.config.interceptor.ReservationRateLimitInterceptor;
+import com.movie.movieapi.config.interceptor.ReservationRateLimitRedisInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -16,13 +17,14 @@ public class WebConfig implements WebMvcConfigurer {
     private final ReservationRateLimitInterceptor reservationRateLimitInterceptor;
 
     private final DataFetchRateLimiterRedisInterceptor dataFetchRateLimiterRedisInterceptor;
+    private final ReservationRateLimitRedisInterceptor reservationRateLimitRedisInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(dataFetchRateLimiterRedisInterceptor)
                 .addPathPatterns("/api/movies/**", "/api/schedules/**");
 
-        registry.addInterceptor(reservationRateLimitInterceptor)
+        registry.addInterceptor(reservationRateLimitRedisInterceptor)
                 .addPathPatterns("/api/reservations/**");
     }
 }
