@@ -52,7 +52,7 @@ public class BookingControllerTest {
     public void 영화_예약_실패_테스트() {
         var bookingRequest = new CreateBookingRequest(2L, 2L, 5L, 1L, LocalDate.of(2025, 3, 1), List.of("A1", "B1"));
         var exception = assertThrows(APIException.class, () -> sut.createBooking(bookingRequest));
-        assertEquals(exception.getMessage(), SEAT_ROW_NOT_IN_SEQUENCE.getMessage());
+        assertEquals(SEAT_ROW_NOT_IN_SEQUENCE.getMessage(), exception.getMessage());
     }
 
     @Test

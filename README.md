@@ -70,6 +70,6 @@ curl -X GET http://localhost:8080/api/v1/movies
 
 ### jacoco 리포트
 
-| movie-api                  | booking-api | application                | infrastructure             | domain                      |
-|----------------------------| ----------- |----------------------------|----------------------------|-----------------------------|
- | ![j_m](etc/readme/j_m.png) | ![j_b](etc/readme/j_b.png) | ![j_a](etc/readme/j_a.png) | ![j_i](etc/readme/j_i.png) | 로직이란게 없고 객체만 있어. 일단 스킵했습니다. |
+| movie-api                  | booking-api | application                | infrastructure             | domain                     |
+|----------------------------| ----------- |----------------------------|----------------------------|----------------------------|
+ | ![j_m](etc/readme/j_m.png) | ![j_b](etc/readme/j_b.png) | ![j_a](etc/readme/j_a.png) | ![j_i](etc/readme/j_i.png) | ![j_d](etc/readme/j_d.png) |

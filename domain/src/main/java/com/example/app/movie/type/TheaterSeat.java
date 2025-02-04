@@ -17,14 +17,14 @@ public enum TheaterSeat {
     D1,D2,D3,D4,D5,
     E1,E2,E3,E4,E5;
 
-    public static String getRow(TheaterSeat theaterSeat) {
-        return theaterSeat.name().substring(0, 1);
+    public String getRow() {
+        return this.name().substring(0, 1);
     }
 
     public static void checkSeatsInSequence(Set<TheaterSeat> theaterSeats) {
-        String firstRow = TheaterSeat.getRow(theaterSeats.iterator().next());
+        String firstRow = theaterSeats.iterator().next().getRow();
         for (TheaterSeat theaterSeat : theaterSeats) {
-            if (!TheaterSeat.getRow(theaterSeat).equals(firstRow)) {
+            if (!theaterSeat.getRow().equals(firstRow)) {
                 throw new APIException(SEAT_ROW_NOT_IN_SEQUENCE);
             }
         }

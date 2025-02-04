@@ -105,6 +105,6 @@ public class CreateBookingServiceTest {
                 .sample();
 
         var exception = assertThrows(APIException.class, () -> sut.createBooking(key, bookingCommand));
-        assertEquals(exception.getMessage(), SEAT_ROW_NOT_IN_SEQUENCE.getMessage());
+        assertEquals(SEAT_ROW_NOT_IN_SEQUENCE.getMessage(), exception.getMessage());
     }
 }
