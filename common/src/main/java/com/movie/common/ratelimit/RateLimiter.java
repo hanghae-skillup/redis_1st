@@ -1,4 +1,4 @@
-package com.movie.api.ratelimit;
+package com.movie.common.ratelimit;
 
 import java.util.concurrent.TimeUnit;
 

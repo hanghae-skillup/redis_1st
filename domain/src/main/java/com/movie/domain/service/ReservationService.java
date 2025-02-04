@@ -1,7 +1,7 @@
 package com.movie.domain.service;
 
-import com.movie.api.service.RateLimitService;
 import com.movie.common.exception.EntityNotFoundException;
+import com.movie.common.service.RateLimitService;
 import com.movie.domain.entity.Reservation;
 import com.movie.domain.entity.Schedule;
 import com.movie.domain.entity.Seat;

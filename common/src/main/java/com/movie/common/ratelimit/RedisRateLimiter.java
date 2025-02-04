@@ -1,4 +1,4 @@
-package com.movie.api.ratelimit;
+package com.movie.common.ratelimit;
 
 import lombok.RequiredArgsConstructor;
 import org.redisson.api.RRateLimiter;

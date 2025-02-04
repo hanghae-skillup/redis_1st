@@ -1,4 +1,4 @@
-package com.movie.api.ratelimit;
+package com.movie.common.ratelimit;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
