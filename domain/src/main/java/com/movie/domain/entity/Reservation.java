@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Getter
@@ -16,24 +15,17 @@ public class Reservation extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
+    @Column(name = "schedule_id", nullable = false)
+    private Long scheduleId;
+
+    @Column(name = "seat_id", nullable = false)
+    private Long seatId;
+
+    @Column(nullable = false)
     private String reservationNumber;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "schedule_id", nullable = false)
-    private Schedule schedule;
-
-    @ManyToMany
-    @JoinTable(
-            name = "reservation_seat",
-            joinColumns = @JoinColumn(name = "reservation_id"),
-            inverseJoinColumns = @JoinColumn(name = "seat_id")
-    )
-    private List<Seat> seats;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -46,11 +38,11 @@ public class Reservation extends BaseEntity {
     private Long version;
 
     @Builder
-    private Reservation(String reservationNumber, User user, Schedule schedule, List<Seat> seats) {
+    public Reservation(Long userId, Long scheduleId, Long seatId, String reservationNumber) {
+        this.userId = userId;
+        this.scheduleId = scheduleId;
+        this.seatId = seatId;
         this.reservationNumber = reservationNumber;
-        this.user = user;
-        this.schedule = schedule;
-        this.seats = seats;
         this.status = ReservationStatus.RESERVED;
         this.reservedAt = LocalDateTime.now();
     }

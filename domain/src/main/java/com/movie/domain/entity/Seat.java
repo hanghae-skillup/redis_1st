@@ -23,13 +23,13 @@ public class Seat extends BaseEntity {
     private String seatNumber;
 
     @Column(nullable = false)
-    private String rowNumber;
+    private Integer rowNumber;
 
     @Column(nullable = false)
     private Integer columnNumber;
 
     @Builder
-    public Seat(Long id, Long scheduleId, Long theaterId, String seatNumber, String rowNumber, Integer columnNumber) {
+    public Seat(Long id, Long scheduleId, Long theaterId, String seatNumber, Integer rowNumber, Integer columnNumber) {
         this.id = id;
         this.scheduleId = scheduleId;
         this.theaterId = theaterId;

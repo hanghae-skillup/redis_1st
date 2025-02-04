@@ -2,7 +2,7 @@ package com.movie.domain.entity;
 
 import com.querydsl.core.annotations.QueryEntity;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.AccessLevel;
@@ -20,44 +20,33 @@ public class Movie extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String title;
-
-    @Column(nullable = false)
     private String grade;
-
-    @Column(nullable = false)
     private String genre;
-
-    @Column(nullable = false, length = 1000)
-    private String description;
-
-    @Column(name = "running_time", nullable = false)
+    @Column(name = "running_time")
     private Integer runningTime;
-
-    @Column(nullable = false)
-    private LocalDateTime releaseDate;
-
+    @Column(name = "release_date")
+    private LocalDate releaseDate;
     @Column(name = "thumbnail_url")
     private String thumbnailUrl;
+    private String description;
 
     @Builder
-    private Movie(String title, String grade, String genre, String description, Integer runningTime, LocalDateTime releaseDate, String thumbnailUrl) {
+    public Movie(String title, String grade, String genre, Integer runningTime, LocalDate releaseDate, String thumbnailUrl, String description) {
         this.title = title;
         this.grade = grade;
         this.genre = genre;
-        this.description = description;
         this.runningTime = runningTime;
         this.releaseDate = releaseDate;
         this.thumbnailUrl = thumbnailUrl;
+        this.description = description;
     }
 
     // 영화 정보 수정을 위한 비즈니스 메서드
-    public void updateMovieInfo(String title, String grade, String genre, String description, Integer runningTime, LocalDateTime releaseDate, String thumbnailUrl) {
+    public void updateMovieInfo(String title, String grade, String genre, Integer runningTime, LocalDate releaseDate, String thumbnailUrl) {
         this.title = title;
         this.grade = grade;
         this.genre = genre;
-        this.description = description;
         this.runningTime = runningTime;
         this.releaseDate = releaseDate;
         this.thumbnailUrl = thumbnailUrl;

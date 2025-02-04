@@ -1,6 +1,5 @@
-rootProject.name = 'redis_1st'
+rootProject.name = 'movie'
 
 include 'api'
 include 'domain'
-include 'common'
-include 'infra'
+include 'infra'include 'application'

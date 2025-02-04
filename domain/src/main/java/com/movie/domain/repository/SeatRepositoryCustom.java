@@ -6,5 +6,5 @@ import com.movie.domain.entity.Seat;
 import java.util.List;
 
 public interface SeatRepositoryCustom {
-    List<Seat> findReservedSeats(Schedule schedule);
+    List<Seat> findAvailableSeats(Schedule schedule);
 } 

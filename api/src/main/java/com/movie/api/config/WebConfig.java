@@ -1,6 +1,6 @@
 package com.movie.api.config;
 
-import com.movie.infra.ratelimit.RateLimitInterceptor;
+import com.movie.api.interceptor.RateLimitInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -19,16 +19,16 @@ public class WebConfig implements WebMvcConfigurer {
     private final RateLimitInterceptor rateLimitInterceptor;
 
     @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(rateLimitInterceptor)
+                .addPathPatterns("/api/v1/**");
+    }
+
+    @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.stream()
                 .filter(converter -> converter instanceof MappingJackson2HttpMessageConverter)
                 .forEach(converter -> ((MappingJackson2HttpMessageConverter) converter)
                         .setDefaultCharset(StandardCharsets.UTF_8));
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(rateLimitInterceptor)
-                .addPathPatterns("/**");
     }
 } 

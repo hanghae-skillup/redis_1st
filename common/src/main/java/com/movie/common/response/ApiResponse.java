@@ -1,5 +1,6 @@
-package com.movie.api.response;
+package com.movie.common.response;
 
+import com.movie.common.exception.ErrorCode;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,8 +27,12 @@ public class ApiResponse<T> {
         return new ApiResponse<>(true, page, null);
     }
 
-    public static ApiResponse<?> error(String code, String message) {
-        return new ApiResponse<>(false, null, new Error(code, message));
+    public static ApiResponse<?> error(ErrorCode errorCode) {
+        return new ApiResponse<>(false, null, new Error(errorCode));
+    }
+
+    public static ApiResponse<?> error(ErrorCode errorCode, String message) {
+        return new ApiResponse<>(false, null, new Error(errorCode, message));
     }
 
     @Getter
@@ -36,8 +41,13 @@ public class ApiResponse<T> {
         private String code;
         private String message;
 
-        private Error(String code, String message) {
-            this.code = code;
+        private Error(ErrorCode errorCode) {
+            this.code = errorCode.getCode();
+            this.message = errorCode.getMessage();
+        }
+
+        private Error(ErrorCode errorCode, String message) {
+            this.code = errorCode.getCode();
             this.message = message;
         }
     }
