@@ -28,26 +28,30 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @Sql(scripts = "/booking-data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
 public class BookingControllerTest {
 
+    private final int TOTAL_BOOKINGS = 10;
+    private final int SUCCESS_BOOKING = 1;
+    private final int FAIL_BOOKINGS = 9;
+
     @Autowired
-    private BookingController bookingController;
+    private BookingController sut;
 
     @Test
     public void 영화_예약_성공_테스트() throws InterruptedException {
         var bookingRequest = new CreateBookingRequest(1L, 2L, 5L, 1L, LocalDate.of(2025, 3, 1), List.of("A1", "A2"));
-        var response = bookingController.createBooking(bookingRequest);
+        var response = sut.createBooking(bookingRequest);
         assertEquals(201, response.getStatusCode().value());
     }
 
     @Test
-    public void Rate_Limit_테스트() {
+    public void Rate_Limit_유저_영화_시간표_상영관_per_1요청_5분_테스트() {
         var bookingRequest = new CreateBookingRequest(1L, 2L, 5L, 1L, LocalDate.of(2025, 3, 1), List.of("C1", "C2"));
-        assertThrows(RateLimitException.class, () -> bookingController.createBooking(bookingRequest));
+        assertThrows(RateLimitException.class, () -> sut.createBooking(bookingRequest));
     }
 
     @Test
     public void 영화_예약_실패_테스트() {
         var bookingRequest = new CreateBookingRequest(2L, 2L, 5L, 1L, LocalDate.of(2025, 3, 1), List.of("A1", "B1"));
-        var exception = assertThrows(APIException.class, () -> bookingController.createBooking(bookingRequest));
+        var exception = assertThrows(APIException.class, () -> sut.createBooking(bookingRequest));
         assertEquals(exception.getMessage(), SEAT_ROW_NOT_IN_SEQUENCE.getMessage());
     }
 
@@ -58,7 +62,7 @@ public class BookingControllerTest {
         AtomicInteger exceptionCount = new AtomicInteger(0);
 
 
-        for (int i=0; i < 10; i++) {
+        for (int i=0; i < TOTAL_BOOKINGS; i++) {
             bookingRequests.add(new CreateBookingRequest((long) i+5, 2L, 5L, 1L, LocalDate.of(2025, 3, 1), List.of("E1", "E2")));
         }
 
@@ -72,7 +76,7 @@ public class BookingControllerTest {
 
             executor.execute(() -> {
                 try {
-                    bookingController.createBooking(bookingRequests.get(taskId));
+                    sut.createBooking(bookingRequests.get(taskId));
                     successCount.incrementAndGet();
                 } catch (LockException | APIException e) {
                     exceptionCount.incrementAndGet();
@@ -87,7 +91,7 @@ public class BookingControllerTest {
         latch.await(); // 카운트 0까지 기다림
         executor.shutdown(); // pool 종료
 
-        assertEquals(1, successCount.get());
-        assertEquals(9, exceptionCount.get());
+        assertEquals(SUCCESS_BOOKING, successCount.get());
+        assertEquals(FAIL_BOOKINGS, exceptionCount.get());
     }
 }

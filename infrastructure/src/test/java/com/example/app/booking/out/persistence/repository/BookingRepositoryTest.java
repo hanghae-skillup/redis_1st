@@ -23,10 +23,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Import({QuerydslConfig.class})
 public class BookingRepositoryTest {
 
-    @Autowired
-    private BookingRepository bookingRepository;
-
     private FixtureMonkey fixtureMonkey;
+
+    @Autowired
+    private BookingRepository sut;
 
     @BeforeEach
     void setUp() {
@@ -62,11 +62,11 @@ public class BookingRepositoryTest {
                     .set("movieId", 2L)
                     .sampleList(4);
 
-        bookingRepository.saveAll(Stream.concat(booking1.stream(), booking2.stream()).toList());
+        sut.saveAll(Stream.concat(booking1.stream(), booking2.stream()).toList());
 
         var predicate = ExpressionUtils.allOf(bookingEntity.movieId.eq(1L));
 
-        var result = bookingRepository.findAllBy(predicate);
+        var result = sut.findAllBy(predicate);
 
         assertEquals(3, result.size());
     }

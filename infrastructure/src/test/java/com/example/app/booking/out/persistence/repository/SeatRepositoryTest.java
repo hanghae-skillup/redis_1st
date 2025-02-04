@@ -24,10 +24,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Import({QuerydslConfig.class})
 public class SeatRepositoryTest {
 
-    @Autowired
-    private SeatRepository seatRepository;
-
     private FixtureMonkey fixtureMonkey;
+
+    @Autowired
+    private SeatRepository sut;
 
     @BeforeEach
     void setUp() {
@@ -39,7 +39,7 @@ public class SeatRepositoryTest {
 
     @Test
     public void save_findAllBy_테스트() {
-        var seats = new HashSet<>(fixtureMonkey.giveMeBuilder(SeatEntity.class)
+        var reservedSeats = new HashSet<>(fixtureMonkey.giveMeBuilder(SeatEntity.class)
                 .instantiate(constructor()
                         .parameter(long.class)
                         .parameter(long.class)
@@ -54,11 +54,11 @@ public class SeatRepositoryTest {
                 .set("version", 1L)
                 .sampleList(10));
 
-        seatRepository.saveAll(seats);
+        sut.saveAll(reservedSeats);
 
         var predicate = ExpressionUtils.allOf(seatEntity.reserved.isTrue());
 
-        var result = seatRepository.findAllBy(predicate);
+        var result = sut.findAllBy(predicate);
 
         assertEquals(10, result.size());
     }

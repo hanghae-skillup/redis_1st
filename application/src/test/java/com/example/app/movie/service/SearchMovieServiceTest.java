@@ -10,7 +10,10 @@ import com.example.app.movie.type.MovieGenre;
 import com.example.app.movie.type.MovieRating;
 import com.example.app.movie.type.MovieStatus;
 import com.navercorp.fixturemonkey.FixtureMonkey;
+import com.navercorp.fixturemonkey.api.introspector.ConstructorPropertiesArbitraryIntrospector;
 import com.navercorp.fixturemonkey.api.type.TypeReference;
+import com.navercorp.fixturemonkey.jakarta.validation.plugin.JakartaValidationPlugin;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -31,23 +34,31 @@ public class SearchMovieServiceTest {
 
     private final int TOTAL_MOVIES = 10;
 
+    private FixtureMonkey fixtureMonkey;
+
     @Mock
     private MoviePersistenceAdapter moviePersistenceAdapter;
 
     @InjectMocks
-    private SearchMovieService searchMovieService;
+    private SearchMovieService sut;
+
+    @BeforeEach
+    void setUp() {
+        fixtureMonkey = FixtureMonkey.builder()
+                .objectIntrospector(ConstructorPropertiesArbitraryIntrospector.INSTANCE)
+                .plugin(new JakartaValidationPlugin())
+                .build();
+    }
 
     @Test
     public void 영화_검색() {
-        var searchCommand = FixtureMonkey.create()
-                .giveMeBuilder(SearchMovieCommand.class)
+        var searchCommand = fixtureMonkey.giveMeBuilder(SearchMovieCommand.class)
                 .instantiate(constructor()
                         .parameter(String.class)
                         .parameter(MovieGenre.class))
                 .sample();
 
-        var movies = FixtureMonkey.create()
-                .giveMeBuilder(Movie.class)
+        var movies = fixtureMonkey.giveMeBuilder(Movie.class)
                 .instantiate(constructor()
                         .parameter(long.class)
                         .parameter(String.class)
@@ -64,7 +75,7 @@ public class SearchMovieServiceTest {
 
         when(moviePersistenceAdapter.loadAllMovies(any(SearchMovieCommand.class))).thenReturn(movies);
 
-        var result = searchMovieService.searchMovies(searchCommand);
+        var result = sut.searchMovies(searchCommand);
 
         assertEquals(TOTAL_MOVIES, result.size());
     }

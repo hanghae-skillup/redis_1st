@@ -9,6 +9,9 @@ import com.example.app.common.function.DistributedLockService;
 import com.example.app.config.EmbeddedRedisConfig;
 import com.example.app.movie.type.TheaterSeat;
 import com.navercorp.fixturemonkey.FixtureMonkey;
+import com.navercorp.fixturemonkey.api.introspector.ConstructorPropertiesArbitraryIntrospector;
+import com.navercorp.fixturemonkey.jakarta.validation.plugin.JakartaValidationPlugin;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -29,6 +32,8 @@ import static org.mockito.Mockito.*;
 @TestPropertySource(properties = "spring.config.location = classpath:application-test.yml")
 public class CreateBookingServiceTest {
 
+    private FixtureMonkey fixtureMonkey;
+
     @Mock
     private DistributedLockService distributedLockService;
 
@@ -41,12 +46,19 @@ public class CreateBookingServiceTest {
     @InjectMocks
     private CreateBookingService sut;
 
+    @BeforeEach
+    void setUp() {
+        fixtureMonkey = FixtureMonkey.builder()
+                .objectIntrospector(ConstructorPropertiesArbitraryIntrospector.INSTANCE)
+                .plugin(new JakartaValidationPlugin())
+                .build();
+    }
+
     @Test
     public void 예약_테스트() {
-        var key = FixtureMonkey.create().giveMeOne(String.class);
+        var key = fixtureMonkey.giveMeOne(String.class);
         var continuousSeats = Set.of(TheaterSeat.A3, TheaterSeat.A4, TheaterSeat.A5);
-        var bookingCommand = FixtureMonkey.create()
-                .giveMeBuilder(CreateBookingCommand.class)
+        var bookingCommand = fixtureMonkey.giveMeBuilder(CreateBookingCommand.class)
                 .instantiate(constructor()
                         .parameter(long.class)
                         .parameter(long.class)
@@ -57,8 +69,7 @@ public class CreateBookingServiceTest {
                 .set("seats", continuousSeats)
                 .sample();
 
-        var booking = FixtureMonkey.create()
-                .giveMeBuilder(Booking.class)
+        var booking = fixtureMonkey.giveMeBuilder(Booking.class)
                 .instantiate(constructor()
                         .parameter(long.class)
                         .parameter(long.class)
@@ -80,10 +91,9 @@ public class CreateBookingServiceTest {
 
     @Test
     public void 예약_불가_테스트() {
-        var key = FixtureMonkey.create().giveMeOne(String.class);
+        var key = fixtureMonkey.giveMeOne(String.class);
         var discontinuousSeats = Set.of(TheaterSeat.B1, TheaterSeat.C1, TheaterSeat.D1);
-        var bookingCommand = FixtureMonkey.create()
-                .giveMeBuilder(CreateBookingCommand.class)
+        var bookingCommand = fixtureMonkey.giveMeBuilder(CreateBookingCommand.class)
                 .instantiate(constructor()
                         .parameter(long.class)
                         .parameter(long.class)

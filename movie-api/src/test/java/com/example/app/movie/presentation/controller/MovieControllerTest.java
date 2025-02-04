@@ -18,12 +18,12 @@ import org.springframework.test.context.jdbc.Sql;
 public class MovieControllerTest {
 
     @Autowired
-    private MovieController movieController;
+    private MovieController sut;
 
     @Test
     public void 영화_리스트_검색() {
         var searchRequest = new MovieSearchRequest("탑건", "ACTION");
-        var response = movieController.searchMovies(searchRequest, "127.0.0.1");
+        var response = sut.searchMovies(searchRequest, "127.0.0.1");
         var movies = response.getBody();
 
         assertEquals(200, response.getStatusCode().value());
@@ -31,12 +31,12 @@ public class MovieControllerTest {
     }
 
     @Test
-    public void Rate_Limit_테스트() {
+    public void Rate_Limit_1분_50요청_테스트() {
         var searchRequest = new MovieSearchRequest("탑건", "ACTION");
 
         assertThrows(RateLimitException.class, () -> {
             for (int i=0; i < 50; i++) {
-                movieController.searchMovies(searchRequest, "127.0.0.1");
+                sut.searchMovies(searchRequest, "127.0.0.1");
             }
         });
     }

@@ -1,10 +1,9 @@
-package com.example.app.movie.out.persistence;
+package com.example.app.movie.out.persistence.repository;
 
 import com.example.app.config.QuerydslConfig;
 import com.example.app.movie.out.persistence.entity.MovieEntity;
 import com.example.app.movie.out.persistence.entity.MovieTheaterEntity;
 import com.example.app.movie.out.persistence.entity.ShowtimeEntity;
-import com.example.app.movie.out.persistence.repository.MovieRepository;
 import com.example.app.movie.type.MovieGenre;
 import com.example.app.movie.type.MovieRating;
 import com.example.app.movie.type.MovieStatus;
@@ -32,10 +31,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Import({QuerydslConfig.class})
 public class MovieRepositoryTest {
 
-    @Autowired
-    private MovieRepository movieRepository;
-
     private FixtureMonkey fixtureMonkey;
+
+    @Autowired
+    private MovieRepository sut;
 
     @BeforeEach
     void setUp() {
@@ -83,11 +82,11 @@ public class MovieRepositoryTest {
                 .set("movieTheaters", null)
                 .sampleList(5);
 
-        movieRepository.saveAll(Stream.concat(movies1.stream(), movies2.stream()).toList());
+        sut.saveAll(Stream.concat(movies1.stream(), movies2.stream()).toList());
 
         var predicate = ExpressionUtils.allOf(movieEntity.title.contains("탑건"));
 
-        var result = movieRepository.findAllBy(predicate);
+        var result = sut.findAllBy(predicate);
 
         assertEquals(2, result.size());
     }
