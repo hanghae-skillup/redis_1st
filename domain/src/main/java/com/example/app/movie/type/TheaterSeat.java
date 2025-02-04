@@ -1,7 +1,12 @@
 package com.example.app.movie.type;
 
+import com.example.app.common.exception.APIException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Set;
+
+import static com.example.app.booking.exception.BookingErrorMessage.SEAT_ROW_NOT_IN_SEQUENCE;
 
 @Getter
 @RequiredArgsConstructor
@@ -14,5 +19,14 @@ public enum TheaterSeat {
 
     public static String getRow(TheaterSeat theaterSeat) {
         return theaterSeat.name().substring(0, 1);
+    }
+
+    public static void checkSeatsInSequence(Set<TheaterSeat> theaterSeats) {
+        String firstRow = TheaterSeat.getRow(theaterSeats.iterator().next());
+        for (TheaterSeat theaterSeat : theaterSeats) {
+            if (!TheaterSeat.getRow(theaterSeat).equals(firstRow)) {
+                throw new APIException(SEAT_ROW_NOT_IN_SEQUENCE);
+            }
+        }
     }
 }
