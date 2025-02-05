@@ -1,0 +1,10 @@
+server:
+  port: 8080
+
+spring:
+  application.name: movie
+  profiles:
+    default: local
+  jpa:
+    properties:
+      default_batch_fetch_size: 100

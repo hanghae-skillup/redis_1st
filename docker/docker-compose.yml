@@ -1,0 +1,11 @@
+services:
+  db:
+    image: mysql:8.4.3
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: movie
+    ports:
+        - 33060:3306
+    volumes:
+      - ./mysql/init:/docker-entrypoint-initdb.d
+      - ./mysql/conf:/etc/mysql/conf.d
