@@ -49,6 +49,6 @@ public class TicketController {
 		Long showingId = request.getShowingId();
 		String username = request.getUsername();
 		List<TicketDTO> ticketList = request.getTicketList();
-		return ResponseEntity.ok(ticketService.reservationWithFunctional(showingId, username, ticketList));
+		return ResponseEntity.ok(ticketService.reservation(showingId, username, ticketList));
 	}
 }
