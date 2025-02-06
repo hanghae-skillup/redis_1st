@@ -8,12 +8,17 @@ import org.example.domain.seat.Row;
 import org.example.domain.seat.Seat;
 import org.example.dto.SeatsDto;
 import org.example.dto.request.ReservationRequestDto;
+import org.example.exception.SeatException;
 import org.example.repository.ReservationSeatRepository;
 import org.example.repository.ScreenScheduleJpaRepository;
+import org.example.repository.SeatJpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.example.baseresponse.BaseResponseStatus.ALREADY_RESERVED_SEAT_ERROR;
+import static org.example.baseresponse.BaseResponseStatus.UNAVAILABLE_SEAT_ERROR;
 
 @Slf4j
 @Service
@@ -23,6 +28,7 @@ public class ReservationService {
     private final ScreenScheduleJpaRepository screenScheduleJpaRepository;
     private final RedissonLockUtil redissonLockUtil;
     private final SaveReservationService saveReservationService;
+    private final SeatJpaRepository seatJpaRepository;
 
     public void reserveMovie(ReservationRequestDto reservationRequestDto) {
         List<SeatsDto> reservationSeats = new ArrayList<>(
@@ -39,6 +45,9 @@ public class ReservationService {
         // 사용자가 동일한 상영에 대해 예약한 좌석 검증
         validateUserReserveSeats(reservationSeats, reservationRequestDto.usersId(), reservationRequestDto.screenScheduleId());
 
+        // 좌석들 반환
+        List<Seat> seats = validateReservedSeats(screenRoomId, reservationSeats);
+
         // 개별 좌석별 락 키 생성
         List<String> lockKeys = reservationRequestDto.reservationSeats().stream()
                 .map(seat -> "lock:seat:" + reservationRequestDto.screenScheduleId() + ":" + seat.row() + ":" + seat.col())
@@ -46,9 +55,20 @@ public class ReservationService {
 
         // Redisson MultiLock 적용 (여러 개의 좌석을 동시에 보호)
         redissonLockUtil.executeWithMultiLock(lockKeys, 5, 10, () -> {
-            saveReservationService.saveReservationWithTransaction(reservationRequestDto, reservationSeats, screenRoomId);
+            saveReservationService.saveReservationWithTransaction(reservationRequestDto, seats);
             return null;
         });
+    }
+
+    private List<Seat> validateReservedSeats(Long screenRoomId, List<SeatsDto> reservationSeats) {
+        List<Seat> seats = new ArrayList<>();
+        for (SeatsDto reservationSeat : reservationSeats) {
+            Seat seat = seatJpaRepository.findSeats(screenRoomId, reservationSeat.getRow(), reservationSeat.getCol())
+                    .orElseThrow(() -> new SeatException(UNAVAILABLE_SEAT_ERROR));
+
+            seats.add(seat);
+        }
+        return seats;
     }
 
     private void validateSeats(List<SeatsDto> seats) {

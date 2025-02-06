@@ -23,14 +23,10 @@ import static org.example.baseresponse.BaseResponseStatus.UNAVAILABLE_SEAT_ERROR
 @AllArgsConstructor
 public class SaveReservationService {
     private final ReservationJpaRepository reservationJpaRepository;
-    private final SeatJpaRepository seatJpaRepository;
     private final ReservationSeatRepository reservationSeatRepository;
 
     @Transactional
-    public void saveReservationWithTransaction(ReservationRequestDto reservationRequestDto, List<SeatsDto> reservationSeats, Long screenRoomId) {
-        // 좌석에 락을 걸고 저장할 좌석들 반환
-        List<Seat> seats = validateReservedSeats(screenRoomId, reservationSeats);
-
+    public void saveReservationWithTransaction(ReservationRequestDto reservationRequestDto, List<Seat> seats) {
         // 예약된 좌석인지 검증
         for (Seat seat : seats) {
             boolean isReserved = reservationSeatRepository.findReservedSeatBySeatId(reservationRequestDto.screenScheduleId(), seat.getId()).isPresent();
@@ -41,17 +37,6 @@ public class SaveReservationService {
 
         Long reservationId = saveReservation(reservationRequestDto.usersId(), reservationRequestDto.screenScheduleId());
         saveReservationSeats(seats, reservationId);
-    }
-
-    private List<Seat> validateReservedSeats(Long screenRoomId, List<SeatsDto> reservationSeats) {
-        List<Seat> seats = new ArrayList<>();
-        for (SeatsDto reservationSeat : reservationSeats) {
-            Seat seat = seatJpaRepository.findSeats(screenRoomId, reservationSeat.getRow(), reservationSeat.getCol())
-                    .orElseThrow(() -> new SeatException(UNAVAILABLE_SEAT_ERROR));
-
-            seats.add(seat);
-        }
-        return seats;
     }
 
     private Long saveReservation(Long userId, Long screenScheduleId) {
