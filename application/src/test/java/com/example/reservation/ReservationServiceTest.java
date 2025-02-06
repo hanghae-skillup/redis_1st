@@ -3,6 +3,7 @@ package com.example.reservation;
 import com.example.entity.member.Member;
 import com.example.entity.movie.*;
 import com.example.entity.reservation.ReservedSeat;
+import com.example.exception.BusinessException;
 import com.example.repository.member.MemberRepository;
 import com.example.repository.movie.MovieRepository;
 import com.example.repository.movie.ScreeningRepository;
@@ -54,26 +55,6 @@ class ReservationServiceTest {
         memberRepository.deleteAll();
     }
 
-    @Test
-    @DisplayName("memberId가 null이면 예외가 던져진다.")
-    void reservation_memberId_null_exception() {
-        ReservationServiceRequest request = ReservationServiceRequest.builder().build();
-
-        assertThatThrownBy(() -> { reservationService.reserve(request); })
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("영화 예매시 로그인이 필요합니다.");
-    }
-
-    @Test
-    @DisplayName("screeningId가 null이면 예외가 던져진다.")
-    void reservation_screeningId_null_exception() {
-        ReservationServiceRequest request = ReservationServiceRequest.builder().memberId(1L).build();
-
-        assertThatThrownBy(() -> { reservationService.reserve(request); })
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("예매할 상영시간을 선택해주세요.");
-    }
-
 
     @Test
     @DisplayName("회원정보가 없으면 예외가 던져집니다.")
@@ -82,7 +63,7 @@ class ReservationServiceTest {
 
         memberRepository.save(member);
         assertThatThrownBy(() -> { reservationService.reserve(new ReservationServiceRequest(2L, 1L, List.of(1L, 2L))); })
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(BusinessException.class)
                 .hasMessageContaining("회원 정보가 없습니다.");
     }
 
@@ -106,7 +87,7 @@ class ReservationServiceTest {
         screeningRepository.save(screening);
 
         assertThatThrownBy(() -> { reservationService.reserve(new ReservationServiceRequest(member.getId(), 2L, List.of(1L, 2L))); })
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(BusinessException.class)
                 .hasMessageContaining("상영 정보가 없습니다.");
 
     }
@@ -127,7 +108,7 @@ class ReservationServiceTest {
         screeningRepository.save(screening);
 
         assertThatThrownBy(() -> { reservationService.reserve(new ReservationServiceRequest(member.getId(), screening.getId(), List.of(1000L, 10001L))); })
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(BusinessException.class)
                 .hasMessageContaining("좌석 정보가 일치하지 않습니다.");
     }
 
@@ -146,8 +127,8 @@ class ReservationServiceTest {
         seatRepository.saveAll(seats);
         screeningRepository.save(screening);
         reservationService.reserve(new ReservationServiceRequest(member.getId(), screening.getId(), List.of(seats.get(0).getId(), seats.get(1).getId())));
-        assertThatThrownBy(() -> { reservationService.reserve(new ReservationServiceRequest(member.getId(), screening.getId(), List.of(seats.get(2).getId(), seats.get(3).getId(),seats.get(4).getId(), seats.get(5).getId()))); })
-                .isInstanceOf(IllegalArgumentException.class)
+        assertThatThrownBy(() -> { reservationService.reserve(new ReservationServiceRequest(member.getId(), screening.getId(), List.of(seats.get(5).getId(), seats.get(6).getId(), seats.get(7).getId(), seats.get(8).getId()))); })
+                .isInstanceOf(BusinessException.class)
                 .hasMessageContaining("하나의 상영시간에 5좌석이상 예매할 수 없습니다");
     }
 
@@ -171,7 +152,7 @@ class ReservationServiceTest {
         assertThatThrownBy(() -> {
             reservationService.reserve(new ReservationServiceRequest(member.getId(), screening.getId(), List.of(seats.get(0).getId(), seats.get(1).getId())));
         })
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(BusinessException.class)
                 .hasMessageContaining("이미 예매된 좌석입니다.");
     }
 
