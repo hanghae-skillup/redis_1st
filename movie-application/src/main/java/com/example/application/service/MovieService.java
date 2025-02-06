@@ -1,6 +1,7 @@
 package com.example.application.service;
 
 import com.example.application.dto.request.MovieRequestDto;
+import com.example.application.dto.request.MovieSearchCriteria;
 import com.example.application.dto.request.ScreeningRequestDto;
 import com.example.application.dto.response.MovieResponseDto;
 import com.example.application.port.in.MovieServicePort;
@@ -12,7 +13,6 @@ import com.example.domain.exception.ErrorCode;
 import com.example.domain.model.entity.Movie;
 import com.example.domain.model.entity.Screening;
 import com.example.domain.model.entity.Theater;
-import com.example.domain.model.valueObject.Genre;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -27,12 +27,13 @@ public class MovieService implements MovieServicePort {
     private final ScreeningRepositoryPort screeningRepositoryPort;
     private final TheaterRepositoryPort theaterRepositoryPort;
 
-    @Cacheable(value = "movies", key = "#title + '-' + #genre")
+    @Cacheable(value = "movies", key = "#movieSearchCriteria.title + '-' + #movieSearchCriteria.genre")
     @Override
-    public List<MovieResponseDto> findMovies(String title, Genre genre) {
+    public List<MovieResponseDto> findMovies(MovieSearchCriteria movieSearchCriteria) {
         Sort sort = Sort.by("releaseDate").descending();
 
-        return movieRepositoryPort.findBy(title, genre, sort).stream()
+        return movieRepositoryPort.findBy(movieSearchCriteria, sort
+                ).stream()
                 .map(MovieResponseDto::fromEntity)
                 .toList();
     }

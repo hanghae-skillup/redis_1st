@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 
@@ -37,7 +38,7 @@ public class Movie extends AuditingFields {
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     @OrderBy("startTime ASC")
-    private List<Screening> screenings;
+    private List<Screening> screenings = new ArrayList<>();
 
 
     protected Movie() {}
