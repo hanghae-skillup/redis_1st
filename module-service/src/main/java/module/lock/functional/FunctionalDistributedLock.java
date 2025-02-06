@@ -32,43 +32,45 @@ public class FunctionalDistributedLock {
 
 		try{
 			// 락 점유 하나라도 점유 실패 시 TryLockFailedException
-			boolean allAvailable = true;
-			for (RLock lock : lockList) {
-				try{
-					if(!lock.tryLock(LOCK_WAIT_TIME, LOCK_LEASE_TIME,TimeUnit.SECONDS)){
-						allAvailable = false;
-						break;
-					}
-				} catch (InterruptedException e){
-					allAvailable = false;
-					break;
-				}
-			}
+			boolean allAvailable = acquireLock(lockList, LOCK_WAIT_TIME, LOCK_LEASE_TIME, TimeUnit.SECONDS);
 
-			// 배열내 모든 락이 점유 실패
+			// 배열내 모든 락이 점유 실패시
+			// 점유한 락 모두 해제
 			if(!allAvailable){
-				// 순차적으로 락을 해제하도록 변경
-				for (RLock lock : lockList) {
-					if (lock.isHeldByCurrentThread()) {
-						lock.unlock();
-					}
-				}
+				leaseAllLock(lockList);
 				throw new TryLockFailedException();
 			}
 
 			functionalForTransaction.run(runnable::run);
 		} finally {
 			// 메소드 종료 후 모든 락 점유 해제
-			lockList.forEach(lock -> {
-				if (lock.isHeldByCurrentThread()) {
-					try {
-						lock.unlock();
-					} catch (IllegalMonitorStateException e) {
-						log.warn("Lock was already released: {}", lock.getName());
-					}
-				}
-			});
+			leaseAllLock(lockList);
 		}
+	}
+
+	private void leaseAllLock(List<RLock> lockList) {
+		for (RLock lock : lockList) {
+			if (lock.isHeldByCurrentThread()) {
+				try {
+					lock.unlock();
+				} catch (IllegalMonitorStateException e) {
+					log.warn("Lock was already released: {}", lock.getName());
+				}
+			}
+		}
+	}
+
+	private boolean acquireLock(List<RLock> lockList, Long waitTIme, Long leaseTime, TimeUnit timeUnit) {
+		for (RLock lock : lockList) {
+			try {
+				if (!lock.tryLock(waitTIme, leaseTime, timeUnit)) {
+					return false;
+				}
+			} catch (InterruptedException e) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }
