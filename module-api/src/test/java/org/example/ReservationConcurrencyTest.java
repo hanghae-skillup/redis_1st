@@ -1,12 +1,10 @@
 package org.example;
 
 import org.assertj.core.api.Assertions;
-import org.example.dto.SeatsDto;
 import org.example.dto.request.ReservationRequestDto;
 import org.example.dto.request.ReservationSeatDto;
-import org.example.repository.ReservationJpaRepository;
 import org.example.repository.ReservationSeatRepository;
-import org.example.service.ReservationService;
+import org.example.service.reservation.ReservationService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
