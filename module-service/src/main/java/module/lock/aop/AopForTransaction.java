@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Component
 public class AopForTransaction {
-    private AopForTransaction() {}
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     protected Object proceed(final ProceedingJoinPoint joinPoint) throws Throwable {
         return joinPoint.proceed();
