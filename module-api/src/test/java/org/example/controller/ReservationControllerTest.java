@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import org.example.baseresponse.BaseResponse;
+import org.example.baseresponse.error.BaseErrorResponse;
 import org.example.dto.request.ReservationRequestDto;
 import org.example.dto.request.ReservationSeatDto;
 import org.junit.jupiter.api.DisplayName;
@@ -10,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -188,11 +192,15 @@ class ReservationControllerTest {
                     List.of()
             );
 
-            ResponseEntity<BaseResponse> response = restTemplate.postForEntity(
-                    url, requestDto, BaseResponse.class
+            ResponseEntity<BaseErrorResponse> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.POST,
+                    new HttpEntity<>(requestDto),
+                    new ParameterizedTypeReference<BaseErrorResponse>() {}
             );
 
             assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+            assertEquals("예약 가능한 좌석 개수가 아닙니다.", response.getBody().getMessage());
         }
 
         @Test
@@ -208,14 +216,18 @@ class ReservationControllerTest {
                             new ReservationSeatDto("ROW_A", "COL_3"),
                             new ReservationSeatDto("ROW_A", "COL_4"),
                             new ReservationSeatDto("ROW_A", "COL_5"),
-                            new ReservationSeatDto("ROW_A", "COL_6"))
+                            new ReservationSeatDto("ROW_B", "COL_1"))
             );
 
-            ResponseEntity<BaseResponse> response = restTemplate.postForEntity(
-                    url, requestDto, BaseResponse.class
+            ResponseEntity<BaseErrorResponse> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.POST,
+                    new HttpEntity<>(requestDto),
+                    new ParameterizedTypeReference<BaseErrorResponse>() {}
             );
 
             assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+            assertEquals("예약 가능한 좌석 개수가 아닙니다.", response.getBody().getMessage());
         }
 
         @Test
@@ -231,11 +243,15 @@ class ReservationControllerTest {
                             new ReservationSeatDto("ROW_C", "COL_3"))
             );
 
-            ResponseEntity<BaseResponse> response = restTemplate.postForEntity(
-                    url, requestDto, BaseResponse.class
+            ResponseEntity<BaseErrorResponse> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.POST,
+                    new HttpEntity<>(requestDto),
+                    new ParameterizedTypeReference<BaseErrorResponse>() {}
             );
 
             assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+            assertEquals("연속된 좌석만 예약할 수 있습니다. 행이 다릅니다.", response.getBody().getMessage());
         }
 
         @Test
@@ -251,11 +267,15 @@ class ReservationControllerTest {
                             new ReservationSeatDto("ROW_A", "COL_4"))
             );
 
-            ResponseEntity<BaseResponse> response = restTemplate.postForEntity(
-                    url, requestDto, BaseResponse.class
+            ResponseEntity<BaseErrorResponse> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.POST,
+                    new HttpEntity<>(requestDto),
+                    new ParameterizedTypeReference<BaseErrorResponse>() {}
             );
 
             assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+            assertEquals("연속된 좌석만 예약할 수 있습니다. 열이 연속되지 않았습니다.", response.getBody().getMessage());
         }
     }
 
@@ -278,20 +298,24 @@ class ReservationControllerTest {
             ReservationRequestDto requestDto2 = new ReservationRequestDto(
                     7L,
                     7L,
-                    List.of(new ReservationSeatDto("ROW_A", "COL_4"),
-                            new ReservationSeatDto("ROW_A", "COL_5"),
-                            new ReservationSeatDto("ROW_B", "COL_1"))
+                    List.of(new ReservationSeatDto("ROW_B", "COL_1"),
+                            new ReservationSeatDto("ROW_B", "COL_2"),
+                            new ReservationSeatDto("ROW_B", "COL_3"))
             );
 
             restTemplate.postForEntity(
                     url, requestDto, BaseResponse.class
             );
 
-            ResponseEntity<BaseResponse> response2 = restTemplate.postForEntity(
-                    url, requestDto2, BaseResponse.class
+            ResponseEntity<BaseErrorResponse> response2 = restTemplate.exchange(
+                    url,
+                    HttpMethod.POST,
+                    new HttpEntity<>(requestDto2),
+                    new ParameterizedTypeReference<BaseErrorResponse>() {}
             );
 
             assertEquals(HttpStatus.BAD_REQUEST, response2.getStatusCode());
+            assertEquals("최대 예약 가능한 좌석을 초과했습니다.", response2.getBody().getMessage());
         }
 
         @Test
@@ -317,11 +341,15 @@ class ReservationControllerTest {
                     url, requestDto, BaseResponse.class
             );
 
-            ResponseEntity<BaseResponse> response2 = restTemplate.postForEntity(
-                    url, requestDto2, BaseResponse.class
+            ResponseEntity<BaseErrorResponse> response2 = restTemplate.exchange(
+                    url,
+                    HttpMethod.POST,
+                    new HttpEntity<>(requestDto2),
+                    new ParameterizedTypeReference<BaseErrorResponse>() {}
             );
 
             assertEquals(HttpStatus.BAD_REQUEST, response2.getStatusCode());
+            assertEquals("연속된 좌석만 예약할 수 있습니다. 행이 다릅니다.", response2.getBody().getMessage());
         }
 
         @Test
@@ -347,11 +375,15 @@ class ReservationControllerTest {
                     url, requestDto, BaseResponse.class
             );
 
-            ResponseEntity<BaseResponse> response2 = restTemplate.postForEntity(
-                    url, requestDto2, BaseResponse.class
+            ResponseEntity<BaseErrorResponse> response2 = restTemplate.exchange(
+                    url,
+                    HttpMethod.POST,
+                    new HttpEntity<>(requestDto2),
+                    new ParameterizedTypeReference<BaseErrorResponse>() {}
             );
 
             assertEquals(HttpStatus.BAD_REQUEST, response2.getStatusCode());
+            assertEquals("연속된 좌석만 예약할 수 있습니다. 열이 연속되지 않았습니다.", response2.getBody().getMessage());
         }
 
         @Test
@@ -377,11 +409,15 @@ class ReservationControllerTest {
                     url, requestDto, BaseResponse.class
             );
 
-            ResponseEntity<BaseResponse> response2 = restTemplate.postForEntity(
-                    url, requestDto2, BaseResponse.class
+            ResponseEntity<BaseErrorResponse> response2 = restTemplate.exchange(
+                    url,
+                    HttpMethod.POST,
+                    new HttpEntity<>(requestDto2),
+                    new ParameterizedTypeReference<BaseErrorResponse>() {}
             );
 
             assertEquals(HttpStatus.BAD_REQUEST, response2.getStatusCode());
+            assertEquals("이미 예약된 좌석입니다.", response2.getBody().getMessage());
         }
     }
 }
