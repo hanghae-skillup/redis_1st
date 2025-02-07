@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.example.baseresponse.BaseResponseStatus.ALREADY_RESERVED_SEAT_ERROR;
 import static org.example.baseresponse.BaseResponseStatus.UNAVAILABLE_SEAT_ERROR;
 
 @Slf4j
@@ -72,7 +71,7 @@ public class ReservationService {
     }
 
     private void validateSeats(List<SeatsDto> seats) {
-        Seat.validateCountExceeded(seats.size());
+        Seat.validateSeatCount(seats.size());
         Seat.validateContinuousSeats(seats);
     }
 

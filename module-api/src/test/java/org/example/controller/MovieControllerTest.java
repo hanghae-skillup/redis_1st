@@ -16,7 +16,7 @@ class MovieControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @Autowired
     private MovieService movieService;
 
     @DisplayName("상영 중인 영화를 조회한다.")

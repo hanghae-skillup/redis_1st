@@ -1,5 +1,8 @@
 package org.example;
 
+import org.example.baseresponse.BaseResponse;
+import org.example.dto.request.ReservationRequestDto;
+import org.example.dto.request.ReservationSeatDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -8,10 +11,12 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.*;
 
+import java.util.List;
+import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureMockMvc
 class ApiApplicationTest {
     @LocalServerPort
     private int port;
@@ -56,7 +61,7 @@ class ApiApplicationTest {
     }
 
     @Test
-    void testRateLimit_ExceedLimit() {
+    void testRedisRateLimit_ExceedLimit() {
         String url = "http://localhost:" + port + "/movies/playing";
         HttpHeaders headers = new HttpHeaders();
         headers.set("X-Forwarded-For", TEST_IP);
@@ -82,7 +87,7 @@ class ApiApplicationTest {
     }
 
     @Test
-    void testRateLimit_Unblock() throws InterruptedException {
+    void testRedisRateLimit_Unblock() throws InterruptedException {
         String url = "http://localhost:" + port + "/movies/playing";
         HttpHeaders headers = new HttpHeaders();
         headers.set("X-Forwarded-For", TEST_IP);

@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.domain.reservationseat.ReservationSeat;
 import org.example.dto.SeatsDto;
 import org.example.entity.BaseEntity;
 import org.example.exception.SeatException;
@@ -20,6 +19,7 @@ import static org.example.baseresponse.BaseResponseStatus.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Slf4j
 public class Seat extends BaseEntity {
+    private static final int MIN_SEAT_COUNT = 1;
     private static final int MAX_SEAT_COUNT = 5;
 
     @Id
@@ -37,6 +37,12 @@ public class Seat extends BaseEntity {
 
     @Column(nullable = false)
     private Long screenRoomId;
+
+    public static void validateSeatCount(int seatSize) {
+        if (seatSize > MAX_SEAT_COUNT || seatSize < MIN_SEAT_COUNT) {
+            throw new SeatException(UNAVAILABLE_SEAT_COUNT_ERROR);
+        }
+    }
 
     public static void validateCountExceeded(int seatSize) {
         if (seatSize > MAX_SEAT_COUNT) {

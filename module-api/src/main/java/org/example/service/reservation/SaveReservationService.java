@@ -16,8 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.example.baseresponse.BaseResponseStatus.ALREADY_RESERVED_SEAT_ERROR;
-import static org.example.baseresponse.BaseResponseStatus.UNAVAILABLE_SEAT_ERROR;
+import static org.example.baseresponse.BaseResponseStatus.*;
 
 @Service
 @AllArgsConstructor
@@ -31,7 +30,7 @@ public class SaveReservationService {
         for (Seat seat : seats) {
             boolean isReserved = reservationSeatRepository.findReservedSeatBySeatId(reservationRequestDto.screenScheduleId(), seat.getId()).isPresent();
             if (isReserved) {
-                throw new SeatException(ALREADY_RESERVED_SEAT_ERROR);
+                throw new SeatException(CONCURRENT_RESERVATION_ERROR);
             }
         }
 
