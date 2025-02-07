@@ -9,11 +9,13 @@ import org.springframework.web.method.annotation.HandlerMethodValidationExceptio
 
 import exception.common.TryLockFailedException;
 import exception.showing.ShowingNotFoundException;
+import exception.showing.TooManyRequestException;
 import exception.ticket.InvalidAgeForMovieException;
 import exception.ticket.InvalidSeatConditionException;
 import exception.ticket.InvalidTicketException;
 import exception.ticket.NotOnSaleTicketException;
 import exception.ticket.TooManyReservationException;
+import exception.ticket.TwoManyReservationRequestException;
 import exception.user.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -81,6 +83,20 @@ public class ControllerAdvice {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	protected ResponseEntity<String> tryLockFailedException(TryLockFailedException e){
 		return ResponseEntity.status(HttpStatus.NO_CONTENT)
+			.body(e.getMessage());
+	}
+
+	@ExceptionHandler(TooManyRequestException.class)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	protected ResponseEntity<String> tooManyRequestException(TooManyRequestException e){
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+			.body(e.getMessage());
+	}
+
+	@ExceptionHandler(TwoManyReservationRequestException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	protected ResponseEntity<String> tooManyReservationRequestException(TwoManyReservationRequestException e){
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 			.body(e.getMessage());
 	}
 }
