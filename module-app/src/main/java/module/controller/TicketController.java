@@ -17,6 +17,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import module.config.ratelimit.RateLimitWith;
+import module.config.ratelimit.limiters.TicketReservationRateLimiter;
 import module.service.ticket.TicketService;
 
 @Slf4j
@@ -43,6 +45,7 @@ public class TicketController {
 	}
 
 	@PostMapping(value = "/reservation")
+	@RateLimitWith(rateLimiter = TicketReservationRateLimiter.class, postProcess = true)
 	public ResponseEntity<String> reservation(
 		@RequestBody TicketReservationRequest request
 	) {
