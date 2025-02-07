@@ -1,6 +1,6 @@
 package com.movie.storage.facade;
 
-import com.movie.domain.facade.ReservationFacade;
+import com.movie.application.movie.facade.ReservationFacade;
 import com.movie.domain.movie.dto.command.ReservationCommand;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

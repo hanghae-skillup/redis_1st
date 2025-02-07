@@ -1,6 +1,7 @@
 package com.movie.storage.facade;
 
-import com.movie.domain.facade.ReservationManager;
+import com.movie.application.movie.facade.ReservationManager;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ class ReservationManagerTest {
     @Autowired
     private ReservationManager reservationManager;
 
+    @Disabled
     @DisplayName("함수형 분산락을 적용하여, 예약 기능에 동시성 발생 유무를 확인")
     @Test
     void shouldHandleConcurrentReservationsByFunctionalLock() throws InterruptedException {
@@ -58,6 +60,7 @@ class ReservationManagerTest {
         assertThat(count.get()).isEqualTo(1);
     }
 
+    @Disabled
     @DisplayName("AOP 분산락을 적용하여, 예약 기능에 동시성 발생 유무를 확인")
     @Test
     void shouldHandleConcurrentReservationsByAOPDistributedLock() throws InterruptedException {

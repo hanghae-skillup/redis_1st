@@ -1,6 +1,6 @@
 package com.movie.movieapi.interfaces.movie;
 
-import com.movie.domain.facade.ReservationFacade;
+import com.movie.application.movie.facade.ReservationFacade;
 import com.movie.common.response.Response;
 import com.movie.movieapi.interfaces.movie.dto.ReservationDto;
 import lombok.RequiredArgsConstructor;

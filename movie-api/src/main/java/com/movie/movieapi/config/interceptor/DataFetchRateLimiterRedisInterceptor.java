@@ -1,6 +1,5 @@
 package com.movie.movieapi.config.interceptor;
 
-import com.google.common.util.concurrent.RateLimiter;
 import com.movie.common.exception.ApplicationException;
 import com.movie.common.exception.ErrorCode;
 import com.movie.domain.common.RateLimiterHandler;
@@ -11,20 +10,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 @Component
 @RequiredArgsConstructor
 public class DataFetchRateLimiterRedisInterceptor implements HandlerInterceptor {
 
     private final RateLimiterHandler rateLimiterHandler;
 
-    // Guava RateLimiter (IP별 제한)
-    private static final Map<String, RateLimiter> ipRateLimiters = new ConcurrentHashMap<>();
-
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String ip = WebUtils.getClientIp(request);
         String token = request.getHeader("Authorization");
         String key = "%s:%s".formatted(ip, token);
