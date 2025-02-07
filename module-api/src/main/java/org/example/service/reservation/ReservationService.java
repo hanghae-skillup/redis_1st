@@ -3,6 +3,7 @@ package org.example.service.reservation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.config.RedissonLockUtil;
+import org.example.domain.reservationseat.ReservationSeat;
 import org.example.domain.seat.Col;
 import org.example.domain.seat.Row;
 import org.example.domain.seat.Seat;
@@ -54,12 +55,12 @@ public class ReservationService {
 
         // Redisson MultiLock 적용 (여러 개의 좌석을 동시에 보호)
         redissonLockUtil.executeWithMultiLock(lockKeys, 5, 10, () -> {
-            saveReservationService.saveReservationWithTransaction(reservationRequestDto, seats);
+            saveReservationService.saveReservationWithTransaction(reservationRequestDto.usersId(), reservationRequestDto.screenScheduleId(), seats);
             return null;
         });
     }
 
-    private List<Seat> validateReservedSeats(Long screenRoomId, List<SeatsDto> reservationSeats) {
+    public List<Seat> validateReservedSeats(Long screenRoomId, List<SeatsDto> reservationSeats) {
         List<Seat> seats = new ArrayList<>();
         for (SeatsDto reservationSeat : reservationSeats) {
             Seat seat = seatJpaRepository.findSeats(screenRoomId, reservationSeat.getRow(), reservationSeat.getCol())
@@ -81,9 +82,9 @@ public class ReservationService {
             return;
         }
 
-        Seat.validateCountExceeded(reservationSeats.size() + reservedSeats.size()); // 예약하려는 좌석이 5개 이상인지
-        Seat.containsReservedSeat(reservationSeats, reservedSeats); // 이미 예약된 좌석과 겹치는지
-        Seat.isSameRow(reservationSeats, reservedSeats); // 좌석이 같은 행에 있는지
-        Seat.isContinuousCol(reservationSeats, reservedSeats); // 좌석이 연속된 열인지
+        ReservationSeat.validateCountExceeded(reservationSeats.size() + reservedSeats.size()); // 예약하려는 좌석이 5개 이상인지
+        ReservationSeat.containsReservedSeat(reservationSeats, reservedSeats); // 이미 예약된 좌석과 겹치는지
+        ReservationSeat.isSameRow(reservationSeats, reservedSeats); // 좌석이 같은 행에 있는지
+        ReservationSeat.isContinuousCol(reservationSeats, reservedSeats); // 좌석이 연속된 열인지
     }
 }

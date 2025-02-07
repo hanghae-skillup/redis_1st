@@ -25,16 +25,16 @@ public class SaveReservationService {
     private final ReservationSeatRepository reservationSeatRepository;
 
     @Transactional
-    public void saveReservationWithTransaction(ReservationRequestDto reservationRequestDto, List<Seat> seats) {
+    public void saveReservationWithTransaction(Long userId, Long screenScheduleId, List<Seat> seats) {
         // 예약된 좌석인지 검증
         for (Seat seat : seats) {
-            boolean isReserved = reservationSeatRepository.findReservedSeatBySeatId(reservationRequestDto.screenScheduleId(), seat.getId()).isPresent();
+            boolean isReserved = reservationSeatRepository.findReservedSeatBySeatId(screenScheduleId, seat.getId()).isPresent();
             if (isReserved) {
                 throw new SeatException(CONCURRENT_RESERVATION_ERROR);
             }
         }
 
-        Long reservationId = saveReservation(reservationRequestDto.usersId(), reservationRequestDto.screenScheduleId());
+        Long reservationId = saveReservation(userId, screenScheduleId);
         saveReservationSeats(seats, reservationId);
     }
 
