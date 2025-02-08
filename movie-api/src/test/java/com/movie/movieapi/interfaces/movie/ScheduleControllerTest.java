@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movie.domain.movie.ScheduleService;
 import com.movie.domain.movie.dto.command.ScheduleCommand;
 import com.movie.common.response.Response;
+import com.movie.movieapi.MovieApiApplication;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@SpringBootTest(classes = MovieApiApplication.class)
 @AutoConfigureMockMvc
 class ScheduleControllerTest {
 
