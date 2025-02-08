@@ -10,6 +10,7 @@ import com.example.repository.movie.SeatRepository;
 import com.example.repository.reservation.ReservedSeatRepository;
 import com.example.reservation.request.ReservationServiceRequest;
 import lombok.RequiredArgsConstructor;
+import org.redisson.api.RScript;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
 
@@ -52,6 +53,8 @@ public class ReservationValidate {
             throw RESERVATION_SEAT_TOTAL_COUNT_ERROR.exception();
         }
 
+        validateAndReserveSeatsInRedis(screening.getId(), request.getSeatIds());
+
         List<ReservedSeat> existingReservations = reservedSeatRepository.findByScreeningAndSeats(screening, seats.getSeats());
         if (!existingReservations.isEmpty()) {
             throw RESERVATION_EXIST_ERROR.exception();
@@ -78,6 +81,34 @@ public class ReservationValidate {
     }
 
     private Seats getSeats(List<Long> seatsIds) {
-        return new Seats(seatRepository.findAllByIdsWithLock(seatsIds));
+//        return new Seats(seatRepository.findAllByIdsWithLock(seatsIds));
+        return new Seats(seatRepository.findAllById(seatsIds));
+    }
+
+    private void validateAndReserveSeatsInRedis(Long screeningId, List<Long> seatIds) {
+        String redisKey = "screening:" + screeningId + ":seats";
+
+        String luaScript =
+                "for i, seatId in ipairs(ARGV) do " +
+                "   if redis.call('HGET', KEYS[1], seatId) == 'true' then " +
+                "       return 0; " +
+                "   end; " +
+                "end; " +
+                "for i, seatId in ipairs(ARGV) do " +
+                "   redis.call('HSET', KEYS[1], seatId, 'true'); " +
+                "end; " +
+                "return 1;";
+
+        Long result = redissonClient.getScript().eval(
+                RScript.Mode.READ_WRITE,
+                luaScript,
+                RScript.ReturnType.INTEGER,
+                List.of(redisKey),
+                seatIds.stream().map(String::valueOf).toArray()
+        );
+
+        if (result == 0) {
+            throw RESERVATION_EXIST_ERROR.exception();
+        }
     }
 }
