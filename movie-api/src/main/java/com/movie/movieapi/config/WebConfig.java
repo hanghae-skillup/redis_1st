@@ -1,9 +1,9 @@
 package com.movie.movieapi.config;
 
-import com.movie.movieapi.config.interceptor.DataFetchRateLimitInterceptor;
-import com.movie.movieapi.config.interceptor.DataFetchRateLimiterRedisInterceptor;
-import com.movie.movieapi.config.interceptor.ReservationRateLimitInterceptor;
-import com.movie.movieapi.config.interceptor.ReservationRateLimitRedisInterceptor;
+import com.movie.movieapi.interceptor.DataFetchRateLimitInterceptor;
+import com.movie.movieapi.interceptor.DataFetchRateLimiterRedisInterceptor;
+import com.movie.movieapi.interceptor.ReservationRateLimitInterceptor;
+import com.movie.movieapi.interceptor.ReservationRateLimitRedisInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

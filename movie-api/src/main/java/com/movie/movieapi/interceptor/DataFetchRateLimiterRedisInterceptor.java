@@ -1,4 +1,4 @@
-package com.movie.movieapi.config.interceptor;
+package com.movie.movieapi.interceptor;
 
 import com.movie.common.exception.ApplicationException;
 import com.movie.common.exception.ErrorCode;

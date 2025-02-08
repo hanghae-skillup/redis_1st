@@ -1,4 +1,4 @@
-package com.movie.movieapi.config.interceptor;
+package com.movie.movieapi.config;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;

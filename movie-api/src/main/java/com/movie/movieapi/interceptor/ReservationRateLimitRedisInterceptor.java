@@ -1,4 +1,4 @@
-package com.movie.movieapi.config.interceptor;
+package com.movie.movieapi.interceptor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movie.common.exception.ApplicationException;
@@ -8,6 +8,7 @@ import com.movie.domain.movie.ReservationRedisRepository;
 import com.movie.domain.movie.dto.command.ReservationCommand;
 import com.movie.domain.userAccount.UserAccount;
 import com.movie.domain.userAccount.UserAccountRepository;
+import com.movie.movieapi.config.RequestWrapper;
 import com.movie.movieapi.config.WebUtils;
 import com.movie.movieapi.interfaces.movie.dto.ReservationDto;
 import jakarta.servlet.http.HttpServletRequest;

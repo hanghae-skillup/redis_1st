@@ -1,4 +1,4 @@
-package com.movie.movieapi.config.interceptor;
+package com.movie.movieapi.interceptor;
 
 import com.google.common.util.concurrent.RateLimiter;
 import com.movie.common.exception.ApplicationException;
