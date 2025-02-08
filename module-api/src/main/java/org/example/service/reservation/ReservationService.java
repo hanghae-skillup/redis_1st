@@ -82,7 +82,7 @@ public class ReservationService {
             return;
         }
 
-        ReservationSeat.validateCountExceeded(reservationSeats.size() + reservedSeats.size()); // 예약하려는 좌석이 5개 이상인지
+        ReservationSeat.validateCountExceeded(reservationSeats, reservedSeats); // 예약하려는 좌석이 5개 이상인지
         ReservationSeat.containsReservedSeat(reservationSeats, reservedSeats); // 이미 예약된 좌석과 겹치는지
         ReservationSeat.isSameRow(reservationSeats, reservedSeats); // 좌석이 같은 행에 있는지
         ReservationSeat.isContinuousCol(reservationSeats, reservedSeats); // 좌석이 연속된 열인지

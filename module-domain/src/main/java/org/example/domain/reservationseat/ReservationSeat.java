@@ -47,8 +47,8 @@ public class ReservationSeat extends BaseEntity {
                 .build();
     }
 
-    public static void validateCountExceeded(int seatSize) {
-        if (seatSize > MAX_SEAT_COUNT) {
+    public static void validateCountExceeded(List<SeatsDto> reservationSeats, List<SeatsDto> seatsDtoByUserId) {
+        if (reservationSeats.size()+seatsDtoByUserId.size() > MAX_SEAT_COUNT) {
             throw new SeatException(MAX_SEATS_EXCEEDED_ERROR);
         }
     }
