@@ -1,8 +1,8 @@
 package com.example.reservation;
 
-import com.example.aop.DistributedLock;
 import com.example.entity.reservation.Reservation;
 import com.example.entity.reservation.ReservedSeat;
+import com.example.func.DistributedLockExecutor;
 import com.example.message.MessageService;
 import com.example.repository.reservation.ReservationRepository;
 import com.example.reservation.request.ReservationServiceRequest;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -22,20 +23,27 @@ public class ReservationService {
     private final MessageService messageService;
     private final ReservationValidate reservationValidate;
     private final ReservationRepository reservationRepository;
+    private final DistributedLockExecutor lockExecutor;
 
+//    @DistributedLock(key = "reservation:screening:{#request.screeningId}:seat:{#request.seatIds}", leaseTime = 5, waitTime = 5)
     @Transactional
-    @DistributedLock(key = "reservation:screening:{#request.screeningId}:seat:{#request.seatIds}", leaseTime = 5, waitTime = 5)
     public ReservationServiceResponse reserve(ReservationServiceRequest request) {
 
-        ReservationValidationResult validationResult = reservationValidate.validate(request);
+        List<String> lockKeys = request.getSeatIds().stream()
+                .map(seatId -> "reservation:screening:" + request.getScreeningId() + ":seat:" + seatId)
+                .toList();
 
-        Reservation reservation = createReservation(validationResult);
+        return lockExecutor.executeWithLock(lockKeys, 5, 5, TimeUnit.SECONDS, () -> {
+            ReservationValidationResult validationResult = reservationValidate.validate(request);
 
-        reservationRepository.save(reservation);
+            Reservation reservation = createReservation(validationResult);
 
-        messageService.send();
+            reservationRepository.save(reservation);
 
-        return ReservationServiceResponse.of(reservation);
+            messageService.send();
+
+            return ReservationServiceResponse.of(reservation);
+        });
     }
 
     private Reservation createReservation(ReservationValidationResult validationResult) {
