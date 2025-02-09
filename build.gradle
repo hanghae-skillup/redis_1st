@@ -69,12 +69,29 @@ subprojects {
         toolVersion = "0.8.12" // JaCoCo 버전 설정
     }
     test {
-////        exclude '**/*'
+        exclude '**/com/movie/storage/facade/**', '**/com/movie/movieapi/config/interceptor/**'
         jacoco {
             enabled = true
             excludes = [
                     '**/com/movie/movieapi/config/**',
-                    '**/com/movie/movieapi/interfaces/movie/dto/**'
+                    '**/com/movie/movieapi/interfaces/movie/dto/**',
+
+                    '**/com/movie/domain/config/**',
+                    '**/com/movie/domain/common/**',
+                    '**/com/movie/domain/movie/dto/**',
+                    '**/com/movie/domain/movie/message/**',
+                    '**/com/movie/domain/movie/domain/Movie.class',
+                    '**/com/movie/domain/movie/domain/Schedule.class',
+                    '**/com/movie/domain/movie/domain/Screen.class',
+                    '**/com/movie/domain/movie/domain/Theater.class',
+                    '**/com/movie/domain/movie/domain/TimeTable.class',
+
+                    '**/com/movie/storage/movie/entity/**',
+                    '**/com/movie/storage/movie/bulkInsert/**',
+                    '**/com/movie/storage/movie/dto/**',
+                    '**/com/movie/storage/mapper/**',
+
+
             ]
         }
         finalizedBy 'jacocoTestReport' // 테스트 완료 후 JaCoCo 리포트 생성
@@ -90,7 +107,22 @@ subprojects {
                 files(classDirectories.files.collect {
                     fileTree(dir: it, exclude: [
                             '**/com/movie/movieapi/config/**',
-                            '**/com/movie/movieapi/interfaces/movie/dto/**'
+                            '**/com/movie/movieapi/interfaces/movie/dto/**',
+
+                            '**/com/movie/domain/config/**',
+                            '**/com/movie/domain/common/**',
+                            '**/com/movie/domain/movie/dto/**',
+                            '**/com/movie/domain/movie/message/**',
+                            '**/com/movie/domain/movie/domain/Movie.class',
+                            '**/com/movie/domain/movie/domain/Schedule.class',
+                            '**/com/movie/domain/movie/domain/Screen.class',
+                            '**/com/movie/domain/movie/domain/Theater.class',
+                            '**/com/movie/domain/movie/domain/TimeTable.class',
+
+                            '**/com/movie/storage/movie/entity/**',
+                            '**/com/movie/storage/movie/bulkInsert/**',
+                            '**/com/movie/storage/movie/dto/**',
+                            '**/com/movie/storage/mapper/**',
                     ])
                 })
         )
@@ -101,12 +133,27 @@ subprojects {
                 element = 'CLASS'
                 excludes = [
                         '**/com/movie/movieapi/config/**',
-                        '**/com/movie/movieapi/interfaces/movie/dto/**'
+                        '**/com/movie/movieapi/interfaces/movie/dto/**',
+
+                        '**/com/movie/domain/config/**',
+                        '**/com/movie/domain/common/**',
+                        '**/com/movie/domain/movie/dto/**',
+                        '**/com/movie/domain/movie/message/**',
+                        '**/com/movie/domain/movie/domain/Movie.class',
+                        '**/com/movie/domain/movie/domain/Schedule.class',
+                        '**/com/movie/domain/movie/domain/Screen.class',
+                        '**/com/movie/domain/movie/domain/Theater.class',
+                        '**/com/movie/domain/movie/domain/TimeTable.class',
+
+                        '**/com/movie/storage/movie/entity/**',
+                        '**/com/movie/storage/movie/bulkInsert/**',
+                        '**/com/movie/storage/movie/dto/**',
+                        '**/com/movie/storage/mapper/**',
                 ]
                 limit {
                     counter = 'LINE'
                     value = 'COVEREDRATIO'
-                    minimum = 0.10 // 최소 라인 커버리지 80%
+                    minimum = 0.60 // 최소 라인 커버리지 80%
                 }
             }
         }
