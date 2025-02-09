@@ -54,7 +54,7 @@ public class ReservationService {
                 .toList();
 
         // Redisson MultiLock 적용 (여러 개의 좌석을 동시에 보호)
-        redissonLockUtil.executeWithMultiLock(lockKeys, 5, 10, () -> {
+        redissonLockUtil.executeWithMultiLock(lockKeys, 1, 5, () -> {
             saveReservationService.saveReservationWithTransaction(reservationRequestDto.usersId(), reservationRequestDto.screenScheduleId(), seats);
             return null;
         });
