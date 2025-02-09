@@ -3,7 +3,8 @@ package com.hanghae.application.service;
 import com.hanghae.application.TestDataFactory;
 import com.hanghae.application.dto.ApiResponse;
 import com.hanghae.application.dto.request.MovieReservationRequestDto;
-import com.hanghae.application.enums.HttpStatusCode;
+import com.hanghae.application.enums.ErrorCode;
+import com.hanghae.application.exception.CustomRequestException;
 import com.hanghae.application.port.out.message.MessagePort;
 import com.hanghae.application.port.out.redis.RedisRateLimitPort;
 import com.hanghae.application.port.out.redis.RedissonLockPort;
@@ -92,8 +93,8 @@ class MovieReservationServiceImplTest {
     void saveMovieReservationSuccess() {
         ApiResponse<Void> response = movieReservationService.saveMovieReservation(requestDto);
 
-        // 응답 코드 비교
-        assertEquals(HttpStatusCode.CREATED, response.status());
+        // 응답 성공 확인
+        assertTrue(response.success());
 
         //ticketReservationRepositoryPort.saveMovieReservations 메서드가 1회 호출 되었는지 확인
         verify(ticketReservationRepositoryPort, times(1)).saveMovieReservations(anyList());
@@ -109,8 +110,8 @@ class MovieReservationServiceImplTest {
 
         ApiResponse<Void> response = movieReservationService.saveMovieReservation(requestDto);
 
-        // 응답 코드 확인
-        assertEquals(HttpStatusCode.TOO_MANY_REQUESTS, response.status());
+        // 응답 실패 확인
+        assertFalse(response.success());
 
         //ticketReservationRepositoryPort.saveMovieReservations 메서드가 호출 되지 않았는지 확인
         verify(ticketReservationRepositoryPort, never()).saveMovieReservations(anyList());
@@ -130,7 +131,7 @@ class MovieReservationServiceImplTest {
             return null;
         }).when(reservationService).validateSeatAvailability(anyInt());
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+        CustomRequestException exception = assertThrows(CustomRequestException.class, () ->
                 movieReservationService.saveMovieReservation(requestDto));
 
         // 응답 메시지 비교
@@ -155,7 +156,7 @@ class MovieReservationServiceImplTest {
         }).when(reservationService).validateReservationSeatLimit(anyInt(), anyInt());
 
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+        CustomRequestException exception = assertThrows(CustomRequestException.class, () ->
                 movieReservationService.saveMovieReservation(requestDto));
 
         // 응답 메시지 확인
@@ -170,11 +171,12 @@ class MovieReservationServiceImplTest {
 
         // executeWithSeatsLocks 예상 동작 다시 정의
         when(redissonLockPort.executeWithSeatsLocks(anyLong(), anyList(), any()))
-                .thenThrow(new IllegalStateException("현재 좌석을 다른 사용자가 예매 처리 중입니다."));
+                .thenThrow(new CustomRequestException("현재 좌석을 다른 사용자가 예매 처리 중입니다.", ErrorCode.SEAT_NOT_AVAILABLE));
 
-        ApiResponse<Void> response = movieReservationService.saveMovieReservation(requestDto);
+        CustomRequestException exception = assertThrows(CustomRequestException.class, () ->
+                movieReservationService.saveMovieReservation(requestDto));
 
-        // 응답 코드 확인
-        assertEquals(HttpStatusCode.CONFLICT, response.status());
+        // 응답 메시지 확인
+        assertEquals("현재 좌석을 다른 사용자가 예매 처리 중입니다.", exception.getMessage());
     }
 }

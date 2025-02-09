@@ -7,6 +7,7 @@ import com.hanghae.application.dto.response.ShowingMovieScheduleResponseDto;
 import com.hanghae.application.port.in.MovieScheduleService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +24,7 @@ public class MovieController {
     public ResponseEntity<ApiResponse<List<MovieScheduleResponseDto>>> getMovieSchedules() {
         ApiResponse<List<MovieScheduleResponseDto>> response = movieScheduleService.getMovieSchedules();
 
-        //응답코드 일치시켜서 리턴
-        return ResponseEntity.status(response.status().getCode()).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     //영화별 상영 시간표 조회 (grouping)
@@ -37,8 +37,11 @@ public class MovieController {
 
         ApiResponse<List<ShowingMovieScheduleResponseDto>> response = movieScheduleService.getShowingMovieSchedules(requestDto, ip);
 
-        //응답코드 일치시켜서 리턴
-        return ResponseEntity.status(response.status().getCode()).body(response);
+        if(response.success()) {
+            return ResponseEntity.status(HttpStatus.OK).body(response); //조회 성공
+        } else {
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(response); // 조회 실패
+        }
     }
 
     //redis 캐시삭제 (테스트용)
@@ -46,7 +49,6 @@ public class MovieController {
     public ResponseEntity<ApiResponse<Void>> evictCache() {
         ApiResponse<Void> response = movieScheduleService.evictShowingMovieCache();
 
-        //응답코드 일치시켜서 리턴
-        return ResponseEntity.status(response.status().getCode()).body(response);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
     }
 }

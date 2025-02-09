@@ -82,7 +82,7 @@ class ReservationControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDto)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.message").value("예매가 완료 되었습니다."));
+                .andExpect(jsonPath("$.message").value("예매가 완료되었습니다."));
     }
 
     @Test
