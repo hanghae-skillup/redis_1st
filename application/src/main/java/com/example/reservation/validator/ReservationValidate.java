@@ -10,6 +10,7 @@ import com.example.repository.movie.SeatRepository;
 import com.example.repository.reservation.ReservedSeatRepository;
 import com.example.reservation.request.ReservationServiceRequest;
 import lombok.RequiredArgsConstructor;
+import org.redisson.api.RScript;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
 
@@ -84,33 +85,30 @@ public class ReservationValidate {
         return new Seats(seatRepository.findAllById(seatsIds));
     }
 
-//    private void validateAndReserveSeatsInRedis(Long screeningId, List<Long> seatIds) {
-//        String redisKey = "screening:" + screeningId + ":seats";
-//
-//        // Lua 스크립트: 좌석 상태를 확인하고, 예약되지 않은 경우 예약 상태로 변경
-//        String luaScript =
-//                "for i, seatId in ipairs(ARGV) do " +
-//                        "   if redis.call('HGET', KEYS[1], seatId) == 'true' then " + // 이미 예약된 좌석 확인
-//                        "       return 0; " +
-//                        "   end; " +
-//                        "end; " +
-//                        "for i, seatId in ipairs(ARGV) do " +
-//                        "   redis.call('HSET', KEYS[1], seatId, 'true'); " + // 좌석 상태를 예약으로 변경
-//                        "end; " +
-//                        "return 1;";
-//
-//        // Redisson의 Lua 실행 API 호출
-//        Long result = redissonClient.getScript().eval(
-//                RScript.Mode.READ_WRITE,
-//                luaScript,
-//                RScript.ReturnType.INTEGER,
-//                List.of(redisKey), // Redis 키
-//                seatIds.stream().map(String::valueOf).toArray() // ARGV: 좌석 ID 리스트
-//        );
-//
-//        // Lua 스크립트 결과가 0이면 좌석 예약 실패 처리
-//        if (result == 0) {
-//            throw new IllegalArgumentException("이미 예매된 좌석입니다.");
-//        }
-//    }
+    private void validateAndReserveSeatsInRedis(Long screeningId, List<Long> seatIds) {
+        String redisKey = "screening:" + screeningId + ":seats";
+
+        String luaScript =
+                "for i, seatId in ipairs(ARGV) do " +
+                "   if redis.call('HGET', KEYS[1], seatId) == 'true' then " +
+                "       return 0; " +
+                "   end; " +
+                "end; " +
+                "for i, seatId in ipairs(ARGV) do " +
+                "   redis.call('HSET', KEYS[1], seatId, 'true'); " +
+                "end; " +
+                "return 1;";
+
+        Long result = redissonClient.getScript().eval(
+                RScript.Mode.READ_WRITE,
+                luaScript,
+                RScript.ReturnType.INTEGER,
+                List.of(redisKey),
+                seatIds.stream().map(String::valueOf).toArray()
+        );
+
+        if (result == 0) {
+            throw RESERVATION_EXIST_ERROR.exception();
+        }
+    }
 }
