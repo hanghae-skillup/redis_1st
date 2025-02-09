@@ -1,0 +1,34 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3305/movie?allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: wjdthals1104
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: none
+    defer-datasource-initialization: true
+
+  cache:
+    type: redis
+
+  data:
+    redis:
+      host: localhost
+      port: 6378
+
+  sql:
+    init:
+      mode: embedded
+      schema-locations: classpath:data.sql
