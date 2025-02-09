@@ -53,7 +53,7 @@ public class ReservationValidate {
             throw RESERVATION_SEAT_TOTAL_COUNT_ERROR.exception();
         }
 
-        validateAndReserveSeatsInRedis(screening.getId(), request.getSeatIds());
+//        validateAndReserveSeatsInRedis(screening.getId(), request.getSeatIds());
 
         List<ReservedSeat> existingReservations = reservedSeatRepository.findByScreeningAndSeats(screening, seats.getSeats());
         if (!existingReservations.isEmpty()) {
