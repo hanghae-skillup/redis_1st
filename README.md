@@ -456,3 +456,99 @@ create index idx_title_genre_released_at on movie(title, genre, released_at);
 </details>
 
 </details>
+
+<details>
+  <summary style="font-weight: bold; font-size: 17px;">분산락 적용 및 설정 (AOP를 활용한 분산락, 함수형 분산락)</summary>
+
+### AOP 룰 설정한 분산락 성능 테스트
+  - 5번의 테스트를 진행하여 평균 약 `920ms`의 성능을 보임
+
+<img src="./docs/images/AOP-distributed-lock.png" width="550">
+
+
+### 함수형 분산락 성능 테스트
+  - 5번의 테스트를 진행하여 평균 약 `870ms`의 성능을 보임
+
+<img src="./docs/images/functional-distributed-lock.png" width="550">
+
+> 함수형 분산락의 성능이 대략 `50ms` 의 빠른 성능을 보임
+
+### AOP 분산락과 함수형 기반 분산락의 속도 차이가 발생하는 이유는 무엇일까?
+
+실행흐름의 차이  
+```
+// AOP 분산락
+AOP 프록시가 메서드 호출을 가로챔 -> 릭 적용 -> 메서드 실행
+
+// 함수형 기반 분산락
+메서드 내부에서 직접 함수형 분산락 실행 -> 락 적용 후 실행
+```
+AOP 기반은 메서드 호출을 감싸는 프록시가 만들어져 있고, 함수형 기반은 메서드 내부에서 직접 락을 적용하한 후 실행하기 때문에 속도의 차이가 발생한다.
+
+### waitTime, leaseTime
+
+하나의 예약 API 호출시 많게는 900ms 적게는 800ms의 속도를 보였다. 락을 획득하기 위해 대기하는 `waitTime`은 1초로도 충분하지만 
+5초로 주어 락을 순차적으로 가져갈 수 있도록 하였으며, leaseTime 또한 5초를 주어 획득한 락 내에 충분히 API가 처리될 수 있도록 보장함
+
+### 
+
+</details>
+
+<details>
+  <summary style="font-weight: bold; font-size: 17px;">Jacoco 테스트 결과</summary>
+
+> jacoco 테스트를 진행한 모듈은 movie-api, movie-domain. movie-storage 이다.
+
+### Api
+
+<img src="./docs/images/jacoco-api.png">
+
+- 통합 테스트를 진행하였으며 작성된 테스트 코드 클래스는 아래와 같다.
+  - ScheduleControllerTest
+  - ReservationControllerTest
+
+>interfaces 에 위치하는 controller 의 테스트 커버리지를 80% 이상 향상 시키도록 테스트 케이스를 작성했으며, 100%으로 테스트 통과율을 보임
+
+### Domain
+
+<img src="./docs/images/jacoco-domain.png">
+
+- Mock 테스트를 진행하였으며, 테스트를 작성한 클래스는 아래와 같다.
+  - SeatTest
+    - 5자리 이상 예약 시도 유효성 테스트
+    - 연속된 자리 예약 시도 유효성 테스트
+  - ReservationTest
+    - 이미 점유된 좌석 확인 테스트
+    - 점유되지 않은 좌석이라면 예약이 가능한지 테스트
+  - ScheduleServiceTest
+    - 영화관 id를 이용한 스케줄 목록조회 테스트
+    - 영화명, 장르를 이용한 스케줄 목록조회 테스트
+    - 영화관, 장르를 이용하여, 인메모리 캐시에서 스케줄 목록조회 테스트
+    - 영화관, 장르를 이용하여, Redis 캐시에서 스케줄 목록조회 테스트
+  - ReservationServiceTest
+    - 스케줄 id와 좌석 ids를 이용하여 예약 목록조회 테스트
+    - 스케줄 id, 좌석 ids, 사용자 id로 좌석 예약 테스트
+  - UserAccountServiceTest
+    - token을 이용한 단일 사용자 조회 테스트
+
+> 도메인 또한 80% 이상의 커버리지를 확인함
+
+### Storage 테스트
+
+<img src="./docs/images/jacoco-storage.png">
+
+- 통합 테스트로 진행했으며, 테스트 코드를 작성한 클래스는 아래와 같다.
+  - ScheduleRepositoryTest
+    - 영화관 id를 이용한 스케줄 목록조회
+    - 영화명, 장르를 이용한 스케줄 목록조회
+  - ReservationRepositoryTest
+    - 스케줄 id, 좌석 ids를 이용한 예약정보 목록조회
+    - 스케줄 id, 좌석 ids, 사용자 id를 이용한 좌석 예약
+  - UserAccountRepositoryTest
+    - token을 이용한 단일 사용자 조회
+
+> instruction & Branch Coverage 를 50% 이상 보임
+
+
+</details>
+

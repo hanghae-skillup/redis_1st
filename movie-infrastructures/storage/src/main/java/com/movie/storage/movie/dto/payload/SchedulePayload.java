@@ -47,6 +47,10 @@ public class SchedulePayload {
             );
         }
 
+        public static Get of(Long id) {
+            return new Get(id, null, null, null, null);
+        }
+
     }
 
 }

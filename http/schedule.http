@@ -31,13 +31,3 @@ Content-Type: application/json
   "title": null,
   "genre": "ACTION"
 }
-
-### 예약 API 추가
-POST http://localhost:8080/api/reservations
-Content-Type: application/json
-Authorization: 1f504eb92b17
-
-{
-  "scheduleId": 1,
-  "seatIds": [1, 2, 3]
-}

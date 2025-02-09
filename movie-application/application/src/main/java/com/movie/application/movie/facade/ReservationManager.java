@@ -1,4 +1,4 @@
-package com.movie.domain.facade;
+package com.movie.application.movie.facade;
 
 import com.movie.domain.movie.dto.command.ReservationCommand;
 import com.movie.redis.lock.DistributedLock;

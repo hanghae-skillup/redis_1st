@@ -53,7 +53,10 @@ public class ReservationRedisRepositoryImpl implements ReservationRedisRepositor
         try {
             String key = KEY_FORMAT.formatted(cacheData.scheduleId(), cacheData.userId());
             String value = valueOperations.get(key);
-            return Long.parseLong(value);
+            if (value != null) {
+                return Long.parseLong(value);
+            }
+            return null;
         } catch (Exception e) {
             log.error("Error while getting data: {}", e.getMessage());
         }

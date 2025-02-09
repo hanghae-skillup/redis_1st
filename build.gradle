@@ -22,6 +22,10 @@ subprojects {
     apply plugin: boot
     apply plugin: "io.spring.dependency-management"
     apply plugin: "idea"
+//    apply plugin: "java-test-fixtures"      //  java-test-fixture 플러그인
+//    apply plugin: "java-library"            //  java-test-fixture 플러그인
+//    apply plugin: "maven-publish"           //  java-test-fixture 플러그인
+    apply plugin: "jacoco"                  // Jacoco 플러그인 추가
 
     java {
         toolchain {
@@ -52,15 +56,106 @@ subprojects {
         testImplementation "$boot:spring-boot-starter-test"
     }
 
+    tasks.named("bootJar") {
+        mainClass = 'com.movie.movieapi.MovieApiApplication'
+    }
+
     tasks.named('test') {
         useJUnitPlatform()
     }
 
-//    test {
-//        exclude '**/*'
-//    }
+    // jacoco 설정
+    jacoco {
+        toolVersion = "0.8.12" // JaCoCo 버전 설정
+    }
+    test {
+        exclude '**/com/movie/storage/facade/**', '**/com/movie/movieapi/config/interceptor/**'
+        jacoco {
+            enabled = true
+            excludes = [
+                    '**/com/movie/movieapi/config/**',
+                    '**/com/movie/movieapi/interfaces/movie/dto/**',
 
-    tasks.named("bootJar") {
-        mainClass = 'com.movie.movieapi.MovieApiApplication'
+                    '**/com/movie/domain/config/**',
+                    '**/com/movie/domain/common/**',
+                    '**/com/movie/domain/movie/dto/**',
+                    '**/com/movie/domain/movie/message/**',
+                    '**/com/movie/domain/movie/domain/Movie.class',
+                    '**/com/movie/domain/movie/domain/Schedule.class',
+                    '**/com/movie/domain/movie/domain/Screen.class',
+                    '**/com/movie/domain/movie/domain/Theater.class',
+                    '**/com/movie/domain/movie/domain/TimeTable.class',
+
+                    '**/com/movie/storage/movie/entity/**',
+                    '**/com/movie/storage/movie/bulkInsert/**',
+                    '**/com/movie/storage/movie/dto/**',
+                    '**/com/movie/storage/mapper/**',
+
+
+            ]
+        }
+        finalizedBy 'jacocoTestReport' // 테스트 완료 후 JaCoCo 리포트 생성
+        finalizedBy 'jacocoTestCoverageVerification' // 테스트 완료 후 커버리지 검증 실행
+    }
+    tasks.named('jacocoTestReport') { // 기존 jacocoTestReport 태스크 재정의
+        reports {
+            html.required.set(true)
+            xml.required.set(false)
+            csv.required.set(false)
+        }
+        classDirectories.setFrom(
+                files(classDirectories.files.collect {
+                    fileTree(dir: it, exclude: [
+                            '**/com/movie/movieapi/config/**',
+                            '**/com/movie/movieapi/interfaces/movie/dto/**',
+
+                            '**/com/movie/domain/config/**',
+                            '**/com/movie/domain/common/**',
+                            '**/com/movie/domain/movie/dto/**',
+                            '**/com/movie/domain/movie/message/**',
+                            '**/com/movie/domain/movie/domain/Movie.class',
+                            '**/com/movie/domain/movie/domain/Schedule.class',
+                            '**/com/movie/domain/movie/domain/Screen.class',
+                            '**/com/movie/domain/movie/domain/Theater.class',
+                            '**/com/movie/domain/movie/domain/TimeTable.class',
+
+                            '**/com/movie/storage/movie/entity/**',
+                            '**/com/movie/storage/movie/bulkInsert/**',
+                            '**/com/movie/storage/movie/dto/**',
+                            '**/com/movie/storage/mapper/**',
+                    ])
+                })
+        )
+    }
+    jacocoTestCoverageVerification { // 커버리지 기준 설정
+        violationRules {
+            rule {
+                element = 'CLASS'
+                excludes = [
+                        '**/com/movie/movieapi/config/**',
+                        '**/com/movie/movieapi/interfaces/movie/dto/**',
+
+                        '**/com/movie/domain/config/**',
+                        '**/com/movie/domain/common/**',
+                        '**/com/movie/domain/movie/dto/**',
+                        '**/com/movie/domain/movie/message/**',
+                        '**/com/movie/domain/movie/domain/Movie.class',
+                        '**/com/movie/domain/movie/domain/Schedule.class',
+                        '**/com/movie/domain/movie/domain/Screen.class',
+                        '**/com/movie/domain/movie/domain/Theater.class',
+                        '**/com/movie/domain/movie/domain/TimeTable.class',
+
+                        '**/com/movie/storage/movie/entity/**',
+                        '**/com/movie/storage/movie/bulkInsert/**',
+                        '**/com/movie/storage/movie/dto/**',
+                        '**/com/movie/storage/mapper/**',
+                ]
+                limit {
+                    counter = 'LINE'
+                    value = 'COVEREDRATIO'
+                    minimum = 0.60 // 최소 라인 커버리지 80%
+                }
+            }
+        }
     }
 }

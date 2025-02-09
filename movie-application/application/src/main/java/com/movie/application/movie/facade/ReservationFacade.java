@@ -1,4 +1,4 @@
-package com.movie.domain.facade;
+package com.movie.application.movie.facade;
 
 import com.movie.domain.movie.ReservationService;
 import com.movie.domain.movie.SeatService;

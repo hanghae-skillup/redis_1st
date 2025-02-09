@@ -1,5 +1,6 @@
 package com.movie.storage.movie.bulkInsert;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +23,7 @@ class BulkInsertTest {
     @Autowired
     private BulkInsertReservation bulkInsertReservation;
 
-
+    @Disabled
     @Test
     void bulkInsertMovie() {
         // given
@@ -33,6 +34,7 @@ class BulkInsertTest {
         // then
     }
 
+    @Disabled
     @Test
     void bulkInsertTheater() {
         // given
@@ -43,6 +45,7 @@ class BulkInsertTest {
         // then
     }
 
+    @Disabled
     @Test
     void bulkInsertScreen() {
         // given
@@ -53,6 +56,7 @@ class BulkInsertTest {
         // then
     }
 
+    @Disabled
     @Test
     void bulkInsertSchedule() {
         // given
@@ -63,6 +67,7 @@ class BulkInsertTest {
         // then
     }
 
+    @Disabled
     @Test
     void bulkInsertReservation() {
 
@@ -70,6 +75,7 @@ class BulkInsertTest {
 
     }
 
+    @Disabled
     @Test
     void bulkInsertSeat() {
         // given

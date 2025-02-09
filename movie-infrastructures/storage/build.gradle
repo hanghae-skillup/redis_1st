@@ -15,6 +15,7 @@ dependencies {
 
 	implementation project(':movie-domain:common')
 	implementation project(':movie-domain:domain')
+	implementation project(':movie-application:application')
 
 	// 도메인 facade 테스르를 위한 test 의존성 추가
 	testImplementation project(':movie-infrastructures:redis')

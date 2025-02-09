@@ -1,6 +1,6 @@
 package com.movie.storage.facade;
 
-import com.movie.domain.facade.ReservationFacade;
+import com.movie.application.movie.facade.ReservationFacade;
 import com.movie.domain.movie.dto.command.ReservationCommand;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,9 +19,9 @@ class ReservationFacadeTest {
     @Autowired
     private ReservationFacade reservationFacade;
 
-    @DisplayName("동시성이 발생되는 ")
+    @DisplayName("좌석 예약시 발생할 수 있는 동시성 테스트")
     @Test
-    void test() throws InterruptedException {
+    void givenScheduleIdAndSeatIdsAndToken_whenReserveSeatsByMultipleThreads_thenReservedSeatsCorrectly() throws InterruptedException {
         // given
         int threadCount = 100;
         ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
