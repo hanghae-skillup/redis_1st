@@ -1,0 +1,8 @@
+rootProject.name = 'modules'
+include 'module-app'
+include 'module-core'
+include 'module-service'
+include 'module-rds-repo'
+include 'module-redis-repo'
+include 'module-external'
+
