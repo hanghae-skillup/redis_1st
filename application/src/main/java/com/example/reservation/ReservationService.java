@@ -25,7 +25,7 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final DistributedLockExecutor lockExecutor;
 
-//    @DistributedLock(key = "reservation:screening:{#request.screeningId}:seat:{#request.seatIds}", leaseTime = 5, waitTime = 5)
+//    @DistributedLock(key = "reservation:screening:{#request.screeningId}:seat:{#request.seatIds}", leaseTime = 2, waitTime = 2)
     @Transactional
     public ReservationServiceResponse reserve(ReservationServiceRequest request) {
 
@@ -33,7 +33,7 @@ public class ReservationService {
                 .map(seatId -> "reservation:screening:" + request.getScreeningId() + ":seat:" + seatId)
                 .toList();
 
-        return lockExecutor.executeWithLock(lockKeys, 5, 5, TimeUnit.SECONDS, () -> {
+        return lockExecutor.executeWithLock(lockKeys, 2, 2, TimeUnit.SECONDS, () -> {
             ReservationValidationResult validationResult = reservationValidate.validate(request);
 
             Reservation reservation = createReservation(validationResult);
