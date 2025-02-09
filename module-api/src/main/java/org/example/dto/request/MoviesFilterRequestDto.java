@@ -16,6 +16,4 @@ public class MoviesFilterRequestDto {
 
     @ValidEnum(enumClass = Genre.class, message = "장르는 다음 중 하나여야 합니다: ACTION, ROMANCE, HORROR, SF")
     private String genre;
-
-    private boolean playing;
 }
