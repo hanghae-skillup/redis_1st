@@ -1,15 +1,20 @@
 package org.example;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.*;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
 class RateLimiterTest {
     @LocalServerPort
     private int port;
@@ -17,7 +22,16 @@ class RateLimiterTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
     private static final String TEST_IP = "127.0.0.1";
+
+    @AfterEach
+    void cleanup() {
+        redisTemplate.delete("request:" + TEST_IP);
+        redisTemplate.delete("block:" + TEST_IP);
+    }
 
     @Test
     void testGuavaRateLimiter_BlocksExcessRequests() throws Exception {

@@ -8,11 +8,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.*;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
 class MovieControllerTest {
     @LocalServerPort
     private int port;
@@ -25,7 +27,7 @@ class MovieControllerTest {
     @Test
     @DisplayName("상영 중인 영화 리스트를 조회한다.")
     void searchPlayingMovies_Success() {
-        String url = "http://localhost:" + port + "/movies/playing?movieTitle=Inception&genre=SF&playing=true";
+        String url = "http://localhost:" + port + "/movies/playing?movieTitle=Inception&genre=SF";
         HttpHeaders headers = new HttpHeaders();
         headers.set("X-Forwarded-For", TEST_IP);
 
