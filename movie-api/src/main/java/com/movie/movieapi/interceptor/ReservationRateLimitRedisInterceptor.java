@@ -14,11 +14,9 @@ import com.movie.movieapi.interfaces.movie.dto.ReservationDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class ReservationRateLimitRedisInterceptor implements HandlerInterceptor {
@@ -40,8 +38,11 @@ public class ReservationRateLimitRedisInterceptor implements HandlerInterceptor 
             throw new ApplicationException(ErrorCode.TOO_MANY_REQUESTS, "");
         }
 
-        RequestWrapper requestWrapper = new RequestWrapper(request);
-        String requestBody = requestWrapper.getBodyContent();
+        if (!(request instanceof RequestWrapper)) {
+            request = new RequestWrapper(request); // 래핑된 요청을 생성
+        }
+
+        String requestBody = ((RequestWrapper) request).getBodyContent();
         ReservationDto.Reserve reserve = objectMapper.readValue(requestBody, ReservationDto.Reserve.class);
 
         // scheduleId 추출
