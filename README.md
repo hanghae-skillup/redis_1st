@@ -4,7 +4,10 @@
 > java 21  
 > Mysql  
 > Redis  
-  
+
+> ⚠ `domain`계층에서는 `CustomException`를 사용하지 않는다. ⚠      
+> * 의존성 최소화를 위해 `domain`계층에서 발생한 오류는 `CustomException`를 사용하지 않고 `application`계층에서 처리    
+    
 ### Junit5 테스트 환경
 * DB : H2  
 * Redis : Testcontainers  

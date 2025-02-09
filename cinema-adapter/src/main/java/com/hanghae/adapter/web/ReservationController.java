@@ -2,9 +2,11 @@ package com.hanghae.adapter.web;
 
 import com.hanghae.application.dto.ApiResponse;
 import com.hanghae.application.dto.request.MovieReservationRequestDto;
+import com.hanghae.application.enums.ErrorCode;
 import com.hanghae.application.enums.HttpStatusCode;
 import com.hanghae.application.port.in.MovieReservationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +25,12 @@ public class ReservationController {
     public ResponseEntity<ApiResponse<Void>> saveMovieReservation(@RequestBody MovieReservationRequestDto requestDto) {
         ApiResponse<Void> response = movieReservationService.saveMovieReservation(requestDto);
 
-        //응답코드 일치시켜서 리턴
-        return ResponseEntity.status(response.status().getCode()).body(response);
+        if(response.success()) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(response); //조회 성공
+        } else if(response.errorCode() == ErrorCode.RATE_LIMIT_EXCEEDED) {
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(response); // 조회 실패
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response); // 조회 실패
+        }
     }
 }

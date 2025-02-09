@@ -4,6 +4,7 @@ import com.hanghae.application.dto.ApiResponse;
 import com.hanghae.application.dto.request.MovieScheduleRequestDto;
 import com.hanghae.application.dto.response.MovieScheduleResponseDto;
 import com.hanghae.application.dto.response.ShowingMovieScheduleResponseDto;
+import com.hanghae.application.enums.ErrorCode;
 import com.hanghae.application.enums.HttpStatusCode;
 import com.hanghae.application.port.in.MovieScheduleService;
 import com.hanghae.application.port.out.redis.RedisRateLimitPort;
@@ -34,7 +35,7 @@ public class MovieScheduleServiceImpl implements MovieScheduleService {
         List<ScreeningSchedule> schedules = screeningScheduleRepositoryPort.findAll();
         List<MovieScheduleResponseDto> responseDtos = schedules.stream().map(this::convertToDto).collect(Collectors.toList());
 
-        return ApiResponse.of("Success", HttpStatusCode.OK, responseDtos);
+        return ApiResponse.of(true, "Success", responseDtos);
     }
 
     @Override
@@ -42,7 +43,7 @@ public class MovieScheduleServiceImpl implements MovieScheduleService {
     public ApiResponse<List<ShowingMovieScheduleResponseDto>> getShowingMovieSchedules(MovieScheduleRequestDto requestDto, String ip) {
         //1분에 50회 이상 조회시 조회 제한
         if (!redisRateLimitPort.isAllowed(ip)) {
-            return ApiResponse.of("너무 많은 요청으로 조회가 차단되었습니다. ", HttpStatusCode.TOO_MANY_REQUESTS);
+            return ApiResponse.of("너무 많은 요청으로 조회가 차단되었습니다. ", ErrorCode.SEARCH_REQUEST_BLOCKED);
         }
 
         List<MovieScheduleProjection> projections = movieRepositoryPort.findShowingMovieSchedules(requestDto);
@@ -80,13 +81,13 @@ public class MovieScheduleServiceImpl implements MovieScheduleService {
                     .build());
         }
 
-        return ApiResponse.of("Success", HttpStatusCode.OK, new ArrayList<>(movieMap.values()));
+        return ApiResponse.of(true, "Success", new ArrayList<>(movieMap.values()));
     }
 
     @Override
     public ApiResponse<Void> evictShowingMovieCache() {
         movieRepositoryPort.evictShowingMovieCache();
-        return ApiResponse.of("Success", HttpStatusCode.NO_CONTENT);
+        return ApiResponse.of(true, "캐시 삭제 완료.");
     }
 
     private MovieScheduleResponseDto convertToDto(ScreeningSchedule schedule) {
