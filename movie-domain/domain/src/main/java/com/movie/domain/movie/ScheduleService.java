@@ -32,12 +32,12 @@ public class ScheduleService {
 
     public List<ScheduleInfo.Get> getSchedulesByRedis(ScheduleCommand.Search search) {
         List<ScheduleInfo.Get> cachedSchedules = scheduleRedisRepository.find(search);
-        List<ScheduleInfo.Get> schedules = new ArrayList<>();
         if (cachedSchedules.isEmpty()) {
-            schedules = scheduleRepository.getSchedules(search);
+            List<ScheduleInfo.Get> schedules = scheduleRepository.getSchedules(search);
             scheduleRedisRepository.save(search, schedules);
+            return schedules;
         }
-        return schedules;
+        return cachedSchedules;
     }
 
     @CacheEvict(value = "schedules", allEntries = true)

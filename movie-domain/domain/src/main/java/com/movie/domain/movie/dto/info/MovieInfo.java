@@ -21,6 +21,10 @@ public class MovieInfo {
             return new Get(id, title, releaseDate, thumbnailUrl, runningTime, filmRating, genre);
         }
 
+        public static Get of(Long id, String title, Genre genre) {
+            return new Get(id, title, null, null, null, null, genre);
+        }
+
         public static Get from(Movie movie) {
             return Get.of(
                     movie.getId(), movie.getTitle(),

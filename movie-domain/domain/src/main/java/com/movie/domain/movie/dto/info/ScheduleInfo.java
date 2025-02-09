@@ -20,6 +20,14 @@ public class ScheduleInfo {
                              List<TimeTableInfo.Get> timeTables) {
             return new Get(id, theater, null, movie, timeTables);
         }
+
+        public static Get of(Long id) {
+            return new Get(id, null, null, null, null);
+        }
+
+        public static Get of(Long id, MovieInfo.Get movie) {
+            return new Get(id, null, null, movie, null);
+        }
     }
 
 }
