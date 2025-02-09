@@ -20,7 +20,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 
 @ExtendWith(MockitoExtension.class)
-class cReservationServiceTest {
+class ReservationServiceTest {
 
     @InjectMocks
     private ReservationService sut;
