@@ -1,0 +1,9 @@
+dependencies {
+    // 모듈 의존성
+    implementation project(':module-common')
+    implementation project(':module-screening')
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}

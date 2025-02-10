@@ -1,0 +1,12 @@
+bootJar.enabled = false
+jar.enabled = true
+
+dependencies {
+    // 공통 모듈 의존성
+    implementation project(':module-common')
+    implementation project(':module-movie')
+    implementation project(':module-theater')
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}
