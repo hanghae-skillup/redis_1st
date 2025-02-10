@@ -1,0 +1,19 @@
+spring:
+  profiles:
+    default: local
+  datasource:
+    url: jdbc:mysql://localhost:3306/theater
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
