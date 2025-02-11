@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
 public class SeatExceptionControllerAdvice {
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({SeatException.class})
     public BaseErrorResponse handle_BaseException(SeatException e) {
         log.error("[handle_BadRequest]", e);

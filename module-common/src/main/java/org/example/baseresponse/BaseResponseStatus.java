@@ -19,7 +19,8 @@ public enum BaseResponseStatus implements ResponseStatus {
     SEAT_ROW_DISCONTINUITY_ERROR(5004, HttpStatus.BAD_REQUEST.value(), "연속된 좌석만 예약할 수 있습니다. 행이 다릅니다."),
     SEAT_COLUMN_DISCONTINUITY_ERROR(5005, HttpStatus.BAD_REQUEST.value(), "연속된 좌석만 예약할 수 있습니다. 열이 연속되지 않았습니다."),
     ALREADY_RESERVED_SEAT_ERROR(5006, HttpStatus.BAD_REQUEST.value(), "이미 예약된 좌석입니다."),
-    TOO_MANY_REQUEST_ERROR(5007, HttpStatus.TOO_MANY_REQUESTS.value(), "너무 많은 요청이 들어왔습니다. 나중에 다시 시도해주세요.");
+    TOO_MANY_REQUEST_ERROR(5007, HttpStatus.TOO_MANY_REQUESTS.value(), "너무 많은 요청이 들어왔습니다. 나중에 다시 시도해주세요."),
+    UNAVAILABLE_SEAT_COUNT_ERROR(5008, HttpStatus.BAD_REQUEST.value(), "예약 가능한 좌석 개수가 아닙니다.");
 
     private final int code;
     private final int status;

@@ -401,3 +401,20 @@ export default function() {
 
 ![img_20.png](img_20.png)
 - 최대 TPS는 4.13K 이다.
+
+# 6. leaseTime, waitTime
+```
+waitTime: 1초, leaseTime: 5초
+```
+**waitTime**
+- 분산 캐싱 적용 후, 평균 처리 시간이 약 450ms가 소요되었으므로 넉넉하게 1초로 설정했습니다.
+
+**leaseTime**
+- leaseTime은 가장 오래 걸린 처리 시간에 영향을 받으므로 waitTime보다 길게 5초로 설정했습니다. 
+너무 길지 않게 설정해서 다른 요청들이 불필요하게 대기하지 않도록 하였습니다.
+
+
+# 7. 테스트 커버리지 결과
+![img_7.png](img_7.png)
+
+![img_10.png](img_10.png)

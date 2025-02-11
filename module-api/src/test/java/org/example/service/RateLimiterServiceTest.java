@@ -1,4 +1,4 @@
-package org.example;
+package org.example.service;
 
 import com.google.common.util.concurrent.RateLimiter;
 import org.example.service.movie.FindMovieService;
@@ -7,11 +7,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class GuavaRateLimiterTest {
+@ActiveProfiles("test")
+public class RateLimiterServiceTest {
     @MockBean
     private FindMovieService findMovieService;
 

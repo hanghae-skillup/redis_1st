@@ -17,6 +17,6 @@ public interface MovieJpaRepository extends JpaRepository<Movie, Long> {
             "join ScreenRoom sr on ss.screenRoomId = sr.id  " +
             "where (:title IS NULL OR m.title LIKE %:title%) " +
             "AND (:genre IS NULL OR m.genre = :genre) " +
-            "And (m.isPlaying = :isPlaying)")
-    List<MovieScreeningInfo> findScreeningInfos(@Param("title") String title, @Param("genre") Genre genre, @Param("isPlaying") boolean isPlaying);
+            "And (m.isPlaying = true)")
+    List<MovieScreeningInfo> findScreeningInfos(@Param("title") String title, @Param("genre") Genre genre);
 }

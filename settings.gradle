@@ -1,6 +1,5 @@
 rootProject.name = 'redis_1st'
 include 'module-api'
 include 'module-domain'
-include 'module-core'
 include 'module-common'
 

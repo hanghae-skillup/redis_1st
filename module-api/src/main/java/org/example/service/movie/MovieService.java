@@ -8,12 +8,9 @@ import org.example.dto.request.MoviesFilterRequestDto;
 import org.example.dto.response.PlayingMoviesResponseDto;
 import org.example.dto.response.ScreeningInfo;
 import org.example.dto.response.ScreeningTimeInfo;
-import org.example.exception.RateLimitExceededException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-
-import static org.example.baseresponse.BaseResponseStatus.TOO_MANY_REQUEST_ERROR;
 
 @Slf4j
 @Service

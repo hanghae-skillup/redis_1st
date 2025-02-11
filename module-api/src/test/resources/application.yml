@@ -1,9 +1,14 @@
 spring:
+  config:
+    activate:
+      on-profile: test
+
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${DATASOURCE_URL}
-    username: ${DATASOURCE_USERNAME}
-    password: ${DATASOURCE_PASSWORD}
+    url: jdbc:mysql://localhost:3305/movie?allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: wjdthals1104
 
   jpa:
     show-sql: true
@@ -20,8 +25,8 @@ spring:
 
   data:
     redis:
-      host: ${DATA_REDIS_HOST}
-      port: ${DATA_REDIS_PORT}
+      host: localhost
+      port: 6378
 
   sql:
     init:
