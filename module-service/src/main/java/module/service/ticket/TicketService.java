@@ -49,7 +49,6 @@ public class TicketService {
 	private final SalesRepository salesRepository;
 	private final SeatsRepository seatsRepository;
 
-
 	public List<TicketResponse> getAllTicket(Long showingId) {
 		// 존재하는 상영정보인지 확인
 		Optional<Showing> showingOptional = showingRepository.findById(showingId);
@@ -81,40 +80,61 @@ public class TicketService {
 		return ticketList;
 	}
 
+	public String reservation(Long showingId, String username, List<TicketDTO> ticketDtoList) {
+		// 티켓 및 사용자 유효성 검증
+		validateReservation(showingId, username, ticketDtoList);
+
+		return reservationWithFunctionalLock(username, ticketDtoList);
+		// return reservationWithAOPLock(username, ticketDtoList);
+	}
+
 	@DistributedLock(
 		keyPrefix = "TICKET",
 		key = "#ticketDtoList.?[ticketId != null].![ticketId].toArray()"
 	)
-	public String reservationWithAOP(Long showingId, String username, List<TicketDTO> ticketDtoList) {
-		// 예외처리 [ 존재하지 않는 사용자 ]
-		Optional<User> optionalUser = userRepository.findByUsername(username);
-		if (optionalUser.isEmpty()) {
-			throw new UserNotFoundException();
-		}
-		User user = optionalUser.get();
-		validateAndReserve(showingId, user, ticketDtoList);
+	public String reservationWithAOPLock(String username, List<TicketDTO> ticketDtoList) {
+		List<Ticket> ticketList = ticketRepository.findAllByTicketIdIn(
+			ticketDtoList.stream().map(TicketDTO::getTicketId).toList());
+		User user = userRepository.findByUsername(username).get();
 
+		// 최종연산 [ 결제 완료 처리 ]
+		for (Ticket ticket : ticketList) {
+			ticket.setTicketStatus(TicketStatus.RESERVED);
+			Sales sales = Sales.builder().price(9000)
+				.user(user).ticket(ticket)
+				.createBy("system").build();
+			salesRepository.save(sales);
+		}
 		return "success";
 	}
 
-	public String reservationWithFunctional(Long showingId, String username, List<TicketDTO> ticketDtoList) {
+	public String reservationWithFunctionalLock(String username, List<TicketDTO> ticketDtoList) {
 		List<Long> keys = ticketDtoList.stream().map(TicketDTO::getTicketId).toList();
-
 		functionalDistributedLock.executeLock("TICKET:", keys, () -> {
-			// 예외처리 [ 존재하지 않는 사용자 ]
-			Optional<User> optionalUser = userRepository.findByUsername(username);
-			if (optionalUser.isEmpty()) {
-				throw new UserNotFoundException();
-			}
+			List<Ticket> ticketList = ticketRepository.findAllByTicketIdIn(
+				ticketDtoList.stream().map(TicketDTO::getTicketId).toList());
+			User user = userRepository.findByUsername(username).get();
 
-			User user = optionalUser.get();
-			validateAndReserve(showingId, user, ticketDtoList);
+			// 최종연산 [ 결제 완료 처리 ]
+			for (Ticket ticket : ticketList) {
+				ticket.setTicketStatus(TicketStatus.RESERVED);
+				Sales sales = Sales.builder().price(9000)
+					.user(user).ticket(ticket)
+					.createBy("system").build();
+				salesRepository.save(sales);
+			}
 		});
 
 		return "success";
 	}
 
-	public void validateAndReserve(Long showingId, User user, List<TicketDTO> ticketDtoList) {
+	public void validateReservation(Long showingId, String username, List<TicketDTO> ticketDtoList) {
+		Optional<User> optionalUser = userRepository.findByUsername(username);
+		if (optionalUser.isEmpty()) {
+			throw new UserNotFoundException();
+		}
+		User user = optionalUser.get();
+
 		List<Ticket> ticketList = ticketRepository.findAllByTicketIdIn(
 			ticketDtoList.stream().map(TicketDTO::getTicketId).toList());
 
@@ -148,15 +168,7 @@ public class TicketService {
 		int userAge = Period.between(user.getBirth(), LocalDate.now()).getYears();
 		if (userAge < movie.getRating().getAge())
 			throw new InvalidAgeForMovieException();
-
-		// 최종연산 [ 결제 완료 처리 ]
-		for (Ticket ticket : ticketList) {
-			ticket.setTicketStatus(TicketStatus.RESERVED);
-			Sales sales = Sales.builder().price(9000)
-				.user(user).ticket(ticket)
-				.createBy("system").build();
-			salesRepository.save(sales);
-		}
 	}
+
 
 }

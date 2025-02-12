@@ -9,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Component
 public class FunctionalForTransaction {
-	private FunctionalForTransaction() {}
-
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	protected void run(Runnable runnable){
 		runnable.run();

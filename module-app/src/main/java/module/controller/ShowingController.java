@@ -14,6 +14,8 @@ import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
+import module.config.ratelimit.limiters.ShowingSearchRateLimiter;
+import module.config.ratelimit.RateLimitWith;
 import module.service.showing.ShowingService;
 
 @RestController
@@ -24,6 +26,7 @@ public class ShowingController {
 	private final ShowingService showingService;
 
 	@GetMapping("/all")
+	@RateLimitWith(rateLimiter = ShowingSearchRateLimiter.class)
 	public ResponseEntity<List<MovieShowingResponse>> getTodayShowing(
 		@Valid @Size(max = 10, message = "제목 최대 길이는 255자 이내 입니다.")
 		@Nullable @RequestParam String title,
