@@ -1,14 +1,14 @@
 package hellojpa.domain;
 
-import hellojpa.BaseEntity;
-import hellojpa.exception.SeatReservationException;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Seat extends BaseEntity {
 
     @Id
@@ -32,6 +32,20 @@ public class Seat extends BaseEntity {
 
     @Version
     private Long version;
+
+    public Seat(Theater theater, String seatRow, int seatColumn, Reservation reservation) {
+        this.theater = theater;
+        this.seatRow = seatRow;
+        this.seatColumn = seatColumn;
+        this.reservation = reservation;
+    }
+
+    public Seat(Long id, Theater theater, String seatRow, int seatColumn) {
+        this.id = id;
+        this.theater = theater;
+        this.seatRow = seatRow;
+        this.seatColumn = seatColumn;
+    }
 
     public void saveReservation(Reservation reservation) {
         this.reservation = reservation;

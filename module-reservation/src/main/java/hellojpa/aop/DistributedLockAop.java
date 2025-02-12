@@ -1,16 +1,13 @@
-package hellojpa;
+package hellojpa.aop;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
-
-import java.lang.reflect.Method;
 
 @Aspect
 @Component
@@ -23,13 +20,10 @@ public class DistributedLockAop {
     private final RedissonClient redissonClient;
     private final AopForTransaction aopForTransaction;
 
-    @Around("@annotation(hellojpa.DistributedLock)")
-    public Object lock(final ProceedingJoinPoint joinPoint) throws Throwable {
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        Method method = signature.getMethod();
-        DistributedLock distributedLock = method.getAnnotation(DistributedLock.class);
+    @Around("@annotation(hellojpa.aop.DistributedLock)")
+    public Object lock(final ProceedingJoinPoint joinPoint, DistributedLock distributedLock) throws Throwable {
 
-        String key = REDISSON_LOCK_PREFIX + DistributedLockKeyGenerator.generate(signature.getParameterNames(), joinPoint.getArgs(), distributedLock.key());
+        String key = REDISSON_LOCK_PREFIX + distributedLock.key();
         log.info("Generated Lock Key: {}", key);
 
         RLock rLock = redissonClient.getLock(key);
@@ -50,7 +44,7 @@ public class DistributedLockAop {
             try {
                 rLock.unlock();
             } catch (IllegalMonitorStateException e) {
-                log.info("Redisson Lock Already Unlock {} {}", method.getName(), key);
+                log.info("Redisson Lock Already Unlock {}", key);
             }
         }
     }

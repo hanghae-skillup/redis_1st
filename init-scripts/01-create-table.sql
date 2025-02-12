@@ -49,4 +49,7 @@ CREATE TABLE seat (
 
 ALTER TABLE seat MODIFY COLUMN version BIGINT NOT NULL DEFAULT 0;
 
-INSERT INTO users (name, age) VALUES ("123", 29);
+INSERT INTO users (name, age) VALUES ("user1", 20);
+INSERT INTO users (name, age) VALUES ("user2", 21);
+INSERT INTO users (name, age) VALUES ("user3", 22);
+INSERT INTO users (name, age) VALUES ("user4", 23);

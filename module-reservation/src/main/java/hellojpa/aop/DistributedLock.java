@@ -1,4 +1,4 @@
-package hellojpa;
+package hellojpa.aop;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public @interface DistributedLock {
 
     String key();
-    int waitTime() default 11;
-    int leaseTime() default 10;
+    int waitTime() default 4;
+    int leaseTime() default 2;
     TimeUnit timeUnit() default TimeUnit.SECONDS;
 }

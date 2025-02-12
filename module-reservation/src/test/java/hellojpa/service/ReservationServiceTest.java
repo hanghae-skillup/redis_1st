@@ -1,70 +1,83 @@
 package hellojpa.service;
 
-import hellojpa.domain.*;
-import hellojpa.dto.ReservationDto;
-import hellojpa.repository.*;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import org.assertj.core.api.Assertions;
+import hellojpa.dto.ReservationRequestDto;
+import hellojpa.exception.SeatReservationException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 
-@SpringBootTest
-@Transactional
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
 class ReservationServiceTest {
 
-    @Autowired
+    @InjectMocks
     private ReservationService reservationService;
 
-    @Autowired
-    private ReservationRepository reservationRepository;
+    @Mock
+    private ReservationTransactionalService reservationTransactionalService;
 
-    @PersistenceContext
-    private EntityManager em;
+    @Mock
+    private RedissonClient redissonClient;
+
+    @Mock
+    private RLock lock;
+
+    @Mock
+    private ReservationRateLimitService reservationRateLimitService;
+
+    private ReservationRequestDto reservationRequestDto;
+
+    @BeforeEach
+    void setUp() {
+        reservationRequestDto = new ReservationRequestDto(1L, 1L, List.of(1L, 2L));
+    }
 
     @Test
-    public void testConcurrentSeatReservation() throws InterruptedException {
-        // 10명이 동시에 예매하려고 시도할 때 그 중 한 명만 예매 성공
-        int userCount = 10;
-        CountDownLatch latch = new CountDownLatch(userCount);
+    void testReserveSeats_lockAcquired() throws InterruptedException {
+        when(redissonClient.getLock(anyString())).thenReturn(lock);
+        when(lock.tryLock(4, 2, TimeUnit.SECONDS)).thenReturn(true);
+        doNothing().when(reservationRateLimitService).enforceRateLimit(anyLong(), anyLong());
+        doNothing().when(reservationTransactionalService).reservationProcess(any(ReservationRequestDto.class));
 
-        ExecutorService executor = Executors.newFixedThreadPool(userCount);
+        reservationService.reserveSeats(reservationRequestDto);
 
-        for (int i = 0; i < userCount; i++) {
+        verify(reservationTransactionalService, times(1)).reservationProcess(reservationRequestDto);
+        verify(lock, times(1)).unlock();
+    }
 
-            executor.submit(new Callable<Void>() {
-                @Override
-                @Transactional
-                public Void call() throws Exception {
-                    try {
-                        ReservationDto reservationDto = new ReservationDto();
-                        reservationDto.setUserId(1L);
-                        reservationDto.setScreeningId(1L);
-                        reservationDto.setReservationSeatsId(List.of(1L));
+    @Test
+    void testReserveSeats_lockNotAcquired() throws InterruptedException {
+        when(redissonClient.getLock(anyString())).thenReturn(lock);
+        when(lock.tryLock(4, 2, TimeUnit.SECONDS)).thenReturn(false);
+        doNothing().when(reservationRateLimitService).enforceRateLimit(anyLong(), anyLong());
 
-                        // 예약 시도
-                        reservationService.reserveSeats(reservationDto);
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-                    } finally {
-                        latch.countDown();
-                    }
-                    return null;
-                }
-            });
-        }
+        SeatReservationException exception = assertThrows(SeatReservationException.class, () -> {
+            reservationService.reserveSeats(reservationRequestDto);
+        });
 
-        latch.await();
+        assertEquals("분산 락을 획득할 수 없습니다. 나중에 다시 시도해 주세요.", exception.getMessage());
+    }
 
-        // 예매된 좌석이 1개여야만 성공
-        List<Seat> reservedSeats = reservationRepository.findReservedSeatsByScreeningId(1L);
-        Assertions.assertThat(reservedSeats.size()).isEqualTo(1);
+    @Test
+    void testReserveSeats_lockAcquireFails_dueToInterrupt() throws InterruptedException {
+        when(redissonClient.getLock(anyString())).thenReturn(lock);
+        when(lock.tryLock(4, 2, TimeUnit.SECONDS)).thenThrow(InterruptedException.class);
+        doNothing().when(reservationRateLimitService).enforceRateLimit(anyLong(), anyLong());
+
+        SeatReservationException exception = assertThrows(SeatReservationException.class, () -> {
+            reservationService.reserveSeats(reservationRequestDto);
+        });
+
+        assertEquals("분산 락 획득 중 오류 발생", exception.getMessage());
     }
 }
