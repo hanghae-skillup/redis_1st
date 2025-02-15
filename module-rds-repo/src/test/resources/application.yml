@@ -1,0 +1,3 @@
+spring:
+  config:
+    import: file:/Users/yujeonghyeon/programing/hang-hae/redis-course/modules/module-app/src/main/resources/application.yml
