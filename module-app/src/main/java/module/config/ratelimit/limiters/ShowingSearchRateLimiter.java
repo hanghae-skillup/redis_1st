@@ -7,7 +7,7 @@ import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 
-import exception.showing.TooManyRequestException;
+import exception.BusinessError;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -64,7 +64,7 @@ public class ShowingSearchRateLimiter implements module.config.ratelimit.limiter
 		));
 
 		if(!isAllowed){
-			throw new TooManyRequestException();
+			throw BusinessError.SHOWING_TOO_MANY_REQUEST.exception();
 		}
 
 		return true;

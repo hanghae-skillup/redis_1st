@@ -17,11 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import dto.ticket.TicketDTO;
 import dto.ticket.TicketResponse;
-import exception.ticket.InvalidAgeForMovieException;
-import exception.ticket.InvalidSeatConditionException;
-import exception.ticket.InvalidTicketException;
-import exception.ticket.TooManyReservationException;
-import exception.user.UserNotFoundException;
+import exception.BusinessError;
+import exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import module.entity.Showing;
 import module.entity.Ticket;
@@ -121,7 +118,8 @@ public class TicketServiceTest {
 		printMessage("ticketService.reservation start");
 		Assertions.assertThatThrownBy(() ->
 				ticketService.reservation(showingId, username, ticketList))
-			.isInstanceOf(UserNotFoundException.class);
+			.isInstanceOf(BusinessException.class)
+			.hasMessage(BusinessError.USER_NOT_FOUNT.getMessage());
 		printMessage("ticketService.reservation end");
 
 	}
@@ -144,9 +142,11 @@ public class TicketServiceTest {
 
 		//then
 		printMessage("ticketService.reservation start");
-		Assertions.assertThatThrownBy(() ->
+		assertThatThrownBy(() ->
 				ticketService.reservation(showingId, username, ticketList))
-			.isInstanceOf(InvalidTicketException.class);
+			.isInstanceOf(BusinessException.class)
+			.hasMessage(BusinessError.RESERVATION_INVALID_TICKET.exception().getMessage());
+
 		printMessage("ticketService.reservation end");
 	}
 
@@ -167,9 +167,10 @@ public class TicketServiceTest {
 
 		//then
 		printMessage("ticketService.reservation start");
-		Assertions.assertThatThrownBy(() ->
+		assertThatThrownBy(() ->
 				ticketService.reservation(showingId, username, ticketList))
-			.isInstanceOf(TooManyReservationException.class);
+			.isInstanceOf(BusinessException.class)
+			.hasMessage(BusinessError.RESERVATION_TOO_MANY_RESERVATION.getMessage());
 		printMessage("ticketService.reservation end");
 	}
 
@@ -195,9 +196,10 @@ public class TicketServiceTest {
 
 		//then
 		printMessage("ticketService.reservation start");
-		Assertions.assertThatThrownBy(() ->
+		assertThatThrownBy(() ->
 				ticketService.reservation(showingId, username, secondTicketList))
-			.isInstanceOf(TooManyReservationException.class);
+			.isInstanceOf(BusinessException.class)
+			.hasMessage(BusinessError.RESERVATION_TOO_MANY_RESERVATION.getMessage());
 		printMessage("ticketService.reservation end");
 	}
 
@@ -222,7 +224,8 @@ public class TicketServiceTest {
 
 		//then
 		assertThatThrownBy(()->ticketService.reservation(showingId,username,mixedDTOList))
-			.isInstanceOf(InvalidSeatConditionException.class);
+			.isInstanceOf(BusinessException.class)
+			.hasMessage(BusinessError.RESERVATION_INVALID_SEAT_CONDITION.getMessage());
 	}
 
 	@Test
@@ -249,7 +252,8 @@ public class TicketServiceTest {
 
 		//then
 		assertThatThrownBy(()->ticketService.reservation(showingId,childName,ticketDTOList))
-			.isInstanceOf(InvalidAgeForMovieException.class);
+			.isInstanceOf(BusinessException.class)
+			.hasMessage(BusinessError.RESERVATION_INVALID_AGE_FOR_MOVIE.getMessage());
 	}
 
 	private void printMessage(String message) {

@@ -8,18 +8,11 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import dto.ticket.TicketDTO;
 import dto.ticket.TicketResponse;
 import dto.ticket.TicketStatus;
-import exception.showing.ShowingNotFoundException;
-import exception.ticket.InvalidAgeForMovieException;
-import exception.ticket.InvalidSeatConditionException;
-import exception.ticket.InvalidTicketException;
-import exception.ticket.NotOnSaleTicketException;
-import exception.ticket.TooManyReservationException;
-import exception.user.UserNotFoundException;
+import exception.BusinessError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import module.entity.Movie;
@@ -53,7 +46,7 @@ public class TicketService {
 		// 존재하는 상영정보인지 확인
 		Optional<Showing> showingOptional = showingRepository.findById(showingId);
 		if (!showingOptional.isPresent()) {
-			throw new ShowingNotFoundException();
+			throw BusinessError.SHOWING_NOT_FOUND.exception();
 		}
 
 		// 해당 상영 정보의 ticket 리스트 조회
@@ -69,7 +62,7 @@ public class TicketService {
 		// 존재하는 유저인지 확인
 		Optional<User> optionalUser = userRepository.findByUsername(username);
 		if (!optionalUser.isPresent()) {
-			throw new UserNotFoundException();
+			throw BusinessError.USER_NOT_FOUNT.exception();
 		}
 
 		// 해당 유저의 구매내역 확인
@@ -131,7 +124,7 @@ public class TicketService {
 	public void validateReservation(Long showingId, String username, List<TicketDTO> ticketDtoList) {
 		Optional<User> optionalUser = userRepository.findByUsername(username);
 		if (optionalUser.isEmpty()) {
-			throw new UserNotFoundException();
+			throw BusinessError.USER_NOT_FOUNT.exception();
 		}
 		User user = optionalUser.get();
 
@@ -140,12 +133,12 @@ public class TicketService {
 
 		// 예외처리 [ 존재하지 않는 티켓 ]
 		if (ticketList.size() != ticketDtoList.size())
-			throw new InvalidTicketException();
+			throw BusinessError.RESERVATION_INVALID_TICKET.exception();
 
 		// 예외처리 [ 판매중이 아닌 티켓 ]
 		ticketList.forEach(ticket->{
 			if(ticket.getTicketStatus() != TicketStatus.ON_SALE){
-				throw new NotOnSaleTicketException();
+				throw BusinessError.RESERVATION_NOT_ON_SALE_TICKET.exception();
 			}
 		});
 
@@ -153,7 +146,7 @@ public class TicketService {
 		Showing showing = showingRepository.findById(showingId).get();
 		Integer userBoughtCnt = salesRepository.countAllByUserAndShowing(user, showing);
 		if (userBoughtCnt + ticketList.size() > 5 || ticketList.size() > 5)
-			throw new TooManyReservationException();
+			throw BusinessError.RESERVATION_TOO_MANY_RESERVATION.exception();
 
 		// 예외처리 [ 서로다른 행의 좌석 ]
 		List<Seats> seatsInTicketList = seatsRepository.findAllBySeatsInTicketIdList(
@@ -161,13 +154,17 @@ public class TicketService {
 		Integer numberOfSeatRow = seatsInTicketList.stream()
 			.collect(Collectors.groupingBy(Seats::getSeatRow)).size();
 		if (numberOfSeatRow > 1)
-			throw new InvalidSeatConditionException();
+			throw BusinessError.RESERVATION_INVALID_SEAT_CONDITION.exception();
 
 		// 예외처리 [ 부적절한 연령 ]
 		Movie movie = showing.getMovie();
 		int userAge = Period.between(user.getBirth(), LocalDate.now()).getYears();
-		if (userAge < movie.getRating().getAge())
-			throw new InvalidAgeForMovieException();
+		if (isValidAge(userAge, movie))
+			throw BusinessError.RESERVATION_INVALID_AGE_FOR_MOVIE.exception();
+	}
+
+	private boolean isValidAge(int age, Movie movie){
+		return age < movie.getRating().getAge();
 	}
 
 

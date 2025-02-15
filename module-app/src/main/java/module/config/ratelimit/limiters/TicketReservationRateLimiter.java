@@ -7,8 +7,7 @@ import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import dto.ticket.TicketReservationRequest;
-import exception.ticket.NoReservationInfoException;
-import exception.ticket.TwoManyReservationRequestException;
+import exception.BusinessError;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -25,7 +24,7 @@ public class TicketReservationRateLimiter implements RateLimiter {
 		String username = ticketReservationRequest.getUsername();
 
 		if(isBlocked(username,showingId)){
-			throw new TwoManyReservationRequestException();
+			throw BusinessError.RESERVATION_TOO_MANY_RESERVATION_REQUEST.exception();
 		} else {
 			return true;
 		}
@@ -61,7 +60,7 @@ public class TicketReservationRateLimiter implements RateLimiter {
 				return (TicketReservationRequest) o;
 			}
 		}
-		throw new NoReservationInfoException();
+		throw BusinessError.RESERVATION_NO_RESERVATION_INFO.exception();
 	}
 
 	public String keyFormatter(String username, Long showingId){

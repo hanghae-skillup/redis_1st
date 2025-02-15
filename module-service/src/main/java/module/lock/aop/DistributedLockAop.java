@@ -14,7 +14,7 @@ import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
 
-import exception.common.TryLockFailedException;
+import exception.BusinessError;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -57,7 +57,7 @@ public class DistributedLockAop {
 			// 점유한 락 해제
 			if (!allAvailable) {
 				leaseAllLock(lockList);
-				throw new TryLockFailedException();
+				throw BusinessError.RESERVATION_TRY_LOCK_FAILED.exception();
 			}
 
 			return aopForTransaction.proceed(joinPoint);
